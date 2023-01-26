@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class Game {
 	
@@ -57,7 +58,7 @@ public class Game {
 		//TODO: Make a "How to play" button that has a window popup of instructions
 		
 		
-		titlePanel.setBackground(Color.RED);
+		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension (1000, 125));
 		
 		languagePanel.setSize(new Dimension(100,100));
@@ -75,9 +76,28 @@ public class Game {
 		leftPanel.add(leftPanelText);
 		//
 		
+		
+		
+		// This is the text field for the score counter needs to be organized.
+		JTextField scoreCounter = new JTextField();
+		scoreCounter.setBorder(new LineBorder(Color.BLACK,1));
+		scoreCounter.setPreferredSize(new Dimension(100, 25));
+		scoreCounter.setEditable(false);
+		//
+		
+		
+		// This is the text field for the score counter needs to be organized.
+		JTextField timerCounter = new JTextField();
+		timerCounter.setBorder(new LineBorder(Color.BLACK,1));
+		timerCounter.setPreferredSize(new Dimension(100, 25));
+		timerCounter.setEditable(false);
+		//
+		
 		// adding buttons to left panel
 		leftPanel.add(scoreText);
+		leftPanel.add(scoreCounter);
 		leftPanel.add(timerText);
+		leftPanel.add(timerCounter);
 		leftPanel.add(resetButton);
 		leftPanel.add(solveButton);
 		leftPanel.add(newBoardButton);
@@ -90,7 +110,7 @@ public class Game {
 		 */
 		
 		
-		leftPanel.setBackground(Color.GRAY);
+		leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		leftPanel.setPreferredSize(new Dimension (250, 200));
 		
 		// temp
@@ -98,16 +118,33 @@ public class Game {
 		controlPanelText.setText("CONTROL PANEL"); // temp
 		controlPanel.add(controlPanelText);
 		//
-		controlPanel.setBackground(Color.ORANGE);
+		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension (250, 200));
 		
 		boardPanel.setBackground(Color.GREEN);
-		boardPanel.setLayout(new GridLayout(5,5));
+		
+		boardPanel.setLayout(new BorderLayout());
+		JPanel colPanel = new JPanel();
+		colPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		colPanel.setPreferredSize(new Dimension (600, 75));
+		boardPanel.add(colPanel, BorderLayout.NORTH);
+		
+		JPanel rowPanel = new JPanel();
+		rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		rowPanel.setPreferredSize(new Dimension (75, 600));
+		boardPanel.add(rowPanel, BorderLayout.WEST);
+		
+		
+		JPanel gridPanel = new JPanel();
+		boardPanel.add(gridPanel, BorderLayout.CENTER);
+		
+		
+		gridPanel.setLayout(new GridLayout(5,5));
 		
 		for(int i=0;i<25;i++) {
 			buttons[i] = new JButton();
 			buttons[i].setPreferredSize(new Dimension(50,50));
-			boardPanel.add(buttons[i]);
+			gridPanel.add(buttons[i]);
 			//buttons[i].setFont(new Font("MV Boli",Font.BOLD,120));
 
 			buttons[i].setFocusable(false);
@@ -126,7 +163,7 @@ public class Game {
 		picrossWindow.setResizable(false);
 		picrossWindow.setVisible(true);
 		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		picrossWindow.setTitle("Bobo");
+		picrossWindow.setTitle("Picross");
 		picrossWindow.setSize(1000, 600);
 		picrossWindow.setLocationRelativeTo(null);
 	}
