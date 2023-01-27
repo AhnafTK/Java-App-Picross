@@ -16,7 +16,6 @@ public class Game {
 		
 		// JPanel intializations
 		JPanel titlePanel = new JPanel();
-		JPanel languagePanel = new JPanel();
 		JPanel markPanel = new JPanel();
 		JPanel leftPanel = new JPanel();
 		JPanel controlPanel = new JPanel();
@@ -32,17 +31,18 @@ public class Game {
 		
 		// JButton config
 		resetButton.setText("RESET");
+		resetButton.setPreferredSize(new Dimension (100, 25));
 		solveButton.setText("SOLVE");
 		newBoardButton.setText("NEW BOARD");
 		instructionsButton.setText("INSTRUCTIONS");
 
 		// JLabel init
-		JLabel timerText = new JLabel();
-		JLabel scoreText = new JLabel();
+		JLabel timerLabel = new JLabel();
+		JLabel scoreLabel = new JLabel();
 
 		// JLabel config
-		scoreText.setText("SCORE: ");
-		timerText.setText("TIMER: ");
+		scoreLabel.setText("SCORE: ");
+		timerLabel.setText("TIMER: ");
 		
 		JFrame picrossWindow = new JFrame();
 		JButton button = new JButton();
@@ -61,8 +61,7 @@ public class Game {
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension (1000, 125));
 		
-		languagePanel.setSize(new Dimension(100,100));
-		languagePanel.setBackground(Color.GREEN);
+		
 		//TODO: ImageIcon
 		//TODO: Image
 		
@@ -70,11 +69,7 @@ public class Game {
 		markPanel.setBackground(Color.BLACK);
 		markPanel.setPreferredSize(new Dimension (100, 100));
 
-		// temp
-		JLabel leftPanelText = new JLabel();
-		leftPanelText.setText("LEFT PANEL"); // temp
-		leftPanel.add(leftPanelText);
-		//
+
 		
 		
 		
@@ -93,16 +88,83 @@ public class Game {
 		timerCounter.setEditable(false);
 		//
 		
+		//Score Panel
+		JPanel scorePanel = new JPanel();
+		scorePanel.add(scoreLabel);
+		scorePanel.add(scoreCounter);
+		
+		//timer Panel
+		JPanel timerPanel = new JPanel();
+		timerPanel.add(timerLabel);
+		timerPanel.add(timerCounter);
+		
+		
+		JPanel configurationPanel = new JPanel();
+		configurationPanel.setLayout(new GridLayout(1,2));
+		
+		JPanel languagePanel = new JPanel();
+		languagePanel.setLayout(new GridLayout(3,1));
+		JLabel langLabel = new JLabel();
+		langLabel.setText("Languages");
+		
+		JPanel engPanel = new JPanel();
+		JRadioButton engRadio = new JRadioButton();
+		JLabel engLabel = new JLabel();
+		engLabel.setText("English");
+		engPanel.add(engRadio);
+		engPanel.add(engLabel);
+		
+		JPanel frPanel = new JPanel();
+		JRadioButton frRadio = new JRadioButton();
+		JLabel frLabel = new JLabel();
+		frLabel.setText("French");
+		frPanel.add(frRadio);
+		frPanel.add(frLabel);
+
+		languagePanel.add(langLabel);
+		languagePanel.add(engPanel);
+		languagePanel.add(frPanel);
+
+		
+		
+		JPanel colourPanel = new JPanel();
+		colourPanel.setLayout(new GridLayout(3,1));
+		JLabel colourLabel = new JLabel();
+		colourLabel.setText("Colour Scheme");
+		
+		JPanel blYelPanel = new JPanel();
+		JRadioButton blYelRadio = new JRadioButton();
+		JLabel blYelLabel = new JLabel();
+		blYelLabel.setText("Black/Yellow");
+		blYelPanel.add(blYelRadio);
+		blYelPanel.add(blYelLabel);
+		
+		JPanel whBluePanel = new JPanel();
+		JRadioButton whBlueRadio = new JRadioButton();
+		JLabel whBlueLabel = new JLabel();
+		whBlueLabel.setText("White/Blue");
+		whBluePanel.add(whBlueRadio);
+		whBluePanel.add(whBlueLabel);
+
+		colourPanel.add(colourLabel);
+		colourPanel.add(blYelPanel);
+		colourPanel.add(whBluePanel);
+		
+		
+		
+		configurationPanel.add(languagePanel);
+		configurationPanel.add(colourPanel);
+		
+		leftPanel.setLayout(new GridLayout(7,1));
 		// adding buttons to left panel
-		leftPanel.add(scoreText);
-		leftPanel.add(scoreCounter);
-		leftPanel.add(timerText);
-		leftPanel.add(timerCounter);
+		
+		leftPanel.add(scorePanel);
+		leftPanel.add(timerPanel);
 		leftPanel.add(resetButton);
 		leftPanel.add(solveButton);
 		leftPanel.add(newBoardButton);
 		leftPanel.add(instructionsButton);
-		leftPanel.add(languagePanel);
+		leftPanel.add(configurationPanel);
 		/**
 		 * TODO: add score
 		 * 	   : add time
