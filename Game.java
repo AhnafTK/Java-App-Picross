@@ -14,40 +14,34 @@ public class Game {
 	
 	public static void main (String[] args) {
 		
+		JFrame picrossWindow = new JFrame();
+		JButton button = new JButton();
+		JCheckBox checkBox = new JCheckBox();
+		
 		// JPanel intializations
 		JPanel titlePanel = new JPanel();
 		JPanel markPanel = new JPanel();
 		JPanel leftPanel = new JPanel();
 		JPanel controlPanel = new JPanel();
 		JPanel boardPanel = new JPanel();
-
-
+		JPanel colourPanel = new JPanel();
+		JPanel scorePanel = new JPanel();
+		JPanel timerPanel = new JPanel();
+		JPanel frPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
+		
+		
 		// JButton intializations
 		JButton[] buttons = new JButton[25]; // 25 will be the dim^2
-		JButton resetButton = new JButton();
-		JButton solveButton = new JButton();
-		JButton newBoardButton = new JButton();
-		JButton instructionsButton = new JButton();
+		JButton resetButton = new JButton("RESET");
+		JButton solveButton = new JButton("SOLVE");
+		JButton newBoardButton = new JButton("NEW BOARD");
+		JButton instructionsButton = new JButton("INSTRUCTIONS");
 		
-		// JButton config
-		resetButton.setText("RESET");
-		resetButton.setPreferredSize(new Dimension (100, 25));
-		solveButton.setText("SOLVE");
-		newBoardButton.setText("NEW BOARD");
-		instructionsButton.setText("INSTRUCTIONS");
-
 		// JLabel init
-		JLabel timerLabel = new JLabel();
-		JLabel scoreLabel = new JLabel();
+		JLabel timerLabel = new JLabel("TIMER: ");
+		JLabel scoreLabel = new JLabel("SCORE: ");
 
-		// JLabel config
-		scoreLabel.setText("SCORE: ");
-		timerLabel.setText("TIMER: ");
-		
-		JFrame picrossWindow = new JFrame();
-		JButton button = new JButton();
-		JCheckBox checkBox = new JCheckBox();
-		
 			
 		//JLabel labCols = new JLabel();
 		//JLabel labRows = new JLabel();
@@ -68,10 +62,6 @@ public class Game {
 	
 		markPanel.setBackground(Color.BLACK);
 		markPanel.setPreferredSize(new Dimension (100, 100));
-
-
-		
-		
 		
 		// This is the text field for the score counter needs to be organized.
 		JTextField scoreCounter = new JTextField();
@@ -79,7 +69,6 @@ public class Game {
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
 		scoreCounter.setEditable(false);
 		//
-		
 		
 		// This is the text field for the score counter needs to be organized.
 		JTextField timerCounter = new JTextField();
@@ -89,75 +78,86 @@ public class Game {
 		//
 		
 		//Score Panel
-		JPanel scorePanel = new JPanel();
+		
 		scorePanel.add(scoreLabel);
 		scorePanel.add(scoreCounter);
 		
 		//timer Panel
-		JPanel timerPanel = new JPanel();
 		timerPanel.add(timerLabel);
 		timerPanel.add(timerCounter);
 		
 		
 		JPanel configurationPanel = new JPanel();
-		configurationPanel.setLayout(new GridLayout(1,2));
-		
 		JPanel languagePanel = new JPanel();
-		languagePanel.setLayout(new GridLayout(3,1));
+		JPanel engPanel = new JPanel();
+		JPanel blYelPanel = new JPanel();
+		JPanel whBluePanel = new JPanel();
+
 		JLabel langLabel = new JLabel();
+		JLabel colourLabel = new JLabel();
+		
+		ButtonGroup langButtons = new ButtonGroup();
+		
+		JRadioButton engRadio = new JRadioButton("English");
+		JRadioButton frRadio = new JRadioButton("French");
+		JRadioButton blYelRadio = new JRadioButton("Black/Yellow");
+		JRadioButton whBlueRadio = new JRadioButton("White/Blue");
+
+
+		//configurationPanel.setLayout(new GridLayout(1,2));
+		
+		languagePanel.setLayout(new GridLayout(0,1));
 		langLabel.setText("Languages");
 		
-		JPanel engPanel = new JPanel();
-		JRadioButton engRadio = new JRadioButton();
-		JLabel engLabel = new JLabel();
-		engLabel.setText("English");
+		//engLabel.setText("English");
 		engPanel.add(engRadio);
-		engPanel.add(engLabel);
-		
-		JPanel frPanel = new JPanel();
-		JRadioButton frRadio = new JRadioButton();
-		JLabel frLabel = new JLabel();
-		frLabel.setText("French");
+				
+		//frLabel.setText("French");
 		frPanel.add(frRadio);
-		frPanel.add(frLabel);
 
+		langButtons.add(engRadio);
+		langButtons.add(frRadio);
+		
 		languagePanel.add(langLabel);
 		languagePanel.add(engPanel);
 		languagePanel.add(frPanel);
 
 		
-		
-		JPanel colourPanel = new JPanel();
 		colourPanel.setLayout(new GridLayout(3,1));
-		JLabel colourLabel = new JLabel();
 		colourLabel.setText("Colour Scheme");
 		
-		JPanel blYelPanel = new JPanel();
-		JRadioButton blYelRadio = new JRadioButton();
-		JLabel blYelLabel = new JLabel();
-		blYelLabel.setText("Black/Yellow");
 		blYelPanel.add(blYelRadio);
-		blYelPanel.add(blYelLabel);
 		
-		JPanel whBluePanel = new JPanel();
-		JRadioButton whBlueRadio = new JRadioButton();
-		JLabel whBlueLabel = new JLabel();
-		whBlueLabel.setText("White/Blue");
 		whBluePanel.add(whBlueRadio);
-		whBluePanel.add(whBlueLabel);
 
 		colourPanel.add(colourLabel);
 		colourPanel.add(blYelPanel);
 		colourPanel.add(whBluePanel);
 		
+		buttonPanel.setPreferredSize(new Dimension(120,150));
 		
-		
+		configurationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		//configurationPanel.setLayout(new GridLayout());
 		configurationPanel.add(languagePanel);
 		configurationPanel.add(colourPanel);
-		
-		leftPanel.setLayout(new GridLayout(7,1));
+
+		//buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+		//leftPanel.setLayout(new GridLayout(7,1));
 		// adding buttons to left panel
-		
+		//buttonPanel.add(buttonPanel);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,10));
+		//buttonPanel.add(scorePanel);
+		//buttonPanel.add(timerPanel);
+		buttonPanel.add(resetButton);
+		buttonPanel.add(solveButton);
+		buttonPanel.add(newBoardButton);
+		buttonPanel.add(instructionsButton);
+		//buttonPanel.add(configurationPanel);
+		leftPanel.add(scorePanel);
+		leftPanel.add(timerPanel);
+		leftPanel.add(buttonPanel);
+		leftPanel.add(configurationPanel);
+		/**
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
 		leftPanel.add(resetButton);
@@ -165,6 +165,7 @@ public class Game {
 		leftPanel.add(newBoardButton);
 		leftPanel.add(instructionsButton);
 		leftPanel.add(configurationPanel);
+		**/
 		/**
 		 * TODO: add score
 		 * 	   : add time
