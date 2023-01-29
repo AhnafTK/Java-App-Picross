@@ -51,17 +51,17 @@ public class Game {
 
 		//TODO: Make a "How to play" button that has a window popup of instructions
 		
-		
+		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
+		JLabel picrossLabel = new JLabel();
+		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension (1000, 125));
-		
+		titlePanel.add(picrossLabel);
 		
 		//TODO: ImageIcon
 		//TODO: Image
 		
 	
-		markPanel.setBackground(Color.BLACK);
-		markPanel.setPreferredSize(new Dimension (100, 100));
 		
 		// This is the text field for the score counter needs to be organized.
 		JTextField scoreCounter = new JTextField();
@@ -104,7 +104,7 @@ public class Game {
 		JRadioButton whBlueRadio = new JRadioButton("White/Blue");
 
 
-		//configurationPanel.setLayout(new GridLayout(1,2));
+		configurationPanel.setLayout(new GridLayout(1,2));
 		
 		languagePanel.setLayout(new GridLayout(0,1));
 		langLabel.setText("Languages");
@@ -136,7 +136,7 @@ public class Game {
 		
 		buttonPanel.setPreferredSize(new Dimension(120,150));
 		
-		configurationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+//		configurationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		//configurationPanel.setLayout(new GridLayout());
 		configurationPanel.add(languagePanel);
 		configurationPanel.add(colourPanel);
@@ -148,51 +148,57 @@ public class Game {
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,10));
 		//buttonPanel.add(scorePanel);
 		//buttonPanel.add(timerPanel);
+		resetButton.setPreferredSize(new Dimension(120,25));
 		buttonPanel.add(resetButton);
+		solveButton.setPreferredSize(new Dimension(120,25));
 		buttonPanel.add(solveButton);
+		newBoardButton.setPreferredSize(new Dimension(120,25));
 		buttonPanel.add(newBoardButton);
+		instructionsButton.setPreferredSize(new Dimension(120,25));
+		instructionsButton.setPreferredSize(new Dimension(120,25));
 		buttonPanel.add(instructionsButton);
-		//buttonPanel.add(configurationPanel);
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
 		leftPanel.add(buttonPanel);
-		leftPanel.add(configurationPanel);
-		/**
-		leftPanel.add(scorePanel);
-		leftPanel.add(timerPanel);
-		leftPanel.add(resetButton);
-		leftPanel.add(solveButton);
-		leftPanel.add(newBoardButton);
-		leftPanel.add(instructionsButton);
-		leftPanel.add(configurationPanel);
-		**/
-		/**
-		 * TODO: add score
-		 * 	   : add time
-		 * 	   : Language section
-		 */
-		
+		leftPanel.add(configurationPanel);	
 		
 		leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		leftPanel.setPreferredSize(new Dimension (250, 200));
 		
-		// temp
-		JLabel controlPanelText = new JLabel();
-		controlPanelText.setText("CONTROL PANEL"); // temp
-		controlPanel.add(controlPanelText);
-		//
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		controlPanel.setPreferredSize(new Dimension (250, 200));
+		controlPanel.setPreferredSize(new Dimension(250, 200));
+		JTextField history = new JTextField();
+		history.setPreferredSize(new Dimension(200, 300));
+		history.setBorder(new LineBorder(Color.BLACK,1));
+		history.setEditable(false);
+		controlPanel.add(history);
 		
 		boardPanel.setBackground(Color.GREEN);
 		
 		boardPanel.setLayout(new BorderLayout());
 		JPanel colPanel = new JPanel();
+		colPanel.setLayout(new GridLayout(1,6));
+		markPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		colPanel.add(markPanel);
+		JPanel[] columns = new JPanel[5]; 
+		for(int i=0;i<5;i++) {
+			columns[i] = new JPanel();
+			columns[i].setBorder(BorderFactory.createLineBorder(Color.black));
+			colPanel.add(columns[i]);
+		}
+		
 		colPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		colPanel.setPreferredSize(new Dimension (600, 75));
 		boardPanel.add(colPanel, BorderLayout.NORTH);
 		
 		JPanel rowPanel = new JPanel();
+		rowPanel.setLayout(new GridLayout(5,1));
+		JPanel[] rows = new JPanel[5]; 
+		for(int i=0;i<5;i++) {
+			rows[i] = new JPanel();
+			rows[i].setBorder(BorderFactory.createLineBorder(Color.black));
+			rowPanel.add(rows[i]);
+		}
 		rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		rowPanel.setPreferredSize(new Dimension (75, 600));
 		boardPanel.add(rowPanel, BorderLayout.WEST);
@@ -206,14 +212,7 @@ public class Game {
 		
 		for(int i=0;i<25;i++) {
 			buttons[i] = new JButton();
-			buttons[i].setPreferredSize(new Dimension(50,50));
 			gridPanel.add(buttons[i]);
-			//buttons[i].setFont(new Font("MV Boli",Font.BOLD,120));
-
-			buttons[i].setFocusable(false);
-			
-			//buttons[i].addActionListener(this);
-			
 		}
 		
 		picrossWindow.setLayout(new BorderLayout());
