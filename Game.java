@@ -4,13 +4,22 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class Game extends JFrame implements ActionListener{
-	static JButton instructionsButton;
-	static JButton backButton;
-
-	public static void main(String[] args) {
+	JButton instructionsButton;
+	JButton backButton;
+	JFrame instructionsWindow;
+	JFrame picrossWindow;
+	JComboBox gridSizeCmbo;
+	int gridSize = 5;
 	
-	//TODO: Use a layout for the components of the left panel
-		JFrame picrossWindow = new JFrame();	
+	public static void main(String[] args) {
+		new Game();
+	
+	}
+	
+	public Game() {
+		picrossWindow = new JFrame();
+
+		//TODO: Use a layout for the components of the left panel
 		JButton button = new JButton();
 		JCheckBox checkBox = new JCheckBox();
 		
@@ -29,7 +38,7 @@ public class Game extends JFrame implements ActionListener{
 		
 		
 		// JButton intializations
-		JButton[] buttons = new JButton[25]; // 25 will be the dim^2
+		JButton[][] buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
 		JButton resetButton = new JButton("RESET");
 		JButton solveButton = new JButton("SOLVE");
 		JButton newBoardButton = new JButton("NEW BOARD");
@@ -38,15 +47,6 @@ public class Game extends JFrame implements ActionListener{
 		// JLabel init
 		JLabel timerLabel = new JLabel("TIMER: ");
 		JLabel scoreLabel = new JLabel("SCORE: ");
-
-			
-		//JLabel labCols = new JLabel();
-		//JLabel labRows = new JLabel();
-		//butGame[N][N]
-		
-		// RESET button for left panel.
-
-		//TODO: Make a "How to play" button that has a window popup of instructions
 		
 		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
 		JLabel picrossLabel = new JLabel();
@@ -54,11 +54,6 @@ public class Game extends JFrame implements ActionListener{
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension (1000, 125));
 		titlePanel.add(picrossLabel);
-		
-		//TODO: ImageIcon
-		//TODO: Image
-		
-	
 		
 		// This is the text field for the score counter needs to be organized.
 		JTextField scoreCounter = new JTextField();
@@ -85,7 +80,8 @@ public class Game extends JFrame implements ActionListener{
 		
 		String options[] = {"5x5", "6x6", "7x7"};
 		JLabel gridSizeLabel = new JLabel("Grid Size: ");
-		JComboBox gridSizeCmbo = new JComboBox(options);
+		gridSizeCmbo = new JComboBox(options);
+		gridSizeCmbo.addActionListener(this);
 		
 		comboPanel.add(gridSizeLabel);
 		comboPanel.add(gridSizeCmbo);
@@ -112,10 +108,8 @@ public class Game extends JFrame implements ActionListener{
 		languagePanel.setLayout(new GridLayout(0,1));
 		langLabel.setText("Languages");
 		
-		//engLabel.setText("English");
 		engPanel.add(engRadio);
 				
-		//frLabel.setText("French");
 		frPanel.add(frRadio);
 
 		langButtons.add(engRadio);
@@ -158,7 +152,7 @@ public class Game extends JFrame implements ActionListener{
 		newBoardButton.setPreferredSize(new Dimension(120,25));
 		buttonPanel.add(newBoardButton);
 		instructionsButton.setPreferredSize(new Dimension(120,25));
-//		instructionsButton.addActionListener(this);
+		instructionsButton.addActionListener(this);
 		buttonPanel.add(instructionsButton);
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
@@ -184,8 +178,8 @@ public class Game extends JFrame implements ActionListener{
 		colPanel.setLayout(new GridLayout(1,6));
 		markPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		colPanel.add(markPanel);
-		JPanel[] columns = new JPanel[5]; 
-		for(int i=0;i<5;i++) {
+		JPanel[] columns = new JPanel[gridSize]; 
+		for(int i=0; i<gridSize; i++) {
 			columns[i] = new JPanel();
 			columns[i].setBorder(BorderFactory.createLineBorder(Color.black));
 			colPanel.add(columns[i]);
@@ -197,8 +191,8 @@ public class Game extends JFrame implements ActionListener{
 		
 		JPanel rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(5,1));
-		JPanel[] rows = new JPanel[5]; 
-		for(int i=0;i<5;i++) {
+		JPanel[] rows = new JPanel[gridSize]; 
+		for(int i=0; i<gridSize; i++) {
 			rows[i] = new JPanel();
 			rows[i].setBorder(BorderFactory.createLineBorder(Color.black));
 			rowPanel.add(rows[i]);
@@ -212,11 +206,13 @@ public class Game extends JFrame implements ActionListener{
 		boardPanel.add(gridPanel, BorderLayout.CENTER);
 		
 		
-		gridPanel.setLayout(new GridLayout(5,5));
+		gridPanel.setLayout(new GridLayout(gridSize, gridSize));
 		
-		for(int i=0;i<25;i++) {
-			buttons[i] = new JButton();
-			gridPanel.add(buttons[i]);
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+				buttons[i][j] = new JButton();
+				gridPanel.add(buttons[i][j]);
+			}
 		}
 		
 		picrossWindow.setLayout(new BorderLayout());
@@ -232,10 +228,11 @@ public class Game extends JFrame implements ActionListener{
 		picrossWindow.setTitle("Picross");
 		picrossWindow.setSize(1000, 600);
 		picrossWindow.setLocationRelativeTo(null);
-	
+			
 	}
 
 	public void Instructions() {
+		instructionsWindow = new JFrame();
 		JLabel instructionsLabel = new JLabel();
 		backButton = new JButton("Back");
 		
@@ -249,31 +246,47 @@ public class Game extends JFrame implements ActionListener{
 		backButton.setFocusable(false);
 		backButton.addActionListener(this);
 		
+		instructionsWindow.setTitle("Instructions");
+		instructionsWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		instructionsWindow.setResizable(false);
+		instructionsWindow.setSize(560,500);
+		instructionsWindow.setVisible(true);
+		instructionsWindow.setLocationRelativeTo(null);
 		
-		setTitle("Instructions");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setSize(560,500);
-		setLayout(null);
-		setVisible(true);
-		setLocationRelativeTo(null);
-		
-		add(instructionsLabel);
-		add(backButton);
+		instructionsWindow.add(instructionsLabel);
+		instructionsWindow.add(backButton);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource()==instructionsButton) {
-			dispose();
+			picrossWindow.dispose();
 			Instructions();
 		}
 		
-			if(e.getSource()==backButton) {
-				dispose();
-//				Game();
+		if(e.getSource()==backButton) {
+			instructionsWindow.dispose();
+			new Game();
+		}
+		
+		if(e.getSource()==gridSizeCmbo) {
+			String options = (String) gridSizeCmbo.getSelectedItem();
+	
+			switch (options) {
+				case "5x5":
+					gridSize = 5;
+					break;
+					
+				case "6x6":
+					gridSize = 6;
+					break;
+					
+				case "7x7":
+					gridSize = 7;
+					break;
 			}
+		}
 	}
 }
 
