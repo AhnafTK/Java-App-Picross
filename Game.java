@@ -10,6 +10,12 @@ public class Game extends JFrame implements ActionListener{
 	JFrame picrossWindow;
 	JComboBox gridSizeCmbo;
 	int gridSize = 5;
+	ButtonGroup langButtons;
+	String language = "English";
+	JButton resetButton;
+	JTextArea history;
+	JButton solveButton;
+	JButton newBoardButton;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -39,13 +45,13 @@ public class Game extends JFrame implements ActionListener{
 		
 		// JButton intializations
 		JButton[][] buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
-		JButton resetButton = new JButton("RESET");
-		JButton solveButton = new JButton("SOLVE");
-		JButton newBoardButton = new JButton("NEW BOARD");
+		resetButton = new JButton("RESET");
+		solveButton = new JButton("SOLVE");
+		newBoardButton = new JButton("NEW BOARD");
 		instructionsButton = new JButton("INSTRUCTIONS");
 		
 		// JLabel init
-		JLabel timerLabel = new JLabel("TIMER: ");
+		JLabel timerLabel = new JLabel("TIMER:  ");
 		JLabel scoreLabel = new JLabel("SCORE: ");
 		
 		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
@@ -95,12 +101,12 @@ public class Game extends JFrame implements ActionListener{
 		JLabel langLabel = new JLabel();
 		JLabel colourLabel = new JLabel();
 		
-		ButtonGroup langButtons = new ButtonGroup();
+		langButtons = new ButtonGroup();
 		
-		JRadioButton engRadio = new JRadioButton("English");
-		JRadioButton frRadio = new JRadioButton("French");
+		JRadioButton engRadio = new JRadioButton("English", true);
+		JRadioButton frRadio = new JRadioButton("French ");
 		JRadioButton blYelRadio = new JRadioButton("Black/Yellow");
-		JRadioButton whBlueRadio = new JRadioButton("White/Blue");
+		JRadioButton whBlueRadio = new JRadioButton("White/Blue    ");
 
 
 		configurationPanel.setLayout(new GridLayout(1,2));
@@ -146,10 +152,13 @@ public class Game extends JFrame implements ActionListener{
 		//buttonPanel.add(scorePanel);
 		//buttonPanel.add(timerPanel);
 		resetButton.setPreferredSize(new Dimension(120,25));
+		resetButton.addActionListener(this);
 		buttonPanel.add(resetButton);
 		solveButton.setPreferredSize(new Dimension(120,25));
+		solveButton.addActionListener(this);
 		buttonPanel.add(solveButton);
 		newBoardButton.setPreferredSize(new Dimension(120,25));
+		newBoardButton.addActionListener(this);
 		buttonPanel.add(newBoardButton);
 		instructionsButton.setPreferredSize(new Dimension(120,25));
 		instructionsButton.addActionListener(this);
@@ -165,15 +174,20 @@ public class Game extends JFrame implements ActionListener{
 		
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension(250, 200));
-		JTextField history = new JTextField();
+		history = new JTextArea();
+		history.setLineWrap(true);
+		history.setWrapStyleWord(true);
 		history.setPreferredSize(new Dimension(200, 300));
 		history.setBorder(new LineBorder(Color.BLACK,1));
 		history.setEditable(false);
+		JScrollPane scroll = new JScrollPane(history);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
 		controlPanel.add(history);
 		
-		boardPanel.setBackground(Color.GREEN);
 		
 		boardPanel.setLayout(new BorderLayout());
+		
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(1,6));
 		markPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -185,7 +199,7 @@ public class Game extends JFrame implements ActionListener{
 			colPanel.add(columns[i]);
 		}
 		
-		colPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+//		colPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		colPanel.setPreferredSize(new Dimension (600, 75));
 		boardPanel.add(colPanel, BorderLayout.NORTH);
 		
@@ -197,17 +211,15 @@ public class Game extends JFrame implements ActionListener{
 			rows[i].setBorder(BorderFactory.createLineBorder(Color.black));
 			rowPanel.add(rows[i]);
 		}
-		rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		rowPanel.setPreferredSize(new Dimension (75, 600));
+//		rowPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		rowPanel.setPreferredSize(new Dimension (80, 600));
 		boardPanel.add(rowPanel, BorderLayout.WEST);
 		
 		
 		JPanel gridPanel = new JPanel();
 		boardPanel.add(gridPanel, BorderLayout.CENTER);
 		
-		
 		gridPanel.setLayout(new GridLayout(gridSize, gridSize));
-		
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {
 				buttons[i][j] = new JButton();
@@ -225,7 +237,7 @@ public class Game extends JFrame implements ActionListener{
 		picrossWindow.setResizable(false);
 		picrossWindow.setVisible(true);
 		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		picrossWindow.setTitle("Picross");
+		picrossWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		picrossWindow.setSize(1000, 600);
 		picrossWindow.setLocationRelativeTo(null);
 			
@@ -259,14 +271,31 @@ public class Game extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		if(e.getSource()==resetButton) {
+			history.append("\nYou clicked the reset button\n");
+		}
 		
+		if(e.getSource()==solveButton) {
+			history.append("\nYou clicked the solve button\n");
+		}
+
+		if(e.getSource()==newBoardButton) {
+			history.append("\nYou clicked the new board button\n");
+		}
+				
 		if(e.getSource()==instructionsButton) {
-			picrossWindow.dispose();
+			history.append("\nYou clicked the instructions button\n");
 			Instructions();
 		}
 		
 		if(e.getSource()==backButton) {
+			history.append("\nYou returned back to the picross game\n");
 			instructionsWindow.dispose();
+		}
+
+		if(e.getSource()==langButtons) {
+//			language = (String) langButtons.getText();
 			new Game();
 		}
 		
