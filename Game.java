@@ -295,30 +295,38 @@ public class Game extends JFrame implements ActionListener{
 	}
 
 	public void Instructions() {
-		instructionsWindow = new JFrame();
-		JLabel instructionsLabel = new JLabel();
-		backButton = new JButton("Back");
-		
-//		instructionsLabel.setText(printInstructions);
-		instructionsLabel.setBounds(20, -90, 500, 500);
-		instructionsLabel.setFont(new Font("Calibri Regular",Font.PLAIN,18)); 
-		
-		
-		backButton.setFont(new Font("Calibri Regular",Font.BOLD,12)); 
-		backButton.setBounds(230, 375, 75, 35);
-		backButton.setFocusable(false);
-		backButton.addActionListener(this);
-		
-		instructionsWindow.setTitle("Instructions");
-		instructionsWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		instructionsWindow.setResizable(false);
-		instructionsWindow.setSize(560,500);
-		instructionsWindow.setVisible(true);
-		instructionsWindow.setLocationRelativeTo(null);
-		
-		instructionsWindow.add(instructionsLabel);
-		instructionsWindow.add(backButton);
-	}
+        instructionsWindow = new JFrame();
+        JPanel instructionsPanel = new JPanel();
+        instructionsPanel.setPreferredSize(new Dimension(500, 400));
+        JLabel instructionsLabel = new JLabel();
+        backButton = new JButton("Back");
+
+        String printInstructions = "<html><br/>There is are multiple rows and columns that are adjacent<br/>"
+                                   + "to the grid of buttons, these will have numbers that will indicate<br/>"
+                                   + "how many correct tiles are in that row/column.<br/><br/>"
+                                 + "The buttons in the grid can either be clicked or marked as empty,<br/>"
+                                 + "they will be highlighted to indicate right or wrong. <br/><br/>"
+                                 + "Once a button is clicked, the timer will start and the score<br/>"
+                                 + "will be initialized to 0. When all of the correct tiles are placed,<br/>"
+                                 + "the score goes up and the timer resets.<br/><br/>"
+                                 + "At any time you can solve the grid, reset the board or generate<br/>"
+                                 + "a new board that has a random pattern.<br/><br/></html>";
+        instructionsLabel.setText(printInstructions);
+        instructionsLabel.setFont(new Font("Calibri Regular",Font.PLAIN,16)); 
+        
+        backButton.setFont(new Font("Calibri Regular",Font.BOLD,12)); 
+        backButton.addActionListener(this);
+        
+        instructionsPanel.add(instructionsLabel);
+        instructionsPanel.add(backButton);
+        instructionsWindow.add(instructionsPanel);
+        
+        instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
+        instructionsWindow.setResizable(false);
+        instructionsWindow.setSize(525, 425);
+        instructionsWindow.setVisible(true);
+        instructionsWindow.setLocationRelativeTo(null);
+    }
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
