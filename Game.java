@@ -17,6 +17,10 @@ public class Game extends JFrame implements ActionListener{
 	JButton solveButton;
 	JButton newBoardButton;
 	JButton[][] buttons;
+	JRadioButton engRadio;
+	JRadioButton frRadio;
+	JRadioButton blYelRadio;
+	JRadioButton whBlueRadio;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -104,11 +108,14 @@ public class Game extends JFrame implements ActionListener{
 		
 		langButtons = new ButtonGroup();
 		
-		JRadioButton engRadio = new JRadioButton("English", true);
-		JRadioButton frRadio = new JRadioButton("French ");
-		JRadioButton blYelRadio = new JRadioButton("Black/Yellow");
-		JRadioButton whBlueRadio = new JRadioButton("White/Blue    ");
-
+		engRadio = new JRadioButton("English", true);
+		engRadio.addActionListener(this);
+		frRadio = new JRadioButton("French ");
+		frRadio.addActionListener(this);
+		blYelRadio = new JRadioButton("Black/Yellow");
+		blYelRadio.addActionListener(this);
+		whBlueRadio = new JRadioButton("White/Blue    ");
+		whBlueRadio.addActionListener(this);
 
 		configurationPanel.setLayout(new GridLayout(1,2));
 		
@@ -129,8 +136,10 @@ public class Game extends JFrame implements ActionListener{
 		colourPanel.setLayout(new GridLayout(3,1));
 		colourLabel.setText("Colour Scheme");
 		
+		ButtonGroup colour = new ButtonGroup();
+		colour.add(blYelRadio);
+		colour.add(whBlueRadio);
 		blYelPanel.add(blYelRadio);
-		
 		whBluePanel.add(whBlueRadio);
 
 		colourPanel.add(colourLabel);
@@ -295,21 +304,21 @@ public class Game extends JFrame implements ActionListener{
 			history.append("\nYou returned back to the picross game\n");
 			instructionsWindow.dispose();
 		}
-
-		for(int i=0; i<gridSize; i++) {
-			for(int j=0; j<gridSize; j++) {
-				if(e.getSource()==buttons[i][j]) {
-					buttons[i][j].setEnabled(false);
-					history.append("\nYou clicked button: " + i + ", " + j + "\n");
-				}
-			}
-		}
-			
-
 		
-		if(e.getSource()==langButtons) {
-//			language = (String) langButtons.getText();
-			new Game();
+		if(e.getSource()==engRadio) {
+			history.append("\nYou changed the language to English\n");
+		}
+		
+		if(e.getSource()==frRadio) {
+			history.append("\nYou changed the language to French\n");
+		}
+		
+		if(e.getSource()==whBlueRadio) {
+			history.append("\nYou changed the game colour to white & blue\n");
+		}
+		
+		if(e.getSource()==blYelRadio) {
+			history.append("\nYou changed the game colour to black & yellow\n");
 		}
 		
 		if(e.getSource()==gridSizeCmbo) {
@@ -317,16 +326,29 @@ public class Game extends JFrame implements ActionListener{
 	
 			switch (options) {
 				case "5x5":
-					gridSize = 5;
+					history.append("\nYou changed the grid to 5x5\n");
+					//gridSize = 5;
 					break;
 					
 				case "6x6":
-					gridSize = 6;
+					history.append("\nYou changed the grid to 6x6\n");
+					//gridSize = 6;
 					break;
 					
 				case "7x7":
-					gridSize = 7;
+					history.append("\nYou changed the grid to 7x7\n");
+					//gridSize = 7;
 					break;
+			}
+		}
+		else {
+			for(int i=0; i<gridSize; i++) {
+				for(int j=0; j<gridSize; j++) {
+					if(e.getSource()==buttons[i][j]) {
+						buttons[i][j].setEnabled(false);
+						history.append("\nYou clicked button: " + i + ", " + j + "\n");
+					}
+				}
 			}
 		}
 	}
