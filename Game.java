@@ -183,21 +183,29 @@ public class Game extends JFrame implements ActionListener{
 		
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension(250, 200));
+		
+		JPanel historyPanel = new JPanel();
 		history = new JTextArea();
 		history.setLineWrap(true);
 		history.setWrapStyleWord(true);
-		history.setPreferredSize(new Dimension(200, 300));
+	
+		history.setPreferredSize(new Dimension(200, 10000)); // important
 		history.setBorder(new LineBorder(Color.BLACK));
 		history.setEditable(false);
+		
 		JScrollPane scroll = new JScrollPane(history);
+		scroll.setPreferredSize(new Dimension(200,300));
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-		controlPanel.add(scroll);
+		//history.add(scroll);
+		
+		historyPanel.add(scroll);
+		controlPanel.add(historyPanel);
 		
 		
 		boardPanel.setLayout(new BorderLayout());
 		
+		/**
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(1,6));
 		markPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -212,7 +220,7 @@ public class Game extends JFrame implements ActionListener{
 //		colPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		colPanel.setPreferredSize(new Dimension (600, 75));
 		boardPanel.add(colPanel, BorderLayout.NORTH);
-		
+		**/
 		JPanel rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(5,1));
 		JPanel[] rows = new JPanel[gridSize]; 
