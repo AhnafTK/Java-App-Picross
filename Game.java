@@ -204,7 +204,33 @@ public class Game extends JFrame implements ActionListener{
 		
 		
 		boardPanel.setLayout(new BorderLayout());
+		boardPanel.setBackground(Color.red);
 		
+		markPanel.setBackground(Color.gray);
+		boardPanel.add(markPanel, BorderLayout.NORTH);
+		markPanel.setPreferredSize(new Dimension(10,10));
+		
+		JPanel colPanel = new JPanel();
+		colPanel.setPreferredSize(new Dimension(75,0));
+		colPanel.setBackground(Color.green);
+
+		JPanel rowPanel = new JPanel();
+		rowPanel.setPreferredSize(new Dimension(0,75));
+		rowPanel.setBackground(Color.blue);
+		boardPanel.add(rowPanel, BorderLayout.NORTH);
+		boardPanel.add(colPanel,  BorderLayout.WEST);
+		
+		JPanel gridButtonPanel = new JPanel();
+		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
+
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+				buttons[i][j] = new JButton();
+				buttons[i][j].addActionListener(this);
+				gridButtonPanel.add(buttons[i][j]);
+			}
+		}
+		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		/**
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(1,6));
@@ -221,6 +247,7 @@ public class Game extends JFrame implements ActionListener{
 		colPanel.setPreferredSize(new Dimension (600, 75));
 		boardPanel.add(colPanel, BorderLayout.NORTH);
 		**/
+		/**
 		JPanel rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(5,1));
 		JPanel[] rows = new JPanel[gridSize]; 
@@ -233,19 +260,22 @@ public class Game extends JFrame implements ActionListener{
 		rowPanel.setPreferredSize(new Dimension (80, 600));
 		boardPanel.add(rowPanel, BorderLayout.WEST);
 		
+		**/
+		//JPanel gridPanel = new JPanel();
+		//boardPanel.add(gridPanel, BorderLayout.CENTER);
 		
-		JPanel gridPanel = new JPanel();
-		boardPanel.add(gridPanel, BorderLayout.CENTER);
-		
-		gridPanel.setLayout(new GridLayout(gridSize, gridSize));
+		//gridPanel.setLayout(new GridLayout(gridSize, gridSize));
+		/**
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {
 				buttons[i][j] = new JButton();
 				buttons[i][j].addActionListener(this);
-				gridPanel.add(buttons[i][j]);
+				//gridPanel.add(buttons[i][j]);
 			}
 		}
-		
+		**/
+		//boardPanel.setBackground(Color.green);
+		//gridPanel.setBackground(Color.green);
 		picrossWindow.setLayout(new BorderLayout());
 		picrossWindow.add(titlePanel, BorderLayout.NORTH);
 		picrossWindow.add(leftPanel, BorderLayout.WEST);
@@ -354,6 +384,7 @@ public class Game extends JFrame implements ActionListener{
 				for(int j=0; j<gridSize; j++) {
 					if(e.getSource()==buttons[i][j]) {
 						buttons[i][j].setEnabled(false);
+						buttons[i][j].setBackground(Color.red);
 						history.append("\nYou clicked button: " + i + ", " + j + "\n");
 					}
 				}
