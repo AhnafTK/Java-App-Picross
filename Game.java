@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -323,6 +325,13 @@ public class Game extends JFrame implements ActionListener{
 
 		if(e.getSource()==resetButton) {
 			history.append("\nYou clicked the reset button\n");
+			for (int i = 0; i < gridSize; i++) {
+				for (int j = 0; j < gridSize; j++) {
+					buttons[i][j].setEnabled(true);
+					buttons[i][j].setBackground(null);
+				}
+			}
+			
 		}
 		
 		if(e.getSource()==solveButton) {
