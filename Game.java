@@ -16,6 +16,7 @@ public class Game extends JFrame implements ActionListener{
 	JTextArea history;
 	JButton solveButton;
 	JButton newBoardButton;
+	JButton[][] buttons;
 	
 	public static void main(String[] args) {
 		new Game();
@@ -44,7 +45,7 @@ public class Game extends JFrame implements ActionListener{
 		
 		
 		// JButton intializations
-		JButton[][] buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
+		buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
 		resetButton = new JButton("RESET");
 		solveButton = new JButton("SOLVE");
 		newBoardButton = new JButton("NEW BOARD");
@@ -125,7 +126,6 @@ public class Game extends JFrame implements ActionListener{
 		languagePanel.add(engPanel);
 		languagePanel.add(frPanel);
 
-		
 		colourPanel.setLayout(new GridLayout(3,1));
 		colourLabel.setText("Colour Scheme");
 		
@@ -178,12 +178,13 @@ public class Game extends JFrame implements ActionListener{
 		history.setLineWrap(true);
 		history.setWrapStyleWord(true);
 		history.setPreferredSize(new Dimension(200, 300));
-		history.setBorder(new LineBorder(Color.BLACK,1));
+		history.setBorder(new LineBorder(Color.BLACK));
 		history.setEditable(false);
 		JScrollPane scroll = new JScrollPane(history);
+		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-		controlPanel.add(history);
+		controlPanel.add(scroll);
 		
 		
 		boardPanel.setLayout(new BorderLayout());
@@ -223,6 +224,7 @@ public class Game extends JFrame implements ActionListener{
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {
 				buttons[i][j] = new JButton();
+				buttons[i][j].addActionListener(this);
 				gridPanel.add(buttons[i][j]);
 			}
 		}
@@ -294,6 +296,17 @@ public class Game extends JFrame implements ActionListener{
 			instructionsWindow.dispose();
 		}
 
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+				if(e.getSource()==buttons[i][j]) {
+					buttons[i][j].setEnabled(false);
+					history.append("\nYou clicked button: " + i + ", " + j + "\n");
+				}
+			}
+		}
+			
+
+		
 		if(e.getSource()==langButtons) {
 //			language = (String) langButtons.getText();
 			new Game();
