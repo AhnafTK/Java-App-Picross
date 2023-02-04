@@ -67,7 +67,7 @@ public class Game extends JFrame implements ActionListener{
 		JLabel timerLabel = new JLabel(langText.getString("timer"));
 		JLabel scoreLabel = new JLabel(langText.getString("score"));
 		
-		ImageIcon picrossLogo = new ImageIcon("./src/picross_logo.png");
+		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
