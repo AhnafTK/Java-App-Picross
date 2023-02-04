@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -23,7 +25,10 @@ public class Game extends JFrame implements ActionListener{
 	JRadioButton frRadio;
 	JRadioButton blYelRadio;
 	JRadioButton whBlueRadio;
-	
+	JPanel leftPanel = new JPanel();
+
+	Locale currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
+	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 	public static void main(String[] args) {
 		new Game();
 	
@@ -39,7 +44,6 @@ public class Game extends JFrame implements ActionListener{
 		// JPanel intializations
 		JPanel titlePanel = new JPanel();
 		JPanel markPanel = new JPanel();
-		JPanel leftPanel = new JPanel();
 		JPanel controlPanel = new JPanel();
 		JPanel boardPanel = new JPanel();
 		JPanel colourPanel = new JPanel();
@@ -52,14 +56,14 @@ public class Game extends JFrame implements ActionListener{
 		
 		// JButton intializations
 		buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
-		resetButton = new JButton("RESET");
-		solveButton = new JButton("SOLVE");
-		newBoardButton = new JButton("NEW BOARD");
-		instructionsButton = new JButton("INSTRUCTIONS");
+		resetButton = new JButton(langText.getString("reset"));
+		solveButton = new JButton(langText.getString("solve"));
+		newBoardButton = new JButton(langText.getString("newBoard"));
+		instructionsButton = new JButton(langText.getString("instructions"));
 		
 		// JLabel init
-		JLabel timerLabel = new JLabel("TIMER:  ");
-		JLabel scoreLabel = new JLabel("SCORE: ");
+		JLabel timerLabel = new JLabel(langText.getString("timer"));
+		JLabel scoreLabel = new JLabel(langText.getString("score"));
 		
 		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
 		JLabel picrossLabel = new JLabel();
@@ -92,7 +96,7 @@ public class Game extends JFrame implements ActionListener{
 		timerPanel.add(timerCounter);
 		
 		String options[] = {"5x5", "6x6", "7x7"};
-		JLabel gridSizeLabel = new JLabel("Grid Size: ");
+		JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
 		gridSizeCmbo = new JComboBox(options);
 		gridSizeCmbo.addActionListener(this);
 		
@@ -110,19 +114,19 @@ public class Game extends JFrame implements ActionListener{
 		
 		langButtons = new ButtonGroup();
 		
-		engRadio = new JRadioButton("English", true);
+		engRadio = new JRadioButton(langText.getString("english"), true);
 		engRadio.addActionListener(this);
-		frRadio = new JRadioButton("French ");
+		frRadio = new JRadioButton(langText.getString("french"));
 		frRadio.addActionListener(this);
-		blYelRadio = new JRadioButton("Black/Yellow");
+		blYelRadio = new JRadioButton(langText.getString("blc_yel_colorScheme"));
 		blYelRadio.addActionListener(this);
-		whBlueRadio = new JRadioButton("White/Blue    ");
+		whBlueRadio = new JRadioButton(langText.getString("white_blue_colorScheme"));
 		whBlueRadio.addActionListener(this);
 
 		configurationPanel.setLayout(new GridLayout(1,2));
 		
 		languagePanel.setLayout(new GridLayout(0,1));
-		langLabel.setText("Languages");
+		langLabel.setText(langText.getString("languages"));
 		
 		engPanel.add(engRadio);
 				
@@ -136,7 +140,7 @@ public class Game extends JFrame implements ActionListener{
 		languagePanel.add(frPanel);
 
 		colourPanel.setLayout(new GridLayout(3,1));
-		colourLabel.setText("Colour Scheme");
+		colourLabel.setText(langText.getString("colorScheme"));
 		
 		ButtonGroup colour = new ButtonGroup();
 		colour.add(blYelRadio);
@@ -353,11 +357,14 @@ public class Game extends JFrame implements ActionListener{
 		if(e.getSource()==instructionsButton) {
 			history.append("\nYou clicked the instructions button\n");
 			Instructions();
+			instructionsButton.setEnabled(false);
 		}
 		
 		if(e.getSource()==backButton) {
 			history.append("\nYou returned back to the picross game\n");
 			instructionsWindow.dispose();
+			instructionsButton.setEnabled(true);
+
 		}
 		
 		if(e.getSource()==engRadio) {
@@ -366,6 +373,11 @@ public class Game extends JFrame implements ActionListener{
 		
 		if(e.getSource()==frRadio) {
 			history.append("\nYou changed the language to French\n");
+			Locale currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
+			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+			leftPanel.remove(resetButton);
+			leftPanel.revalidate();
+			leftPanel.repaint();
 		}
 		
 		if(e.getSource()==whBlueRadio) {
