@@ -67,7 +67,7 @@ public class Game extends JFrame implements ActionListener{
 		JLabel timerLabel = new JLabel(langText.getString("timer"));
 		JLabel scoreLabel = new JLabel(langText.getString("score"));
 		
-		ImageIcon picrossLogo = new ImageIcon("picross_logo.png");
+		ImageIcon picrossLogo = new ImageIcon("./src/picross_logo.png");
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -104,7 +104,6 @@ public class Game extends JFrame implements ActionListener{
 		
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
-		//gridSizeComboPanel.setBackground(Color.red);
 		
 		JPanel configurationPanel = new JPanel();
 		JPanel languagePanel = new JPanel();
@@ -129,8 +128,6 @@ public class Game extends JFrame implements ActionListener{
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
 		
-		//languagePanel.setLayout(new GridLayout(3,1));
-		//languagePanel.setBackground(Color.green);
 		langLabel.setText(langText.getString("languages"));
 		
 	
@@ -141,14 +138,11 @@ public class Game extends JFrame implements ActionListener{
 		
 		languagePanel.add(langLabel);
 		languagePanel.add(languageButtonPanel);
-		//languagePanel.setBackground(Color.green);
-		//languagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-		//colourPanel.setLayout(new BoxLayout(colourPanel, BoxLayout.Y_AXIS));
-		//colourPanel.setBackground(Color.red);
+	
+		////////////////////////////////////////////////////////////////////////
+		
 		colourLabel.setText(langText.getString("colorScheme"));
 		
-		// holds the color options
 		ButtonGroup colour = new ButtonGroup();
 		colour.add(blYelRadio);
 		colour.add(whBlueRadio);
@@ -164,15 +158,12 @@ public class Game extends JFrame implements ActionListener{
 		// add the buttons to the top level panel
 		colourPanel.add(colorButtonPanel);
 		
-		
-		
-//		configurationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		//configurationPanel.setLayout(new GridLayout());
+		//////////////////////////////////////////////////////////////////
+
 		configurationPanel.add(languagePanel);
 		configurationPanel.add(colourPanel);
 		configurationPanel.setPreferredSize(new Dimension(225,100));
 		
-
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,10));
 		buttonPanel.setPreferredSize(new Dimension(120,150));
 
@@ -200,6 +191,8 @@ public class Game extends JFrame implements ActionListener{
 		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension(250, 200));
 		
+		///////////////////////////////////////////////////////////////
+		
 		JPanel historyPanel = new JPanel();
 		history = new JTextArea();
 		history.setLineWrap(true);
@@ -209,11 +202,14 @@ public class Game extends JFrame implements ActionListener{
 		history.setBorder(new LineBorder(Color.BLACK));
 		history.setEditable(false);
 		
+		////////////////////////////////////////////////////////////////
+		
 		JScrollPane scroll = new JScrollPane(history);
 		scroll.setPreferredSize(new Dimension(200,300));
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		//history.add(scroll);
+
+		////////////////////////////////////////////////////////////////
 		
 		historyPanel.add(scroll);
 		controlPanel.add(historyPanel);
