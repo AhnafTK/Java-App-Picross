@@ -51,7 +51,7 @@ public class Game extends JFrame implements ActionListener{
 		JPanel colourPanel = new JPanel();
 		JPanel scorePanel = new JPanel();
 		JPanel timerPanel = new JPanel();
-		JPanel comboPanel = new JPanel();
+		JPanel gridSizeComboPanel = new JPanel();
 		JPanel frPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		
@@ -102,24 +102,22 @@ public class Game extends JFrame implements ActionListener{
 		gridSizeCmbo = new JComboBox(options);
 		gridSizeCmbo.addActionListener(this);
 		
-		comboPanel.add(gridSizeLabel);
-		comboPanel.add(gridSizeCmbo);
+		gridSizeComboPanel.add(gridSizeLabel);
+		gridSizeComboPanel.add(gridSizeCmbo);
+		//gridSizeComboPanel.setBackground(Color.red);
 		
 		JPanel configurationPanel = new JPanel();
 		JPanel languagePanel = new JPanel();
-		JPanel engPanel = new JPanel();
-		JPanel blYelPanel = new JPanel();
-		JPanel whBluePanel = new JPanel();
 
 		JLabel langLabel = new JLabel();
 		JLabel colourLabel = new JLabel();
-		
-		langButtons = new ButtonGroup();
-		
+				
 		engRadio = new JRadioButton(langText.getString("english"), true);
 		engRadio.addActionListener(this);
+		
 		frRadio = new JRadioButton(langText.getString("french"));
 		frRadio.addActionListener(this);
+		
 		blYelRadio = new JRadioButton(langText.getString("blc_yel_colorScheme"));
 		blYelRadio.addActionListener(this);
 		whBlueRadio = new JRadioButton(langText.getString("white_blue_colorScheme"));
@@ -127,47 +125,57 @@ public class Game extends JFrame implements ActionListener{
 
 		configurationPanel.setLayout(new GridLayout(1,2));
 		
-		languagePanel.setLayout(new GridLayout(0,1));
-		langLabel.setText(langText.getString("languages"));
-		
-		engPanel.add(engRadio);
-				
-		frPanel.add(frRadio);
-
+		langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
 		
+		//languagePanel.setLayout(new GridLayout(3,1));
+		//languagePanel.setBackground(Color.green);
+		langLabel.setText(langText.getString("languages"));
+		
+	
+		JPanel languageButtonPanel = new JPanel();
+		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
+		languageButtonPanel.add(engRadio);
+		languageButtonPanel.add(frRadio);	
+		
 		languagePanel.add(langLabel);
-		languagePanel.add(engPanel);
-		languagePanel.add(frPanel);
+		languagePanel.add(languageButtonPanel);
+		//languagePanel.setBackground(Color.green);
+		//languagePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		colourPanel.setLayout(new GridLayout(3,1));
+		//colourPanel.setLayout(new BoxLayout(colourPanel, BoxLayout.Y_AXIS));
+		//colourPanel.setBackground(Color.red);
 		colourLabel.setText(langText.getString("colorScheme"));
 		
+		// holds the color options
 		ButtonGroup colour = new ButtonGroup();
 		colour.add(blYelRadio);
 		colour.add(whBlueRadio);
-		blYelPanel.add(blYelRadio);
-		whBluePanel.add(whBlueRadio);
-
-		colourPanel.add(colourLabel);
-		colourPanel.add(blYelPanel);
-		colourPanel.add(whBluePanel);
 		
-		buttonPanel.setPreferredSize(new Dimension(120,150));
+		// the jpanel that holds the radio buttons
+		JPanel colorButtonPanel = new JPanel();
+		colorButtonPanel.setLayout(new BoxLayout(colorButtonPanel, BoxLayout.Y_AXIS));
+		colorButtonPanel.add(blYelRadio);
+		colorButtonPanel.add(whBlueRadio);
+		
+		// add the label to the top level panel
+		colourPanel.add(colourLabel);
+		// add the buttons to the top level panel
+		colourPanel.add(colorButtonPanel);
+		
+		
 		
 //		configurationPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		//configurationPanel.setLayout(new GridLayout());
 		configurationPanel.add(languagePanel);
 		configurationPanel.add(colourPanel);
+		configurationPanel.setPreferredSize(new Dimension(225,100));
+		
 
-		//buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-		//leftPanel.setLayout(new GridLayout(7,1));
-		// adding buttons to left panel
-		//buttonPanel.add(buttonPanel);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0,10));
-		//buttonPanel.add(scorePanel);
-		//buttonPanel.add(timerPanel);
+		buttonPanel.setPreferredSize(new Dimension(120,150));
+
 		resetButton.setPreferredSize(new Dimension(120,25));
 		resetButton.addActionListener(this);
 		buttonPanel.add(resetButton);
@@ -182,7 +190,7 @@ public class Game extends JFrame implements ActionListener{
 		buttonPanel.add(instructionsButton);
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
-		leftPanel.add(comboPanel);
+		leftPanel.add(gridSizeComboPanel);
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);	
 		
@@ -341,7 +349,7 @@ public class Game extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource()==resetButton) {
-			history.append("\nYou clicked the reset button\n");
+			history.append("\n" + langText.getString("upon_click") + langText.getString("button") + langText.getString("reset"));
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
 					buttons[i][j].setEnabled(true);
@@ -376,11 +384,13 @@ public class Game extends JFrame implements ActionListener{
 		}
 		
 		if(e.getSource()==engRadio) {
-			history.append("\nYou changed the language to English\n");
+			//history.append("\nYou changed the language to English\n");
+			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("english"));
+
 		}
 		
 		if(e.getSource()==frRadio) {
-			history.append("\nYou changed the language to French\n");
+			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french"));
 			Locale currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 			leftPanel.remove(resetButton);
@@ -422,7 +432,7 @@ public class Game extends JFrame implements ActionListener{
 					if(e.getSource()==buttons[i][j]) {
 						buttons[i][j].setEnabled(false);
 						buttons[i][j].setBackground(Color.red);
-						history.append("\nYou clicked button: " + i + ", " + j + "\n");
+						history.append("\n"+ langText.getString("upon_click")+ langText.getString("button") + i + ", " + j + "\n");
 					}
 				}
 			}
