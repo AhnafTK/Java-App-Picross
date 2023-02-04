@@ -224,7 +224,7 @@ public class Game extends JFrame implements ActionListener{
 
 		JPanel rowPanel = new JPanel();
 		rowPanel.setPreferredSize(new Dimension(0,75));
-		rowPanel.setBackground(Color.blue);
+		rowPanel.setBackground(Color.red);
 		boardPanel.add(rowPanel, BorderLayout.NORTH);
 		boardPanel.add(colPanel,  BorderLayout.WEST);
 		
@@ -306,7 +306,8 @@ public class Game extends JFrame implements ActionListener{
         instructionsPanel.setPreferredSize(new Dimension(500, 400));
         JLabel instructionsLabel = new JLabel();
         backButton = new JButton("Back");
-
+        
+        /**
         String printInstructions = "<html><br/>There is are multiple rows and columns that are adjacent<br/>"
                                    + "to the grid of buttons, these will have numbers that will indicate<br/>"
                                    + "how many correct tiles are in that row/column.<br/><br/>"
@@ -317,6 +318,8 @@ public class Game extends JFrame implements ActionListener{
                                  + "the score goes up and the timer resets.<br/><br/>"
                                  + "At any time you can solve the grid, reset the board or generate<br/>"
                                  + "a new board that has a random pattern.<br/><br/></html>";
+        **/
+        String printInstructions = langText.getString("instructions_text");
         instructionsLabel.setText(printInstructions);
         instructionsLabel.setFont(new Font("Calibri Regular",Font.PLAIN,16)); 
         
@@ -349,15 +352,18 @@ public class Game extends JFrame implements ActionListener{
 		}
 		
 		if(e.getSource()==solveButton) {
-			history.append("\nYou clicked the solve button\n");
+			//history.append("\nYou clicked the solve button\n");
+			history.append("\n"+ langText.getString("upon_click") + langText.getString("button")+langText.getString("solve") );
+
 		}
 
 		if(e.getSource()==newBoardButton) {
-			history.append("\nYou clicked the new board button\n");
+			//history.append("\nYou clicked the new board button\n");
+			history.append("\n" + langText.getString("upon_click") + langText.getString("button")+langText.getString("newBoard"));
 		}
 				
 		if(e.getSource()==instructionsButton) {
-			history.append("\nYou clicked the instructions button\n");
+			history.append("\n" + langText.getString("upon_click") + langText.getString("button")+langText.getString("instructions"));
 			Instructions();
 			instructionsButton.setEnabled(false);
 		}
