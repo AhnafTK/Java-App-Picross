@@ -658,11 +658,12 @@ public class Game extends JFrame implements ActionListener {
 		
 		if (e.getSource() == markCheckBox) {
 			if (markCheckBox.isSelected()) {				
-				history.append("Mark Mode: True\n");
+				//history.append("Mark Mode: True\n");
+				history.append(langText.getString("mark") + ": " + langText.getString("true") + "\n");
 				markMode = true;
 			}
 			else {
-				history.append("Mark Mode: False\n");
+				history.append(langText.getString("mark") + ": " + langText.getString("false") + "\n");
 				markMode = false;
 			}
 			
@@ -711,7 +712,7 @@ public class Game extends JFrame implements ActionListener {
 					}
 					else {
 						if (e.getSource() == buttons[i][j]) {
-							buttons[i][j].setBackground(Color.GRAY);
+							buttons[i][j].setBackground(Color.LIGHT_GRAY);
 						}
 					}
 				}
