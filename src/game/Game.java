@@ -512,32 +512,40 @@ public class Game extends JFrame implements ActionListener {
 	 * how the game is supposed to be played.								*
 	 ************************************************************************
 	 */
-	public void Instructions() {
+	public void Instructions(Locale currentLocale) {
 		instructionsWindow = new JFrame();
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));
 		JLabel instructionsLabel = new JLabel();
 		instructionsBack = new JButton("Back");
-
-		/**
-		 * String printInstructions = "<html><br/>
-		 * There is are multiple rows and columns that are adjacent<br/>
-		 * " + "to the grid of buttons, these will have numbers that will indicate<br/>
-		 * " + "how many correct tiles are in that row/column.<br/>
-		 * <br/>
-		 * " + "The buttons in the grid can either be clicked or marked as empty,<br/>
-		 * " + "they will be highlighted to indicate right or wrong. <br/>
-		 * <br/>
-		 * " + "Once a button is clicked, the timer will start and the score<br/>
-		 * " + "will be initialized to 0. When all of the correct tiles are placed,<br/>
-		 * " + "the score goes up and the timer resets.<br/>
-		 * <br/>
-		 * " + "At any time you can solve the grid, reset the board or generate<br/>
-		 * " + "a new board that has a random pattern.<br/>
-		 * <br/>
-		 * </html>";
-		 **/
-		String printInstructions = langText.getString("instructions_text");
+		String printInstructions = "";
+		if (currentLocale.getCountry() == "US") {
+			printInstructions = "<html><br/>There are multiple rows and columns that are adjacent<br/>"
+	                + "to the grid of buttons, these will have numbers that will indicate<br/>"
+	                + "how many correct tiles are in that row/column.<br/><br/>"
+	              + "The buttons in the grid can either be clicked or marked as empty,<br/>"
+	              + "they will be highlighted to indicate right or wrong. <br/><br/>"
+	              + "Once a button is clicked, the timer will start and the score<br/>"
+	              + "will be initialized to 0. When all of the correct tiles are placed,<br/>"
+	              + "the score goes up and the timer resets.<br/><br/>"
+	              + "At any time you can solve the grid, reset the board or generate<br/>"
+	              + "a new board that has a random pattern.<br/><br/></html>";
+		}
+		else {
+			/*
+			 * 
+			 */
+			printInstructions = "<html><br/>Il y a plusieurs lignes et colonnes adjacentes à la grille de boutons.<br/>"
+	                + "Les numéros de ces rangées indiquent le nombre de tuiles corriges dans la rangée ou la colonne en question.<br/>"
+	                + " Les boutons de la grille peuvent être cliqués ou marqués comme étant vides. Ils seront mis en évidence pour indiquer s'ils sont bons ou mauvais. <br/><br/>"
+	              + "Dès qu'un bouton est cliqué, le minuteur démarre et le score est initialisé à 0<br/>"
+	              + " Lorsque toutes les bonnes tuiles sont placées, le score augmente et le minuteur se remet à zéro. <br/><br/>"
+	              + "À tout moment, vous pouvez résoudre la grille, réinitialiser le plateau ou générer un nouveau plateau avec un motif aléatoire.<br/><br/></html>";
+		}
+		
+		
+		 
+		//String printInstructions = langText.getString("instructions_text");
 		instructionsLabel.setText(printInstructions);
 		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
 
@@ -601,7 +609,7 @@ public class Game extends JFrame implements ActionListener {
 		if (e.getSource() == instructionsButton) {
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("instructions") + "\n");
-			Instructions();
+			Instructions(currentLocale);
 			instructionsButton.setEnabled(false);
 		}
 
@@ -619,15 +627,7 @@ public class Game extends JFrame implements ActionListener {
 			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("english")  + "\n");
 			currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-			//leftPanel.removeAll();
-			//leftPanel = makeLeftPanel(currentLocale);
-			//leftPanel.revalidate();
-			//leftPanel.revalidate();
-			//leftPanel.repaint();
-			//leftPanel.removeAll();
-			//leftPanel = makeLeftPanel(currentLocale, langText);
-			//leftPanel.revalidate();
-			//leftPanel.removeAll();
+
 			updateText(currentLocale, langText);
 			leftPanel.revalidate();
 		}
@@ -636,13 +636,7 @@ public class Game extends JFrame implements ActionListener {
 			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french") + "\n");
 			currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-			//leftPanel.removeAll();
-			//leftPanel = makeLeftPanel(currentLocale, langText);
-			//leftPanel.revalidate();
-			//leftPanel.removeAll();
-			//leftPanel.removeAll();
-			//leftPanel = makeLeftPanel(currentLocale);
-			//leftPanel.revalidate();
+
 			updateText(currentLocale, langText);
 			leftPanel.revalidate();
 
@@ -651,13 +645,10 @@ public class Game extends JFrame implements ActionListener {
 
 		if (e.getSource() == whBlueRadio) {
 			history.append(langText.getString("upon_color_change") + langText.getString("white_blue_colorScheme") + "\n");
-			//leftPanel.setForeground(Color.RED);
-			//leftPanel.validate();
-			//leftPanel.repaint();
+
 		}
 
 		if (e.getSource() == blYelRadio) {
-			//history.append("\nYou changed the game colour to black & yellow\n");
 			history.append(langText.getString("upon_color_change") + langText.getString("blc_yel_colorScheme") + "\n");
 
 		}
