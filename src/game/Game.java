@@ -47,9 +47,13 @@ public class Game extends JFrame implements ActionListener {
 
 		// JButton intializations
 		resetButton = new JButton(langText.getString("reset"));
+		resetButton.setBackground(Color.WHITE);
 		solveButton = new JButton(langText.getString("solve"));
+		solveButton.setBackground(Color.WHITE);
 		newBoardButton = new JButton(langText.getString("newBoard"));
+		newBoardButton.setBackground(Color.WHITE);
 		instructionsButton = new JButton(langText.getString("instructions"));
+		instructionsButton.setBackground(Color.WHITE);
 
 		// JLabel init
 		JLabel timerLabel = new JLabel(langText.getString("timer"));
@@ -82,7 +86,7 @@ public class Game extends JFrame implements ActionListener {
 		JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
 		gridSizeCmbo = new JComboBox(options);
 		gridSizeCmbo.addActionListener(this);
-
+		gridSizeCmbo.setBackground(Color.WHITE);
 		JPanel gridSizeComboPanel = new JPanel();
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
@@ -170,7 +174,7 @@ public class Game extends JFrame implements ActionListener {
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
 
-		leftPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.black));
+		leftPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,2, Color.black));
 		leftPanel.setPreferredSize(new Dimension(250, 200));
 
 		return leftPanel;
@@ -254,7 +258,7 @@ public class Game extends JFrame implements ActionListener {
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
-		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.BLACK));
+		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
 		
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
@@ -272,13 +276,14 @@ public class Game extends JFrame implements ActionListener {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				JButton newGridButton = new JButton();
+				newGridButton.setBackground(Color.WHITE);
 				//newGridButton.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
 				buttons[i][j] = newGridButton;
 				buttons[i][j].addActionListener(this);
 				gridButtonPanel.add(buttons[i][j]);
 			}
 		}
-		gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
+		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		
 		return boardPanel;
@@ -356,7 +361,7 @@ public class Game extends JFrame implements ActionListener {
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
 					buttons[i][j].setEnabled(true);
-					buttons[i][j].setBackground(null);
+					buttons[i][j].setBackground(Color.WHITE);
 				}
 			}
 
