@@ -29,8 +29,10 @@ public class Game extends JFrame implements ActionListener {
 	JRadioButton blYelRadio, whBlueRadio;
 	JPanel leftPanel = new JPanel();
 	JPanel boardPanel = new JPanel();
+	JPanel designMenuReturnPanel;
 	JCheckBox markCheckBox;
 	boolean markMode = false;
+	int gameMode = 0; // 0 is design, 1 is play
 	
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -329,6 +331,7 @@ public class Game extends JFrame implements ActionListener {
 			rowPanel.add(grid);
 			
 		}
+		
 
 		////////////////////////////////////////////////////////////////
 
@@ -354,98 +357,27 @@ public class Game extends JFrame implements ActionListener {
 		}
 		
 		////////////////////////////////////////////////////////////////
+		if (gameMode == 0) {
+			designMenuReturnPanel = new JPanel();
+			designMenuReturnPanel.setPreferredSize(new Dimension(500, 50));
+			designBack = new JButton("Back");
+			designBack.addActionListener(this);
+			designMenuReturnPanel.add(designBack);
+			boardPanel.add(designMenuReturnPanel, BorderLayout.SOUTH);
 
+		}
+		//JPanel bottomDesign = new JPanel();
+		//bottomDesign.setPreferredSize(new Dimension(500, 50));
+		//designBack = new JButton("Back");
+		//designBack.addActionListener(this);
+		//bottomDesign.add(designBack);
+		
 		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		
 		return boardPanel;
 	}
 	
-	/**
-	 ********************************************************************
-	 * Make Design panel												*
-	 * 																	*
-	 * This is a duplicate method of the Make Board Panel in order to	*
-	 * display the layout of the default grid.							*
-	 ********************************************************************
-	 */	
-	private JPanel makeDesignPanel(int gridSize) {
-		
-		////////////////////////////////////////////////////////////////
-
-		JPanel colPanel = new JPanel();
-		colPanel.setLayout(new GridLayout(gridSize, 1));
-		colPanel.setPreferredSize(new Dimension(75, 0));
-		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
-		//colPanel.setBackground(Color.green);
-				
-		for (int i = 0; i<gridSize; i++) {
-			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
-			grid.setBackground(Color.GRAY);
-			colPanel.add(grid);
-		}
-
-		////////////////////////////////////////////////////////////////
-
-		//JPanel boardPanel = new JPanel();
-		JCheckBox markCheckBox = new JCheckBox("Mark");
-		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-		boardPanel.setLayout(new BorderLayout());
-		//boardPanel.setBackground(Color.red);
-		
-		//JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
-		// add checkmark
-		//markPanel.setLayout(new CardLayout());
-		
-		////////////////////////////////////////////////////////////////
-
-		JPanel rowPanel = new JPanel();
-		rowPanel.add(markCheckBox);
-		rowPanel.setLayout(new GridLayout(1, gridSize+1));
-		rowPanel.setPreferredSize(new Dimension(0, 75));
-		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
-		
-		for (int i = 0; i < gridSize; i++) {
-			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
-			rowPanel.add(grid);
-			
-		}
-
-		////////////////////////////////////////////////////////////////
-
-		//boardPanel.add(markPanel, BorderLayout.WEST);
-		boardPanel.add(rowPanel, BorderLayout.NORTH);
-		boardPanel.add(colPanel, BorderLayout.WEST);
-
-		////////////////////////////////////////////////////////////////
-
-		JPanel gridButtonPanel = new JPanel();
-		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
-		buttons = new JButton[gridSize][gridSize]; 
-
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				JButton newGridButton = new JButton();
-				newGridButton.setBackground(Color.WHITE);
-				//newGridButton.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
-				buttons[i][j] = newGridButton;
-				gridButtonPanel.add(buttons[i][j]);
-			}
-		}
-		
-		////////////////////////////////////////////////////////////////
-		
-		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
-		JPanel bottomDesign = new JPanel();
-		bottomDesign.setPreferredSize(new Dimension(500, 50));
-		designBack = new JButton("Back");
-		designBack.addActionListener(this);
-		bottomDesign.add(designBack);
-		
-		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
-		boardPanel.add(bottomDesign, BorderLayout.SOUTH);
-		return boardPanel;
-	}
 	
 	private void updateText(Locale currentLocale, ResourceBundle langText) {
 		
@@ -492,7 +424,7 @@ public class Game extends JFrame implements ActionListener {
 		designWindow = new JFrame();
 		
 		designWindow.setLayout(new BorderLayout());
-		designWindow.add(makeDesignPanel(gridSize), BorderLayout.CENTER);
+		designWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		
 		designWindow.setResizable(false);
 		designWindow.setVisible(true);
@@ -510,6 +442,7 @@ public class Game extends JFrame implements ActionListener {
 		 * This is where everything gets handled for the picross JFrame.	*
 		 ********************************************************************
 		 */	
+		gameMode = 1;
 		picrossWindow = new JFrame();
 
 		picrossWindow.setLayout(new BorderLayout());
@@ -683,11 +616,15 @@ public class Game extends JFrame implements ActionListener {
 		if (e.getSource() == markCheckBox) {
 			if (markCheckBox.isSelected()) {				
 				//history.append("Mark Mode: True\n");
-				history.append(langText.getString("mark") + ": " + langText.getString("true") + "\n");
+				if (gameMode == 1) {
+					history.append(langText.getString("mark") + ": " + langText.getString("true") + "\n");
+				}
 				markMode = true;
 			}
 			else {
-				history.append(langText.getString("mark") + ": " + langText.getString("false") + "\n");
+				if (gameMode == 1) {
+					history.append(langText.getString("mark") + ": " + langText.getString("false") + "\n");
+				}
 				markMode = false;
 			}
 			
@@ -728,11 +665,15 @@ public class Game extends JFrame implements ActionListener {
 		} else {
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
+					
+					
 					if (e.getSource() == buttons[i][j] && (!markMode)) {
 						buttons[i][j].setEnabled(false);
 						buttons[i][j].setBackground(Color.BLACK);
+						if (gameMode == 1) {
 						history.append(langText.getString("upon_click") + langText.getString("button") + i + ", "
-								+ j + "\n");
+								+ j + "\n"); 
+						}
 					}
 					else {
 						if (e.getSource() == buttons[i][j]) {
