@@ -9,29 +9,24 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+/**
+ ****************************************************************************
+ * This is the game class that handles the GUI processing of our game		*
+ * 																			*
+ * @author Skylar Phanenhour, Ahnaf Kamal									*
+ ****************************************************************************
+ */
 public class Game extends JFrame implements ActionListener {
-	JButton instructionsButton;
-	JButton instructionsBack;
-	JButton designBack;
-	JFrame startWindow;
-	JFrame designWindow;
-	JFrame instructionsWindow;
-	JFrame picrossWindow;
+	JButton instructionsButton, instructionsBack;
+	JFrame startWindow, designWindow, instructionsWindow, picrossWindow;
 	JComboBox gridSizeCmbo;
 	int gridSize = 5;
-	ButtonGroup langButtons;
-	String language = "English";
-	JButton playButton;
-	JButton designButton;
-	JButton resetButton;
+	JButton playButton, designButton, designBack;
+	JButton resetButton, solveButton, newBoardButton;
 	JTextArea history;
-	JButton solveButton;
-	JButton newBoardButton;
 	JButton[][] buttons;
-	JRadioButton engRadio;
-	JRadioButton frRadio;
-	JRadioButton blYelRadio;
-	JRadioButton whBlueRadio;
+	JRadioButton engRadio, frRadio;
+	JRadioButton blYelRadio, whBlueRadio;
 	JPanel leftPanel = new JPanel();
 	JPanel boardPanel = new JPanel();
 	JCheckBox markCheckBox;
@@ -40,26 +35,52 @@ public class Game extends JFrame implements ActionListener {
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
-	// JLabel init
-			JLabel timerLabel = new JLabel(langText.getString("timer"));
-			JLabel scoreLabel = new JLabel(langText.getString("score"));
-			JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
-			JLabel langLabel = new JLabel();
-			JLabel colourLabel = new JLabel();
+	/*
+	 ********************************************************************
+	 * JLabel initializations.											*
+	 * The text that is in the label changes depending 					*
+	 * on what language is selected.									*
+	 ********************************************************************
+	 */
+	JLabel timerLabel = new JLabel(langText.getString("timer"));
+	JLabel scoreLabel = new JLabel(langText.getString("score"));
+	JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+	JLabel langLabel = new JLabel();
+	JLabel colourLabel = new JLabel();
 
+	/**
+	 ************************************************************************
+	 * Main method of the project that creates a new game					*
+	 * by calling the default constructor.									*
+	 * 																		*	
+	 * @param args - main method arguments									*
+	 ************************************************************************
+	 */		
 	public static void main(String[] args) {
 		new Game();
-
 	}
 
 	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText) {
+		/*
+		 ********************************************************************
+		 * JPanel initializations.											*
+		 * The text that is in the button changes depending 				*
+		 * on what language is selected.									*
+		 ********************************************************************
+		 */
 		JPanel scorePanel = new JPanel();
 		JPanel timerPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		JPanel languageButtonPanel = new JPanel();
 		JPanel colourPanel = new JPanel();
 
-		// JButton intializations
+		/*
+		 ********************************************************************
+		 * JButton initializations.											*
+		 * The text that is in the button changes depending 				*
+		 * on what language is selected.									*
+		 ********************************************************************
+		 */
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
 		solveButton = new JButton(langText.getString("solve"));
@@ -125,7 +146,7 @@ public class Game extends JFrame implements ActionListener {
 
 		configurationPanel.setLayout(new GridLayout(1, 2));
 
-		langButtons = new ButtonGroup();
+		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
 
@@ -521,26 +542,32 @@ public class Game extends JFrame implements ActionListener {
 		String printInstructions = "";
 		if (currentLocale.getCountry() == "US") {
 			printInstructions = "<html><br/>There are multiple rows and columns that are adjacent<br/>"
-	                + "to the grid of buttons, these will have numbers that will indicate<br/>"
-	                + "how many correct tiles are in that row/column.<br/><br/>"
-	              + "The buttons in the grid can either be clicked or marked as empty,<br/>"
-	              + "they will be highlighted to indicate right or wrong. <br/><br/>"
-	              + "Once a button is clicked, the timer will start and the score<br/>"
-	              + "will be initialized to 0. When all of the correct tiles are placed,<br/>"
-	              + "the score goes up and the timer resets.<br/><br/>"
-	              + "At any time you can solve the grid, reset the board or generate<br/>"
-	              + "a new board that has a random pattern.<br/><br/></html>";
+	                		  + "to the grid of buttons, these will have numbers that will indicate<br/>"
+	                		  + "how many correct tiles are in that row/column.<br/><br/>"
+	                		  + "The buttons in the grid can either be clicked or marked as empty,<br/>"
+	                		  + "they will be highlighted to indicate right or wrong. <br/><br/>"
+	                		  + "Once a button is clicked, the timer will start and the score<br/>"
+	                		  + "will be initialized to 0. When all of the correct tiles are placed,<br/>"
+	                		  + "the score goes up and the timer resets.<br/><br/>"
+	                		  + "At any time you can solve the grid, reset the board or generate<br/>"
+	                		  + "a new board that has a random pattern.<br/><br/></html>";
 		}
 		else {
 			/*
 			 * 
 			 */
-			printInstructions = "<html><br/>Il y a plusieurs lignes et colonnes adjacentes à la grille de boutons.<br/>"
-	                + "Les numéros de ces rangées indiquent le nombre de tuiles corriges dans la rangée ou la colonne en question.<br/>"
-	                + " Les boutons de la grille peuvent être cliqués ou marqués comme étant vides. Ils seront mis en évidence pour indiquer s'ils sont bons ou mauvais. <br/><br/>"
-	              + "Dès qu'un bouton est cliqué, le minuteur démarre et le score est initialisé à 0<br/>"
-	              + " Lorsque toutes les bonnes tuiles sont placées, le score augmente et le minuteur se remet à zéro. <br/><br/>"
-	              + "À tout moment, vous pouvez résoudre la grille, réinitialiser le plateau ou générer un nouveau plateau avec un motif aléatoire.<br/><br/></html>";
+			printInstructions = "<html><br/>Il y a plusieurs lignes et colonnes adjacentes à la<br/>"
+							  + "grille de boutons. Les numéros de ces rangées indiquent le nombre<br/>"
+	                		  + "de tuiles corriges dans la rangée ou la colonne en question.<br/>"
+	                		  + "Les boutons de la grille peuvent être cliqués ou marqués<br/>"
+	                		  + "comme étant vides. Ils seront mis en évidence pour indiquer<br/>"
+	                		  + "s'ils sont bons ou mauvais. <br/><br/>"
+	                		  + "Dès qu'un bouton est cliqué, le minuteur démarre et<br/>"
+	                		  + "le score est initialisé à 0<br/>"
+	                		  + "Lorsque toutes les bonnes tuiles sont placées, le score augmente<br/>"
+	                		  + "et le minuteur se remet à zéro. <br/><br/>"
+	                		  + "À tout moment, vous pouvez résoudre la grille, réinitialiser le<br/>"
+	                		  + "plateau ou générer un nouveau plateau avec un motif aléatoire.<br/><br/></html>";
 		}
 		
 		
