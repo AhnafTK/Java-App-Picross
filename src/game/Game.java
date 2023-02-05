@@ -281,6 +281,11 @@ public class Game extends JFrame implements ActionListener {
 
 		//JPanel boardPanel = new JPanel();
 		markCheckBox = new JCheckBox("Mark");
+		// incase the grid size is changing, check to see if in markMode.
+		// if true, then set the checkmark in new board
+		if (markMode == true) {
+			markCheckBox.setSelected(true);
+		}
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		markCheckBox.addActionListener(this);
 		boardPanel.setLayout(new BorderLayout());
@@ -432,6 +437,7 @@ public class Game extends JFrame implements ActionListener {
 		newBoardButton.setText(langText.getString("newBoard"));
 		langLabel.setText(langText.getString("languages"));
 		colourLabel.setText(langText.getString("colorScheme"));
+		markCheckBox.setText(langText.getString("mark"));
 		//engRadio.setText(langText.getString("reset"));
 		
 	}
