@@ -29,9 +29,16 @@ public class Game extends JFrame implements ActionListener {
 	JRadioButton whBlueRadio;
 	JPanel leftPanel = new JPanel();
 	JPanel boardPanel = new JPanel();
-
+	
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+
+	// JLabel init
+			JLabel timerLabel = new JLabel(langText.getString("timer"));
+			JLabel scoreLabel = new JLabel(langText.getString("score"));
+			JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+			JLabel langLabel = new JLabel();
+			JLabel colourLabel = new JLabel();
 
 	public static void main(String[] args) {
 		new Game();
@@ -55,9 +62,7 @@ public class Game extends JFrame implements ActionListener {
 		instructionsButton = new JButton(langText.getString("instructions"));
 		instructionsButton.setBackground(Color.WHITE);
 
-		// JLabel init
-		JLabel timerLabel = new JLabel(langText.getString("timer"));
-		JLabel scoreLabel = new JLabel(langText.getString("score"));
+		
 
 		// This is the text field for the score counter needs to be organized.
 		JTextField scoreCounter = new JTextField();
@@ -83,7 +88,6 @@ public class Game extends JFrame implements ActionListener {
 		timerPanel.add(timerCounter);
 
 		String options[] = { "5x5", "6x6", "7x7" };
-		JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
 		gridSizeCmbo = new JComboBox(options);
 		gridSizeCmbo.addActionListener(this);
 		gridSizeCmbo.setBackground(Color.WHITE);
@@ -96,8 +100,7 @@ public class Game extends JFrame implements ActionListener {
 		JPanel configurationPanel = new JPanel();
 		JPanel languagePanel = new JPanel();
 
-		JLabel langLabel = new JLabel();
-		JLabel colourLabel = new JLabel();
+		
 
 		engRadio = new JRadioButton(langText.getString("english"), true);
 		engRadio.addActionListener(this);
@@ -289,6 +292,20 @@ public class Game extends JFrame implements ActionListener {
 		return boardPanel;
 	}
 	
+	private void updateText(Locale currentLocale, ResourceBundle langText) {
+		
+		timerLabel.setText((langText.getString("timer")));
+		scoreLabel.setText(langText.getString("score"));
+		gridSizeLabel.setText(langText.getString("gridSize"));
+		resetButton.setText(langText.getString("reset"));
+		instructionsButton.setText(langText.getString("instructions"));
+		solveButton.setText(langText.getString("solve"));
+		newBoardButton.setText(langText.getString("newBoard"));
+		langLabel.setText(langText.getString("languages"));
+		colourLabel.setText(langText.getString("colorScheme"));
+		//engRadio.setText(langText.getString("reset"));
+		
+	}
 	
 	public Game() {
 		picrossWindow = new JFrame();
@@ -406,24 +423,28 @@ public class Game extends JFrame implements ActionListener {
 			//leftPanel.revalidate();
 			//leftPanel.revalidate();
 			//leftPanel.repaint();
-			leftPanel.removeAll();
-			leftPanel = makeLeftPanel(currentLocale, langText);
-			leftPanel.revalidate();
 			//leftPanel.removeAll();
+			//leftPanel = makeLeftPanel(currentLocale, langText);
+			//leftPanel.revalidate();
+			//leftPanel.removeAll();
+			updateText(currentLocale, langText);
+			leftPanel.revalidate();
 		}
 
 		if (e.getSource() == frRadio) {
 			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french") + "\n");
 			currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-			leftPanel.removeAll();
-			leftPanel = makeLeftPanel(currentLocale, langText);
-			leftPanel.revalidate();
+			//leftPanel.removeAll();
+			//leftPanel = makeLeftPanel(currentLocale, langText);
+			//leftPanel.revalidate();
 			//leftPanel.removeAll();
 			//leftPanel.removeAll();
 			//leftPanel = makeLeftPanel(currentLocale);
 			//leftPanel.revalidate();
-			
+			updateText(currentLocale, langText);
+			leftPanel.revalidate();
+
 
 		}
 
