@@ -226,21 +226,22 @@ public class Game extends JFrame implements ActionListener {
 	
 	private JPanel makeBoardPanel(int gridSize) {
 		
+		buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
+
 		//JPanel boardPanel = new JPanel();
+		JCheckBox markCheckBox = new JCheckBox("Mark");
+		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		boardPanel.setLayout(new BorderLayout());
 		boardPanel.setBackground(Color.red);
 		
-		JPanel markPanel = new JPanel();
-		JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
-		markPanel.add(markLabel);
+		//JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
 		// add checkmark
 		//markPanel.setLayout(new CardLayout());
-		markPanel.setBackground(Color.gray);
 		
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(gridSize, 1));
 		colPanel.setPreferredSize(new Dimension(75, 0));
-		colPanel.setBackground(Color.green);
+		//colPanel.setBackground(Color.green);
 		
 		for (int i = 0; i<gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
@@ -249,24 +250,18 @@ public class Game extends JFrame implements ActionListener {
 		}
 
 		JPanel rowPanel = new JPanel();
+		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
-		//rowPanel.setBackground(Color.red);
-
-
-		rowPanel.add(markPanel);
-
+		
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
-			//.setText("TITS!");
-			grid.setBackground(Color.GRAY);
 			rowPanel.add(grid);
 			
 		}
 
 		//boardPanel.add(markPanel, BorderLayout.WEST);
 		boardPanel.add(rowPanel, BorderLayout.NORTH);
-
 		boardPanel.add(colPanel, BorderLayout.WEST);
 
 		JPanel gridButtonPanel = new JPanel();
@@ -287,7 +282,6 @@ public class Game extends JFrame implements ActionListener {
 	
 	public Game() {
 		picrossWindow = new JFrame();
-		buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
 
 		picrossWindow.setLayout(new BorderLayout());
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
@@ -385,7 +379,7 @@ public class Game extends JFrame implements ActionListener {
 
 		if (e.getSource() == backButton) {
 			//history.append("\nYou returned back to the picross game\n");
-			history.append(langText.getString("upon return") + " picross\n");
+			history.append(langText.getString("upon_return") + " picross\n");
 
 			instructionsWindow.dispose();
 			instructionsButton.setEnabled(true);
@@ -441,20 +435,30 @@ public class Game extends JFrame implements ActionListener {
 			switch (options) {
 			case "5x5":
 				//history.append("\nYou changed the grid to 5x5\n");
+				gridSize = 5;
 				history.append(langText.getString("upon_grid_change") + " 5x5\n");
+				boardPanel.removeAll();
+				boardPanel = makeBoardPanel(5);
+				boardPanel.revalidate();
 				
 				break;
 
 			case "6x6":
 				history.append(langText.getString("upon_grid_change")  + " 6x6\n");
-				 //gridSize = 6;
-			
+				 gridSize = 6;
+				boardPanel.removeAll();
+				boardPanel = makeBoardPanel(6);
+				boardPanel.revalidate();
+
 				break;
 
 			case "7x7":
 				history.append(langText.getString("upon_grid_change") + " 7x7\n");
-				// gridSize = 7;
-			
+				gridSize = 7;
+				boardPanel.removeAll();
+				boardPanel = makeBoardPanel(7);
+				boardPanel.revalidate();
+
 				break;
 			}
 		} else {
