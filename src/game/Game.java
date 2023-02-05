@@ -185,7 +185,7 @@ public class Game extends JFrame implements ActionListener {
 		ImageIcon picrossLogo = new ImageIcon("picross.jpg");
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
-		titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension(1000, 125));
 		titlePanel.add(picrossLabel);
 
@@ -258,7 +258,7 @@ public class Game extends JFrame implements ActionListener {
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
-		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
+		//rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
 		
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
@@ -356,8 +356,8 @@ public class Game extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == resetButton) {
-			history.append("\n" + langText.getString("upon_click") + langText.getString("button")
-					+ langText.getString("reset"));
+			history.append(langText.getString("upon_click") + langText.getString("button")
+					+ langText.getString("reset")  + "\n");
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
 					buttons[i][j].setEnabled(true);
@@ -369,20 +369,20 @@ public class Game extends JFrame implements ActionListener {
 
 		if (e.getSource() == solveButton) {
 			// history.append("\nYou clicked the solve button\n");
-			history.append("\n" + langText.getString("upon_click") + langText.getString("button")
-					+ langText.getString("solve"));
+			history.append(langText.getString("upon_click") + langText.getString("button") 
+					+ langText.getString("solve")  + "\n");
 
 		}
 
 		if (e.getSource() == newBoardButton) {
 			// history.append("\nYou clicked the new board button\n");
-			history.append("\n" + langText.getString("upon_click") + langText.getString("button")
-					+ langText.getString("newBoard"));
+			history.append(langText.getString("upon_click") + langText.getString("button")
+					+ langText.getString("newBoard") + "\n");
 		}
 
 		if (e.getSource() == instructionsButton) {
-			history.append("\n" + langText.getString("upon_click") + langText.getString("button")
-					+ langText.getString("instructions"));
+			history.append(langText.getString("upon_click") + langText.getString("button")
+					+ langText.getString("instructions") + "\n");
 			Instructions();
 			instructionsButton.setEnabled(false);
 		}
@@ -398,7 +398,7 @@ public class Game extends JFrame implements ActionListener {
 
 		if (e.getSource() == engRadio) {
 			// history.append("\nYou changed the language to English\n");
-			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("english"));
+			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("english")  + "\n");
 			currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 			//leftPanel.removeAll();
@@ -413,7 +413,7 @@ public class Game extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == frRadio) {
-			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french"));
+			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french") + "\n");
 			currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 			leftPanel.removeAll();
@@ -478,7 +478,7 @@ public class Game extends JFrame implements ActionListener {
 					if (e.getSource() == buttons[i][j]) {
 						buttons[i][j].setEnabled(false);
 						buttons[i][j].setBackground(Color.BLACK);
-						history.append("\n" + langText.getString("upon_click") + langText.getString("button") + i + ", "
+						history.append(langText.getString("upon_click") + langText.getString("button") + i + ", "
 								+ j + "\n");
 					}
 				}
