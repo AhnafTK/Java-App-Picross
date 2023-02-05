@@ -34,6 +34,8 @@ public class Game extends JFrame implements ActionListener {
 	JRadioButton whBlueRadio;
 	JPanel leftPanel = new JPanel();
 	JPanel boardPanel = new JPanel();
+	JCheckBox markCheckBox;
+	boolean markMode = false;
 	
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -278,8 +280,9 @@ public class Game extends JFrame implements ActionListener {
 		////////////////////////////////////////////////////////////////
 
 		//JPanel boardPanel = new JPanel();
-		JCheckBox markCheckBox = new JCheckBox("Mark");
+		markCheckBox = new JCheckBox("Mark");
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
+		markCheckBox.addActionListener(this);
 		boardPanel.setLayout(new BorderLayout());
 		//boardPanel.setBackground(Color.red);
 		
@@ -652,6 +655,18 @@ public class Game extends JFrame implements ActionListener {
 			history.append(langText.getString("upon_color_change") + langText.getString("blc_yel_colorScheme") + "\n");
 
 		}
+		
+		if (e.getSource() == markCheckBox) {
+			if (markCheckBox.isSelected()) {				
+				history.append("Mark Mode: True\n");
+				markMode = true;
+			}
+			else {
+				history.append("Mark Mode: False\n");
+				markMode = false;
+			}
+			
+		}
 
 		if (e.getSource() == gridSizeCmbo) {
 			String options = (String) gridSizeCmbo.getSelectedItem();
@@ -688,11 +703,16 @@ public class Game extends JFrame implements ActionListener {
 		} else {
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
-					if (e.getSource() == buttons[i][j]) {
+					if (e.getSource() == buttons[i][j] && (!markMode)) {
 						buttons[i][j].setEnabled(false);
 						buttons[i][j].setBackground(Color.BLACK);
 						history.append(langText.getString("upon_click") + langText.getString("button") + i + ", "
 								+ j + "\n");
+					}
+					else {
+						if (e.getSource() == buttons[i][j]) {
+							buttons[i][j].setBackground(Color.GRAY);
+						}
 					}
 				}
 			}
