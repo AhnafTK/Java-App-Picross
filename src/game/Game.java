@@ -11,13 +11,18 @@ import javax.swing.border.LineBorder;
 
 public class Game extends JFrame implements ActionListener {
 	JButton instructionsButton;
-	JButton backButton;
+	JButton instructionsBack;
+	JButton designBack;
+	JFrame startWindow;
+	JFrame designWindow;
 	JFrame instructionsWindow;
 	JFrame picrossWindow;
 	JComboBox gridSizeCmbo;
 	int gridSize = 5;
 	ButtonGroup langButtons;
 	String language = "English";
+	JButton playButton;
+	JButton designButton;
 	JButton resetButton;
 	JTextArea history;
 	JButton solveButton;
@@ -183,6 +188,14 @@ public class Game extends JFrame implements ActionListener {
 		return leftPanel;
 	}
 
+	/**
+	 ********************************************************************
+	 * Make Title Panel													*
+	 * 																	*
+	 * This is  where the ImageIcon for the 							*
+	 * Picross logo is created/set.										*
+	 ********************************************************************
+	 */
 	private JPanel makeTitlePanel() {
 		JPanel titlePanel = new JPanel();
 		ImageIcon picrossLogo = new ImageIcon("picross.jpg");
@@ -220,6 +233,13 @@ public class Game extends JFrame implements ActionListener {
 		return historyPanel;
 	}
 
+	/**
+	 ********************************************************************
+	 * Make Control panel												*
+	 * 																	*
+	 * This is 'top-level' panel that stores everything for the history.*
+	 ********************************************************************
+	 */	
 	private JPanel makeControlPanel() {
 		
 		JPanel controlPanel = new JPanel();
@@ -231,9 +251,31 @@ public class Game extends JFrame implements ActionListener {
 		return controlPanel;
 	}
 	
+	/**
+	 ********************************************************************
+	 * Make Board panel													*
+	 * 																	*
+	 * This is where the button grid, row/column labels and mark panel 	*
+	 * are handled.														*
+	 ********************************************************************
+	 */	
 	private JPanel makeBoardPanel(int gridSize) {
 		
-		buttons = new JButton[gridSize][gridSize]; // 25 will be the dim^2
+		////////////////////////////////////////////////////////////////
+
+		JPanel colPanel = new JPanel();
+		colPanel.setLayout(new GridLayout(gridSize, 1));
+		colPanel.setPreferredSize(new Dimension(75, 0));
+		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
+		//colPanel.setBackground(Color.green);
+				
+		for (int i = 0; i<gridSize; i++) {
+			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
+			grid.setBackground(Color.GRAY);
+			colPanel.add(grid);
+		}
+
+		////////////////////////////////////////////////////////////////
 
 		//JPanel boardPanel = new JPanel();
 		JCheckBox markCheckBox = new JCheckBox("Mark");
@@ -245,23 +287,13 @@ public class Game extends JFrame implements ActionListener {
 		// add checkmark
 		//markPanel.setLayout(new CardLayout());
 		
-		JPanel colPanel = new JPanel();
-		colPanel.setLayout(new GridLayout(gridSize, 1));
-		colPanel.setPreferredSize(new Dimension(75, 0));
-		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
-		//colPanel.setBackground(Color.green);
-		
-		for (int i = 0; i<gridSize; i++) {
-			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
-			grid.setBackground(Color.GRAY);
-			colPanel.add(grid);
-		}
+		////////////////////////////////////////////////////////////////
 
 		JPanel rowPanel = new JPanel();
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
-		//rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
+		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
 		
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
@@ -269,12 +301,17 @@ public class Game extends JFrame implements ActionListener {
 			
 		}
 
+		////////////////////////////////////////////////////////////////
+
 		//boardPanel.add(markPanel, BorderLayout.WEST);
 		boardPanel.add(rowPanel, BorderLayout.NORTH);
 		boardPanel.add(colPanel, BorderLayout.WEST);
 
+		////////////////////////////////////////////////////////////////
+
 		JPanel gridButtonPanel = new JPanel();
 		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
+		buttons = new JButton[gridSize][gridSize]; 
 
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
@@ -286,9 +323,98 @@ public class Game extends JFrame implements ActionListener {
 				gridButtonPanel.add(buttons[i][j]);
 			}
 		}
+		
+		////////////////////////////////////////////////////////////////
+
 		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		
+		return boardPanel;
+	}
+	
+	/**
+	 ********************************************************************
+	 * Make Design panel												*
+	 * 																	*
+	 * This is a duplicate method of the Make Board Panel in order to	*
+	 * display the layout of the default grid.							*
+	 ********************************************************************
+	 */	
+	private JPanel makeDesignPanel(int gridSize) {
+		
+		////////////////////////////////////////////////////////////////
+
+		JPanel colPanel = new JPanel();
+		colPanel.setLayout(new GridLayout(gridSize, 1));
+		colPanel.setPreferredSize(new Dimension(75, 0));
+		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
+		//colPanel.setBackground(Color.green);
+				
+		for (int i = 0; i<gridSize; i++) {
+			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
+			grid.setBackground(Color.GRAY);
+			colPanel.add(grid);
+		}
+
+		////////////////////////////////////////////////////////////////
+
+		//JPanel boardPanel = new JPanel();
+		JCheckBox markCheckBox = new JCheckBox("Mark");
+		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
+		boardPanel.setLayout(new BorderLayout());
+		//boardPanel.setBackground(Color.red);
+		
+		//JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
+		// add checkmark
+		//markPanel.setLayout(new CardLayout());
+		
+		////////////////////////////////////////////////////////////////
+
+		JPanel rowPanel = new JPanel();
+		rowPanel.add(markCheckBox);
+		rowPanel.setLayout(new GridLayout(1, gridSize+1));
+		rowPanel.setPreferredSize(new Dimension(0, 75));
+		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.BLACK));
+		
+		for (int i = 0; i < gridSize; i++) {
+			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
+			rowPanel.add(grid);
+			
+		}
+
+		////////////////////////////////////////////////////////////////
+
+		//boardPanel.add(markPanel, BorderLayout.WEST);
+		boardPanel.add(rowPanel, BorderLayout.NORTH);
+		boardPanel.add(colPanel, BorderLayout.WEST);
+
+		////////////////////////////////////////////////////////////////
+
+		JPanel gridButtonPanel = new JPanel();
+		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
+		buttons = new JButton[gridSize][gridSize]; 
+
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				JButton newGridButton = new JButton();
+				newGridButton.setBackground(Color.WHITE);
+				//newGridButton.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
+				buttons[i][j] = newGridButton;
+				gridButtonPanel.add(buttons[i][j]);
+			}
+		}
+		
+		////////////////////////////////////////////////////////////////
+		
+		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
+		JPanel bottomDesign = new JPanel();
+		bottomDesign.setPreferredSize(new Dimension(500, 50));
+		designBack = new JButton("Back");
+		designBack.addActionListener(this);
+		bottomDesign.add(designBack);
+		
+		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
+		boardPanel.add(bottomDesign, BorderLayout.SOUTH);
 		return boardPanel;
 	}
 	
@@ -308,6 +434,52 @@ public class Game extends JFrame implements ActionListener {
 	}
 	
 	public Game() {
+		startWindow = new JFrame();
+		JPanel startPanel = new JPanel();
+		
+		designButton = new JButton("Design");
+		designButton.setPreferredSize(new Dimension(100, 30));
+		designButton.addActionListener(this);
+		
+		playButton = new JButton("Play");
+		playButton.setPreferredSize(new Dimension(100, 30));
+		playButton.addActionListener(this);
+	
+		startPanel.add(designButton);
+		startPanel.add(playButton);
+		startWindow.add(startPanel);
+		startWindow.pack();
+		
+		startWindow.setVisible(true);
+		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		startWindow.setResizable(false);
+		startWindow.setSize(300, 300);
+		startWindow.setLocationRelativeTo(null);
+	}
+
+	public void Design() {
+		designWindow = new JFrame();
+		
+		designWindow.setLayout(new BorderLayout());
+		designWindow.add(makeDesignPanel(gridSize), BorderLayout.CENTER);
+		
+		designWindow.setResizable(false);
+		designWindow.setVisible(true);
+		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		designWindow.setSize(500, 500);
+		designWindow.setLocationRelativeTo(null);
+	}
+	
+	public void Play() {
+		/*
+		 ********************************************************************
+		 * Picross window frame												*
+		 * 																	*
+		 * This is where everything gets handled for the picross JFrame.	*
+		 ********************************************************************
+		 */	
 		picrossWindow = new JFrame();
 
 		picrossWindow.setLayout(new BorderLayout());
@@ -323,15 +495,20 @@ public class Game extends JFrame implements ActionListener {
 		picrossWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		picrossWindow.setSize(1000, 600);
 		picrossWindow.setLocationRelativeTo(null);
-
 	}
-
+	
+	/**
+	 ************************************************************************
+	 * This is the instructions class that explains 						*
+	 * how the game is supposed to be played.								*
+	 ************************************************************************
+	 */
 	public void Instructions() {
 		instructionsWindow = new JFrame();
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));
 		JLabel instructionsLabel = new JLabel();
-		backButton = new JButton("Back");
+		instructionsBack = new JButton("Back");
 
 		/**
 		 * String printInstructions = "<html><br/>
@@ -355,11 +532,11 @@ public class Game extends JFrame implements ActionListener {
 		instructionsLabel.setText(printInstructions);
 		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
 
-		backButton.setFont(new Font("Calibri Regular", Font.BOLD, 12));
-		backButton.addActionListener(this);
+		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
+		instructionsBack.addActionListener(this);
 
 		instructionsPanel.add(instructionsLabel);
-		instructionsPanel.add(backButton);
+		instructionsPanel.add(instructionsBack);
 		instructionsWindow.add(instructionsPanel);
 
 		instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
@@ -372,6 +549,21 @@ public class Game extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		if (e.getSource() == designButton) {
+			startWindow.dispose();
+			Design();
+		}
+		
+		if (e.getSource() == designBack) {
+			designWindow.dispose();
+			new Game();
+		}
+		
+		if (e.getSource() == playButton) {
+			startWindow.dispose();
+			Play();
+		}
+		
 		if (e.getSource() == resetButton) {
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("reset")  + "\n");
@@ -404,7 +596,7 @@ public class Game extends JFrame implements ActionListener {
 			instructionsButton.setEnabled(false);
 		}
 
-		if (e.getSource() == backButton) {
+		if (e.getSource() == instructionsBack) {
 			//history.append("\nYou returned back to the picross game\n");
 			history.append(langText.getString("upon_return") + " picross\n");
 
