@@ -170,7 +170,7 @@ public class Game extends JFrame implements ActionListener {
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
 
-		leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		leftPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.black));
 		leftPanel.setPreferredSize(new Dimension(250, 200));
 
 		return leftPanel;
@@ -209,18 +209,18 @@ public class Game extends JFrame implements ActionListener {
 		////////////////////////////////////////////////////////////////
 
 		historyPanel.add(scroll);
-		historyPanel.setBackground(Color.WHITE);
+		//historyPanel.setBackground(Color.WHITE);
 		return historyPanel;
 	}
 
 	private JPanel makeControlPanel() {
 		
 		JPanel controlPanel = new JPanel();
-		controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension(250, 200));
 		
 		controlPanel.add(makeHistoryPanel());
-		controlPanel.setBackground(Color.BLACK);
+		//controlPanel.setBackground(Color.BLACK);
 		return controlPanel;
 	}
 	
@@ -232,7 +232,7 @@ public class Game extends JFrame implements ActionListener {
 		JCheckBox markCheckBox = new JCheckBox("Mark");
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		boardPanel.setLayout(new BorderLayout());
-		boardPanel.setBackground(Color.red);
+		//boardPanel.setBackground(Color.red);
 		
 		//JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
 		// add checkmark
@@ -241,6 +241,7 @@ public class Game extends JFrame implements ActionListener {
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(gridSize, 1));
 		colPanel.setPreferredSize(new Dimension(75, 0));
+		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
 		//colPanel.setBackground(Color.green);
 		
 		for (int i = 0; i<gridSize; i++) {
@@ -253,6 +254,7 @@ public class Game extends JFrame implements ActionListener {
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
+		rowPanel.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.BLACK));
 		
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("0,0", SwingConstants.CENTER);
@@ -269,11 +271,14 @@ public class Game extends JFrame implements ActionListener {
 
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				buttons[i][j] = new JButton();
+				JButton newGridButton = new JButton();
+				//newGridButton.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
+				buttons[i][j] = newGridButton;
 				buttons[i][j].addActionListener(this);
 				gridButtonPanel.add(buttons[i][j]);
 			}
 		}
+		gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		
 		return boardPanel;
@@ -396,7 +401,7 @@ public class Game extends JFrame implements ActionListener {
 			//leftPanel.revalidate();
 			//leftPanel.revalidate();
 			//leftPanel.repaint();
-
+			leftPanel.removeAll();
 			leftPanel = makeLeftPanel(currentLocale, langText);
 			leftPanel.revalidate();
 			//leftPanel.removeAll();
@@ -406,6 +411,7 @@ public class Game extends JFrame implements ActionListener {
 			history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french"));
 			currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+			leftPanel.removeAll();
 			leftPanel = makeLeftPanel(currentLocale, langText);
 			leftPanel.revalidate();
 			//leftPanel.removeAll();
