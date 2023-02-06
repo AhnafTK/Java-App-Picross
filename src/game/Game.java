@@ -3,7 +3,6 @@ package game;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -18,25 +17,61 @@ import javax.swing.border.LineBorder;
  ****************************************************************************
  */
 public class Game extends JFrame implements ActionListener {
-	JButton instructionsButton, instructionsBack;
-	JFrame startWindow, designWindow, instructionsWindow, picrossWindow;
-	JComboBox gridSizeCmbo;
-	int gridSize = 5;
-	JButton playButton, designButton, designBack;
-	JButton resetButton, solveButton, newBoardButton;
-	JTextArea history;
-	JButton[][] buttons;
-	JRadioButton engRadio, frRadio;
-	JRadioButton blYelRadio, whBlueRadio;
-	JPanel leftPanel = new JPanel();
-	JPanel boardPanel = new JPanel();
-	JPanel designMenuReturnPanel;
-	JCheckBox markCheckBox;
-	JButton design;
-	boolean markMode = false;
-	int gameMode = 0; // 0 is design, 1 is play
-	
+	/**Button to open the instructions window*/
+	protected JButton instructionsButton;
+	/**Button to return from the instructions page to the main game*/
+	protected JButton instructionsBack;
+	/**JFrame for the design window*/
+	private JFrame designWindow;
+	/**JFrame for the start window*/
+	private JFrame startWindow;
+	/**JFrame for the instructions window*/
+	private JFrame instructionsWindow;
+	/**JFrame for the main picross window*/
+	private JFrame picrossWindow;
+	/**Combo box to change the grid size*/
+	protected JComboBox gridSizeCmbo;
+	/**Button to play the game*/
+	protected JButton playButton;
+	/**Button to open the design window*/
+	protected JButton designButton;
+	/**Button to return from the design page to the main page*/
+	protected JButton designBack;
+	/**Button to reset the game*/
+	protected JButton resetButton;
+	/**Button to solve the game*/
+	protected JButton solveButton;
+	/**Button to make a new board*/
+	protected JButton newBoardButton;
+	/**Text area to display the input history*/
+	protected JTextArea history;
+	/**2d-button array for the grid*/
+	protected JButton[][] buttons;
+	/**Radio button to change the language to English*/
+	protected JRadioButton engRadio;
+	/**Radio button to change the language to French*/
+	protected JRadioButton frRadio;
+	/**Radio button to change the colour scheme to black and yellow*/
+	protected JRadioButton blYelRadio;
+	/**Radio button to change the colour scheme to white and blue*/
+	protected JRadioButton whBlueRadio;
+	/**Left panel to hold all of the menu components*/
+	protected JPanel leftPanel = new JPanel();
+	/**Board panel to hold the grid of buttons*/
+	protected JPanel boardPanel = new JPanel();
+	/**Panel to hold the back button in the design window*/
+	protected JPanel designMenuReturnPanel;
+	/**Check box for to enable the mark mode*/
+	protected JCheckBox markCheckBox;
+	/**Int variable to hold the grid size, 5x5 by default*/
+	protected int gridSize = 5;
+	/**Boolean for the mark mode, false by default*/
+	protected boolean markMode = false;
+	/**Int variable to check what the current game mode is, 0=design, 1=play*/
+	protected int gameMode = 0;
+	/**Local builder to change the language*/
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+	/**Resource bundle to get the language messages*/
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
 	/*
@@ -46,11 +81,16 @@ public class Game extends JFrame implements ActionListener {
 	 * on what language is selected.									*
 	 ********************************************************************
 	 */
-	JLabel timerLabel = new JLabel(langText.getString("timer"));
-	JLabel scoreLabel = new JLabel(langText.getString("score"));
-	JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
-	JLabel langLabel = new JLabel();
-	JLabel colourLabel = new JLabel();
+	/**Label for the timer*/
+	protected JLabel timerLabel = new JLabel(langText.getString("timer"));
+	/**Label for the score*/
+	protected JLabel scoreLabel = new JLabel(langText.getString("score"));
+	/**Label for the grid size*/
+	protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+	/**Label for the language*/
+	protected JLabel langLabel = new JLabel();
+	/**Label for the colour*/
+	protected JLabel colourLabel = new JLabel();
 
 	/**
 	 ************************************************************************
@@ -64,24 +104,35 @@ public class Game extends JFrame implements ActionListener {
 		new Game();
 	}
 	
+	/*
+	 ********************************************************************
+	 * Make Language Panel												*
+	 * 																	*
+	 * This is where all of the language panels, labels, radio buttons	*
+	 * and button group are located.									*
+	 * 																	*
+	 * Whatever radio button is selected, will change the game to 		*
+	 * that language. 													*
+	 * "English" is selected by default when the game is started.		*
+	 ********************************************************************
+	 */
 	private JPanel makeLanguagePanel() {
 		
 		JPanel languagePanel = new JPanel();
 		JPanel languageButtonPanel = new JPanel();
 
+		// Button group that holds the "English" and "French" radio buttons
+		////////////////////////////////////////////////////////////////
+
 		engRadio = new JRadioButton(langText.getString("english"), true);
 		engRadio.addActionListener(this);
+
+		////////////////////////////////////////////////////////////////
 
 		frRadio = new JRadioButton(langText.getString("french"));
 		frRadio.addActionListener(this);
 
-		// if(currentLocale.getCountry() == "US") {engRadio.setSelected(true);}
-		// else {frRadio.setSelected(true);}
-
-		//blYelRadio = new JRadioButton(langText.getString("blc_yel_colorScheme"));
-		//blYelRadio.addActionListener(this);
-		//whBlueRadio = new JRadioButton(langText.getString("white_blue_colorScheme"));
-		//whBlueRadio.addActionListener(this);
+		////////////////////////////////////////////////////////////////
 
 		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
@@ -89,16 +140,29 @@ public class Game extends JFrame implements ActionListener {
 
 		langLabel.setText(langText.getString("languages"));
 
+		// Panel to align the language radio buttons
 		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
+		//Adds the radio buttons to the panel
 		languageButtonPanel.add(engRadio);
 		languageButtonPanel.add(frRadio);
 
+		// Main language panel that stores/aligns all of the labels/radio buttons
 		languagePanel.add(langLabel);
 		languagePanel.add(languageButtonPanel);
+		
 		return languagePanel;
 	}
+	
+	/*
+	 ********************************************************************
+	 * Make Grid Size Combo												*
+	 * 																	*
+	 * Grid size combo box panel.										*
+	 * Combo box options are initialized in a string array.				*
+	 * Grid size label changes depending on what language is selected.  *
+	 ********************************************************************
+	 */
 	private JPanel makeGridSizeCombo() {
-		
 		String options[] = { "5x5", "6x6", "7x7" };
 		gridSizeCmbo = new JComboBox(options);
 		gridSizeCmbo.addActionListener(this);
@@ -106,12 +170,22 @@ public class Game extends JFrame implements ActionListener {
 		JPanel gridSizeComboPanel = new JPanel();
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
-		// gridSizeComboPanel.setBackground(Color.RED);
 		gridSizeComboPanel.setPreferredSize(new Dimension(200, 30));
 		
 		return gridSizeComboPanel;
 	}
 
+	/**
+	 ************************************************************************
+	 * Make Left Panel.														*
+	 * 																		*	
+	 * This is the 'top-level' panel that stores everything for the left	*
+	 * panel. All of the 'lower-level' components get added to this panel.	*
+	 * 																		*
+	 * @param locale - Used to get the selected language.					*
+	 * @param langText - Used to get the text from the language file.		*
+	 ************************************************************************
+	 */	
 	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText) {
 		/*
 		 ********************************************************************
@@ -123,7 +197,6 @@ public class Game extends JFrame implements ActionListener {
 		JPanel scorePanel = new JPanel();
 		JPanel timerPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		//JPanel colourPanel = new JPanel();
 
 		/*
 		 ********************************************************************
@@ -134,84 +207,119 @@ public class Game extends JFrame implements ActionListener {
 		 */
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
+		
+		////////////////////////////////////////////////////////////////
+
 		solveButton = new JButton(langText.getString("solve"));
 		solveButton.setBackground(Color.WHITE);
+
+		////////////////////////////////////////////////////////////////
+
 		newBoardButton = new JButton(langText.getString("newBoard"));
 		newBoardButton.setBackground(Color.WHITE);
+
+		////////////////////////////////////////////////////////////////
+
 		instructionsButton = new JButton(langText.getString("instructions"));
 		instructionsButton.setBackground(Color.WHITE);
 
-		
+		////////////////////////////////////////////////////////////////
 
-		// This is the text field for the score counter needs to be organized.
+		/*
+		 ********************************************************************
+		 * Score panel components.											*
+		 * This is also where the score counter text field is created.		*
+		 ********************************************************************
+		 */	
 		JTextField scoreCounter = new JTextField();
 		scoreCounter.setBorder(new LineBorder((new Color(17,15,15)), 1));
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
 		scoreCounter.setEditable(false);
-		//
-
-		// This is the text field for the score counter needs to be organized.
+		
+		scorePanel.add(scoreLabel);
+		scorePanel.add(scoreCounter);
+		
+		/*
+		 ********************************************************************
+		 * Timer panel components.											*
+		 * This is also where the timer counter text field is created.		*
+		 ********************************************************************
+		 */
 		JTextField timerCounter = new JTextField();
 		timerCounter.setBorder(new LineBorder((new Color(17,15,15)), 1));
 		timerCounter.setPreferredSize(new Dimension(100, 25));
 		timerCounter.setEditable(false);
-		//
 
-		// Score Panel
-
-		scorePanel.add(scoreLabel);
-		scorePanel.add(scoreCounter);
-
-		// timer Panel
 		timerPanel.add(timerLabel);
 		timerPanel.add(timerCounter);
 
 		
+		/*
+		 ********************************************************************
+		 * Configuration Settings											*
+		 * 																	*
+		 * This is 'top-level' panel that stores the language/colour panels	*
+		 * in order for them to be propely layed out in the left panel.		*
+		 ********************************************************************
+		 */		
 		JPanel configurationPanel = new JPanel();
 		configurationPanel.setLayout(new GridLayout(1, 2));
-
-		
-
-		////////////////////////////////////////////////////////////////////////
-
-		//colourLabel.setText(langText.getString("colorScheme"));
-
-		//ButtonGroup colour = new ButtonGroup();
-		//colour.add(blYelRadio);
-		//colour.add(whBlueRadio);
-
-		// the jpanel that holds the radio buttons
-		//JPanel colorButtonPanel = new JPanel();
-		//colorButtonPanel.setLayout(new BoxLayout(colorButtonPanel, BoxLayout.Y_AXIS));
-		//colorButtonPanel.add(blYelRadio);
-		//colorButtonPanel.add(whBlueRadio);
-
-		// add the label to the top level panel
-		//colourPanel.add(colourLabel);
-		// add the buttons to the top level panel
-		//colourPanel.add(colorButtonPanel);
-
-		//////////////////////////////////////////////////////////////////
-
 		configurationPanel.add(makeLanguagePanel());
-		//configurationPanel.add(colourPanel);
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
 
+		/*
+		 ********************************************************************
+		 * Buttons Panel													*
+		 * 																	*
+		 * This panel is used to store/align all of the JButtons that 		*
+		 * will later be added to the left panel.							*
+		 ********************************************************************
+		 */
+		//Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		buttonPanel.setPreferredSize(new Dimension(120, 160));
+		buttonPanel.setPreferredSize(new Dimension(120, 185));
 		
+		//Sets all of the buttons to the same size and creates an ActionListener
+		designButton.setPreferredSize(new Dimension(120, 25));
+		
+		////////////////////////////////////////////////////////////////
+
 		resetButton.setPreferredSize(new Dimension(120, 25));
 		resetButton.addActionListener(this);
-		buttonPanel.add(resetButton);
+
+		////////////////////////////////////////////////////////////////
+		
 		solveButton.setPreferredSize(new Dimension(120, 25));
 		solveButton.addActionListener(this);
-		buttonPanel.add(solveButton);
+
+		////////////////////////////////////////////////////////////////
+
 		newBoardButton.setPreferredSize(new Dimension(120, 25));
 		newBoardButton.addActionListener(this);
-		buttonPanel.add(newBoardButton);
+
+		////////////////////////////////////////////////////////////////
+
 		instructionsButton.setPreferredSize(new Dimension(120, 25));
 		instructionsButton.addActionListener(this);
+
+		////////////////////////////////////////////////////////////////
+		
+		//Adds all of the buttons to the panel
+		buttonPanel.add(designButton);
+		buttonPanel.add(resetButton);
+		buttonPanel.add(solveButton);
+		buttonPanel.add(newBoardButton);
 		buttonPanel.add(instructionsButton);
+		
+		/*
+		 ********************************************************************
+		 * Left panel														*
+		 * 																	*
+		 * This is 'top-level' panel that stores all the 'lower level'		*
+		 * panels in order for all the components to properly align.		*
+		 ********************************************************************
+		 */		
+		//Adds all of the 'lower level' panels 
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
 		leftPanel.add(makeGridSizeCombo());
@@ -237,15 +345,23 @@ public class Game extends JFrame implements ActionListener {
 		ImageIcon picrossLogo = new ImageIcon("picross.jpg");
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
-		//titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		titlePanel.setPreferredSize(new Dimension(1000, 125));
 		titlePanel.add(picrossLabel);
 
 		return titlePanel;
 	}
-
+	
+	/**
+	 ********************************************************************
+	 * Make History Panel												*
+	 * 																	*
+	 * This is  where the history text area gets managed. 			 	*
+	 * All of the user inputs will be recorded here.					*
+	 ********************************************************************
+	 */
 	private JPanel makeHistoryPanel() {
-
+		
+		// This is the history text area where all of the user inputs will be recorded
 		JPanel historyPanel = new JPanel();
 		history = new JTextArea();
 		history.setLineWrap(true);
@@ -265,7 +381,7 @@ public class Game extends JFrame implements ActionListener {
 		////////////////////////////////////////////////////////////////
 
 		historyPanel.add(scroll);
-		//historyPanel.setBackground(Color.WHITE);
+
 		return historyPanel;
 	}
 
@@ -279,11 +395,9 @@ public class Game extends JFrame implements ActionListener {
 	private JPanel makeControlPanel() {
 		
 		JPanel controlPanel = new JPanel();
-		//controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		controlPanel.setPreferredSize(new Dimension(250, 200));
-		
 		controlPanel.add(makeHistoryPanel());
-		//controlPanel.setBackground(Color.BLACK);
+
 		return controlPanel;
 	}
 	
@@ -293,17 +407,16 @@ public class Game extends JFrame implements ActionListener {
 	 * 																	*
 	 * This is where the button grid, row/column labels and mark panel 	*
 	 * are handled.														*
+	 * 																	*
+	 * @param gridSize - Used to change the grid size.					*
 	 ********************************************************************
 	 */	
 	private JPanel makeBoardPanel(int gridSize) {
 		
-		////////////////////////////////////////////////////////////////
-
+		// Column panel
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(gridSize, 1));
 		colPanel.setPreferredSize(new Dimension(75, 0));
-		//colPanel.setBorder(BorderFactory.createMatteBorder(1,0,0,0, Color.BLACK));
-		//colPanel.setBackground(Color.green);
 				
 		for (int i = 0; i<gridSize; i++) {
 			JLabel grid = new JLabel("0 0", SwingConstants.CENTER);
@@ -313,7 +426,7 @@ public class Game extends JFrame implements ActionListener {
 
 		////////////////////////////////////////////////////////////////
 
-		//JPanel boardPanel = new JPanel();
+		// Mark panel
 		markCheckBox = new JCheckBox("Mark");
 		// incase the grid size is changing, check to see if in markMode.
 		// if true, then set the checkmark in new board
@@ -323,14 +436,10 @@ public class Game extends JFrame implements ActionListener {
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		markCheckBox.addActionListener(this);
 		boardPanel.setLayout(new BorderLayout());
-		//boardPanel.setBackground(Color.red);
-		
-		//JLabel markLabel = new JLabel("Mark", SwingConstants.CENTER);
-		// add checkmark
-		//markPanel.setLayout(new CardLayout());
 		
 		////////////////////////////////////////////////////////////////
 
+		// Row panel
 		JPanel rowPanel = new JPanel();
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize+1));
@@ -340,13 +449,11 @@ public class Game extends JFrame implements ActionListener {
 		for (int i = 0; i < gridSize; i++) {
 			JLabel grid = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
 			rowPanel.add(grid);
-			
 		}
-		
 
 		////////////////////////////////////////////////////////////////
 
-		//boardPanel.add(markPanel, BorderLayout.WEST);
+		// Adds the components to the board panel
 		boardPanel.add(rowPanel, BorderLayout.NORTH);
 		boardPanel.add(colPanel, BorderLayout.WEST);
 
@@ -360,7 +467,6 @@ public class Game extends JFrame implements ActionListener {
 			for (int j = 0; j < gridSize; j++) {
 				JButton newGridButton = new JButton();
 				newGridButton.setBackground(Color.WHITE);
-				//newGridButton.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.BLACK));
 				buttons[i][j] = newGridButton;
 				buttons[i][j].addActionListener(this);
 				gridButtonPanel.add(buttons[i][j]);
@@ -368,6 +474,8 @@ public class Game extends JFrame implements ActionListener {
 		}
 		
 		////////////////////////////////////////////////////////////////
+		
+		// This is only entered when the design button is pressed
 		if (gameMode == 0) {
 			designMenuReturnPanel = new JPanel();
 			designMenuReturnPanel.setPreferredSize(new Dimension(500, 50));
@@ -377,21 +485,26 @@ public class Game extends JFrame implements ActionListener {
 			boardPanel.add(designMenuReturnPanel, BorderLayout.SOUTH);
 
 		}
-		//JPanel bottomDesign = new JPanel();
-		//bottomDesign.setPreferredSize(new Dimension(500, 50));
-		//designBack = new JButton("Back");
-		//designBack.addActionListener(this);
-		//bottomDesign.add(designBack);
-		
-		//gridButtonPanel.setBorder(BorderFactory.createMatteBorder(3,2,3,2, Color.BLACK));
+
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		
 		return boardPanel;
 	}
 	
 	
+	/**
+	 ********************************************************************
+	 * Update Text														*
+	 * 																	*
+	 * This updates the text after the language is changed.				*
+	 * 																	*
+	 * @param locale - Used to get the selected language.				*
+	 * @param langText - Used to get the text from the language file.	*
+	 ********************************************************************
+	 */	
 	private void updateText(Locale currentLocale, ResourceBundle langText) {
 		
+		// This is only entered in the main game
 		if (gameMode == 1) {
 			timerLabel.setText((langText.getString("timer")));
 			scoreLabel.setText(langText.getString("score"));
@@ -404,41 +517,59 @@ public class Game extends JFrame implements ActionListener {
 		}
 		
 		gridSizeLabel.setText(langText.getString("gridSize"));
-		
-		
 		markCheckBox.setText(langText.getString("mark"));
 		engRadio.setText(langText.getString("english"));
 		frRadio.setText(langText.getString("french"));
 		
 	}
 	
-	
+	/**
+	 ************************************************************************
+	 * Default constructor for the Game class								*
+	 * This is where all of the GUI of the game gets handled.				*
+	 ************************************************************************
+	 */
 	public Game() {
+		/*
+		 ********************************************************************
+		 * Start window frame												*
+		 * 																	*
+		 * This is where everything gets handled for the start JFrame.		*
+		 ********************************************************************
+		 */	
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
+
+		////////////////////////////////////////////////////////////////
 
 		JPanel splashTitlePanel = new JPanel();
 		ImageIcon titleLogo = new ImageIcon("picross.jpg");
 		JLabel titleLabel = new JLabel();
 		titleLabel.setIcon(titleLogo);
-		//titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		splashTitlePanel.setPreferredSize(new Dimension(500, 125));
 		splashTitlePanel.add(titleLabel);
 		
+		////////////////////////////////////////////////////////////////
 		
 		JPanel startPanel = new JPanel();
 		startPanel.setBackground(new Color(17,15,15));
 		startPanel.setPreferredSize(new Dimension(100,100));
 		
+		////////////////////////////////////////////////////////////////
+
 		designButton = new JButton("Design");
 		designButton.setPreferredSize(new Dimension(100, 30));
 		designButton.setBackground(Color.WHITE);
 		designButton.addActionListener(this);
-		
+
+		////////////////////////////////////////////////////////////////
+
 		playButton = new JButton("Play");
 		playButton.setPreferredSize(new Dimension(100, 30));
 		playButton.addActionListener(this);
 		playButton.setBackground(Color.WHITE);
+
+		////////////////////////////////////////////////////////////////
 
 		startPanel.add(designButton);
 		startPanel.add(playButton);
@@ -446,7 +577,7 @@ public class Game extends JFrame implements ActionListener {
 		startWindow.add(startPanel,BorderLayout.CENTER);
 		startWindow.pack();
 		
-		
+		////////////////////////////////////////////////////////////////		
 		
 		startWindow.setVisible(true);
 		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
@@ -456,27 +587,44 @@ public class Game extends JFrame implements ActionListener {
 		startWindow.setLocationRelativeTo(null);
 	}
 
-	public void Design() {
+	/**
+	 ********************************************************************
+	 * Design method													*
+	 * 																	*
+	 * This shows the "default" board layout to the user.				*
+	 ********************************************************************
+	 */	
+	private void Design() {
 		designWindow = new JFrame();
 		
 		designWindow.setLayout(new BorderLayout());
 		JPanel configGrid = new JPanel();
 		configGrid.setLayout(new GridLayout(2,2,0,0));
 		
+		////////////////////////////////////////////////////////////////
+
 		designWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		configGrid.add(makeLanguagePanel());
 		configGrid.add(makeGridSizeCombo());
 
+		////////////////////////////////////////////////////////////////
+
 		designWindow.add(configGrid, BorderLayout.NORTH);
 		designWindow.setResizable(false);
 		designWindow.setVisible(true);
-		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		designWindow.setSize(500, 650);
 		designWindow.setLocationRelativeTo(null);
 	}
 	
-	public void Play() {
+	/**
+	 ********************************************************************
+	 * Play method														*
+	 * 																	*
+	 * This shows the main game.										*
+	 ********************************************************************
+	 */	
+	private void Play() {
 		/*
 		 ********************************************************************
 		 * Picross window frame												*
@@ -494,6 +642,8 @@ public class Game extends JFrame implements ActionListener {
 		picrossWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		picrossWindow.pack();
 
+		////////////////////////////////////////////////////////////////
+
 		picrossWindow.setResizable(false);
 		picrossWindow.setVisible(true);
 		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -506,15 +656,22 @@ public class Game extends JFrame implements ActionListener {
 	 ************************************************************************
 	 * This is the instructions class that explains 						*
 	 * how the game is supposed to be played.								*
+	 * 																		*
+	 * @param locale - Used to get the selected language.					*
 	 ************************************************************************
 	 */
-	public void Instructions(Locale currentLocale) {
+	private void Instructions(Locale currentLocale) {
 		instructionsWindow = new JFrame();
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));
 		JLabel instructionsLabel = new JLabel();
 		instructionsBack = new JButton("Back");
+
+		////////////////////////////////////////////////////////////////
+
 		String printInstructions = "";
+		
+		// If the language is set to English
 		if (currentLocale.getCountry() == "US") {
 			printInstructions = "<html><br/>There are multiple rows and columns that are adjacent<br/>"
 	                		  + "to the grid of buttons, these will have numbers that will indicate<br/>"
@@ -527,10 +684,11 @@ public class Game extends JFrame implements ActionListener {
 	                		  + "At any time you can solve the grid, reset the board or generate<br/>"
 	                		  + "a new board that has a random pattern.<br/><br/></html>";
 		}
+		
+		////////////////////////////////////////////////////////////////
+
+		// If the language is set to French
 		else {
-			/*
-			 * 
-			 */
 			printInstructions = "<html><br/>Il y a plusieurs lignes et colonnes adjacentes à la<br/>"
 							  + "grille de boutons. Les numéros de ces rangées indiquent le nombre<br/>"
 	                		  + "de tuiles corriges dans la rangée ou la colonne en question.<br/>"
@@ -545,18 +703,22 @@ public class Game extends JFrame implements ActionListener {
 	                		  + "plateau ou générer un nouveau plateau avec un motif aléatoire.<br/><br/></html>";
 		}
 		
-		
+		////////////////////////////////////////////////////////////////
+
 		 
-		//String printInstructions = langText.getString("instructions_text");
 		instructionsLabel.setText(printInstructions);
 		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
 
 		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
 		instructionsBack.addActionListener(this);
 
+		////////////////////////////////////////////////////////////////
+
 		instructionsPanel.add(instructionsLabel);
 		instructionsPanel.add(instructionsBack);
 		instructionsWindow.add(instructionsPanel);
+
+		////////////////////////////////////////////////////////////////
 
 		instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
 		instructionsWindow.setResizable(false);
@@ -565,24 +727,45 @@ public class Game extends JFrame implements ActionListener {
 		instructionsWindow.setLocationRelativeTo(null);
 	}
 
+	/**
+	 ********************************************************************
+	 * Action listener													*
+	 * 																	*
+	 * This is where all of the action event handlers get managed when	*
+	 * a component gets clicked.										*
+	 * 																	*
+	 * @param e - Action Event handler for components.					*
+	 ********************************************************************
+	 */	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		// Design button
 		if (e.getSource() == designButton) {
 			startWindow.dispose();
 			Design();
 		}
 		
+		////////////////////////////////////////////////////////////////
+
+		// Design back button
 		if (e.getSource() == designBack) {
 			designWindow.dispose();
+			
 			new Game();
 		}
 		
+		////////////////////////////////////////////////////////////////
+
+		// Play button
 		if (e.getSource() == playButton) {
 			startWindow.dispose();
 			Play();
 		}
 		
+		////////////////////////////////////////////////////////////////
+
+		// Reset button
 		if (e.getSource() == resetButton) {
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("reset")  + "\n");
@@ -592,41 +775,50 @@ public class Game extends JFrame implements ActionListener {
 					buttons[i][j].setBackground(Color.WHITE);
 				}
 			}
-
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// Solve button
 		if (e.getSource() == solveButton) {
-			// history.append("\nYou clicked the solve button\n");
 			history.append(langText.getString("upon_click") + langText.getString("button") 
 					+ langText.getString("solve")  + "\n");
-
 		}
 		
+		////////////////////////////////////////////////////////////////
 
+		// New board button
 		if (e.getSource() == newBoardButton) {
-			// history.append("\nYou clicked the new board button\n");
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("newBoard") + "\n");
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// Instructions button
 		if (e.getSource() == instructionsButton) {
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("instructions") + "\n");
 			Instructions(currentLocale);
+			designButton.setEnabled(false);
 			instructionsButton.setEnabled(false);
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// Instructions back button
 		if (e.getSource() == instructionsBack) {
-			//history.append("\nYou returned back to the picross game\n");
 			history.append(langText.getString("upon_return") + " picross\n");
 
 			instructionsWindow.dispose();
+			designButton.setEnabled(true);
 			instructionsButton.setEnabled(true);
-
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// English radio button
 		if (e.getSource() == engRadio) {
-			// history.append("\nYou changed the language to English\n");
 			if (gameMode == 1) {
 				history.append("\n" + langText.getString("upon_lang_change") + langText.getString("english")  + "\n");
 
@@ -638,6 +830,9 @@ public class Game extends JFrame implements ActionListener {
 			leftPanel.revalidate();
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// French radio button
 		if (e.getSource() == frRadio) {
 			if (gameMode == 1) {
 				history.append("\n" + langText.getString("upon_lang_change") + langText.getString("french") + "\n");
@@ -650,25 +845,23 @@ public class Game extends JFrame implements ActionListener {
 
 
 		}
-
-		if (e.getSource() == whBlueRadio) {
-			history.append(langText.getString("upon_color_change") + langText.getString("white_blue_colorScheme") + "\n");
-
-		}
-
-		if (e.getSource() == blYelRadio) {
-			history.append(langText.getString("upon_color_change") + langText.getString("blc_yel_colorScheme") + "\n");
-
-		}
 		
+		////////////////////////////////////////////////////////////////
+
+		// Mark panel check box
 		if (e.getSource() == markCheckBox) {
+			
+			// If the check box is marked
 			if (markCheckBox.isSelected()) {				
-				//history.append("Mark Mode: True\n");
 				if (gameMode == 1) {
 					history.append(langText.getString("mark") + ": " + langText.getString("true") + "\n");
 				}
 				markMode = true;
 			}
+			
+			////////////////////////////////////////////////////////////////
+
+			// If the check box is not marked
 			else {
 				if (gameMode == 1) {
 					history.append(langText.getString("mark") + ": " + langText.getString("false") + "\n");
@@ -678,12 +871,16 @@ public class Game extends JFrame implements ActionListener {
 			
 		}
 
+		////////////////////////////////////////////////////////////////
+
+		// Combo box options
 		if (e.getSource() == gridSizeCmbo) {
 			String options = (String) gridSizeCmbo.getSelectedItem();
 
 			switch (options) {
+			
+			// "5x5" option
 			case "5x5":
-				//history.append("\nYou changed the grid to 5x5\n");
 				gridSize = 5;
 				if (gameMode == 1) {
 					history.append(langText.getString("upon_grid_change") + " 5x5\n");
@@ -694,6 +891,7 @@ public class Game extends JFrame implements ActionListener {
 				
 				break;
 
+			// "6x6" option
 			case "6x6":
 				if (gameMode == 1) {
 				history.append(langText.getString("upon_grid_change")  + " 6x6\n");
@@ -705,6 +903,7 @@ public class Game extends JFrame implements ActionListener {
 
 				break;
 
+			// "7x7" option
 			case "7x7":
 				if (gameMode == 1) {
 					history.append(langText.getString("upon_grid_change") + " 7x7\n");
@@ -716,11 +915,16 @@ public class Game extends JFrame implements ActionListener {
 
 				break;
 			}
+			
+		////////////////////////////////////////////////////////////////
+
 		} else {
+			
+			// Nested for-loop to handle the 2d-button array
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
 					
-					
+					// If the user is in the game window
 					if (e.getSource() == buttons[i][j] && (!markMode)) {
 						
 						buttons[i][j].setEnabled(false);
@@ -730,6 +934,8 @@ public class Game extends JFrame implements ActionListener {
 								+ j + "\n"); 
 						}
 					}
+					
+					// If the user is in the design window
 					else {
 						if (e.getSource() == buttons[i][j]) {
 							buttons[i][j].setBackground(new Color(226,222,222));

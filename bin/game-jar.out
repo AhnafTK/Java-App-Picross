@@ -1,0 +1,9 @@
+added manifest
+adding: game/(in = 0) (out= 0)(stored 0%)
+adding: game/Game.class(in = 13950) (out= 7242)(deflated 48%)
+adding: game-jar.err(in = 0) (out= 0)(stored 0%)
+adding: game-jar.out(in = 172) (out= 103)(deflated 40%)
+adding: MessagesBundle_en_US.properties(in = 617) (out= 295)(deflated 52%)
+adding: MessagesBundle_fr_FR.properties(in = 668) (out= 356)(deflated 46%)
+adding: picross.jpg(in = 42625) (out= 36273)(deflated 14%)
+adding: picross_logo.png(in = 30986) (out= 30884)(deflated 0%)
