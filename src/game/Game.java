@@ -470,9 +470,9 @@ public class Game extends JFrame implements ActionListener {
 		designWindow.add(configGrid, BorderLayout.NORTH);
 		designWindow.setResizable(false);
 		designWindow.setVisible(true);
-		//designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		designWindow.setSize(500, 600);
+		designWindow.setSize(500, 650);
 		designWindow.setLocationRelativeTo(null);
 	}
 	
