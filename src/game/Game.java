@@ -277,13 +277,9 @@ public class Game extends JFrame implements ActionListener {
 		 */
 		//Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		buttonPanel.setPreferredSize(new Dimension(120, 185));
+		buttonPanel.setPreferredSize(new Dimension(120, 160));
 		
 		//Sets all of the buttons to the same size and creates an ActionListener
-		designButton.setPreferredSize(new Dimension(120, 25));
-		
-		////////////////////////////////////////////////////////////////
-
 		resetButton.setPreferredSize(new Dimension(120, 25));
 		resetButton.addActionListener(this);
 
@@ -305,7 +301,6 @@ public class Game extends JFrame implements ActionListener {
 		////////////////////////////////////////////////////////////////
 		
 		//Adds all of the buttons to the panel
-		buttonPanel.add(designButton);
 		buttonPanel.add(resetButton);
 		buttonPanel.add(solveButton);
 		buttonPanel.add(newBoardButton);
@@ -800,7 +795,6 @@ public class Game extends JFrame implements ActionListener {
 			history.append(langText.getString("upon_click") + langText.getString("button")
 					+ langText.getString("instructions") + "\n");
 			Instructions(currentLocale);
-			designButton.setEnabled(false);
 			instructionsButton.setEnabled(false);
 		}
 
@@ -811,7 +805,6 @@ public class Game extends JFrame implements ActionListener {
 			history.append(langText.getString("upon_return") + " picross\n");
 
 			instructionsWindow.dispose();
-			designButton.setEnabled(true);
 			instructionsButton.setEnabled(true);
 		}
 

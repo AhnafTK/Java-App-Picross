@@ -23,7 +23,6 @@ SET DOCOUT=game-javadoc.out
 SET DOCERR=game-javadoc.err
 SET MAINCLASSSRC=src/game/Game.java
 SET MAINCLASSBIN=game.Game
-SET MODULELIST=javafx.controls,javafx.fxml
 
 @echo off
 
@@ -68,7 +67,7 @@ javadoc -cp ".;%BINDIR%;%JAVAFXDIR%" --module-path "%JAVAFXDIR%" --add-modules %
 
 cd bin
 ECHO "4. Running Jar ...................."
-start java --module-path "%JAVAFXDIR%" --add-modules %MODULELIST% -jar %JARNAME%
+start java -jar %JARNAME%
 cd ..
 
 ECHO "[END OF SCRIPT -------------------]"
