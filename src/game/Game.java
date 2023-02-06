@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
  ****************************************************************************
  */
 public class Game extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
 	/**Button to open the instructions window*/
 	protected JButton instructionsButton;
 	/**Button to return from the instructions page to the main game*/
@@ -30,7 +31,7 @@ public class Game extends JFrame implements ActionListener {
 	/**JFrame for the main picross window*/
 	private JFrame picrossWindow;
 	/**Combo box to change the grid size*/
-	protected JComboBox gridSizeCmbo;
+	protected JComboBox<String> gridSizeCmbo;
 	/**Button to play the game*/
 	protected JButton playButton;
 	/**Button to open the design window*/
@@ -164,7 +165,7 @@ public class Game extends JFrame implements ActionListener {
 	 */
 	private JPanel makeGridSizeCombo() {
 		String options[] = { "5x5", "6x6", "7x7" };
-		gridSizeCmbo = new JComboBox(options);
+		gridSizeCmbo = new JComboBox<>(options);
 		gridSizeCmbo.addActionListener(this);
 		gridSizeCmbo.setBackground(Color.WHITE);
 		JPanel gridSizeComboPanel = new JPanel();

@@ -9,7 +9,7 @@ CLS
 
 :: LOCAL VARIABLES ....................................................
 
-SET JAVAFXDIR=/SOFT/copy/dev/java/javafx/lib
+
 SET SRCDIR=src
 SET BINDIR=bin
 SET BINOUT=game-javac.out
@@ -55,7 +55,7 @@ ECHO "                                                                     "
 
 
 ECHO "1. Compiling ......................"
-javac -Xlint -cp ".;%SRCDIR%;%JAVAFXDIR%/*" %MAINCLASSSRC% -d %BINDIR% > %BINOUT% 2> %BINERR%
+javac -Xlint -cp ".;%SRCDIR%;" %MAINCLASSSRC% -d %BINDIR% > %BINOUT% 2> %BINERR%
 
 ECHO "2. Creating Jar ..................."
 cd bin
@@ -63,7 +63,7 @@ jar cvfe %JARNAME% %MAINCLASSBIN% . > %JAROUT% 2> %JARERR%
 
 ECHO "3. Creating Javadoc ..............."
 cd ..
-javadoc -cp ".;%BINDIR%;%JAVAFXDIR%" --module-path "%JAVAFXDIR%" --add-modules %MODULELIST% -d %DOCDIR% -sourcepath %SRCDIR% -subpackages %DOCPACK% > %DOCOUT% 2> %DOCERR%
+javadoc -cp ".;%BINDIR% -d %DOCDIR% -sourcepath %SRCDIR% -subpackages %DOCPACK% > %DOCOUT% 2> %DOCERR%
 
 cd bin
 ECHO "4. Running Jar ...................."
