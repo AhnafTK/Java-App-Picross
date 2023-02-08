@@ -63,7 +63,7 @@ jar cvfe %JARNAME% %MAINCLASSBIN% . > %JAROUT% 2> %JARERR%
 
 ECHO "3. Creating Javadoc ..............."
 cd ..
-javadoc -cp ".;%BINDIR% -d %DOCDIR% -sourcepath %SRCDIR% -subpackages %DOCPACK% > %DOCOUT% 2> %DOCERR%
+javadoc -cp %BINDIR% -d %DOCDIR% -sourcepath %SRCDIR% -subpackages %DOCPACK% > %DOCOUT% 2> %DOCERR%
 
 cd bin
 ECHO "4. Running Jar ...................."
