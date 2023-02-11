@@ -52,10 +52,6 @@ public class Game extends JFrame implements ActionListener {
 	protected JRadioButton engRadio;
 	/**Radio button to change the language to French*/
 	protected JRadioButton frRadio;
-	/**Radio button to change the colour scheme to black and yellow*/
-	protected JRadioButton blYelRadio;
-	/**Radio button to change the colour scheme to white and blue*/
-	protected JRadioButton whBlueRadio;
 	/**Left panel to hold all of the menu components*/
 	protected JPanel leftPanel = new JPanel();
 	/**Board panel to hold the grid of buttons*/
@@ -104,6 +100,43 @@ public class Game extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		new Game();
 	}
+	
+	
+	private void makeMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu gameMenu = new JMenu("Game");
+		JMenu helpMenu = new JMenu("Help");
+		
+		ImageIcon newIcon = new ImageIcon(".src/images/piciconnew.gif");
+		JMenuItem newMenu = new JMenuItem("New", newIcon);
+		
+		ImageIcon solutionIcon = new ImageIcon(".src/images/piciconsol.gif");
+		JMenuItem solutionMenu = new JMenuItem("Solution", solutionIcon);		
+		
+		ImageIcon exitIcon = new ImageIcon(".src/images/piciconext.gif");
+		JMenuItem exitMenu = new JMenuItem("Exit", exitIcon);
+		
+		gameMenu.add(newMenu);
+		gameMenu.add(solutionMenu);
+		gameMenu.add(exitMenu);
+		
+		ImageIcon colourIcon = new ImageIcon(".src/images/piciconcol.gif");
+		JMenuItem colourMenu = new JMenuItem("Colours", colourIcon);
+		colourMenu.setIcon(colourIcon);
+		
+		ImageIcon aboutIcon = new ImageIcon(".src/images/piciconabt.gif");
+		JMenuItem aboutMenu = new JMenuItem("About", aboutIcon);
+		aboutMenu.setIcon(aboutIcon);
+		
+		helpMenu.add(colourMenu);
+		helpMenu.add(aboutMenu);
+		
+		menuBar.add(gameMenu);
+		menuBar.add(helpMenu);
+		
+		picrossWindow.setJMenuBar(menuBar);
+	}
+	
 	
 	/*
 	 ********************************************************************
@@ -338,7 +371,7 @@ public class Game extends JFrame implements ActionListener {
 	 */
 	private JPanel makeTitlePanel() {
 		JPanel titlePanel = new JPanel();
-		ImageIcon picrossLogo = new ImageIcon("picross.jpg");
+		ImageIcon picrossLogo = new ImageIcon("./src/images/picross.jpg");
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setPreferredSize(new Dimension(1000, 125));
@@ -539,7 +572,7 @@ public class Game extends JFrame implements ActionListener {
 		////////////////////////////////////////////////////////////////
 
 		JPanel splashTitlePanel = new JPanel();
-		ImageIcon titleLogo = new ImageIcon("picross.jpg");
+		ImageIcon titleLogo = new ImageIcon("./src/images/picross.jpg");
 		JLabel titleLabel = new JLabel();
 		titleLabel.setIcon(titleLogo);
 		splashTitlePanel.setPreferredSize(new Dimension(500, 125));
@@ -632,6 +665,7 @@ public class Game extends JFrame implements ActionListener {
 		picrossWindow = new JFrame();
 
 		picrossWindow.setLayout(new BorderLayout());
+		makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentLocale, langText), BorderLayout.WEST);
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
@@ -918,7 +952,7 @@ public class Game extends JFrame implements ActionListener {
 			for (int i = 0; i < gridSize; i++) {
 				for (int j = 0; j < gridSize; j++) {
 					
-					// If the user is in the game window
+					// If the user clicks on a button with the mark mode disabled
 					if (e.getSource() == buttons[i][j] && (!markMode)) {
 						
 						buttons[i][j].setEnabled(false);
@@ -929,7 +963,7 @@ public class Game extends JFrame implements ActionListener {
 						}
 					}
 					
-					// If the user is in the design window
+					// If the user clicks on a button with the mark mode enabled
 					else {
 						if (e.getSource() == buttons[i][j]) {
 							buttons[i][j].setBackground(new Color(226,222,222));
