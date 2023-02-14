@@ -32,7 +32,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 // make the gui
-public class View {
+public class GameView {
 	/**Button to open the instructions window*/
 	protected JButton instructionsButton;
 	/**Button to return from the instructions page to the main game*/
@@ -563,7 +563,7 @@ public class View {
 	 * This is where all of the GUI of the game gets handled.				*
 	 ************************************************************************
 	 */
-	public View() {
+	public GameView() {
 		/*
 		 ********************************************************************
 		 * Start window frame												*
