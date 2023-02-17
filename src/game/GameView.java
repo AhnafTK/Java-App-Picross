@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -38,11 +38,11 @@ public class GameView {
 	/**Button to return from the instructions page to the main game*/
 	protected JButton instructionsBack;
 	/**JFrame for the design window*/
-	private JFrame designWindow;
+	protected JFrame designWindow;
 	/**JFrame for the start window*/
-	private JFrame startWindow;
+	protected JFrame startWindow;
 	/**JFrame for the instructions window*/
-	private JFrame instructionsWindow;
+	protected JFrame instructionsWindow;
 	/**JFrame for the main picross window*/
 	private JFrame picrossWindow;
 	/**Combo box to change the grid size*/
@@ -103,18 +103,6 @@ public class GameView {
 	protected JLabel langLabel = new JLabel();
 	/**Label for the colour*/
 	protected JLabel colourLabel = new JLabel();
-
-	/**
-	 ************************************************************************
-	 * Main method of the project that creates a new game					*
-	 * by calling the default constructor.									*
-	 * 																		*	
-	 * @param args - main method arguments									*
-	 ************************************************************************
-	 */		
-	public static void main(String[] args) {
-		new Game();
-	}
 	
 	
 	private void makeMenuBar() {
@@ -448,7 +436,7 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size.					*
 	 ********************************************************************
 	 */	
-	private JPanel makeBoardPanel(int gridSize) {
+	protected JPanel makeBoardPanel(int gridSize) {
 		
 		// Column panel
 		JPanel colPanel = new JPanel();
@@ -571,8 +559,8 @@ public class GameView {
 		 * This is where everything gets handled for the start JFrame.		*
 		 ********************************************************************
 		 */	
-		startWindow = new JFrame();
-		startWindow.setLayout(new BorderLayout());
+		setStartWindow(new JFrame());
+		getStartWindow().setLayout(new BorderLayout());
 
 		////////////////////////////////////////////////////////////////
 
@@ -594,6 +582,7 @@ public class GameView {
 		designButton = new JButton("Design");
 		designButton.setPreferredSize(new Dimension(100, 30));
 		designButton.setBackground(Color.WHITE);
+		//designButton.addActionListener(new ActionListener());
 
 		////////////////////////////////////////////////////////////////
 
@@ -605,18 +594,18 @@ public class GameView {
 
 		startPanel.add(designButton);
 		startPanel.add(playButton);
-		startWindow.add(splashTitlePanel, BorderLayout.NORTH);
-		startWindow.add(startPanel,BorderLayout.CENTER);
-		startWindow.pack();
+		getStartWindow().add(splashTitlePanel, BorderLayout.NORTH);
+		getStartWindow().add(startPanel,BorderLayout.CENTER);
+		getStartWindow().pack();
 		
 		////////////////////////////////////////////////////////////////		
 		
-		startWindow.setVisible(true);
-		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startWindow.setResizable(false);
-		startWindow.setSize(400, 220);
-		startWindow.setLocationRelativeTo(null);
+		getStartWindow().setVisible(true);
+		getStartWindow().setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		getStartWindow().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getStartWindow().setResizable(false);
+		getStartWindow().setSize(400, 220);
+		getStartWindow().setLocationRelativeTo(null);
 	}
 
 	/**
@@ -626,27 +615,27 @@ public class GameView {
 	 * This shows the "default" board layout to the user.				*
 	 ********************************************************************
 	 */	
-	private void Design() {
-		designWindow = new JFrame();
+	protected void Design() {
+		setDesignWindow(new JFrame());
 		
-		designWindow.setLayout(new BorderLayout());
+		getDesignWindow().setLayout(new BorderLayout());
 		JPanel configGrid = new JPanel();
 		configGrid.setLayout(new GridLayout(2,2,0,0));
 		
 		////////////////////////////////////////////////////////////////
 
-		designWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
+		getDesignWindow().add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		configGrid.add(makeLanguagePanel());
 		configGrid.add(makeGridSizeCombo());
 
 		////////////////////////////////////////////////////////////////
 
-		designWindow.add(configGrid, BorderLayout.NORTH);
-		designWindow.setResizable(false);
-		designWindow.setVisible(true);
-		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		designWindow.setSize(500, 650);
-		designWindow.setLocationRelativeTo(null);
+		getDesignWindow().add(configGrid, BorderLayout.NORTH);
+		getDesignWindow().setResizable(false);
+		getDesignWindow().setVisible(true);
+		getDesignWindow().setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		getDesignWindow().setSize(500, 650);
+		getDesignWindow().setLocationRelativeTo(null);
 	}
 	
 	/**
@@ -656,7 +645,7 @@ public class GameView {
 	 * This shows the main game.										*
 	 ********************************************************************
 	 */	
-	private void Play() {
+	protected void Play() {
 		/*
 		 ********************************************************************
 		 * Picross window frame												*
@@ -759,13 +748,32 @@ public class GameView {
 		instructionsWindow.setLocationRelativeTo(null);
 	}
 
-
-	
+	protected void viewAddListener(ActionListener listener) {
+		playButton.addActionListener(listener);
+		designButton.addActionListener(listener);
+		designBack.addActionListener(listener);
 
 		
+		
+	}
+
+	public JFrame getStartWindow() {
+		return startWindow;
+	}
 
 
-	
-	
+	public void setStartWindow(JFrame startWindow) {
+		this.startWindow = startWindow;
+	}
+
+
+	public JFrame getDesignWindow() {
+		return designWindow;
+	}
+
+
+	public void setDesignWindow(JFrame designWindow) {
+		this.designWindow = designWindow;
+	}
 
 }
