@@ -1,9 +1,5 @@
 package game;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class GameController {
 	GameModel model;
 	GameView view;
@@ -15,135 +11,76 @@ public class GameController {
 	}
 
 	protected void startController() {
-		view.viewAddListener(new viewActionListener());
-		// performViewActions();
+		performViewActions();
 	}
 
-	class viewActionListener implements ActionListener {
+	private void launcherActions() {
+		view.playButton.addActionListener((actionEvent) -> {
+			System.out.println("clickd play");
+			view.startWindow.dispose();
+			view.Play();
+			playActions();
+		});
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// Design button
-			if (e.getSource() == view.designButton) {
-				view.startWindow.dispose();
-				view.Design();
-			}
+		view.designButton.addActionListener((actionEvent) -> {
+			System.out.println("clicked design button");
+			view.startWindow.dispose();
+			view.Design();
+			designActions();
+		});
+	}
 
-			////////////////////////////////////////////////////////////////
+	private void designActions() {
+		view.designBack.addActionListener((actionEvent) -> {
+			view.designWindow.dispose();
+			System.out.println("clicked design back button");
+			view.launcher();
+			launcherActions();
+		});
+	}
 
-			// Design back button
-			if (e.getSource() == view.designBack) {
-				view.designWindow.dispose();
+	private void playActions() {
+		view.engRadio.addActionListener((actionEvent) -> {
+			System.out.println("AAA");
+		});
 
-				new Game();
-			}
+		view.frRadio.addActionListener((actionEvent) -> {
+			System.out.println("AAA");
 
-			////////////////////////////////////////////////////////////////
+		});
 
-			// Play button
-			if (e.getSource() == view.playButton) {
-				view.startWindow.dispose();
-				view.Play();
-			}
+		view.instructionsButton.addActionListener((actionEvent) -> {
 
-			////////////////////////////////////////////////////////////////
+			view.instructionsButton.setEnabled(false);
+		});
 
-			// Reset button
-			if (e.getSource() == view.resetButton) {
-				view.history.append(view.langText.getString("upon_click") + view.langText.getString("button")
-						+ view.langText.getString("reset") + "\n");
-				for (int i = 0; i < view.gridSize; i++) {
-					for (int j = 0; j < view.gridSize; j++) {
-						view.buttons[i][j].setEnabled(true);
-						view.buttons[i][j].setBackground(Color.WHITE);
-					}
-				}
-			}
+		view.instructionsBack.addActionListener((actionEvent) -> {
+			view.instructionsWindow.dispose();
+			view.instructionsBack.setEnabled(true);
+		});
 
-			////////////////////////////////////////////////////////////////
+		view.markCheckBox.addActionListener((actionEvent) -> {
+			System.out.println("AAA");
 
-			// Solve button
-			if (e.getSource() == view.solveButton) {
-				//view.history.append(view.langText.getString("upon_click") + langText.getString("button")
-					//	+ langText.getString("solve") + "\n");
-			}
+		});
 
-			////////////////////////////////////////////////////////////////
+		view.newBoardButton.addActionListener((actionEvent) -> {
 
-			// New board button
-			if (e.getSource() == view.newBoardButton) {
-				//history.append(langText.getString("upon_click") + langText.getString("button")
-						//+ langText.getString("newBoard") + "\n");
-			}
+		});
 
-			////////////////////////////////////////////////////////////////
+		view.resetButton.addActionListener((actionEvent) -> {
+			System.out.println("AAA");
 
-			// Instructions button
-			if (e.getSource() == view.instructionsButton) {
-				//history.append(langText.getString("upon_click") + langText.getString("button")
-					//	+ langText.getString("instructions") + "\n");
-				//Instructions(currentLocale);
-				//instructionsButton.setEnabled(false);
-			}
+		});
 
-			////////////////////////////////////////////////////////////////
-
-			// Instructions back button
-			if (e.getSource() == view.instructionsBack) {
-				//history.append(langText.getString("upon_return") + " picross\n");
-
-				view.instructionsWindow.dispose();
-				view.instructionsButton.setEnabled(true);
-			}
-
-		}
+		view.solveButton.addActionListener((actionEvent) -> {
+			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+					+ model.langText.getString("solve") + "\n");
+		});
 
 	}
 
-	/**
-	 * private void performViewActions() {
-	 * 
-	 * view.playButton.addActionListener((actionEvent) -> { view.Play(); });
-	 * 
-	 * view.designButton.addActionListener((actionEvent) -> { view.Design(); });
-	 * 
-	 * view.designBack.addActionListener((actionEvent) -> {
-	 * 
-	 * view.designWindow.dispose();
-	 * 
-	 * new Game();
-	 * 
-	 * });
-	 * 
-	 * view.engRadio.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.frRadio.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.instructionsButton.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.markCheckBox.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.newBoardButton.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.resetButton.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * view.solveButton.addActionListener((actionEvent) -> {
-	 * 
-	 * });
-	 * 
-	 * }
-	 **/
-
+	private void performViewActions() {
+		launcherActions();		
+	}
 }
