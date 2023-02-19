@@ -33,9 +33,9 @@ import javax.swing.border.LineBorder;
 
 // make the gui
 public class GameView {
-	protected JButton instructionsButton = new JButton();
+	protected JButton instructionsButton;
 	/** Button to return from the instructions page to the main game */
-	protected JButton instructionsBack = new JButton();
+	protected JButton instructionsBack;
 	/** JFrame for the design window */
 	protected JFrame designWindow;
 	/** JFrame for the start window */
@@ -43,29 +43,34 @@ public class GameView {
 	/** JFrame for the instructions window */
 	protected JFrame instructionsWindow;
 	/** JFrame for the main picross window */
-	private JFrame picrossWindow;
+	protected JFrame picrossWindow;
 	/** Combo box to change the grid size */
 	protected JComboBox<String> gridSizeCmbo;
 	/** Button to play the game */
-	protected JButton playButton = new JButton();
+	protected JButton playButton;
 	/** Button to open the design window */
-	protected JButton designButton = new JButton();
+	protected JButton designButton;
 	/** Button to return from the design page to the main page */
-	protected JButton designBack = new JButton();
+	protected JButton designBack;
 	/** Button to reset the game */
-	protected JButton resetButton = new JButton();
+	protected JButton resetButton;
 	/** Button to solve the game */
-	protected JButton solveButton = new JButton();
+	protected JButton solveButton;
 	/** Button to make a new board */
-	protected JButton newBoardButton = new JButton();
+	protected JButton newBoardButton;
 	/** Text area to display the input history */
 	protected JTextArea history;
 	/** 2d-button array for the grid */
 	protected JButton[][] buttons;
+	
+	protected JButton[][] buttonsDesign;
+	JButton playToLauncher;
+
+	
 	/** Radio button to change the language to English */
-	protected JRadioButton engRadio = new JRadioButton();
+	protected JRadioButton engRadio;
 	/** Radio button to change the language to French */
-	protected JRadioButton frRadio = new JRadioButton();
+	protected JRadioButton frRadio;
 	/** Left panel to hold all of the menu components */
 	protected JPanel leftPanel = new JPanel();
 	/** Board panel to hold the grid of buttons */
@@ -73,18 +78,18 @@ public class GameView {
 	/** Panel to hold the back button in the design window */
 	protected JPanel designMenuReturnPanel;
 	/** Check box for to enable the mark mode */
-	protected JCheckBox markCheckBox = new JCheckBox();
-	/** Int variable to hold the grid size, 5x5 by default */
-	protected int gridSize = 5;
-	/** Boolean for the mark mode, false by default */
-	protected boolean markMode = false;
-	/** Int variable to check what the current game mode is, 0=design, 1=play */
-	protected int gameMode = 0;
+	protected JCheckBox markCheckBox;
+	
 	/** Local builder to change the language */
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
+	protected int gridSize = 5;
+	/** Boolean for the mark mode, false by default */
+	protected boolean markMode = false;
+	/** Int variable to check what the current game mode is, 0=design, 1=play */
+	protected int gameMode = 0;
 	/*
 	 ********************************************************************
 	 * JLabel initializations. * The text that is in the label changes depending *
@@ -219,6 +224,7 @@ public class GameView {
 		JPanel scorePanel = new JPanel();
 		JPanel timerPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
+		
 
 		/*
 		 ********************************************************************
@@ -243,6 +249,9 @@ public class GameView {
 
 		instructionsButton = new JButton(langText.getString("instructions"));
 		instructionsButton.setBackground(Color.WHITE);
+
+		playToLauncher = new JButton("Back");
+		playToLauncher.setBackground(Color.WHITE);
 
 		////////////////////////////////////////////////////////////////
 
@@ -294,7 +303,7 @@ public class GameView {
 		 */
 		// Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		buttonPanel.setPreferredSize(new Dimension(120, 160));
+		buttonPanel.setPreferredSize(new Dimension(120, 180));
 
 		// Sets all of the buttons to the same size and creates an ActionListener
 		resetButton.setPreferredSize(new Dimension(120, 25));
@@ -312,8 +321,12 @@ public class GameView {
 		instructionsButton.setPreferredSize(new Dimension(120, 25));
 
 		////////////////////////////////////////////////////////////////
+		
+		playToLauncher.setPreferredSize(new Dimension(120, 25));
 
 		// Adds all of the buttons to the panel
+		
+		buttonPanel.add(playToLauncher);
 		buttonPanel.add(resetButton);
 		buttonPanel.add(solveButton);
 		buttonPanel.add(newBoardButton);
@@ -410,7 +423,7 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(int gridSize) {
+	protected JPanel makeBoardPanel(int gridSize, JButton[][] buttons) {
 
 		// Column panel
 		JPanel colPanel = new JPanel();
@@ -591,7 +604,7 @@ public class GameView {
 
 		////////////////////////////////////////////////////////////////
 
-		getDesignWindow().add(makeBoardPanel(gridSize), BorderLayout.CENTER);
+		getDesignWindow().add(makeBoardPanel(gridSize, buttonsDesign), BorderLayout.CENTER);
 		configGrid.add(makeLanguagePanel());
 		configGrid.add(makeGridSizeCombo());
 
@@ -622,11 +635,11 @@ public class GameView {
 		picrossWindow = new JFrame();
 
 		picrossWindow.setLayout(new BorderLayout());
-		makeMenuBar();
+		//makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentLocale, langText), BorderLayout.WEST);
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
+		picrossWindow.add(makeBoardPanel(gridSize, buttons), BorderLayout.CENTER);
 		picrossWindow.pack();
 
 		////////////////////////////////////////////////////////////////
@@ -732,6 +745,10 @@ public class GameView {
 
 	public void setDesignWindow(JFrame designWindow) {
 		this.designWindow = designWindow;
+	}
+	
+	void updateView(int gridSize, int gameMode, boolean markMode) {
+		
 	}
 
 }

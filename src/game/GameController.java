@@ -1,5 +1,11 @@
 package game;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
 public class GameController {
 	GameModel model;
 	GameView view;
@@ -40,6 +46,13 @@ public class GameController {
 	}
 
 	private void playActions() {
+		
+		view.playToLauncher.addActionListener((actionEvent)->{
+			view.picrossWindow.dispose();
+			view.launcher();
+			launcherActions();
+		});
+		
 		view.engRadio.addActionListener((actionEvent) -> {
 			System.out.println("AAA");
 		});
@@ -54,10 +67,11 @@ public class GameController {
 			view.instructionsButton.setEnabled(false);
 		});
 
-		view.instructionsBack.addActionListener((actionEvent) -> {
-			view.instructionsWindow.dispose();
-			view.instructionsBack.setEnabled(true);
-		});
+		// needs its own action listerner function
+		//view.instructionsBack.addActionListener((actionEvent) -> {
+			//view.instructionsWindow.dispose();
+			//view.instructionsBack.setEnabled(true);
+		//});
 
 		view.markCheckBox.addActionListener((actionEvent) -> {
 			System.out.println("AAA");
@@ -77,10 +91,57 @@ public class GameController {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
 		});
-
+		
+		
 	}
-
+	
+	void addBoardListener(ActionListener listenForCalcButton) {
+		
+		for (int i = 0; i < view.buttons.length; i++) {
+			
+		}
+		//view.buttons[][].addActionListener(listenForCalcButton);
+		
+	}
+	private class boardButtonActionMaker implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			for (int i = 0; i < model.getGridSize(); i++) {
+				for (int j = 0; j < model.getGridSize(); j++) {
+					
+					// If the user clicks on a button with the mark mode disabled
+					if (e.getSource() == view.buttons[i][j] && (!view.markMode)) {
+						
+						view.buttons[i][j].setEnabled(false);
+						view.buttons[i][j].setBackground(new Color(17,15,15));
+						if (view.gameMode == 1) {
+						view.history.append(view.langText.getString("upon_click") + view.langText.getString("button") + i + ", "
+								+ j + "\n"); 
+						}
+					}
+					
+					// If the user clicks on a button with the mark mode enabled
+					else {
+						if (e.getSource() == view.buttons[i][j]) {
+							view.buttons[i][j].setBackground(new Color(226,222,222));
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	private void performViewActions() {
 		launcherActions();		
+	}
+	
+	int getGridSize() {
+		return model.getGridSize();
+	}
+	
+	int getGameMode() {
+		return model.getGameMode();
 	}
 }
