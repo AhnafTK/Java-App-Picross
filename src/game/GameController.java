@@ -3,8 +3,10 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.JButton;
+import java.util.ResourceBundle;
 
 public class GameController {
 	GameModel model;
@@ -17,7 +19,7 @@ public class GameController {
 	}
 
 	protected void startController() {
-		performViewActions();
+		launcherActions();
 	}
 
 	private void launcherActions() {
@@ -37,16 +39,35 @@ public class GameController {
 	}
 
 	private void designActions() {
+		model.setGameMode(0);
+
 		view.designBack.addActionListener((actionEvent) -> {
 			view.designWindow.dispose();
 			System.out.println("clicked design back button");
 			view.launcher();
 			launcherActions();
 		});
+		view.markCheckBox.addActionListener((actionEvent) -> {
+			//System.out.println("AAA");
+			if (view.markCheckBox.isSelected()) {
+				if (model.getGameMode() == 0) {
+					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					model.setMarkMode(true);
+				}
+				
+			}
+			else {
+				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
+				model.setMarkMode(false);
+
+			}
+		});
+		boardActions();
+
 	}
 
 	private void playActions() {
-		
+		model.setGameMode(1);
 		view.playToLauncher.addActionListener((actionEvent)->{
 			view.picrossWindow.dispose();
 			view.launcher();
@@ -54,16 +75,33 @@ public class GameController {
 		});
 		
 		view.engRadio.addActionListener((actionEvent) -> {
-			System.out.println("AAA");
-		});
+			//System.out.println("AAA");
+			if (model.gameMode == 1) {
+				view.history.append("\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english")  + "\n");
 
+			}
+			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
+
+			
+		});
 		view.frRadio.addActionListener((actionEvent) -> {
-			System.out.println("AAA");
+			if (model.gameMode == 1) {
+				view.history.append("\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french")  + "\n");
+
+			}
+			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();			
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
 
 		});
-
+		
 		view.instructionsButton.addActionListener((actionEvent) -> {
-
 			view.instructionsButton.setEnabled(false);
 		});
 
@@ -74,8 +112,19 @@ public class GameController {
 		//});
 
 		view.markCheckBox.addActionListener((actionEvent) -> {
-			System.out.println("AAA");
+			//System.out.println("AAA");
+			if (view.markCheckBox.isSelected()) {
+				if (model.getGameMode() == 1) {
+					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					model.setMarkMode(true);
+				}
+				
+			}
+			else {
+				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
+				model.setMarkMode(false);
 
+			}
 		});
 
 		view.newBoardButton.addActionListener((actionEvent) -> {
@@ -92,6 +141,15 @@ public class GameController {
 					+ model.langText.getString("solve") + "\n");
 		});
 		
+		boardActions();
+		//for (int i = 0; i< view.gridSize; i++) {
+			//for (int j = 0; j<view.gridSize; j++) {
+				//view.buttons[i][j].addActionListener((actionEvent) -> {
+					//view.buttons[i][j].setBackground(Color.red);
+					//System.out.println("A");
+				//});
+			//}
+		//}
 		
 	}
 	
@@ -103,45 +161,32 @@ public class GameController {
 		//view.buttons[][].addActionListener(listenForCalcButton);
 		
 	}
-	private class boardButtonActionMaker implements ActionListener{
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			for (int i = 0; i < model.getGridSize(); i++) {
-				for (int j = 0; j < model.getGridSize(); j++) {
-					
-					// If the user clicks on a button with the mark mode disabled
-					if (e.getSource() == view.buttons[i][j] && (!view.markMode)) {
-						
-						view.buttons[i][j].setEnabled(false);
-						view.buttons[i][j].setBackground(new Color(17,15,15));
-						if (view.gameMode == 1) {
-						view.history.append(view.langText.getString("upon_click") + view.langText.getString("button") + i + ", "
-								+ j + "\n"); 
-						}
-					}
-					
-					// If the user clicks on a button with the mark mode enabled
-					else {
-						if (e.getSource() == view.buttons[i][j]) {
-							view.buttons[i][j].setBackground(new Color(226,222,222));
-						}
-					}
-				}
-			}
-		}
-	}
 	
 	private void performViewActions() {
 		launcherActions();		
 	}
 	
-	int getGridSize() {
-		return model.getGridSize();
+	private void boardActions() {
+		for(JButton[] i:view.buttons) {
+			for(JButton j: i) {
+				j.addActionListener((actionEvent) -> {
+					if (model.isMarkMode()) {
+						j.setBackground(new Color(226,222,222));
+						System.out.println("int mark mode");
+					}
+					else {
+						j.setEnabled(false);
+						j.setBackground(new Color(17,15,15));
+					}
+					
+					//j.setBackground(Color.red);
+				});
+			}
+		}
 	}
 	
-	int getGameMode() {
-		return model.getGameMode();
+	private void languageActions() {
+		
 	}
+
 }

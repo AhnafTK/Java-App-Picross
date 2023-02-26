@@ -72,9 +72,9 @@ public class GameView {
 	/** Radio button to change the language to French */
 	protected JRadioButton frRadio;
 	/** Left panel to hold all of the menu components */
-	protected JPanel leftPanel = new JPanel();
+	protected JPanel leftPanel;
 	/** Board panel to hold the grid of buttons */
-	protected JPanel boardPanel = new JPanel();
+	protected JPanel boardPanel;
 	/** Panel to hold the back button in the design window */
 	protected JPanel designMenuReturnPanel;
 	/** Check box for to enable the mark mode */
@@ -151,37 +151,26 @@ public class GameView {
 	 ********************************************************************
 	 */
 	private JPanel makeLanguagePanel() {
-
 		JPanel languagePanel = new JPanel();
 		JPanel languageButtonPanel = new JPanel();
-
 		// Button group that holds the "English" and "French" radio buttons
 		////////////////////////////////////////////////////////////////
-
 		engRadio = new JRadioButton(langText.getString("english"), true);
-
 		////////////////////////////////////////////////////////////////
-
 		frRadio = new JRadioButton(langText.getString("french"));
-
 		////////////////////////////////////////////////////////////////
-
 		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
-
 		langLabel.setText(langText.getString("languages"));
-
 		// Panel to align the language radio buttons
 		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
 		// Adds the radio buttons to the panel
 		languageButtonPanel.add(engRadio);
 		languageButtonPanel.add(frRadio);
-
 		// Main language panel that stores/aligns all of the labels/radio buttons
 		languagePanel.add(langLabel);
 		languagePanel.add(languageButtonPanel);
-
 		return languagePanel;
 	}
 
@@ -215,139 +204,61 @@ public class GameView {
 	 ************************************************************************
 	 */
 	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText) {
-		/*
-		 ********************************************************************
-		 * JPanel initializations. * The text that is in the button changes depending *
-		 * on what language is selected. *
-		 ********************************************************************
-		 */
+		leftPanel = new JPanel();
 		JPanel scorePanel = new JPanel();
 		JPanel timerPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		
-
-		/*
-		 ********************************************************************
-		 * JButton initializations. * The text that is in the button changes depending *
-		 * on what language is selected. *
-		 ********************************************************************
-		 */
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
-
 		////////////////////////////////////////////////////////////////
-
 		solveButton = new JButton(langText.getString("solve"));
 		solveButton.setBackground(Color.WHITE);
-
 		////////////////////////////////////////////////////////////////
-
 		newBoardButton = new JButton(langText.getString("newBoard"));
 		newBoardButton.setBackground(Color.WHITE);
-
 		////////////////////////////////////////////////////////////////
-
 		instructionsButton = new JButton(langText.getString("instructions"));
 		instructionsButton.setBackground(Color.WHITE);
-
-		playToLauncher = new JButton("Back");
+		playToLauncher = new JButton(langText.getString("back"));
 		playToLauncher.setBackground(Color.WHITE);
-
 		////////////////////////////////////////////////////////////////
-
-		/*
-		 ********************************************************************
-		 * Score panel components. * This is also where the score counter text field is
-		 * created. *
-		 ********************************************************************
-		 */
 		JTextField scoreCounter = new JTextField();
 		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
 		scoreCounter.setEditable(false);
-
 		scorePanel.add(scoreLabel);
 		scorePanel.add(scoreCounter);
-
-		/*
-		 ********************************************************************
-		 * Timer panel components. * This is also where the timer counter text field is
-		 * created. *
-		 ********************************************************************
-		 */
 		JTextField timerCounter = new JTextField();
 		timerCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		timerCounter.setPreferredSize(new Dimension(100, 25));
 		timerCounter.setEditable(false);
-
 		timerPanel.add(timerLabel);
 		timerPanel.add(timerCounter);
-
-		/*
-		 ********************************************************************
-		 * Configuration Settings * * This is 'top-level' panel that stores the
-		 * language/colour panels * in order for them to be propely layed out in the
-		 * left panel. *
-		 ********************************************************************
-		 */
 		JPanel configurationPanel = new JPanel();
 		configurationPanel.setLayout(new GridLayout(1, 2));
 		configurationPanel.add(makeLanguagePanel());
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
-
-		/*
-		 ********************************************************************
-		 * Buttons Panel * * This panel is used to store/align all of the JButtons that
-		 * * will later be added to the left panel. *
-		 ********************************************************************
-		 */
 		// Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
 		buttonPanel.setPreferredSize(new Dimension(120, 180));
-
 		// Sets all of the buttons to the same size and creates an ActionListener
 		resetButton.setPreferredSize(new Dimension(120, 25));
-
-		////////////////////////////////////////////////////////////////
-
 		solveButton.setPreferredSize(new Dimension(120, 25));
-
-		////////////////////////////////////////////////////////////////
-
 		newBoardButton.setPreferredSize(new Dimension(120, 25));
-
-		////////////////////////////////////////////////////////////////
-
 		instructionsButton.setPreferredSize(new Dimension(120, 25));
-
-		////////////////////////////////////////////////////////////////
-		
 		playToLauncher.setPreferredSize(new Dimension(120, 25));
-
-		// Adds all of the buttons to the panel
-		
 		buttonPanel.add(playToLauncher);
 		buttonPanel.add(resetButton);
 		buttonPanel.add(solveButton);
 		buttonPanel.add(newBoardButton);
 		buttonPanel.add(instructionsButton);
-
-		/*
-		 ********************************************************************
-		 * Left panel * * This is 'top-level' panel that stores all the 'lower level' *
-		 * panels in order for all the components to properly align. *
-		 ********************************************************************
-		 */
-		// Adds all of the 'lower level' panels
 		leftPanel.add(scorePanel);
 		leftPanel.add(timerPanel);
 		leftPanel.add(makeGridSizeCombo());
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
-
 		leftPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, (new Color(17, 15, 15))));
 		leftPanel.setPreferredSize(new Dimension(250, 200));
-
 		return leftPanel;
 	}
 
@@ -423,8 +334,8 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(int gridSize, JButton[][] buttons) {
-
+	protected JPanel makeBoardPanel(int gridSize, JButton[][] board) {
+		boardPanel = new JPanel();
 		// Column panel
 		JPanel colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(gridSize, 1));
@@ -463,11 +374,9 @@ public class GameView {
 		}
 
 		////////////////////////////////////////////////////////////////
-
 		// Adds the components to the board panel
 		boardPanel.add(rowPanel, BorderLayout.NORTH);
 		boardPanel.add(colPanel, BorderLayout.WEST);
-
 		////////////////////////////////////////////////////////////////
 
 		JPanel gridButtonPanel = new JPanel();
@@ -508,7 +417,7 @@ public class GameView {
 	 * @param langText - Used to get the text from the language file. *
 	 ********************************************************************
 	 */
-	private void updateText(Locale currentLocale, ResourceBundle langText) {
+	protected void updateText(Locale currentLocale, ResourceBundle langText) {
 
 		// This is only entered in the main game
 		if (gameMode == 1) {
@@ -520,6 +429,7 @@ public class GameView {
 			newBoardButton.setText(langText.getString("newBoard"));
 			langLabel.setText(langText.getString("languages"));
 			colourLabel.setText(langText.getString("colorScheme"));
+			playToLauncher.setText(langText.getString("back"));
 		}
 
 		gridSizeLabel.setText(langText.getString("gridSize"));
@@ -542,51 +452,46 @@ public class GameView {
 	protected void launcher() {
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
-
 		////////////////////////////////////////////////////////////////
-
 		JPanel splashTitlePanel = new JPanel();
 		ImageIcon titleLogo = new ImageIcon("./src/images/picross.jpg");
 		JLabel titleLabel = new JLabel();
 		titleLabel.setIcon(titleLogo);
 		splashTitlePanel.setPreferredSize(new Dimension(500, 125));
 		splashTitlePanel.add(titleLabel);
-		
 		////////////////////////////////////////////////////////////////
-		
 		JPanel startPanel = new JPanel();
 		startPanel.setBackground(new Color(17,15,15));
 		startPanel.setPreferredSize(new Dimension(100,100));
-		
 		////////////////////////////////////////////////////////////////
-
 		designButton = new JButton("Design");
 		designButton.setPreferredSize(new Dimension(100, 30));
 		designButton.setBackground(Color.WHITE);
 		//designButton.addActionListener(this);
-
 		////////////////////////////////////////////////////////////////
-
 		playButton = new JButton("Play");
 		playButton.setPreferredSize(new Dimension(100, 30));
 		//playButton.addActionListener(this);
 		playButton.setBackground(Color.WHITE);
-
 		////////////////////////////////////////////////////////////////
-
+		//JPanel configurationPanel = new JPanel();
+		//configurationPanel.setLayout(new GridLayout(1, 2));
+		//configurationPanel.add(makeLanguagePanel());
+		//configurationPanel.setPreferredSize(new Dimension(225, 60));
+		//configurationPanel.setBackground(Color.WHITE);
+		/////////////////////////////////////////////////////////////////
 		startPanel.add(designButton);
 		startPanel.add(playButton);
+		//startPanel.add(configurationPanel);
 		startWindow.add(splashTitlePanel, BorderLayout.NORTH);
 		startWindow.add(startPanel,BorderLayout.CENTER);
 		startWindow.pack();
-		
 		////////////////////////////////////////////////////////////////		
-		
 		startWindow.setVisible(true);
 		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startWindow.setResizable(false);
-		startWindow.setSize(400, 220);
+		startWindow.setSize(400, 290);
 		startWindow.setLocationRelativeTo(null);
 	}
 
@@ -596,26 +501,26 @@ public class GameView {
 	 ********************************************************************
 	 */
 	protected void Design() {
+		designBack = new JButton("Back");
 		setDesignWindow(new JFrame());
-
 		getDesignWindow().setLayout(new BorderLayout());
 		JPanel configGrid = new JPanel();
 		configGrid.setLayout(new GridLayout(2, 2, 0, 0));
-
 		////////////////////////////////////////////////////////////////
-
 		getDesignWindow().add(makeBoardPanel(gridSize, buttonsDesign), BorderLayout.CENTER);
 		configGrid.add(makeLanguagePanel());
 		configGrid.add(makeGridSizeCombo());
-
+		configGrid.add(designBack);
 		////////////////////////////////////////////////////////////////
-
 		getDesignWindow().add(configGrid, BorderLayout.NORTH);
+		//getDesignWindow().add(designBack, BorderLayout.SOUTH);
+		getDesignWindow().add(makeControlPanel(),BorderLayout.EAST);
+		getDesignWindow().pack();
 		getDesignWindow().setResizable(false);
 		getDesignWindow().setVisible(true);
 		getDesignWindow().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getDesignWindow().setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		getDesignWindow().setSize(500, 650);
+		getDesignWindow().setSize(725, 650);
 		getDesignWindow().setLocationRelativeTo(null);
 	}
 
@@ -625,15 +530,8 @@ public class GameView {
 	 ********************************************************************
 	 */
 	protected void Play() {
-		/*
-		 ********************************************************************
-		 * Picross window frame * * This is where everything gets handled for the
-		 * picross JFrame. *
-		 ********************************************************************
-		 */
 		gameMode = 1;
 		picrossWindow = new JFrame();
-
 		picrossWindow.setLayout(new BorderLayout());
 		//makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
@@ -641,9 +539,7 @@ public class GameView {
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
 		picrossWindow.add(makeBoardPanel(gridSize, buttons), BorderLayout.CENTER);
 		picrossWindow.pack();
-
 		////////////////////////////////////////////////////////////////
-
 		picrossWindow.setResizable(false);
 		picrossWindow.setVisible(true);
 		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -722,13 +618,6 @@ public class GameView {
 		instructionsWindow.setSize(525, 425);
 		instructionsWindow.setVisible(true);
 		instructionsWindow.setLocationRelativeTo(null);
-	}
-
-	protected void viewAddListener(ActionListener listener) {
-		playButton.addActionListener(listener);
-		designButton.addActionListener(listener);
-		designBack.addActionListener(listener);
-
 	}
 
 	public JFrame getStartWindow() {

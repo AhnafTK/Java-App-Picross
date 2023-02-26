@@ -14,58 +14,59 @@ public class GameModel {
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
 	protected int gameMode = 0;
 	
-	protected int time = 0;
-	protected int score = 0;
-	
-	
 	/**
-	 * @return the time
+	 * @return the gameMode
 	 */
-	protected int getTime() {
-		return time;
-	}
-
-	/**
-	 * @param time the time to set
-	 */
-	protected void setTime(int time) {
-		this.time = time;
-	}
-
-	/**
-	 * @return the score
-	 */
-	protected int getScore() {
-		return score;
-	}
-
-	/**
-	 * @param score the score to set
-	 */
-	protected void setScore(int score) {
-		this.score = score;
-	}
-
-	Locale getLocale() {
-		return currentLocale;
-		
-	};
-	
-	int getGameMode() {
+	protected int getGameMode() {
 		return gameMode;
 	}
-	
-	void setGameMode(int gameModeNum) {
-		this.gameMode = gameModeNum;
+	/**
+	 * @return the markMode
+	 */
+	protected boolean isMarkMode() {
+		return markMode;
+	}
+	/**
+	 * @param markMode the markMode to set
+	 */
+	protected void setMarkMode(boolean markMode) {
+		this.markMode = markMode;
+	}
+	/**
+	 * @param gameMode the gameMode to set
+	 */
+	protected void setGameMode(int gameMode) {
+		this.gameMode = gameMode;
+	}
+	protected int time = 0;
+	protected int score = 0;
+	/**
+	 * @return the currentLocale
+	 */
+	protected Locale getCurrentLocale() {
+		return currentLocale;
+	}
+	/**
+	 * @param currentLocale the currentLocale to set
+	 */
+	protected void setCurrentLocale(Locale currentLocale) {
+		this.currentLocale = currentLocale;
+	}
+	/**
+	 * @return the langText
+	 */
+	protected ResourceBundle getLangText() {
+		return langText;
+	}
+	/**
+	 * @param langText the langText to set
+	 */
+	protected void setLangText(ResourceBundle langText) {
+		this.langText = langText;
 	}
 	
-	int getGridSize() {
-		return gridSize;
-	}
 	
-	void setGridSize(int gridSize) {
-		this.gameMode = gridSize;
-	}
+
 	
 }
 
