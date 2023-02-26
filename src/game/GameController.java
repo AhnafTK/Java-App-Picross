@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.Locale;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.util.ResourceBundle;
 
 public class GameController {
@@ -74,6 +76,44 @@ public class GameController {
 			launcherActions();
 		});
 		
+		view.gridSizeCmbo.addActionListener((actionEvent)->{
+			String options = (String) view.gridSizeCmbo.getSelectedItem();
+
+			switch (options) {
+			
+			case "5x5":
+				view.history.append(view.langText.getString("upon_grid_change")  + " 5x5\n");
+				model.gridSize = 5;
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(5));
+				view.boardPanel.revalidate();
+				boardActions();
+				markCheckBoxAction();
+				break;
+
+			// "6x6" option
+			case "6x6":
+				view.history.append(view.langText.getString("upon_grid_change")  + " 6x6\n");
+				model.gridSize = 6;
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(6));
+				view.boardPanel.revalidate();
+				boardActions();
+				markCheckBoxAction();
+				break;
+				
+			case "7x7":
+				view.history.append(view.langText.getString("upon_grid_change")  + " 7x7\n");
+				model.gridSize = 7;
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(7));
+				view.boardPanel.revalidate();
+				boardActions();
+				markCheckBoxAction();
+				break;
+			}
+		});
+		
 		view.engRadio.addActionListener((actionEvent) -> {
 			//System.out.println("AAA");
 			if (model.gameMode == 1) {
@@ -111,21 +151,7 @@ public class GameController {
 			//view.instructionsBack.setEnabled(true);
 		//});
 
-		view.markCheckBox.addActionListener((actionEvent) -> {
-			//System.out.println("AAA");
-			if (view.markCheckBox.isSelected()) {
-				if (model.getGameMode() == 1) {
-					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
-					model.setMarkMode(true);
-				}
-				
-			}
-			else {
-				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
-				model.setMarkMode(false);
-
-			}
-		});
+		markCheckBoxAction(); // checkbox features
 
 		view.newBoardButton.addActionListener((actionEvent) -> {
 
@@ -184,7 +210,23 @@ public class GameController {
 			}
 		}
 	}
-	
+	private void markCheckBoxAction() {
+		view.markCheckBox.addActionListener((actionEvent) -> {
+			//System.out.println("AAA");
+			if (view.markCheckBox.isSelected()) {
+				if (model.getGameMode() == 1) {
+					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					model.setMarkMode(true);
+				}
+				
+			}
+			else {
+				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
+				model.setMarkMode(false);
+
+			}
+		});
+	}
 	private void languageActions() {
 		
 	}

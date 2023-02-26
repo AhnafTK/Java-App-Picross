@@ -334,7 +334,7 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(int gridSize, JButton[][] board) {
+	protected JPanel makeBoardPanel(int gridSize) {
 		boardPanel = new JPanel();
 		// Column panel
 		JPanel colPanel = new JPanel();
@@ -507,7 +507,7 @@ public class GameView {
 		JPanel configGrid = new JPanel();
 		configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
-		getDesignWindow().add(makeBoardPanel(gridSize, buttonsDesign), BorderLayout.CENTER);
+		getDesignWindow().add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		configGrid.add(makeLanguagePanel());
 		configGrid.add(makeGridSizeCombo());
 		configGrid.add(designBack);
@@ -537,7 +537,7 @@ public class GameView {
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentLocale, langText), BorderLayout.WEST);
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(gridSize, buttons), BorderLayout.CENTER);
+		picrossWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);
