@@ -41,84 +41,37 @@ public class GameController {
 	}
 
 	private void designActions() {
-		model.setGameMode(0);
 
-		view.designBack.addActionListener((actionEvent) -> {
-			view.designWindow.dispose();
-			System.out.println("clicked design back button");
-			view.launcher();
-			launcherActions();
-		});
+		model.setGameMode(0);
+		leftPanelActions();
 		view.markCheckBox.addActionListener((actionEvent) -> {
-			//System.out.println("AAA");
+			// System.out.println("AAA");
 			if (view.markCheckBox.isSelected()) {
 				if (model.getGameMode() == 0) {
 					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
 					model.setMarkMode(true);
 				}
-				
-			}
-			else {
+			} else {
 				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
 				model.setMarkMode(false);
 
 			}
 		});
 		boardActions();
-
+		gridSizeActions();
 	}
 
 	private void playActions() {
 		model.setGameMode(1);
-		view.playToLauncher.addActionListener((actionEvent)->{
-			view.picrossWindow.dispose();
-			view.launcher();
-			launcherActions();
-		});
-		
-		view.gridSizeCmbo.addActionListener((actionEvent)->{
-			String options = (String) view.gridSizeCmbo.getSelectedItem();
-
-			switch (options) {
-			
-			case "5x5":
-				view.history.append(view.langText.getString("upon_grid_change")  + " 5x5\n");
-				model.gridSize = 5;
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(5));
-				view.boardPanel.revalidate();
-				boardActions();
-				markCheckBoxAction();
-				break;
-
-			// "6x6" option
-			case "6x6":
-				view.history.append(view.langText.getString("upon_grid_change")  + " 6x6\n");
-				model.gridSize = 6;
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(6));
-				view.boardPanel.revalidate();
-				boardActions();
-				markCheckBoxAction();
-				break;
-				
-			case "7x7":
-				view.history.append(view.langText.getString("upon_grid_change")  + " 7x7\n");
-				model.gridSize = 7;
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(7));
-				view.boardPanel.revalidate();
-				boardActions();
-				markCheckBoxAction();
-				break;
-			}
-		});
+	
+		gridSizeActions();
+		leftPanelActions();
 		
 		view.engRadio.addActionListener((actionEvent) -> {
-			//System.out.println("AAA");
+			// System.out.println("AAA");
 			if (model.gameMode == 1) {
-				view.history.append("\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english")  + "\n");
-
+				view.history.append(
+						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english") + "\n");
 			}
 			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
@@ -126,118 +79,180 @@ public class GameController {
 			view.updateText(model.currentLocale, model.langText);
 			view.leftPanel.revalidate();
 
-			
 		});
 		view.frRadio.addActionListener((actionEvent) -> {
 			if (model.gameMode == 1) {
-				view.history.append("\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french")  + "\n");
+				view.history.append(
+						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french") + "\n");
 
 			}
-			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();			
+			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
 
 			view.updateText(model.currentLocale, model.langText);
 			view.leftPanel.revalidate();
 
 		});
-		
-		view.instructionsButton.addActionListener((actionEvent) -> {
-			view.Instructions(model.currentLocale);
-			view.instructionsButton.setEnabled(false);
-			instructionsActions();
-		});
+
 
 		// needs its own action listerner function
-		
 
 		markCheckBoxAction(); // checkbox features
-
-		view.newBoardButton.addActionListener((actionEvent) -> {
-
-		});
-
-		view.resetButton.addActionListener((actionEvent) -> {
-			for(JButton[] i:view.buttons) {
-				for(JButton j: i) {
-					j.setBackground(Color.WHITE);
-					j.setEnabled(true);
-				}
-			}
-
-		});
-
-		view.solveButton.addActionListener((actionEvent) -> {
-			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-					+ model.langText.getString("solve") + "\n");
-		});
-		
 		boardActions();
-		//for (int i = 0; i< view.gridSize; i++) {
-			//for (int j = 0; j<view.gridSize; j++) {
-				//view.buttons[i][j].addActionListener((actionEvent) -> {
-					//view.buttons[i][j].setBackground(Color.red);
-					//System.out.println("A");
-				//});
-			//}
-		//}
-		
+
 	}
-	
-	void addBoardListener(ActionListener listenForCalcButton) {
-		
-		for (int i = 0; i < view.buttons.length; i++) {
-			
-		}
-		//view.buttons[][].addActionListener(listenForCalcButton);
-		
-	}
-	
+
 	private void performViewActions() {
-		launcherActions();		
+		launcherActions();
 	}
+
 	private void instructionsActions() {
 		view.instructionsBack.addActionListener((actionEvent) -> {
 			view.instructionsWindow.dispose();
 			view.instructionsButton.setEnabled(true);
 		});
 	}
+
 	private void boardActions() {
-		for(JButton[] i:view.buttons) {
-			for(JButton j: i) {
+		for (JButton[] i : view.buttons) {
+			for (JButton j : i) {
 				j.addActionListener((actionEvent) -> {
 					if (model.isMarkMode()) {
-						j.setBackground(new Color(226,222,222));
+						j.setBackground(new Color(226, 222, 222));
 						System.out.println("int mark mode");
-					}
-					else {
+					} else {
 						j.setEnabled(false);
-						j.setBackground(new Color(17,15,15));
+						j.setBackground(new Color(17, 15, 15));
 					}
-					
-					//j.setBackground(Color.red);
+
+					// j.setBackground(Color.red);
 				});
 			}
 		}
 	}
+
 	private void markCheckBoxAction() {
 		view.markCheckBox.addActionListener((actionEvent) -> {
-			//System.out.println("AAA");
+			// System.out.println("AAA");
 			if (view.markCheckBox.isSelected()) {
 				if (model.getGameMode() == 1) {
-					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					view.history
+							.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
 					model.setMarkMode(true);
 				}
-				
-			}
-			else {
+
+			} else {
 				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
 				model.setMarkMode(false);
 
 			}
 		});
 	}
-	private void languageActions() {
-		
-	}
 
+	private void languageActions() {
+
+	}
+	
+	private void gridSizeActions() {
+
+		view.gridSizeCmbo.addActionListener((actionEvent) -> {
+			System.out.println(model.getGameMode());
+			String options = (String) view.gridSizeCmbo.getSelectedItem();
+			switch (options) {
+
+			case "5x5":
+				view.history.append(view.langText.getString("upon_grid_change") + " 5x5\n");
+				model.gridSize = 5;
+				if (model.getGameMode() == 1) {
+					view.picrossWindow.remove(view.boardPanel);
+					view.picrossWindow.add(view.makeBoardPanel(5,model.isMarkMode()));
+					view.boardPanel.revalidate();
+				} else {
+					view.designWindow.remove(view.boardPanel);
+					view.designWindow.add(view.makeBoardPanel(5,model.isMarkMode()));
+					view.boardPanel.revalidate();
+				}
+				boardActions();
+				markCheckBoxAction();
+				break;
+
+			// "6x6" option
+			case "6x6":
+				view.history.append(view.langText.getString("upon_grid_change") + " 6x6\n");
+				model.gridSize = 6;
+				if (model.getGameMode() == 1) {
+					view.picrossWindow.remove(view.boardPanel);
+					view.picrossWindow.add(view.makeBoardPanel(6, model.isMarkMode()));
+					view.boardPanel.revalidate();
+				} else {
+					view.designWindow.remove(view.boardPanel);
+					view.designWindow.add(view.makeBoardPanel(6,model.isMarkMode()));
+					view.boardPanel.revalidate();
+				}
+				boardActions();
+				markCheckBoxAction();
+				break;
+
+			case "7x7":
+				view.history.append(view.langText.getString("upon_grid_change") + " 7x7\n");
+				model.gridSize = 7;
+				if (model.getGameMode() == 1) {
+					view.picrossWindow.remove(view.boardPanel);
+					view.picrossWindow.add(view.makeBoardPanel(7,model.isMarkMode()));
+					view.boardPanel.revalidate();
+				} else {
+					view.designWindow.remove(view.boardPanel);
+					view.designWindow.add(view.makeBoardPanel(7,model.isMarkMode()));
+					view.boardPanel.revalidate();
+				}
+				boardActions();
+				markCheckBoxAction();
+				break;
+			}
+		});
+
+	}
+	
+	private void leftPanelActions() {
+		view.playToLauncher.addActionListener((actionEvent) -> {
+			if (model.getGameMode() == 1) {
+				view.picrossWindow.dispose();
+				view.launcher();
+				launcherActions();
+			}
+			else {
+				view.designWindow.dispose();
+				System.out.println("clicked design back button");
+				view.launcher();
+				launcherActions();
+			}
+			
+		});
+		
+		view.resetButton.addActionListener((actionEvent) -> {
+			for (JButton[] i : view.buttons) {
+				for (JButton j : i) {
+					j.setBackground(Color.WHITE);
+					j.setEnabled(true);
+				}
+			}
+
+		});
+		
+		view.solveButton.addActionListener((actionEvent) -> {
+			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+					+ model.langText.getString("solve") + "\n");
+		});
+
+		view.instructionsButton.addActionListener((actionEvent) -> {
+			view.Instructions(model.currentLocale);
+			view.instructionsButton.setEnabled(false);
+			instructionsActions();
+		});
+		
+		view.newBoardButton.addActionListener((actionEvent) -> {
+
+		});
+
+	}
 }

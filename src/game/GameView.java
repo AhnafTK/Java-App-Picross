@@ -87,7 +87,7 @@ public class GameView {
 
 	protected int gridSize = 5;
 	/** Boolean for the mark mode, false by default */
-	protected boolean markMode = false;
+	//protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
 	protected int gameMode = 0;
 	/*
@@ -203,11 +203,9 @@ public class GameView {
 	 * @param langText - Used to get the text from the language file. *
 	 ************************************************************************
 	 */
-	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText) {
+	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText, int gameMode) {
 		leftPanel = new JPanel();
-		JPanel scorePanel = new JPanel();
-		JPanel timerPanel = new JPanel();
-		JPanel buttonPanel = new JPanel();
+		
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
 		////////////////////////////////////////////////////////////////
@@ -222,6 +220,9 @@ public class GameView {
 		playToLauncher = new JButton(langText.getString("back"));
 		playToLauncher.setBackground(Color.WHITE);
 		////////////////////////////////////////////////////////////////
+		JPanel scorePanel = new JPanel();
+		JPanel timerPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
 		JTextField scoreCounter = new JTextField();
 		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
@@ -252,8 +253,12 @@ public class GameView {
 		buttonPanel.add(solveButton);
 		buttonPanel.add(newBoardButton);
 		buttonPanel.add(instructionsButton);
-		leftPanel.add(scorePanel);
-		leftPanel.add(timerPanel);
+		if (gameMode == 1) {
+			leftPanel.add(scorePanel);
+			leftPanel.add(timerPanel);
+		}
+	
+		
 		leftPanel.add(makeGridSizeCombo());
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
@@ -334,7 +339,7 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(int gridSize) {
+	protected JPanel makeBoardPanel(int gridSize, boolean markMode) {
 		boardPanel = new JPanel();
 		// Column panel
 		JPanel colPanel = new JPanel();
@@ -393,19 +398,7 @@ public class GameView {
 		}
 
 		////////////////////////////////////////////////////////////////
-
-		// This is only entered when the design button is pressed
-		if (gameMode == 0) {
-			designMenuReturnPanel = new JPanel();
-			designMenuReturnPanel.setPreferredSize(new Dimension(500, 50));
-			designBack = new JButton("Back");
-			designMenuReturnPanel.add(designBack);
-			boardPanel.add(designMenuReturnPanel, BorderLayout.SOUTH);
-
-		}
-
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
-
 		return boardPanel;
 	}
 
@@ -502,26 +495,27 @@ public class GameView {
 	 */
 	protected void Design() {
 		designBack = new JButton("Back");
-		setDesignWindow(new JFrame());
-		getDesignWindow().setLayout(new BorderLayout());
-		JPanel configGrid = new JPanel();
-		configGrid.setLayout(new GridLayout(2, 2, 0, 0));
+		designWindow = new JFrame();
+		designWindow.setLayout(new BorderLayout());
+		//JPanel configGrid = new JPanel();
+		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
-		getDesignWindow().add(makeBoardPanel(gridSize), BorderLayout.CENTER);
-		configGrid.add(makeLanguagePanel());
-		configGrid.add(makeGridSizeCombo());
-		configGrid.add(designBack);
+		designWindow.add(makeBoardPanel(gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
+		//configGrid.add(makeLanguagePanel());
+		//configGrid.add(makeGridSizeCombo());
+		//configGrid.add(designBack);
 		////////////////////////////////////////////////////////////////
-		getDesignWindow().add(configGrid, BorderLayout.NORTH);
-		//getDesignWindow().add(designBack, BorderLayout.SOUTH);
-		getDesignWindow().add(makeControlPanel(),BorderLayout.EAST);
-		getDesignWindow().pack();
-		getDesignWindow().setResizable(false);
-		getDesignWindow().setVisible(true);
-		getDesignWindow().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getDesignWindow().setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		getDesignWindow().setSize(725, 650);
-		getDesignWindow().setLocationRelativeTo(null);
+		//designWindow.add(configGrid, BorderLayout.NORTH);
+		//designWindow.add(designBack, BorderLayout.SOUTH);
+		designWindow.add(makeControlPanel(),BorderLayout.EAST);
+		designWindow.pack();
+		designWindow.setResizable(false);
+		designWindow.setVisible(true);
+		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		designWindow.setSize(1000, 600);
+		designWindow.setLocationRelativeTo(null);
 	}
 
 	/**
@@ -535,9 +529,9 @@ public class GameView {
 		picrossWindow.setLayout(new BorderLayout());
 		//makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		picrossWindow.add(makeLeftPanel(currentLocale, langText), BorderLayout.WEST);
+		picrossWindow.add(makeLeftPanel(currentLocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(gridSize), BorderLayout.CENTER);
+		picrossWindow.add(makeBoardPanel(gridSize, false), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);
@@ -620,21 +614,7 @@ public class GameView {
 		instructionsWindow.setLocationRelativeTo(null);
 	}
 
-	public JFrame getStartWindow() {
-		return startWindow;
-	}
 
-	public void setStartWindow(JFrame startWindow) {
-		this.startWindow = startWindow;
-	}
-
-	public JFrame getDesignWindow() {
-		return designWindow;
-	}
-
-	public void setDesignWindow(JFrame designWindow) {
-		this.designWindow = designWindow;
-	}
 	
 	void updateView(int gridSize, int gameMode, boolean markMode) {
 		
