@@ -350,7 +350,7 @@ public class GameView {
 		////////////////////////////////////////////////////////////////
 
 		// Mark panel
-		markCheckBox = new JCheckBox("Mark");
+		markCheckBox = new JCheckBox("Mark"); // TODO: resets to english when grid size changes
 		// incase the grid size is changing, check to see if in markMode.
 		// if true, then set the checkmark in new board
 		if (markMode == true) {
@@ -556,7 +556,7 @@ public class GameView {
 	 * @param locale - Used to get the selected language. *
 	 ************************************************************************
 	 */
-	private void Instructions(Locale currentLocale) {
+	protected void Instructions(Locale currentLocale) {
 		instructionsWindow = new JFrame();
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));

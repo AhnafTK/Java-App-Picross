@@ -142,14 +142,13 @@ public class GameController {
 		});
 		
 		view.instructionsButton.addActionListener((actionEvent) -> {
+			view.Instructions(model.currentLocale);
 			view.instructionsButton.setEnabled(false);
+			instructionsActions();
 		});
 
 		// needs its own action listerner function
-		//view.instructionsBack.addActionListener((actionEvent) -> {
-			//view.instructionsWindow.dispose();
-			//view.instructionsBack.setEnabled(true);
-		//});
+		
 
 		markCheckBoxAction(); // checkbox features
 
@@ -158,7 +157,12 @@ public class GameController {
 		});
 
 		view.resetButton.addActionListener((actionEvent) -> {
-			System.out.println("AAA");
+			for(JButton[] i:view.buttons) {
+				for(JButton j: i) {
+					j.setBackground(Color.WHITE);
+					j.setEnabled(true);
+				}
+			}
 
 		});
 
@@ -191,7 +195,12 @@ public class GameController {
 	private void performViewActions() {
 		launcherActions();		
 	}
-	
+	private void instructionsActions() {
+		view.instructionsBack.addActionListener((actionEvent) -> {
+			view.instructionsWindow.dispose();
+			view.instructionsButton.setEnabled(true);
+		});
+	}
 	private void boardActions() {
 		for(JButton[] i:view.buttons) {
 			for(JButton j: i) {

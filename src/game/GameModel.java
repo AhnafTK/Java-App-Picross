@@ -13,6 +13,8 @@ public class GameModel {
 	protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
 	protected int gameMode = 0;
+	protected int scoreNumber = 0;
+	protected int timerNumber = 0;
 	
 	/**
 	 * @return the gameMode
