@@ -63,43 +63,10 @@ public class GameController {
 
 	private void playActions() {
 		model.setGameMode(1);
-	
 		gridSizeActions();
 		leftPanelActions();
-		
-		view.engRadio.addActionListener((actionEvent) -> {
-			// System.out.println("AAA");
-			if (model.gameMode == 1) {
-				view.history.append(
-						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english") + "\n");
-			}
-			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
-			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
-
-			view.updateText(model.currentLocale, model.langText);
-			view.leftPanel.revalidate();
-
-		});
-		view.frRadio.addActionListener((actionEvent) -> {
-			if (model.gameMode == 1) {
-				view.history.append(
-						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french") + "\n");
-
-			}
-			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
-			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
-
-			view.updateText(model.currentLocale, model.langText);
-			view.leftPanel.revalidate();
-
-		});
-
-
-		// needs its own action listerner function
-
 		markCheckBoxAction(); // checkbox features
 		boardActions();
-
 	}
 
 	private void performViewActions() {
@@ -124,8 +91,6 @@ public class GameController {
 						j.setEnabled(false);
 						j.setBackground(new Color(17, 15, 15));
 					}
-
-					// j.setBackground(Color.red);
 				});
 			}
 		}
@@ -214,7 +179,36 @@ public class GameController {
 	}
 	
 	private void leftPanelActions() {
+		
+		view.engRadio.addActionListener((actionEvent) -> {
+			// System.out.println("AAA");
+			//if (model.gameMode == 1) {
+				view.history.append(
+						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english") + "\n");
+			//}
+			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
+
+		});
+		view.frRadio.addActionListener((actionEvent) -> {
+			//if (model.gameMode == 1) {
+				view.history.append(
+						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french") + "\n");
+
+			//}
+			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
+
+		});
+		
 		view.playToLauncher.addActionListener((actionEvent) -> {
+			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
 				view.picrossWindow.dispose();
 				view.launcher();

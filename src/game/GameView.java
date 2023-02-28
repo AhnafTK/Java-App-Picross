@@ -241,7 +241,7 @@ public class GameView {
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
 		// Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		buttonPanel.setPreferredSize(new Dimension(120, 180));
+		//buttonPanel.setPreferredSize(new Dimension(120, 180));
 		// Sets all of the buttons to the same size and creates an ActionListener
 		resetButton.setPreferredSize(new Dimension(120, 25));
 		solveButton.setPreferredSize(new Dimension(120, 25));
@@ -250,12 +250,16 @@ public class GameView {
 		playToLauncher.setPreferredSize(new Dimension(120, 25));
 		buttonPanel.add(playToLauncher);
 		buttonPanel.add(resetButton);
-		buttonPanel.add(solveButton);
-		buttonPanel.add(newBoardButton);
 		buttonPanel.add(instructionsButton);
 		if (gameMode == 1) {
 			leftPanel.add(scorePanel);
 			leftPanel.add(timerPanel);
+			buttonPanel.add(solveButton);
+			buttonPanel.add(newBoardButton);
+			buttonPanel.setPreferredSize(new Dimension(120, 180));
+		}
+		else {
+			buttonPanel.setPreferredSize(new Dimension(120, 120));
 		}
 	
 		
@@ -416,19 +420,20 @@ public class GameView {
 		if (gameMode == 1) {
 			timerLabel.setText((langText.getString("timer")));
 			scoreLabel.setText(langText.getString("score"));
-			resetButton.setText(langText.getString("reset"));
-			instructionsButton.setText(langText.getString("instructions"));
-			solveButton.setText(langText.getString("solve"));
-			newBoardButton.setText(langText.getString("newBoard"));
-			langLabel.setText(langText.getString("languages"));
 			colourLabel.setText(langText.getString("colorScheme"));
-			playToLauncher.setText(langText.getString("back"));
+			
 		}
 
 		gridSizeLabel.setText(langText.getString("gridSize"));
 		markCheckBox.setText(langText.getString("mark"));
 		engRadio.setText(langText.getString("english"));
 		frRadio.setText(langText.getString("french"));
+		playToLauncher.setText(langText.getString("back"));
+		resetButton.setText(langText.getString("reset"));
+		instructionsButton.setText(langText.getString("instructions"));
+		solveButton.setText(langText.getString("solve"));
+		langLabel.setText(langText.getString("languages"));
+		newBoardButton.setText(langText.getString("newBoard"));
 
 	}
 
@@ -500,14 +505,9 @@ public class GameView {
 		//JPanel configGrid = new JPanel();
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
+		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		designWindow.add(makeBoardPanel(gridSize, false), BorderLayout.CENTER); // mark mode false as default
 		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
-		//configGrid.add(makeLanguagePanel());
-		//configGrid.add(makeGridSizeCombo());
-		//configGrid.add(designBack);
-		////////////////////////////////////////////////////////////////
-		//designWindow.add(configGrid, BorderLayout.NORTH);
-		//designWindow.add(designBack, BorderLayout.SOUTH);
 		designWindow.add(makeControlPanel(),BorderLayout.EAST);
 		designWindow.pack();
 		designWindow.setResizable(false);
