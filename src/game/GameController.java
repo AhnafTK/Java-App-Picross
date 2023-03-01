@@ -205,29 +205,25 @@ public class GameController {
 	private void leftPanelActions() {
 		
 		view.engRadio.addActionListener((actionEvent) -> {
-			// System.out.println("AAA");
-			//if (model.gameMode == 1) {
-				view.history.append(
-						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("english") + "\n");
-			//}
+
 			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
 
 			view.updateText(model.currentLocale, model.langText);
 			view.leftPanel.revalidate();
+			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
+
 
 		});
 		view.frRadio.addActionListener((actionEvent) -> {
-			//if (model.gameMode == 1) {
-				view.history.append(
-						"\n" + view.langText.getString("upon_lang_change") + view.langText.getString("french") + "\n");
 
-			//}
 			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
 
 			view.updateText(model.currentLocale, model.langText);
 			view.leftPanel.revalidate();
+			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
+
 
 		});
 		
