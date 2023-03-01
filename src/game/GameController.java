@@ -86,14 +86,13 @@ public class GameController {
 		for (JButton[] i : view.buttons) {
 			for (JButton j : i) {
 				j.addActionListener((actionEvent) -> { // the problem is here.
-					if (model.gameStarted == false) {
-						model.gameStarted = true;
-						timerCounter(); 
-						model.timer.start();
-					}
 					if (model.isMarkMode()) {
 						j.setBackground(new Color(226, 222, 222));
 					} else {
+						if (model.gameStarted == false) {
+							timerCounter(); 
+							model.timer.start();	
+						}
 						j.setEnabled(false);
 						j.setBackground(new Color(17, 15, 15));
 					}
@@ -184,6 +183,7 @@ public class GameController {
 	}
 	
 	private void timerCounter() {
+		model.gameStarted = true;
 		model.seconds = 0;
 		model.minutes = 0;
 		DecimalFormat dFormat = new DecimalFormat("00");
@@ -238,7 +238,8 @@ public class GameController {
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
-				
+				model.timer.stop();
+				model.gameStarted = false;
 			}
 			else {
 				view.designWindow.dispose();
@@ -250,8 +251,9 @@ public class GameController {
 		});
 		
 		view.resetButton.addActionListener((actionEvent) -> {
+			model.timer.stop();
 			model.gameStarted = false;
-			
+			view.timerCounter.setText("00:00");
 			for (JButton[] i : view.buttons) {
 				for (JButton j : i) {
 					j.setBackground(Color.WHITE);
