@@ -1,13 +1,7 @@
 
 package game;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 /**
  ****************************************************************************

@@ -1,19 +1,20 @@
 package game;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 
 import java.util.ResourceBundle;
+import javax.swing.Timer;
 
 public class GameController {
 	GameModel model;
 	GameView view;
-
+	Timer timer;
+	
 	public GameController(GameModel model, GameView view) {
 		// TODO Auto-generated constructor stub
 		this.model = model;
@@ -67,6 +68,8 @@ public class GameController {
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
 		boardActions();
+		timerCounter();
+		timer.start();
 	}
 
 	private void performViewActions() {
@@ -86,7 +89,6 @@ public class GameController {
 				j.addActionListener((actionEvent) -> {
 					if (model.isMarkMode()) {
 						j.setBackground(new Color(226, 222, 222));
-						System.out.println("int mark mode");
 					} else {
 						j.setEnabled(false);
 						j.setBackground(new Color(17, 15, 15));
@@ -101,8 +103,7 @@ public class GameController {
 			// System.out.println("AAA");
 			if (view.markCheckBox.isSelected()) {
 				if (model.getGameMode() == 1) {
-					view.history
-							.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
 					model.setMarkMode(true);
 				}
 
@@ -178,6 +179,29 @@ public class GameController {
 
 	}
 	
+	private void timerCounter() {
+		model.seconds = 0;
+		model.minutes = 0;
+		DecimalFormat dFormat = new DecimalFormat("00");
+		timer = new Timer(1000, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				model.seconds++;
+				
+				if (model.seconds == 60) {
+					model.minutes++;
+					model.seconds = 0;
+				}
+				
+				model.secFormat = dFormat.format(model.seconds);
+				model.minFormat = dFormat.format(model.minutes);
+
+				view.timerCounter.setText(model.minFormat + ":" + model.secFormat);
+			}
+		});
+	}
+	
 	private void leftPanelActions() {
 		
 		view.engRadio.addActionListener((actionEvent) -> {
@@ -213,6 +237,7 @@ public class GameController {
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
+				timer.stop();
 			}
 			else {
 				view.designWindow.dispose();

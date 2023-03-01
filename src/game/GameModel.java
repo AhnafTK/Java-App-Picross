@@ -16,6 +16,8 @@ public class GameModel {
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;
 	
+	protected int seconds, minutes;
+	protected String secFormat, minFormat;
 	/**
 	 * @return the gameMode
 	 */

@@ -1,34 +1,10 @@
 package game;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 // make the gui
@@ -62,7 +38,7 @@ public class GameView {
 	protected JTextArea history;
 	/** 2d-button array for the grid */
 	protected JButton[][] buttons;
-	
+
 	protected JButton[][] buttonsDesign;
 	JButton playToLauncher;
 
@@ -79,6 +55,7 @@ public class GameView {
 	protected JPanel designMenuReturnPanel;
 	/** Check box for to enable the mark mode */
 	protected JCheckBox markCheckBox;
+	protected JTextField timerCounter;
 	
 	/** Local builder to change the language */
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
@@ -229,7 +206,7 @@ public class GameView {
 		scoreCounter.setEditable(false);
 		scorePanel.add(scoreLabel);
 		scorePanel.add(scoreCounter);
-		JTextField timerCounter = new JTextField();
+		timerCounter = new JTextField("00:00");
 		timerCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		timerCounter.setPreferredSize(new Dimension(100, 25));
 		timerCounter.setEditable(false);
