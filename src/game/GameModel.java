@@ -21,6 +21,8 @@ public class GameModel {
 	
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
+	
+	protected boolean gameStarted = false;
 	/**
 	 * @return the gameMode
 	 */

@@ -68,8 +68,7 @@ public class GameController {
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
 		boardActions();
-		timerCounter();
-		model.timer.start();
+		
 	}
 
 	private void performViewActions() {
@@ -86,7 +85,12 @@ public class GameController {
 	private void boardActions() {
 		for (JButton[] i : view.buttons) {
 			for (JButton j : i) {
-				j.addActionListener((actionEvent) -> {
+				j.addActionListener((actionEvent) -> { // the problem is here.
+					if (model.gameStarted == false) {
+						model.gameStarted = true;
+						timerCounter(); 
+						model.timer.start();
+					}
 					if (model.isMarkMode()) {
 						j.setBackground(new Color(226, 222, 222));
 					} else {
@@ -230,10 +234,11 @@ public class GameController {
 		view.playToLauncher.addActionListener((actionEvent) -> {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
+				//model.timer.stop();
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
-				model.timer.stop();
+				
 			}
 			else {
 				view.designWindow.dispose();
@@ -245,6 +250,8 @@ public class GameController {
 		});
 		
 		view.resetButton.addActionListener((actionEvent) -> {
+			model.gameStarted = false;
+			
 			for (JButton[] i : view.buttons) {
 				for (JButton j : i) {
 					j.setBackground(Color.WHITE);
