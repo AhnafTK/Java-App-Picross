@@ -3,6 +3,8 @@ package game;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.Timer;
+
 public class GameModel {
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
@@ -12,6 +14,7 @@ public class GameModel {
 	/** Boolean for the mark mode, false by default */
 	protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
+	Timer timer;
 	protected int gameMode = 0;
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;

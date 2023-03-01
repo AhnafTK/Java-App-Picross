@@ -13,7 +13,7 @@ import javax.swing.Timer;
 public class GameController {
 	GameModel model;
 	GameView view;
-	Timer timer;
+	
 	
 	public GameController(GameModel model, GameView view) {
 		// TODO Auto-generated constructor stub
@@ -69,7 +69,7 @@ public class GameController {
 		markCheckBoxAction(); // checkbox features
 		boardActions();
 		timerCounter();
-		timer.start();
+		model.timer.start();
 	}
 
 	private void performViewActions() {
@@ -183,7 +183,7 @@ public class GameController {
 		model.seconds = 0;
 		model.minutes = 0;
 		DecimalFormat dFormat = new DecimalFormat("00");
-		timer = new Timer(1000, new ActionListener() {
+		model.timer = new Timer(1000, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -233,7 +233,7 @@ public class GameController {
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
-				timer.stop();
+				model.timer.stop();
 			}
 			else {
 				view.designWindow.dispose();
