@@ -206,12 +206,14 @@ public class GameView {
 		scoreCounter.setEditable(false);
 		scorePanel.add(scoreLabel);
 		scorePanel.add(scoreCounter);
+		
 		timerCounter = new JTextField("00:00");
 		timerCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		timerCounter.setPreferredSize(new Dimension(100, 25));
 		timerCounter.setEditable(false);
 		timerPanel.add(timerLabel);
 		timerPanel.add(timerCounter);
+		
 		JPanel configurationPanel = new JPanel();
 		configurationPanel.setLayout(new GridLayout(1, 2));
 		configurationPanel.add(makeLanguagePanel());

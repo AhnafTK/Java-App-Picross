@@ -179,9 +179,16 @@ public class GameController {
 				markCheckBoxAction();
 				break;
 			}
-			model.timer.stop();
-			model.gameStarted = false;
-			view.timerCounter.setText("00:00");
+			if (model.getGameMode() == 1){
+				if (model.gameStarted == false) {
+					return;
+				}
+				else {
+					model.timer.stop();
+					model.gameStarted = false;
+					view.timerCounter.setText("00:00");
+				}
+			}
 		});
 
 	}
@@ -239,8 +246,14 @@ public class GameController {
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
-				model.timer.stop();
-				model.gameStarted = false;
+				if (model.gameStarted == false) {
+					return;
+				}
+				else {
+					model.timer.stop();
+					model.gameStarted = false;
+					view.timerCounter.setText("00:00");
+				}
 			}
 			else {
 				model.gameStarted = false;
