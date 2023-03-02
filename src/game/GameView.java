@@ -84,40 +84,44 @@ public class GameView {
 	/** Label for the colour */
 	protected JLabel colourLabel = new JLabel();
 
+	
+	protected JMenuItem newMenu;
+	protected JMenuItem solutionMenu;
+	protected JMenuItem exitMenu;
+	
+	protected JMenuItem colourMenu;
+	protected JMenuItem aboutMenu;
+	
 	private void makeMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
+		picrossWindow.setJMenuBar(menuBar);
+		
+		////////////////////////////////////////////////////////////////
+
 		JMenu gameMenu = new JMenu("Game");
-		JMenu helpMenu = new JMenu("Help");
-
-		ImageIcon newIcon = new ImageIcon(".src/images/piciconnew.gif");
-		JMenuItem newMenu = new JMenuItem("New", newIcon);
-
-		ImageIcon solutionIcon = new ImageIcon(".src/images/piciconsol.gif");
-		JMenuItem solutionMenu = new JMenuItem("Solution", solutionIcon);
-
-		ImageIcon exitIcon = new ImageIcon(".src/images/piciconext.gif");
-		JMenuItem exitMenu = new JMenuItem("Exit", exitIcon);
+		newMenu = new JMenuItem("New", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		solutionMenu = new JMenuItem("Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
+		exitMenu = new JMenuItem("Exit", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
 
 		gameMenu.add(newMenu);
 		gameMenu.add(solutionMenu);
 		gameMenu.add(exitMenu);
 
-		ImageIcon colourIcon = new ImageIcon(".src/images/piciconcol.gif");
-		JMenuItem colourMenu = new JMenuItem("Colours", colourIcon);
-		colourMenu.setIcon(colourIcon);
+		////////////////////////////////////////////////////////////////
 
-		ImageIcon aboutIcon = new ImageIcon(".src/images/piciconabt.gif");
-		JMenuItem aboutMenu = new JMenuItem("About", aboutIcon);
-		aboutMenu.setIcon(aboutIcon);
+		JMenu helpMenu = new JMenu("Help");
+		colourMenu = new JMenuItem("Colours", new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
+		aboutMenu = new JMenuItem("About", new ImageIcon(getClass().getResource("/images/piciconabt.gif")));
 
 		helpMenu.add(colourMenu);
 		helpMenu.add(aboutMenu);
+		
+		////////////////////////////////////////////////////////////////
 
 		menuBar.add(gameMenu);
 		menuBar.add(helpMenu);
-
-		picrossWindow.setJMenuBar(menuBar);
 	}
+
 
 	/*
 	 ********************************************************************
@@ -507,7 +511,7 @@ public class GameView {
 		gameMode = 1;
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
-		//makeMenuBar();
+		makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentLocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);

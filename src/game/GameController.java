@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.Locale;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 
 import java.util.ResourceBundle;
 import javax.swing.Timer;
@@ -193,6 +194,10 @@ public class GameController {
 
 	}
 	
+	
+	/*
+	 * https://www.youtube.com/watch?v=zWw72j-EbqI&list=PL_ql-Q0xEccQzbifFP2SI5y3a_LkNaxA3&index=4
+	 */
 	private void timerCounter() {
 		model.gameStarted = true;
 		model.seconds = 0;
@@ -306,5 +311,33 @@ public class GameController {
 			+ model.langText.getString("newBoard") + "\n");
 		});
 
+	}
+	
+	private void menuBarActions() {
+		view.newMenu.addActionListener((actionEvent) -> {
+
+		});
+		
+		view.solutionMenu.addActionListener((actionEvent) -> {
+
+		});
+		
+		view.exitMenu.addActionListener((actionEvent) -> {
+
+		});
+		
+		view.colourMenu.addActionListener((actionEvent) -> {
+			System.out.println("test");
+
+			JColorChooser colorChooser = new JColorChooser();
+			
+			Color color = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			//label.setForeground(color);
+			//label.setBackground(color);
+		});
+		
+		view.aboutMenu.addActionListener((actionEvent) -> {
+
+		});
 	}
 }
