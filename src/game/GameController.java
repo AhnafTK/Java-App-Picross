@@ -49,7 +49,8 @@ public class GameController {
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
 			view.designButton.setText(model.langText.getString("design"));
 			view.playButton.setText(model.langText.getString("play"));
-		
+			view.engRadio.setText(model.langText.getString("english"));
+			view.frRadio.setText(model.langText.getString("french"));
 		});
 		view.frRadio.addActionListener((actionEvent) -> {
 
@@ -57,7 +58,9 @@ public class GameController {
 			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
 			view.designButton.setText(model.langText.getString("design"));
 			view.playButton.setText(model.langText.getString("play"));
-			
+			view.langLabel.setText(model.langText.getString("languages"));
+			view.engRadio.setText(model.langText.getString("english"));
+			view.frRadio.setText(model.langText.getString("french"));
 			
 		});
 	}
@@ -335,7 +338,7 @@ public class GameController {
 	
 	private void menuBarActions() {
 		view.newMenu.addActionListener((actionEvent) -> {
-
+			System.out.println("A");
 		});
 		
 		view.solutionMenu.addActionListener((actionEvent) -> {
