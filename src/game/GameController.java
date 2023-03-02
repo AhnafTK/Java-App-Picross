@@ -23,6 +23,7 @@ public class GameController {
 	}
 
 	protected void startController() {
+		view.startLauncher(model.currentLocale, model.langText);
 		launcherActions();
 	}
 
@@ -30,7 +31,7 @@ public class GameController {
 		view.playButton.addActionListener((actionEvent) -> {
 			System.out.println("clickd play");
 			view.startWindow.dispose();
-			view.Play();
+			view.Play(model.currentLocale,model.langText);
 			playActions();
 		});
 
@@ -38,8 +39,26 @@ public class GameController {
 			model.gameStarted = true;
 			System.out.println("clicked design button");
 			view.startWindow.dispose();
-			view.Design();
+			view.Design(model.currentLocale, model.langText);
 			designActions();
+		});
+		
+		view.engRadio.addActionListener((actionEvent) -> {
+
+			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+			view.designButton.setText(model.langText.getString("design"));
+			view.playButton.setText(model.langText.getString("play"));
+		
+		});
+		view.frRadio.addActionListener((actionEvent) -> {
+
+			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+			view.designButton.setText(model.langText.getString("design"));
+			view.playButton.setText(model.langText.getString("play"));
+			
+			
 		});
 	}
 
@@ -51,11 +70,11 @@ public class GameController {
 			// System.out.println("AAA");
 			if (view.markCheckBox.isSelected()) {
 				if (model.getGameMode() == 0) {
-					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("true") + "\n");
 					model.setMarkMode(true);
 				}
 			} else {
-				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
+				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("false") + "\n");
 				model.setMarkMode(false);
 
 			}
@@ -108,12 +127,12 @@ public class GameController {
 			// System.out.println("AAA");
 			if (view.markCheckBox.isSelected()) {
 				if (model.getGameMode() == 1) {
-					view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("true") + "\n");
+					view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("true") + "\n");
 					model.setMarkMode(true);
 				}
 
 			} else {
-				view.history.append(view.langText.getString("mark") + ": " + view.langText.getString("false") + "\n");
+				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("false") + "\n");
 				model.setMarkMode(false);
 
 			}
@@ -121,7 +140,27 @@ public class GameController {
 	}
 
 	private void languageActions() {
+		view.engRadio.addActionListener((actionEvent) -> {
 
+			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
+			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
+
+
+		});
+		view.frRadio.addActionListener((actionEvent) -> {
+
+			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
+			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
+
+			view.updateText(model.currentLocale, model.langText);
+			view.leftPanel.revalidate();
+			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
+			
+		});
 	}
 	
 	private void gridSizeActions() {
@@ -132,15 +171,15 @@ public class GameController {
 			switch (options) {
 
 			case "5x5":
-				view.history.append(view.langText.getString("upon_grid_change") + " 5x5\n");
+				view.history.append(model.langText.getString("upon_grid_change") + " 5x5\n");
 				model.gridSize = 5;
 				if (model.getGameMode() == 1) {
 					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(5,model.isMarkMode()));
+					view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));
 					view.boardPanel.revalidate();
 				} else {
 					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(5,model.isMarkMode()));
+					view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));
 					view.boardPanel.revalidate();
 				}
 				boardActions();
@@ -149,15 +188,15 @@ public class GameController {
 
 			// "6x6" option
 			case "6x6":
-				view.history.append(view.langText.getString("upon_grid_change") + " 6x6\n");
+				view.history.append(model.langText.getString("upon_grid_change") + " 6x6\n");
 				model.gridSize = 6;
 				if (model.getGameMode() == 1) {
 					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(6, model.isMarkMode()));
+					view.picrossWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode()));
 					view.boardPanel.revalidate();
 				} else {
 					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(6,model.isMarkMode()));
+					view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode()));
 					view.boardPanel.revalidate();
 				}
 				boardActions();
@@ -165,15 +204,15 @@ public class GameController {
 				break;
 
 			case "7x7":
-				view.history.append(view.langText.getString("upon_grid_change") + " 7x7\n");
+				view.history.append(model.langText.getString("upon_grid_change") + " 7x7\n");
 				model.gridSize = 7;
 				if (model.getGameMode() == 1) {
 					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(7,model.isMarkMode()));
+					view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
 					view.boardPanel.revalidate();
 				} else {
 					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(7,model.isMarkMode()));
+					view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
 					view.boardPanel.revalidate();
 				}
 				boardActions();
@@ -224,32 +263,13 @@ public class GameController {
 	
 	private void leftPanelActions() {
 		
-		view.engRadio.addActionListener((actionEvent) -> {
-
-			model.currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
-			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
-
-			view.updateText(model.currentLocale, model.langText);
-			view.leftPanel.revalidate();
-			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
-
-
-		});
-		view.frRadio.addActionListener((actionEvent) -> {
-
-			model.currentLocale = new Locale.Builder().setLanguage("fr").setRegion("FR").build();
-			model.langText = ResourceBundle.getBundle("MessagesBundle", model.currentLocale);
-
-			view.updateText(model.currentLocale, model.langText);
-			view.leftPanel.revalidate();
-			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
-		});
+		languageActions();
 		
 		view.playToLauncher.addActionListener((actionEvent) -> {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
 				view.picrossWindow.dispose();
-				view.launcher();
+				view.launcher(model.langText, model.currentLocale);
 				launcherActions();
 				if (model.gameStarted == false) {
 					return;
@@ -264,7 +284,7 @@ public class GameController {
 				model.gameStarted = false;
 				view.designWindow.dispose();
 				System.out.println("clicked design back button");
-				view.launcher();
+				view.launcher(model.langText, model.currentLocale);
 				launcherActions();
 			}
 			

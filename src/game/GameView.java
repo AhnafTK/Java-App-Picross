@@ -58,9 +58,10 @@ public class GameView {
 	protected JTextField timerCounter;
 	
 	/** Local builder to change the language */
-	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+	
+	//Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
-	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+	//ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
 	protected int gridSize = 5;
 	/** Boolean for the mark mode, false by default */
@@ -74,11 +75,14 @@ public class GameView {
 	 ********************************************************************
 	 */
 	/** Label for the timer */
-	protected JLabel timerLabel = new JLabel(langText.getString("timer"));
+	protected JLabel timerLabel;
+	//protected JLabel timerLabel = new JLabel(langText.getString("timer"));
 	/** Label for the score */
-	protected JLabel scoreLabel = new JLabel(langText.getString("score"));
+	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
+	protected JLabel scoreLabel;
 	/** Label for the grid size */
-	protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+	protected JLabel gridSizeLabel;
 	/** Label for the language */
 	protected JLabel langLabel = new JLabel();
 	/** Label for the colour */
@@ -122,7 +126,20 @@ public class GameView {
 		menuBar.add(helpMenu);
 	}
 
-
+	/**
+	 ************************************************************************
+	 * Default constructor for the Game class * This is where all of the GUI of the
+	 * game gets handled. *
+	 ************************************************************************
+	 */
+	public GameView() {
+		
+	}
+	
+	protected void startLauncher(Locale currentLocale, ResourceBundle langText) {
+		
+		launcher(langText, currentLocale);
+	}
 	/*
 	 ********************************************************************
 	 * Make Language Panel * * This is where all of the language panels, labels,
@@ -131,15 +148,20 @@ public class GameView {
 	 * default when the game is started. *
 	 ********************************************************************
 	 */
-	private JPanel makeLanguagePanel() {
+	private JPanel makeLanguagePanel(Locale currentLocale, ResourceBundle langText) {
 		JPanel languagePanel = new JPanel();
 		JPanel languageButtonPanel = new JPanel();
 		// Button group that holds the "English" and "French" radio buttons
 		////////////////////////////////////////////////////////////////
-		engRadio = new JRadioButton(langText.getString("english"), true);
-		////////////////////////////////////////////////////////////////
-		frRadio = new JRadioButton(langText.getString("french"));
-		////////////////////////////////////////////////////////////////
+		if (currentLocale.getCountry() == "US") {
+			engRadio = new JRadioButton(langText.getString("english"), true);
+			frRadio = new JRadioButton(langText.getString("french"));
+		}
+		else {
+			engRadio = new JRadioButton(langText.getString("english"));
+			frRadio = new JRadioButton(langText.getString("french"), true);
+		}
+		
 		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
@@ -162,11 +184,12 @@ public class GameView {
 	 * language is selected. *
 	 ********************************************************************
 	 */
-	private JPanel makeGridSizeCombo() {
+	private JPanel makeGridSizeCombo(ResourceBundle langText) {
 		String options[] = { "5x5", "6x6", "7x7" };
 		gridSizeCmbo = new JComboBox<>(options);
 		gridSizeCmbo.setBackground(Color.WHITE);
 		JPanel gridSizeComboPanel = new JPanel();
+		gridSizeLabel = new JLabel(langText.getString("gridSize"));
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
 		gridSizeComboPanel.setPreferredSize(new Dimension(200, 30));
@@ -184,9 +207,10 @@ public class GameView {
 	 * @param langText - Used to get the text from the language file. *
 	 ************************************************************************
 	 */
-	private JPanel makeLeftPanel(Locale locale, ResourceBundle langText, int gameMode) {
+	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
 		leftPanel = new JPanel();
-		
+		scoreLabel = new JLabel(langText.getString("score"));
+		timerLabel = new JLabel(langText.getString("timer"));
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
 		////////////////////////////////////////////////////////////////
@@ -220,7 +244,7 @@ public class GameView {
 		
 		JPanel configurationPanel = new JPanel();
 		configurationPanel.setLayout(new GridLayout(1, 2));
-		configurationPanel.add(makeLanguagePanel());
+		configurationPanel.add(makeLanguagePanel(currentLocale, langText));
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
 		// Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
@@ -246,7 +270,7 @@ public class GameView {
 		}
 	
 		
-		leftPanel.add(makeGridSizeCombo());
+		leftPanel.add(makeGridSizeCombo(langText));
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
 		leftPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, (new Color(17, 15, 15))));
@@ -326,7 +350,7 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(int gridSize, boolean markMode) {
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
 		boardPanel = new JPanel();
 		// Column panel
 		JPanel colPanel = new JPanel();
@@ -342,7 +366,7 @@ public class GameView {
 		////////////////////////////////////////////////////////////////
 
 		// Mark panel
-		markCheckBox = new JCheckBox("Mark"); // TODO: resets to english when grid size changes
+		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
 		// incase the grid size is changing, check to see if in markMode.
 		// if true, then set the checkmark in new board
 		if (markMode == true) {
@@ -420,17 +444,11 @@ public class GameView {
 
 	}
 
-	/**
-	 ************************************************************************
-	 * Default constructor for the Game class * This is where all of the GUI of the
-	 * game gets handled. *
-	 ************************************************************************
-	 */
-	public GameView() {
-		launcher();
-	}
+	
 
-	protected void launcher() {
+	protected void launcher(ResourceBundle langText, Locale currentLocale) {
+		//Locale defaultLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+		//ResourceBundle defaultLangText = ResourceBundle.getBundle("MessagesBundle", defaultLocale);
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
 		////////////////////////////////////////////////////////////////
@@ -445,12 +463,12 @@ public class GameView {
 		startPanel.setBackground(new Color(17,15,15));
 		startPanel.setPreferredSize(new Dimension(100,100));
 		////////////////////////////////////////////////////////////////
-		designButton = new JButton("Design");
+		designButton = new JButton(langText.getString("design"));
 		designButton.setPreferredSize(new Dimension(100, 30));
 		designButton.setBackground(Color.WHITE);
 		//designButton.addActionListener(this);
 		////////////////////////////////////////////////////////////////
-		playButton = new JButton("Play");
+		playButton = new JButton(langText.getString("play"));
 		playButton.setPreferredSize(new Dimension(100, 30));
 		//playButton.addActionListener(this);
 		playButton.setBackground(Color.WHITE);
@@ -466,7 +484,7 @@ public class GameView {
 		//startPanel.add(configurationPanel);
 		startWindow.add(splashTitlePanel, BorderLayout.NORTH);
 		startWindow.add(startPanel,BorderLayout.CENTER);
-		startWindow.add(makeLanguagePanel(), BorderLayout.SOUTH);
+		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
 		startWindow.pack();
 		////////////////////////////////////////////////////////////////		
 		startWindow.setVisible(true);
@@ -482,7 +500,7 @@ public class GameView {
 	 * Design method * * This shows the "default" board layout to the user. *
 	 ********************************************************************
 	 */
-	protected void Design() {
+	protected void Design(Locale currentLocale, ResourceBundle langText) {
 		designBack = new JButton("Back");
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
@@ -490,7 +508,7 @@ public class GameView {
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
 		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		designWindow.add(makeBoardPanel(gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
 		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
 		designWindow.add(makeControlPanel(),BorderLayout.EAST);
 		designWindow.pack();
@@ -507,15 +525,15 @@ public class GameView {
 	 * Play method * * This shows the main game. *
 	 ********************************************************************
 	 */
-	protected void Play() {
+	protected void Play(Locale currentlocale, ResourceBundle langText) {
 		gameMode = 1;
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
 		makeMenuBar();
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		picrossWindow.add(makeLeftPanel(currentLocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
+		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);
