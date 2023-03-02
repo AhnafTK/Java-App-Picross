@@ -88,7 +88,7 @@ public class GameView {
 	/** Label for the colour */
 	protected JLabel colourLabel = new JLabel();
 
-	
+	protected JMenuBar menuBar;
 	protected JMenuItem newMenu;
 	protected JMenuItem solutionMenu;
 	protected JMenuItem exitMenu;
@@ -97,7 +97,7 @@ public class GameView {
 	protected JMenuItem aboutMenu;
 	
 	private void makeMenuBar() {
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		picrossWindow.setJMenuBar(menuBar);
 		
 		////////////////////////////////////////////////////////////////

@@ -92,7 +92,7 @@ public class GameController {
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
 		boardActions();
-		
+		menuBarActions();
 	}
 
 	private void performViewActions() {
@@ -342,10 +342,12 @@ public class GameController {
 		});
 		
 		view.solutionMenu.addActionListener((actionEvent) -> {
+			System.out.println("A");
 
 		});
 		
 		view.exitMenu.addActionListener((actionEvent) -> {
+			System.out.println("A");
 
 		});
 		
