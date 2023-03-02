@@ -34,6 +34,7 @@ public class GameController {
 		});
 
 		view.designButton.addActionListener((actionEvent) -> {
+			model.gameStarted = true;
 			System.out.println("clicked design button");
 			view.startWindow.dispose();
 			view.Design();
@@ -178,6 +179,9 @@ public class GameController {
 				markCheckBoxAction();
 				break;
 			}
+			model.timer.stop();
+			model.gameStarted = false;
+			view.timerCounter.setText("00:00");
 		});
 
 	}
@@ -227,14 +231,11 @@ public class GameController {
 			view.updateText(model.currentLocale, model.langText);
 			view.leftPanel.revalidate();
 			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
-
-
 		});
 		
 		view.playToLauncher.addActionListener((actionEvent) -> {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
-				//model.timer.stop();
 				view.picrossWindow.dispose();
 				view.launcher();
 				launcherActions();
@@ -242,6 +243,7 @@ public class GameController {
 				model.gameStarted = false;
 			}
 			else {
+				model.gameStarted = false;
 				view.designWindow.dispose();
 				System.out.println("clicked design back button");
 				view.launcher();
@@ -251,9 +253,18 @@ public class GameController {
 		});
 		
 		view.resetButton.addActionListener((actionEvent) -> {
-			model.timer.stop();
-			model.gameStarted = false;
-			view.timerCounter.setText("00:00");
+			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+			+ model.langText.getString("reset") + "\n");
+			if (model.getGameMode() == 1){
+				if (model.gameStarted == false) {
+					return;
+				}
+				else {
+					model.timer.stop();
+					model.gameStarted = false;
+					view.timerCounter.setText("00:00");
+				}
+			}
 			for (JButton[] i : view.buttons) {
 				for (JButton j : i) {
 					j.setBackground(Color.WHITE);
@@ -269,13 +280,17 @@ public class GameController {
 		});
 
 		view.instructionsButton.addActionListener((actionEvent) -> {
+			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+			+ model.langText.getString("instructions") + "\n");
+			
 			view.Instructions(model.currentLocale);
 			view.instructionsButton.setEnabled(false);
 			instructionsActions();
 		});
 		
 		view.newBoardButton.addActionListener((actionEvent) -> {
-
+			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+			+ model.langText.getString("newBoard") + "\n");
 		});
 
 	}
