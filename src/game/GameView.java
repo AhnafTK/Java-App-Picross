@@ -462,6 +462,7 @@ public class GameView {
 		//startPanel.add(configurationPanel);
 		startWindow.add(splashTitlePanel, BorderLayout.NORTH);
 		startWindow.add(startPanel,BorderLayout.CENTER);
+		startWindow.add(makeLanguagePanel(), BorderLayout.SOUTH);
 		startWindow.pack();
 		////////////////////////////////////////////////////////////////		
 		startWindow.setVisible(true);
