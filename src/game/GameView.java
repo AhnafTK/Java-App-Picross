@@ -16,6 +16,7 @@ public class GameView {
 	protected JFrame designWindow;
 	/** JFrame for the start window */
 	protected JFrame startWindow;
+	protected JFrame splashWindow;
 	/** JFrame for the instructions window */
 	protected JFrame instructionsWindow;
 	/** JFrame for the main picross window */
@@ -96,6 +97,36 @@ public class GameView {
 	protected JMenuItem colourMenu;
 	protected JMenuItem aboutMenu;
 	
+	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
+		splashWindow = new JFrame();
+		JPanel splashPanel = new JPanel();
+		
+		ImageIcon splashLogo = new ImageIcon("./src/images/picross.jpg");
+		JLabel splashLabel = new JLabel();
+		splashLabel.setIcon(splashLogo);
+		splashPanel.setPreferredSize(new Dimension(500, 125));
+		splashPanel.add(splashLabel);
+		
+		splashWindow.add(splashPanel);
+		splashWindow.pack();
+		splashWindow.setVisible(true);
+		splashWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		splashWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		splashWindow.setResizable(false);
+		splashWindow.setSize(400, 175);
+		splashWindow.setLocationRelativeTo(null);
+		try {
+			Thread.sleep(3000);
+			splashWindow.dispose();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		launcher(langText, currentLocale);
+
+	}
+	
 	private void makeMenuBar() {
 		menuBar = new JMenuBar();
 		picrossWindow.setJMenuBar(menuBar);
@@ -137,8 +168,7 @@ public class GameView {
 	}
 	
 	protected void startLauncher(Locale currentLocale, ResourceBundle langText) {
-		
-		launcher(langText, currentLocale);
+		splashScreen(currentLocale, langText);
 	}
 	/*
 	 ********************************************************************
@@ -452,12 +482,12 @@ public class GameView {
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
 		////////////////////////////////////////////////////////////////
-		JPanel splashTitlePanel = new JPanel();
+		JPanel titlePanel = new JPanel();
 		ImageIcon titleLogo = new ImageIcon("./src/images/picross.jpg");
 		JLabel titleLabel = new JLabel();
 		titleLabel.setIcon(titleLogo);
-		splashTitlePanel.setPreferredSize(new Dimension(500, 125));
-		splashTitlePanel.add(titleLabel);
+		titlePanel.setPreferredSize(new Dimension(500, 125));
+		titlePanel.add(titleLabel);
 		////////////////////////////////////////////////////////////////
 		JPanel startPanel = new JPanel();
 		startPanel.setBackground(new Color(17,15,15));
@@ -482,7 +512,7 @@ public class GameView {
 		startPanel.add(designButton);
 		startPanel.add(playButton);
 		//startPanel.add(configurationPanel);
-		startWindow.add(splashTitlePanel, BorderLayout.NORTH);
+		startWindow.add(titlePanel, BorderLayout.NORTH);
 		startWindow.add(startPanel,BorderLayout.CENTER);
 		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
 		startWindow.pack();

@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import java.util.ResourceBundle;
+import java.util.TimerTask;
+
 import javax.swing.Timer;
 
 public class GameController {
@@ -23,10 +25,13 @@ public class GameController {
 	}
 
 	protected void startController() {
-		view.startLauncher(model.currentLocale, model.langText);
-		launcherActions();
+		splashActions();
 	}
 
+	private void splashActions() {
+		view.startLauncher(model.currentLocale, model.langText);			
+		launcherActions();
+	}
 	private void launcherActions() {
 		view.playButton.addActionListener((actionEvent) -> {
 			System.out.println("clickd play");
