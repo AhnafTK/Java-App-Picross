@@ -42,7 +42,7 @@ public class GameView {
 
 	protected JButton[][] buttonsDesign;
 	JButton playToLauncher;
-
+	JButton newGridButton;
 	
 	/** Radio button to change the language to English */
 	protected JRadioButton engRadio;
@@ -56,6 +56,7 @@ public class GameView {
 	protected JPanel designMenuReturnPanel;
 	/** Check box for to enable the mark mode */
 	protected JCheckBox markCheckBox;
+	protected JTextField scoreCounter;
 	protected JTextField timerCounter;
 	
 	/** Local builder to change the language */
@@ -94,9 +95,24 @@ public class GameView {
 	protected JMenuItem solutionMenu;
 	protected JMenuItem exitMenu;
 	
-	protected JMenuItem colourMenu;
+	protected JMenuItem backgroundColour;
+	protected JMenuItem textColour;
+	protected JMenuItem componentColour;
 	protected JMenuItem aboutMenu;
 	
+	protected JPanel languagePanel;
+	protected JPanel languageButtonPanel;
+	protected JPanel gridSizeComboPanel;
+	protected JPanel scorePanel;
+	protected JPanel timerPanel;
+	protected JPanel buttonPanel;
+	protected JPanel configurationPanel;
+	protected JPanel historyPanel;
+	protected JPanel controlPanel;
+	protected JPanel colPanel;
+	protected JPanel rowPanel;
+
+
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -116,7 +132,7 @@ public class GameView {
 		splashWindow.setSize(400, 175);
 		splashWindow.setLocationRelativeTo(null);
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(500);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -139,16 +155,28 @@ public class GameView {
 		exitMenu = new JMenuItem("Exit", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
 
 		gameMenu.add(newMenu);
+		gameMenu.addSeparator();
 		gameMenu.add(solutionMenu);
+		gameMenu.addSeparator();
 		gameMenu.add(exitMenu);
 
 		////////////////////////////////////////////////////////////////
 
 		JMenu helpMenu = new JMenu("Help");
-		colourMenu = new JMenuItem("Colours", new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
+		JMenu colourMenu = new JMenu("Colours");
+		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
+		
+		backgroundColour = new JMenuItem("Background Colour");
+		textColour = new JMenuItem("Text Colour");
+		componentColour = new JMenuItem("Component Colour");
+		colourMenu.add(backgroundColour);
+		colourMenu.add(textColour);
+		colourMenu.add(componentColour);
+
 		aboutMenu = new JMenuItem("About", new ImageIcon(getClass().getResource("/images/piciconabt.gif")));
 
 		helpMenu.add(colourMenu);
+		helpMenu.addSeparator();
 		helpMenu.add(aboutMenu);
 		
 		////////////////////////////////////////////////////////////////
@@ -179,8 +207,8 @@ public class GameView {
 	 ********************************************************************
 	 */
 	private JPanel makeLanguagePanel(Locale currentLocale, ResourceBundle langText) {
-		JPanel languagePanel = new JPanel();
-		JPanel languageButtonPanel = new JPanel();
+		languagePanel = new JPanel();
+		languageButtonPanel = new JPanel();
 		// Button group that holds the "English" and "French" radio buttons
 		////////////////////////////////////////////////////////////////
 		if (currentLocale.getCountry() == "US") {
@@ -191,7 +219,6 @@ public class GameView {
 			engRadio = new JRadioButton(langText.getString("english"));
 			frRadio = new JRadioButton(langText.getString("french"), true);
 		}
-		
 		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
@@ -204,6 +231,7 @@ public class GameView {
 		// Main language panel that stores/aligns all of the labels/radio buttons
 		languagePanel.add(langLabel);
 		languagePanel.add(languageButtonPanel);
+		
 		return languagePanel;
 	}
 
@@ -218,7 +246,7 @@ public class GameView {
 		String options[] = { "5x5", "6x6", "7x7" };
 		gridSizeCmbo = new JComboBox<>(options);
 		gridSizeCmbo.setBackground(Color.WHITE);
-		JPanel gridSizeComboPanel = new JPanel();
+		gridSizeComboPanel = new JPanel();
 		gridSizeLabel = new JLabel(langText.getString("gridSize"));
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
@@ -255,10 +283,10 @@ public class GameView {
 		playToLauncher = new JButton(langText.getString("back"));
 		playToLauncher.setBackground(Color.WHITE);
 		////////////////////////////////////////////////////////////////
-		JPanel scorePanel = new JPanel();
-		JPanel timerPanel = new JPanel();
-		JPanel buttonPanel = new JPanel();
-		JTextField scoreCounter = new JTextField();
+		scorePanel = new JPanel();
+		timerPanel = new JPanel();
+		buttonPanel = new JPanel();
+		scoreCounter = new JTextField();
 		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
 		scoreCounter.setEditable(false);
@@ -272,7 +300,7 @@ public class GameView {
 		timerPanel.add(timerLabel);
 		timerPanel.add(timerCounter);
 		
-		JPanel configurationPanel = new JPanel();
+		configurationPanel = new JPanel();
 		configurationPanel.setLayout(new GridLayout(1, 2));
 		configurationPanel.add(makeLanguagePanel(currentLocale, langText));
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
@@ -334,7 +362,7 @@ public class GameView {
 	private JPanel makeHistoryPanel() {
 
 		// This is the history text area where all of the user inputs will be recorded
-		JPanel historyPanel = new JPanel();
+		historyPanel = new JPanel();
 		history = new JTextArea();
 		history.setLineWrap(true);
 		history.setWrapStyleWord(true);
@@ -365,7 +393,7 @@ public class GameView {
 	 */
 	private JPanel makeControlPanel() {
 
-		JPanel controlPanel = new JPanel();
+		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(250, 200));
 		controlPanel.add(makeHistoryPanel());
 
@@ -383,7 +411,7 @@ public class GameView {
 	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
 		boardPanel = new JPanel();
 		// Column panel
-		JPanel colPanel = new JPanel();
+		colPanel = new JPanel();
 		colPanel.setLayout(new GridLayout(gridSize, 1));
 		colPanel.setPreferredSize(new Dimension(75, 0));
 
@@ -408,7 +436,7 @@ public class GameView {
 		////////////////////////////////////////////////////////////////
 
 		// Row panel
-		JPanel rowPanel = new JPanel();
+		rowPanel = new JPanel();
 		rowPanel.add(markCheckBox);
 		rowPanel.setLayout(new GridLayout(1, gridSize + 1));
 		rowPanel.setPreferredSize(new Dimension(0, 75));
@@ -431,7 +459,7 @@ public class GameView {
 
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				JButton newGridButton = new JButton();
+				newGridButton = new JButton();
 				newGridButton.setBackground(Color.WHITE);
 				buttons[i][j] = newGridButton;
 				gridButtonPanel.add(buttons[i][j]);

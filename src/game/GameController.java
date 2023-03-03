@@ -7,9 +7,9 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JPanel;
 
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 
 import javax.swing.Timer;
 
@@ -356,14 +356,72 @@ public class GameController {
 
 		});
 		
-		view.colourMenu.addActionListener((actionEvent) -> {
-			System.out.println("test");
-
-			JColorChooser colorChooser = new JColorChooser();
+		view.backgroundColour.addActionListener((actionEvent) -> {
+			JColorChooser colourChooser = new JColorChooser();
 			
-			Color color = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
-			//label.setForeground(color);
-			//label.setBackground(color);
+			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			view.boardPanel.setBackground(colour);
+			view.leftPanel.setBackground(colour);
+			view.languagePanel.setBackground(colour);
+			view.languageButtonPanel.setBackground(colour);
+			view.gridSizeComboPanel.setBackground(colour);
+			view.scorePanel.setBackground(colour);
+			view.timerPanel.setBackground(colour);
+			view.buttonPanel.setBackground(colour);
+			view.configurationPanel.setBackground(colour);
+			view.historyPanel.setBackground(colour);
+			view.controlPanel.setBackground(colour);
+			view.rowPanel.setBackground(colour);
+			view.colPanel.setBackground(colour);
+			view.engRadio.setBackground(colour);
+			view.frRadio.setBackground(colour);
+			view.markCheckBox.setBackground(colour);
+		});
+		
+		
+		view.textColour.addActionListener((actionEvent) -> {
+			JColorChooser colourChooser = new JColorChooser();
+			
+			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			view.scoreLabel.setForeground(colour);
+			view.scoreCounter.setForeground(colour);
+			view.timerLabel.setForeground(colour);
+			view.timerCounter.setForeground(colour);
+			view.gridSizeLabel.setForeground(colour);
+			view.gridSizeCmbo.setForeground(colour);
+			view.playToLauncher.setForeground(colour);
+			view.solveButton.setForeground(colour);
+			view.resetButton.setForeground(colour);
+			view.newBoardButton.setForeground(colour);
+			view.instructionsButton.setForeground(colour);
+			view.langLabel.setForeground(colour);
+			view.engRadio.setForeground(colour);
+			view.frRadio.setForeground(colour);
+			view.markCheckBox.setForeground(colour);
+		});
+		
+		
+		
+		view.componentColour.addActionListener((actionEvent) -> {
+			JColorChooser colourChooser = new JColorChooser();
+			
+			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			view.scoreCounter.setBackground(colour);
+			view.timerCounter.setBackground(colour);
+			view.gridSizeCmbo.setBackground(colour);
+			view.playToLauncher.setBackground(colour);
+			view.resetButton.setBackground(colour);
+			view.solveButton.setBackground(colour);
+			view.newBoardButton.setBackground(colour);
+			view.instructionsButton.setBackground(colour);
+			view.history.setBackground(colour);
+			for (JButton[] i : view.buttons) {
+				for (JButton j : i) {
+					if(j.isEnabled()) {
+						j.setBackground(colour);
+					}
+				}
+			}
 		});
 		
 		view.aboutMenu.addActionListener((actionEvent) -> {

@@ -1,9 +1,10 @@
 package game;
 
+import java.awt.Color;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.TimerTask;
 
+import javax.swing.JColorChooser;
 import javax.swing.Timer;
 
 public class GameModel {
@@ -16,7 +17,6 @@ public class GameModel {
 	protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
 	Timer timer;
-	TimerTask timerTask;
 	protected int gameMode = 0;
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;
