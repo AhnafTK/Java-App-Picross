@@ -114,7 +114,7 @@ public class GameController {
 	private void boardActions() {
 		for (JButton[] i : view.buttons) {
 			for (JButton j : i) {
-				j.addActionListener((actionEvent) -> { // the problem is here.
+				j.addActionListener((actionEvent) -> { 
 					if (model.isMarkMode()) {
 						j.setBackground(new Color(226, 222, 222));
 					} else {
@@ -342,24 +342,43 @@ public class GameController {
 	}
 	
 	private void menuBarActions() {
-		/**
-		view.newMenu.addActionListener((actionEvent) -> {
-			System.out.println("A");
-		});
 		
-		view.solutionMenu.addActionListener((actionEvent) -> {
-			System.out.println("A");
-
+		view.saveMenuOption.addActionListener((actionEvent)->{
+			
 		});
-		
-		view.exitMenu.addActionListener((actionEvent) -> {
-			System.out.println("A");
-
+		view.loadMenuOption.addActionListener((actionEvent)->{
+			
 		});
-		
+		view.newMenuOption.addActionListener((actionEvent)->{
+	
+		});
+		//view.solutionMenuOption.addActionListener((actionEvent)->{
+	
+		//});
+		view.resetMenuOption.addActionListener((actionEvent)->{
+			
+		});
+		view.solveMenuOption.addActionListener((actionEvent)->{
+	
+		});
+		// gridisze here
+		view.fiveFive.addActionListener((actionEvent)->{
+					
+		});
+		view.sixSix.addActionListener((actionEvent)->{
+			
+		});
+		view.sevSev.addActionListener((actionEvent)->{
+			
+		});
+		view.toLauncherMenuOption.addActionListener((actionEvent)->{
+			
+		});
+		view.exitMenuOption.addActionListener((actionEvent)->{
+	
+		});
 		view.backgroundColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
-			
 			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
 			view.boardPanel.setBackground(colour);
 			view.leftPanel.setBackground(colour);
@@ -382,7 +401,6 @@ public class GameController {
 		
 		view.textColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
-			
 			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
 			view.scoreLabel.setForeground(colour);
 			view.scoreCounter.setForeground(colour);
@@ -400,7 +418,6 @@ public class GameController {
 			view.frRadio.setForeground(colour);
 			view.markCheckBox.setForeground(colour);
 		});
-		
 		
 		
 		view.componentColour.addActionListener((actionEvent) -> {
@@ -425,10 +442,8 @@ public class GameController {
 			}
 		});
 		
-		view.aboutMenu.addActionListener((actionEvent) -> {
-
-		});
-		**/
+		
+		
 	}
 	
 }

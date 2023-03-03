@@ -90,8 +90,7 @@ public class GameView {
 	/** Label for the colour */
 	protected JLabel colourLabel = new JLabel();
 
-	
-	
+
 	protected JPanel languagePanel;
 	protected JPanel languageButtonPanel;
 	protected JPanel gridSizeComboPanel;
@@ -115,6 +114,19 @@ public class GameView {
 	protected JMenuItem aboutMenu;
 	protected JMenuItem gameMenu;
 
+	JMenu gameMenuItemsContainer;
+	JMenuItem newMenuOption;
+	JMenuItem solutionMenuOption;
+	JMenuItem exitMenuOption;
+	JMenuItem resetMenuOption;
+	JMenuItem solveMenuOption;
+	JMenuItem toLauncherMenuOption;
+	JMenuItem saveMenuOption;
+	JMenuItem loadMenuOption;
+	JMenu gridSizeItemsContainer;
+	JMenuItem fiveFive = new JMenuItem("5x5");
+	JMenuItem sixSix = new JMenuItem("6x6");
+	JMenuItem sevSev = new JMenuItem("7x7");
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -149,21 +161,19 @@ public class GameView {
 		menuBar = new JMenuBar();
 		window.setJMenuBar(menuBar);
 		
-		JMenu gameMenuItemsContainer = new JMenu("Game");
-		JMenuItem newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		JMenuItem solutionMenuOption = new JMenuItem("Show Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
-		JMenuItem exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
-		JMenuItem resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
-		JMenuItem solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
-		JMenuItem toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		JMenuItem saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
-		JMenuItem loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
+		gameMenuItemsContainer = new JMenu("Game");
+		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		//solutionMenuOption = new JMenuItem("Show Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
+		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
 
-		JMenu gridSizeItemsContainer = new JMenu("Grid Size");
+		gridSizeItemsContainer = new JMenu("Grid Size");
 		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
-		JMenuItem fiveFive = new JMenuItem("5x5");
-		JMenuItem sixSix = new JMenuItem("6x6");
-		JMenuItem sevSev = new JMenuItem("7x7");
+		
 		gridSizeItemsContainer.add(fiveFive);
 		gridSizeItemsContainer.add(sixSix);
 		gridSizeItemsContainer.add(sevSev);
@@ -171,16 +181,17 @@ public class GameView {
 		// also add to change gridsize
 		gameMenuItemsContainer.add(saveMenuOption);
 		gameMenuItemsContainer.add(loadMenuOption);
-		
 		gameMenuItemsContainer.addSeparator();
 		
 		gameMenuItemsContainer.add(newMenuOption);
-		gameMenuItemsContainer.add(solutionMenuOption);
 		gameMenuItemsContainer.add(resetMenuOption);
-		gameMenuItemsContainer.add(solveMenuOption);
 		gameMenuItemsContainer.add(gridSizeItemsContainer);
-		
+
 		gameMenuItemsContainer.addSeparator();
+		gameMenuItemsContainer.add(solveMenuOption);
+		gameMenuItemsContainer.addSeparator();
+
+
 		
 		gameMenuItemsContainer.add(toLauncherMenuOption);
 		gameMenuItemsContainer.add(exitMenuOption);
@@ -193,9 +204,9 @@ public class GameView {
 		
 		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
-		JMenuItem backgroundColour = new JMenuItem("Background Colour");
-		JMenuItem textColour = new JMenuItem("Text Colour");
-		JMenuItem componentColour = new JMenuItem("Component Colour");
+		backgroundColour = new JMenuItem("Background Colour");
+		textColour = new JMenuItem("Text Colour");
+		componentColour = new JMenuItem("Component Colour");
 		colourMenu.add(backgroundColour);
 		colourMenu.add(textColour);
 		colourMenu.add(componentColour);
@@ -336,21 +347,21 @@ public class GameView {
 		newBoardButton.setPreferredSize(new Dimension(120, 25));
 		instructionsButton.setPreferredSize(new Dimension(120, 25));
 		playToLauncher.setPreferredSize(new Dimension(120, 25));
-		buttonPanel.add(playToLauncher);
-		buttonPanel.add(resetButton);
-		buttonPanel.add(instructionsButton);
+		
 		if (gameMode == 1) {
 			leftPanel.add(scorePanel);
 			leftPanel.add(timerPanel);
-			buttonPanel.add(solveButton);
 			buttonPanel.add(newBoardButton);
+			buttonPanel.add(solveButton);
 			buttonPanel.setPreferredSize(new Dimension(120, 180));
 		}
 		else {
 			buttonPanel.setPreferredSize(new Dimension(120, 120));
 		}
-	
-		
+		buttonPanel.add(resetButton);
+		buttonPanel.add(instructionsButton);
+		buttonPanel.add(playToLauncher);
+
 		leftPanel.add(makeGridSizeCombo(langText));
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
