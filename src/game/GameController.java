@@ -342,6 +342,7 @@ public class GameController {
 	}
 	
 	private void menuBarActions() {
+		/**
 		view.newMenu.addActionListener((actionEvent) -> {
 			System.out.println("A");
 		});
@@ -427,5 +428,7 @@ public class GameController {
 		view.aboutMenu.addActionListener((actionEvent) -> {
 
 		});
+		**/
 	}
+	
 }

@@ -90,15 +90,7 @@ public class GameView {
 	/** Label for the colour */
 	protected JLabel colourLabel = new JLabel();
 
-	protected JMenuBar menuBar;
-	protected JMenuItem newMenu;
-	protected JMenuItem solutionMenu;
-	protected JMenuItem exitMenu;
 	
-	protected JMenuItem backgroundColour;
-	protected JMenuItem textColour;
-	protected JMenuItem componentColour;
-	protected JMenuItem aboutMenu;
 	
 	protected JPanel languagePanel;
 	protected JPanel languageButtonPanel;
@@ -111,7 +103,17 @@ public class GameView {
 	protected JPanel controlPanel;
 	protected JPanel colPanel;
 	protected JPanel rowPanel;
-
+	
+	protected JMenuBar menuBar;
+	protected JMenuItem newMenuItem;
+	protected JMenuItem solutionMenuItem;
+	protected JMenuItem exitMenuItem;
+	
+	protected JMenuItem backgroundColour;
+	protected JMenuItem textColour;
+	protected JMenuItem componentColour;
+	protected JMenuItem aboutMenu;
+	protected JMenuItem gameMenu;
 
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
@@ -143,46 +145,67 @@ public class GameView {
 
 	}
 	
-	private void makeMenuBar() {
+	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText) {
 		menuBar = new JMenuBar();
-		picrossWindow.setJMenuBar(menuBar);
+		window.setJMenuBar(menuBar);
 		
-		////////////////////////////////////////////////////////////////
+		JMenu gameMenuItemsContainer = new JMenu("Game");
+		JMenuItem newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		JMenuItem solutionMenuOption = new JMenuItem("Show Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
+		JMenuItem exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		JMenuItem resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		JMenuItem solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		JMenuItem toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		JMenuItem saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
+		JMenuItem loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
 
-		JMenu gameMenu = new JMenu("Game");
-		newMenu = new JMenuItem("New", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		solutionMenu = new JMenuItem("Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
-		exitMenu = new JMenuItem("Exit", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		JMenu gridSizeItemsContainer = new JMenu("Grid Size");
+		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
+		JMenuItem fiveFive = new JMenuItem("5x5");
+		JMenuItem sixSix = new JMenuItem("6x6");
+		JMenuItem sevSev = new JMenuItem("7x7");
+		gridSizeItemsContainer.add(fiveFive);
+		gridSizeItemsContainer.add(sixSix);
+		gridSizeItemsContainer.add(sevSev);
 
-		gameMenu.add(newMenu);
-		gameMenu.addSeparator();
-		gameMenu.add(solutionMenu);
-		gameMenu.addSeparator();
-		gameMenu.add(exitMenu);
+		// also add to change gridsize
+		gameMenuItemsContainer.add(saveMenuOption);
+		gameMenuItemsContainer.add(loadMenuOption);
+		
+		gameMenuItemsContainer.addSeparator();
+		
+		gameMenuItemsContainer.add(newMenuOption);
+		gameMenuItemsContainer.add(solutionMenuOption);
+		gameMenuItemsContainer.add(resetMenuOption);
+		gameMenuItemsContainer.add(solveMenuOption);
+		gameMenuItemsContainer.add(gridSizeItemsContainer);
+		
+		gameMenuItemsContainer.addSeparator();
+		
+		gameMenuItemsContainer.add(toLauncherMenuOption);
+		gameMenuItemsContainer.add(exitMenuOption);
 
-		////////////////////////////////////////////////////////////////
 
-		JMenu helpMenu = new JMenu("Help");
-		JMenu colourMenu = new JMenu("Colours");
+		JMenu helpMenuItemsContainer = new JMenu("Help");
+		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer
+		
+		JMenuItem instructionsMenuOption = new JMenuItem("Instructions",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		
+		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
-		
-		backgroundColour = new JMenuItem("Background Colour");
-		textColour = new JMenuItem("Text Colour");
-		componentColour = new JMenuItem("Component Colour");
+		JMenuItem backgroundColour = new JMenuItem("Background Colour");
+		JMenuItem textColour = new JMenuItem("Text Colour");
+		JMenuItem componentColour = new JMenuItem("Component Colour");
 		colourMenu.add(backgroundColour);
 		colourMenu.add(textColour);
 		colourMenu.add(componentColour);
-
-		aboutMenu = new JMenuItem("About", new ImageIcon(getClass().getResource("/images/piciconabt.gif")));
-
-		helpMenu.add(colourMenu);
-		helpMenu.addSeparator();
-		helpMenu.add(aboutMenu);
 		
-		////////////////////////////////////////////////////////////////
+		helpMenuItemsContainer.add(instructionsMenuOption);
+		helpMenuItemsContainer.add(colourMenu);
+		
+		menuBar.add(gameMenuItemsContainer);
+		menuBar.add(helpMenuItemsContainer);
 
-		menuBar.add(gameMenu);
-		menuBar.add(helpMenu);
 	}
 
 	/**
@@ -562,6 +585,7 @@ public class GameView {
 		designBack = new JButton("Back");
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
+		makeMenuBar(designWindow, currentLocale, langText);
 		//JPanel configGrid = new JPanel();
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
@@ -587,7 +611,7 @@ public class GameView {
 		gameMode = 1;
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
-		makeMenuBar();
+		makeMenuBar(picrossWindow, currentlocale, langText);
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
