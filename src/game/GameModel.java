@@ -130,27 +130,6 @@ public class GameModel {
             //System.out.println();
         }
 		
-		int thing = 0;
-		// iterate throught the column string and get the labels
-		for (int b = 0; b < gridSize; b++) {
-			// runs through each element of the ROWS
-			for (int a = 0; a < 2; a++) {
-				//System.out.print(col[a].charAt(b)+"\n");
-				if (col[b].charAt(a) == '1') {
-					thing++;
-				}
-				else {
-					if (thing != 0) {
-						System.out.println(thing);
-					}
-					thing = 0;
-				}
-				
-			}
-		
-		}
-		
-		System.out.println("total sum of thigns: " + thing);
 		
 		
 		// print row and col for testing
@@ -166,7 +145,31 @@ public class GameModel {
 		for (int a = 0; a < gridSize; a++) {
 			System.out.println(col[a]);
 		}
-	
+		System.out.println("\nColumn pattern: ");
+
+		int thing = 0;
+		// iterate throught the column string and get the labels
+		for (int b = 0; b < gridSize; b++) {
+			// runs through each element of the ROWS
+			for (int a = 0; a < gridSize; a++) {
+				//System.out.print(col[a].charAt(b)+"\n");
+				if (col[b].charAt(a) == '1') {
+					thing++;
+				}
+				else {
+					if (thing != 0) {
+						System.out.print(thing + " ");	
+					}
+					thing = 0;
+				}
+			}
+			if(thing != 0) {
+				System.out.print(thing);	
+			}
+		thing = 0;
+		System.out.println("\n");
+
+		}
 		return maxPossible;
 		
 	}
