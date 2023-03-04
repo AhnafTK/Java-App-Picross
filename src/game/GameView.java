@@ -124,9 +124,58 @@ public class GameView {
 	JMenuItem saveMenuOption;
 	JMenuItem loadMenuOption;
 	JMenu gridSizeItemsContainer;
+	JMenuItem instructionsMenuOption;
 	JMenuItem fiveFive = new JMenuItem("5x5");
 	JMenuItem sixSix = new JMenuItem("6x6");
 	JMenuItem sevSev = new JMenuItem("7x7");
+	
+	JLabel fiveRows[];
+	JLabel fiveCols[];
+	String fiveRowNum[] = {"3 1",
+						   "4",
+						   "3",
+						   "1",
+						   "2 2"};
+	
+	String fiveColNum[] = {"<html>1<br>1<br>1<html>",
+						   "<html>3<br>1<html>",
+						   "3",
+						   "<html>1<br>1<html>",
+						   "<html>2<br>2<html>"};
+	
+	JLabel sixRows[];
+	JLabel sixCols[];
+	String sixRowNum[] = {"1 1",
+			   			  "1 1",
+			   			  "1 1",
+			   			  "2",
+			   			  "2",
+						  "4"};
+
+	String sixColNum[] = {"2",
+			   		  	  "<html>1<br>1<html>",
+			   		  	  "3",
+			   		  	  "3",
+			   		  	  "<html>1<br>1<html>",
+			   		  	  "2"};
+	JLabel sevenRows[];
+	JLabel sevenCols[];
+	String sevenRowNum[] = {"1 3",
+							"3 2",
+							"2 1",
+							"4",
+							"5",
+							"1 3",
+							"1 3"};
+	
+	String sevenColNum[] = {"1",
+							"5",
+							"6",
+							"2",
+							"7",
+							"<html>2<br>3<html>",
+							"<html>1<br>2<html>"};
+	
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -200,7 +249,7 @@ public class GameView {
 		JMenu helpMenuItemsContainer = new JMenu("Help");
 		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer
 		
-		JMenuItem instructionsMenuOption = new JMenuItem("Instructions",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		instructionsMenuOption = new JMenuItem("Instructions",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		
 		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
@@ -442,19 +491,16 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
 		boardPanel = new JPanel();
-		// Column panel
-		colPanel = new JPanel();
-		colPanel.setLayout(new GridLayout(gridSize, 1));
-		colPanel.setPreferredSize(new Dimension(75, 0));
+		// Row panel
+		rowPanel = new JPanel();
+		rowPanel.setLayout(new GridLayout(gridSize, 1));
+		rowPanel.setPreferredSize(new Dimension(75, 0));
 
 		for (int i = 0; i < gridSize; i++) {
-			JLabel grid = new JLabel("0 0", SwingConstants.CENTER);
-			grid.setBackground(Color.GRAY);
-			colPanel.add(grid);
+			rowPanel.add(rowArray[i]);
 		}
-
 		////////////////////////////////////////////////////////////////
 
 		// Mark panel
@@ -469,22 +515,21 @@ public class GameView {
 
 		////////////////////////////////////////////////////////////////
 
-		// Row panel
-		rowPanel = new JPanel();
-		rowPanel.add(markCheckBox);
-		rowPanel.setLayout(new GridLayout(1, gridSize + 1));
-		rowPanel.setPreferredSize(new Dimension(0, 75));
-		rowPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
+		// Column panel
+		colPanel = new JPanel();
+		colPanel.add(markCheckBox);
+		colPanel.setLayout(new GridLayout(1, gridSize + 1));
+		colPanel.setPreferredSize(new Dimension(0, 75));
+		colPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
 
 		for (int i = 0; i < gridSize; i++) {
-			JLabel grid = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-			rowPanel.add(grid);
+			colPanel.add(colArray[i]);
 		}
 
 		////////////////////////////////////////////////////////////////
 		// Adds the components to the board panel
-		boardPanel.add(rowPanel, BorderLayout.NORTH);
-		boardPanel.add(colPanel, BorderLayout.WEST);
+		boardPanel.add(colPanel, BorderLayout.NORTH);
+		boardPanel.add(rowPanel, BorderLayout.WEST);
 		////////////////////////////////////////////////////////////////
 
 		JPanel gridButtonPanel = new JPanel();
@@ -593,6 +638,15 @@ public class GameView {
 	 ********************************************************************
 	 */
 	protected void Design(Locale currentLocale, ResourceBundle langText) {
+		
+		fiveRows = new JLabel[gridSize];
+		fiveCols = new JLabel[gridSize];
+
+		for (int i = 0; i < gridSize; i++) {
+			fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+			fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+		}
+		
 		designBack = new JButton("Back");
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
@@ -601,7 +655,7 @@ public class GameView {
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
 		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		designWindow.add(makeBoardPanel(langText, gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
 		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
 		designWindow.add(makeControlPanel(),BorderLayout.EAST);
 		designWindow.pack();
@@ -620,13 +674,22 @@ public class GameView {
 	 */
 	protected void Play(Locale currentlocale, ResourceBundle langText) {
 		gameMode = 1;
+		
+		fiveRows = new JLabel[gridSize];
+		fiveCols = new JLabel[gridSize];
+
+		for (int i = 0; i < gridSize; i++) {
+			fiveRows[i] = new JLabel(fiveRowNum[i], SwingConstants.CENTER);
+			fiveCols[i] = new JLabel(fiveColNum[i], SwingConstants.CENTER);
+		}
+		
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
 		makeMenuBar(picrossWindow, currentlocale, langText);
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);

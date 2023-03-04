@@ -1,16 +1,18 @@
 package game;
 
 import java.awt.Color;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import javax.swing.JPanel;
-
-import java.util.ResourceBundle;
-
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class GameController {
@@ -89,6 +91,7 @@ public class GameController {
 		});
 		boardActions();
 		gridSizeActions();
+		menuBarActions();
 	}
 
 	private void playActions() {
@@ -176,67 +179,8 @@ public class GameController {
 		view.gridSizeCmbo.addActionListener((actionEvent) -> {
 			System.out.println(model.getGameMode());
 			String options = (String) view.gridSizeCmbo.getSelectedItem();
-			switch (options) {
+			changeGridSize(options);
 
-			case "5x5":
-				view.history.append(model.langText.getString("upon_grid_change") + " 5x5\n");
-				model.gridSize = 5;
-				if (model.getGameMode() == 1) {
-					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));
-					view.boardPanel.revalidate();
-				} else {
-					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));
-					view.boardPanel.revalidate();
-				}
-				boardActions();
-				markCheckBoxAction();
-				break;
-
-			// "6x6" option
-			case "6x6":
-				view.history.append(model.langText.getString("upon_grid_change") + " 6x6\n");
-				model.gridSize = 6;
-				if (model.getGameMode() == 1) {
-					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode()));
-					view.boardPanel.revalidate();
-				} else {
-					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode()));
-					view.boardPanel.revalidate();
-				}
-				boardActions();
-				markCheckBoxAction();
-				break;
-
-			case "7x7":
-				view.history.append(model.langText.getString("upon_grid_change") + " 7x7\n");
-				model.gridSize = 7;
-				if (model.getGameMode() == 1) {
-					view.picrossWindow.remove(view.boardPanel);
-					view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
-					view.boardPanel.revalidate();
-				} else {
-					view.designWindow.remove(view.boardPanel);
-					view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
-					view.boardPanel.revalidate();
-				}
-				boardActions();
-				markCheckBoxAction();
-				break;
-			}
-			if (model.getGameMode() == 1){
-				if (model.gameStarted == false) {
-					return;
-				}
-				else {
-					model.timer.stop();
-					model.gameStarted = false;
-					view.timerCounter.setText("00:00");
-				}
-			}
 		});
 
 	}
@@ -267,6 +211,32 @@ public class GameController {
 				view.timerCounter.setText(model.minFormat + ":" + model.secFormat);
 			}
 		});
+	}
+	
+	private void backToLauncher() {
+		
+		model.setMarkMode(false);
+		if (model.getGameMode() == 1) {
+			view.picrossWindow.dispose();
+			view.launcher(model.langText, model.currentLocale);
+			launcherActions();
+			if (model.gameStarted == false) {
+				return;
+			}
+			else {
+				model.timer.stop();
+				model.gameStarted = false;
+				view.timerCounter.setText("00:00");
+			}
+		}
+		else {
+			model.gameStarted = false;
+			view.designWindow.dispose();
+			System.out.println("clicked design back button");
+			view.launcher(model.langText, model.currentLocale);
+			launcherActions();
+		}
+		
 	}
 	
 	private void leftPanelActions() {
@@ -344,10 +314,28 @@ public class GameController {
 	private void menuBarActions() {
 		
 		view.saveMenuOption.addActionListener((actionEvent)->{
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File("."));
 			
+			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				File file;
+				//PrintWriter fileOut;
+				
+				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+				
+			}
 		});
 		view.loadMenuOption.addActionListener((actionEvent)->{
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new File("."));
 			
+			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				File file;
+				//PrintWriter fileOut;
+				
+				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+				
+			}
 		});
 		view.newMenuOption.addActionListener((actionEvent)->{
 	
@@ -356,26 +344,31 @@ public class GameController {
 	
 		//});
 		view.resetMenuOption.addActionListener((actionEvent)->{
-			
+			resetBoard();
 		});
 		view.solveMenuOption.addActionListener((actionEvent)->{
 	
 		});
 		// gridisze here
 		view.fiveFive.addActionListener((actionEvent)->{
-					
+			changeGridSize("5x5");
 		});
 		view.sixSix.addActionListener((actionEvent)->{
-			
+			changeGridSize("6x6");
+
 		});
 		view.sevSev.addActionListener((actionEvent)->{
-			
+			changeGridSize("7x7");
+
 		});
 		view.toLauncherMenuOption.addActionListener((actionEvent)->{
-			
+			backToLauncher();
 		});
 		view.exitMenuOption.addActionListener((actionEvent)->{
-	
+			System.exit(0);
+		});
+		view.instructionsMenuOption.addActionListener((actionEvent)->{
+			showInstructions();
 		});
 		view.backgroundColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
@@ -443,7 +436,149 @@ public class GameController {
 		});
 		
 		
+	}
+	
+	private void resetBoard() {
+		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+		+ model.langText.getString("reset") + "\n");
+		if (model.getGameMode() == 1){
+			if (model.gameStarted == false) {
+				return;
+			}
+			else {
+				model.timer.stop();
+				model.gameStarted = false;
+				view.timerCounter.setText("00:00");
+			}
+		}
+		for (JButton[] i : view.buttons) {
+			for (JButton j : i) {
+				j.setBackground(Color.WHITE);
+				j.setEnabled(true);
+			}
+		}
+
+	}
+	
+	private void showInstructions() {
+		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+		+ model.langText.getString("instructions") + "\n");
+		
+		view.Instructions(model.currentLocale);
+		view.instructionsButton.setEnabled(false);
+		instructionsActions();
+	}
+	
+	private void solveBoard() {
 		
 	}
 	
+	private void newBoard() {
+		
+	}
+	
+	private void changeGridSize(String options) {
+		switch (options) {
+
+		case "5x5":
+			view.history.append(model.langText.getString("upon_grid_change") + " 5x5\n");
+			model.gridSize = 5;
+			if (model.getGameMode() == 1) {
+				view.fiveRows = new JLabel[model.gridSize];
+				view.fiveCols = new JLabel[model.gridSize];
+
+				for (int i = 0; i < model.gridSize; i++) {
+					view.fiveRows[i] = new JLabel(view.fiveRowNum[i], SwingConstants.CENTER);
+					view.fiveCols[i] = new JLabel(view.fiveColNum[i], SwingConstants.CENTER);
+				}
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+				view.boardPanel.revalidate();
+			} else {
+				view.fiveRows = new JLabel[model.gridSize];
+				view.fiveCols = new JLabel[model.gridSize];
+				for (int i = 0; i < model.gridSize; i++) {
+					view.fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+				view.boardPanel.revalidate();
+			}
+			boardActions();
+			markCheckBoxAction();
+			break;
+
+		// "6x6" option
+		case "6x6":
+			view.history.append(model.langText.getString("upon_grid_change") + " 6x6\n");
+			model.gridSize = 6;
+			if (model.getGameMode() == 1) {
+
+				view.sixRows = new JLabel[model.gridSize];
+				view.sixCols = new JLabel[model.gridSize];
+
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sixRows[i] = new JLabel(view.sixRowNum[i], SwingConstants.CENTER);
+					view.sixCols[i] = new JLabel(view.sixColNum[i], SwingConstants.CENTER);
+				}
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode(),view.sixRows,view.sixCols));
+				view.boardPanel.revalidate();
+			} else {
+				view.sixRows = new JLabel[model.gridSize];
+				view.sixCols = new JLabel[model.gridSize];
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sixRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.sixCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+				
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
+				view.boardPanel.revalidate();
+			}
+			boardActions();
+			markCheckBoxAction();
+			break;
+
+		case "7x7":
+			view.history.append(model.langText.getString("upon_grid_change") + " 7x7\n");
+			model.gridSize = 7;
+			if (model.getGameMode() == 1) {
+				view.sevenRows = new JLabel[model.gridSize];
+				view.sevenCols = new JLabel[model.gridSize];
+
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sevenRows[i] = new JLabel(view.sevenRowNum[i], SwingConstants.CENTER);
+					view.sevenCols[i] = new JLabel(view.sevenColNum[i], SwingConstants.CENTER);
+				}
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				view.boardPanel.revalidate();
+			} else {
+				view.sevenRows = new JLabel[model.gridSize];
+				view.sevenCols = new JLabel[model.gridSize];
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sevenRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.sevenCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				view.boardPanel.revalidate();
+			}
+			boardActions();
+			markCheckBoxAction();
+			break;
+		}
+		if (model.getGameMode() == 1){
+			if (model.gameStarted == false) {
+				return;
+			}
+			else {
+				model.timer.stop();
+				model.gameStarted = false;
+				view.timerCounter.setText("00:00");
+			}
+		}
+	}
 }
