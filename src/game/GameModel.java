@@ -82,30 +82,23 @@ public class GameModel {
 	
 	protected int generateInts(int gridSize) {
 		int maxPossible = (int) (Math.pow(2, gridSize)-1);
+		String[] row = new String[gridSize]; 
+		String[] col = new String[gridSize]; 
+
 
 		for (int i = 0; i < gridSize; i++) {
 			Random rand = new Random(); 
 			int value = rand.nextInt(maxPossible);
-			System.out.println(value);
+			System.out.print(value);
 			String binVal = Integer.toBinaryString(value);
 			while(binVal.length() < gridSize) {
 				binVal = "0" + binVal;
 			}
-			System.out.println(binVal);
+			System.out.print("	"+binVal+"\n");
+			row[i] = binVal;
 			
-			/*
-			StringTokenizer tokenizer = new StringTokenizer(binVal);
 			int increment = 0;
-			while (tokenizer.hasMoreTokens()) {
-				if (tokenizer.nextToken() == "1") {
-					increment++;
-				}
-			
-				
-			}
-			*/
-			int increment = 0;
-			System.out.print("Pattern: ");
+			System.out.print("Pattern(rows): ");
 			for (int j = 0; j < gridSize; j++) {
 
 				if (binVal.charAt(j) == '1') {
@@ -124,7 +117,56 @@ public class GameModel {
 			System.out.println("\n");
 		}
 		
+		// col
+		//int k = 0;
 		
+		for (int k = 0; k < gridSize; k++) {
+			String colVal = "";
+            for (int l = 0; l < gridSize; l++) {
+            	colVal = colVal + row[l].charAt(k);
+               // System.out.print(row[l].charAt(k));
+            }
+            col[k] = colVal;
+            //System.out.println();
+        }
+		
+		int thing = 0;
+		// iterate throught the column string and get the labels
+		for (int b = 0; b < gridSize; b++) {
+			// runs through each element of the ROWS
+			for (int a = 0; a < 2; a++) {
+				//System.out.print(col[a].charAt(b)+"\n");
+				if (col[b].charAt(a) == '1') {
+					thing++;
+				}
+				else {
+					if (thing != 0) {
+						System.out.println(thing);
+					}
+					thing = 0;
+				}
+				
+			}
+		
+		}
+		
+		System.out.println("total sum of thigns: " + thing);
+		
+		
+		// print row and col for testing
+		// rows
+		System.out.println(" ");
+		System.out.println("ROWS");
+		for (int a = 0; a < gridSize; a++) {
+			System.out.println(row[a]);
+		}
+		System.out.println(" ");
+		System.out.println("COL");
+
+		for (int a = 0; a < gridSize; a++) {
+			System.out.println(col[a]);
+		}
+	
 		return maxPossible;
 		
 	}
