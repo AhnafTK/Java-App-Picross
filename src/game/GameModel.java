@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import javax.swing.JColorChooser;
@@ -81,7 +82,7 @@ public class GameModel {
 	
 	protected int generateInts(int gridSize) {
 		int maxPossible = (int) (Math.pow(2, gridSize)-1);
-		
+
 		for (int i = 0; i < gridSize; i++) {
 			Random rand = new Random(); 
 			int value = rand.nextInt(maxPossible);
@@ -92,6 +93,7 @@ public class GameModel {
 			}
 			System.out.println(binVal);
 			
+			/*
 			StringTokenizer tokenizer = new StringTokenizer(binVal);
 			int increment = 0;
 			while (tokenizer.hasMoreTokens()) {
@@ -101,8 +103,25 @@ public class GameModel {
 			
 				
 			}
-			System.out.println(increment);
+			*/
+			int increment = 0;
+			System.out.print("Pattern: ");
+			for (int j = 0; j < gridSize; j++) {
 
+				if (binVal.charAt(j) == '1') {
+					increment++;
+				}
+				else {
+					if(increment != 0) {
+						System.out.print(increment + " ");	
+					}
+					increment = 0;
+				}
+			}
+			if(increment != 0) {
+				System.out.print(increment);	
+			}
+			System.out.println("\n");
 		}
 		
 		
