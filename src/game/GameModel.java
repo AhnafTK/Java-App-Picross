@@ -2,7 +2,9 @@ package game;
 
 import java.awt.Color;
 import java.util.Locale;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.StringTokenizer;
 
 import javax.swing.JColorChooser;
 import javax.swing.Timer;
@@ -24,6 +26,7 @@ public class GameModel {
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
 	
+	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
 	/**
 	 * @return the gameMode
@@ -76,9 +79,41 @@ public class GameModel {
 		this.langText = langText;
 	}
 	
+	protected int generateInts(int gridSize) {
+		int maxPossible = (int) (Math.pow(2, gridSize)-1);
+		
+		for (int i = 0; i < gridSize; i++) {
+			Random rand = new Random(); 
+			int value = rand.nextInt(maxPossible);
+			System.out.println(value);
+			String binVal = Integer.toBinaryString(value);
+			while(binVal.length() < gridSize) {
+				binVal = "0" + binVal;
+			}
+			System.out.println(binVal);
+			
+			StringTokenizer tokenizer = new StringTokenizer(binVal);
+			int increment = 0;
+			while (tokenizer.hasMoreTokens()) {
+				if (tokenizer.nextToken() == "1") {
+					increment++;
+				}
+			
+				
+			}
+			System.out.println(increment);
+
+		}
+		
+		
+		return maxPossible;
+		
+	}
 	
 
 	
+	
+
 }
 
 

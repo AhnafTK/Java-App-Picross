@@ -24,6 +24,10 @@ public class GameController {
 		// TODO Auto-generated constructor stub
 		this.model = model;
 		this.view = view;
+		
+		// 
+		int lol = model.generateInts(5);
+		//System.out.println(lol);
 	}
 
 	protected void startController() {
@@ -367,7 +371,7 @@ public class GameController {
 		view.exitMenuOption.addActionListener((actionEvent)->{
 			System.exit(0);
 		});
-		view.instructionsMenuOption.addActionListener((actionEvent)->{
+		view.aboutMenuOption.addActionListener((actionEvent)->{
 			showInstructions();
 		});
 		view.backgroundColour.addActionListener((actionEvent) -> {

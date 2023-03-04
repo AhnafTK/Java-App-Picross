@@ -124,7 +124,7 @@ public class GameView {
 	JMenuItem saveMenuOption;
 	JMenuItem loadMenuOption;
 	JMenu gridSizeItemsContainer;
-	JMenuItem instructionsMenuOption;
+	JMenuItem aboutMenuOption;
 	JMenuItem fiveFive = new JMenuItem("5x5");
 	JMenuItem sixSix = new JMenuItem("6x6");
 	JMenuItem sevSev = new JMenuItem("7x7");
@@ -249,7 +249,7 @@ public class GameView {
 		JMenu helpMenuItemsContainer = new JMenu("Help");
 		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer
 		
-		instructionsMenuOption = new JMenuItem("Instructions",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		
 		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
@@ -260,7 +260,7 @@ public class GameView {
 		colourMenu.add(textColour);
 		colourMenu.add(componentColour);
 		
-		helpMenuItemsContainer.add(instructionsMenuOption);
+		helpMenuItemsContainer.add(aboutMenuOption);
 		helpMenuItemsContainer.add(colourMenu);
 		
 		menuBar.add(gameMenuItemsContainer);
