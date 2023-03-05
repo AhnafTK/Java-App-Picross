@@ -89,7 +89,7 @@ public class GameModel {
 		this.langText = langText;
 	}
 
-	protected void getLabel(String[] array) {
+	protected String[] getLabel(String[] array) {
 		
 		String[] returnLabels = new String[gridSize];
 		String currentLabel = "";
@@ -137,6 +137,7 @@ public class GameModel {
 		for (String i: returnLabels) {
 			System.out.println(i);
 		}
+		return returnLabels;
 	}
 
 	protected String[] generateRows(int maxPossible) {
@@ -162,7 +163,7 @@ public class GameModel {
 			System.out.println(row[a]);
 
 		}
-		getLabel(row);
+		//getLabel(row);
 
 		return row;
 	}
@@ -183,7 +184,7 @@ public class GameModel {
 		for (int a = 0; a < gridSize; a++) {
 			System.out.println(col[a]);
 		}
-		getLabel(col);
+		//getLabel(col);
 		return col;
 
 	}
@@ -192,8 +193,15 @@ public class GameModel {
 		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
 		String[] row = new String[gridSize];
 		String[] col = new String[gridSize];
+		
 		row = generateRows(maxPossible);
 		col = generateCols(row);
+		
+		String[] returnLabelRow = getLabel(row);
+		String[] returnLabelCol = getLabel(col);
+		
+		
+
 
 	}
 

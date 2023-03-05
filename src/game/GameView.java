@@ -690,6 +690,8 @@ public class GameView {
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
 		picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
+
+		//picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);
