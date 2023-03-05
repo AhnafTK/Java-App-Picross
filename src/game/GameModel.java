@@ -90,28 +90,52 @@ public class GameModel {
 	}
 
 	protected void getLabel(String[] array) {
+		
+		String[] returnLabels = new String[gridSize];
+		String currentLabel = "";
 		System.out.println("\nPATTERN");
-		int thing = 0;
+		int increment = 0;
+		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
-		for (int b = 0; b < gridSize; b++) {
+		for (int a = 0; a < gridSize; a++) {
 			// runs through each element of the ROWS
-			for (int a = 0; a < gridSize; a++) {
+			for (int b = 0; b < gridSize; b++) {
 				// System.out.print(col[a].charAt(b)+"\n");
-				if (array[b].charAt(a) == '1') {
-					thing++;
-				} else {
-					if (thing != 0) {
-						System.out.print(thing + ",");
+				if (array[a].charAt(b) == '1') { // if 1
+					increment++;
+					totalPerRow++;
+				} else { // if 0
+					if (increment != 0) { // if 0 and increment is not 0
+						System.out.print(increment + " ");
+						currentLabel = currentLabel + increment + " ";
 					}
-					thing = 0;
+					
+					increment = 0;
 				}
 			}
-			if (thing != 0) {
-				System.out.print(thing);
-			}
-			thing = 0;
-			System.out.println("");
+			if (increment != 0) {
+				System.out.print(increment);
+				currentLabel = currentLabel + increment + " ";
 
+			}
+			increment = 0;
+			System.out.println("");
+			if (totalPerRow == 0) {
+				currentLabel = currentLabel + "0";
+				returnLabels[a] = currentLabel + " ";
+
+			} 
+			else {
+				returnLabels[a] = currentLabel + " ";
+				currentLabel = "";
+			}
+			
+			totalPerRow = 0;
+		}
+		//System.out.println("return label val: " + returnLabel);
+		System.out.println("array");
+		for (String i: returnLabels) {
+			System.out.println(i);
 		}
 	}
 
@@ -143,7 +167,7 @@ public class GameModel {
 		return row;
 	}
 
-	protected void generateCols(String[] row) {
+	protected String[] generateCols(String[] row) {
 		String[] col = new String[gridSize];
 
 		for (int k = 0; k < gridSize; k++) {
@@ -160,6 +184,7 @@ public class GameModel {
 			System.out.println(col[a]);
 		}
 		getLabel(col);
+		return col;
 
 	}
 
@@ -168,7 +193,7 @@ public class GameModel {
 		String[] row = new String[gridSize];
 		String[] col = new String[gridSize];
 		row = generateRows(maxPossible);
-		generateCols(row);
+		col = generateCols(row);
 
 	}
 
