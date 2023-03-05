@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import javax.swing.JColorChooser;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class GameModel {
@@ -93,7 +95,7 @@ public class GameModel {
 		
 		String[] returnLabels = new String[gridSize];
 		String currentLabel = "";
-		System.out.println("\nPATTERN");
+		//System.out.println("\nPATTERN");
 		int increment = 0;
 		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
@@ -106,7 +108,7 @@ public class GameModel {
 					totalPerRow++;
 				} else { // if 0
 					if (increment != 0) { // if 0 and increment is not 0
-						System.out.print(increment + " ");
+						//System.out.print(increment + " ");
 						currentLabel = currentLabel + increment + " ";
 					}
 					
@@ -114,12 +116,12 @@ public class GameModel {
 				}
 			}
 			if (increment != 0) {
-				System.out.print(increment);
+				//System.out.print(increment);
 				currentLabel = currentLabel + increment + " ";
 
 			}
 			increment = 0;
-			System.out.println("");
+			//System.out.println("");
 			if (totalPerRow == 0) {
 				currentLabel = currentLabel + "0";
 				returnLabels[a] = currentLabel + " ";
@@ -133,9 +135,9 @@ public class GameModel {
 			totalPerRow = 0;
 		}
 		//System.out.println("return label val: " + returnLabel);
-		System.out.println("array");
+		//System.out.println("array");
 		for (String i: returnLabels) {
-			System.out.println(i);
+			//System.out.println(i);
 		}
 		return returnLabels;
 	}
@@ -143,24 +145,24 @@ public class GameModel {
 	protected String[] generateRows(int maxPossible) {
 		String[] row = new String[gridSize];
 
-		System.out.println("generated values");
+		//System.out.println("generated values");
 		for (int i = 0; i < gridSize; i++) {
 
 			Random rand = new Random();
 			int value = rand.nextInt(maxPossible);
-			System.out.print(value);
+			//System.out.print(value);
 			
 			String binVal = Integer.toBinaryString(value);
 			while (binVal.length() < gridSize) {
 				binVal = "0" + binVal;
 			}
-			System.out.print("	" + binVal + "\n");
+			//System.out.print("	" + binVal + "\n");
 			row[i] = binVal;
 		}
 	
-		System.out.println("\nROWS");
+		//System.out.println("\nROWS");
 		for (int a = 0; a < gridSize; a++) {
-			System.out.println(row[a]);
+			//System.out.println(row[a]);
 
 		}
 		//getLabel(row);
@@ -179,30 +181,28 @@ public class GameModel {
 			col[k] = colVal;
 		}
 
-		System.out.println("\nCOL");
+		//System.out.println("\nCOL");
 
 		for (int a = 0; a < gridSize; a++) {
-			System.out.println(col[a]);
+			//System.out.println(col[a]);
 		}
 		//getLabel(col);
 		return col;
 
 	}
 
-	protected void generateInts(int gridSize) {
-		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
-		String[] row = new String[gridSize];
-		String[] col = new String[gridSize];
-		
-		row = generateRows(maxPossible);
-		col = generateCols(row);
-		
-		String[] returnLabelRow = getLabel(row);
-		String[] returnLabelCol = getLabel(col);
-		
-		
-
-
-	}
+//	protected void generateInts(int gridSize) {
+//		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
+//		String[] row = new String[gridSize];
+//		String[] col = new String[gridSize];
+//		
+//		row = generateRows(maxPossible);
+//		col = generateCols(row);
+//		
+//		String[] returnLabelRow = getLabel(row);
+//		String[] returnLabelCol = getLabel(col);
+//		
+//
+//	}
 
 }
