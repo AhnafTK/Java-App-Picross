@@ -26,7 +26,9 @@ public class GameController {
 		this.view = view;
 		
 		// 
-		int lol = model.generateInts(5);
+		
+		//int lol = model.generateInts(5);
+		model.generateInts(5);
 		//System.out.println(lol);
 	}
 

@@ -23,161 +23,153 @@ public class GameModel {
 	protected int gameMode = 0;
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;
-	
+
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
-	
+
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
+
 	/**
 	 * @return the gameMode
 	 */
 	protected int getGameMode() {
 		return gameMode;
 	}
+
 	/**
 	 * @return the markMode
 	 */
 	protected boolean isMarkMode() {
 		return markMode;
 	}
+
 	/**
 	 * @param markMode the markMode to set
 	 */
 	protected void setMarkMode(boolean markMode) {
 		this.markMode = markMode;
 	}
+
 	/**
 	 * @param gameMode the gameMode to set
 	 */
 	protected void setGameMode(int gameMode) {
 		this.gameMode = gameMode;
 	}
+
 	protected int time = 0;
 	protected int score = 0;
+
 	/**
 	 * @return the currentLocale
 	 */
 	protected Locale getCurrentLocale() {
 		return currentLocale;
 	}
+
 	/**
 	 * @param currentLocale the currentLocale to set
 	 */
 	protected void setCurrentLocale(Locale currentLocale) {
 		this.currentLocale = currentLocale;
 	}
+
 	/**
 	 * @return the langText
 	 */
 	protected ResourceBundle getLangText() {
 		return langText;
 	}
+
 	/**
 	 * @param langText the langText to set
 	 */
 	protected void setLangText(ResourceBundle langText) {
 		this.langText = langText;
 	}
-	
-	protected int generateInts(int gridSize) {
-		int maxPossible = (int) (Math.pow(2, gridSize)-1);
-		String[] row = new String[gridSize]; 
-		String[] col = new String[gridSize]; 
 
-
-		for (int i = 0; i < gridSize; i++) {
-			Random rand = new Random(); 
-			int value = rand.nextInt(maxPossible);
-			System.out.print(value);
-			String binVal = Integer.toBinaryString(value);
-			while(binVal.length() < gridSize) {
-				binVal = "0" + binVal;
-			}
-			System.out.print("	"+binVal+"\n");
-			row[i] = binVal;
-			
-			int increment = 0;
-			System.out.print("Pattern(rows): ");
-			for (int j = 0; j < gridSize; j++) {
-
-				if (binVal.charAt(j) == '1') {
-					increment++;
-				}
-				else {
-					if(increment != 0) {
-						System.out.print(increment + " ");	
-					}
-					increment = 0;
-				}
-			}
-			if(increment != 0) {
-				System.out.print(increment);	
-			}
-			System.out.println("\n");
-		}
-		
-		// col
-		//int k = 0;
-		
-		for (int k = 0; k < gridSize; k++) {
-			String colVal = "";
-            for (int l = 0; l < gridSize; l++) {
-            	colVal = colVal + row[l].charAt(k);
-               // System.out.print(row[l].charAt(k));
-            }
-            col[k] = colVal;
-            //System.out.println();
-        }
-		
-		
-		
-		// print row and col for testing
-		// rows
-		System.out.println(" ");
-		System.out.println("ROWS");
-		for (int a = 0; a < gridSize; a++) {
-			System.out.println(row[a]);
-		}
-		System.out.println(" ");
-		System.out.println("COL");
-
-		for (int a = 0; a < gridSize; a++) {
-			System.out.println(col[a]);
-		}
-		System.out.println("\nColumn pattern: ");
-
+	protected void getLabel(String[] array) {
+		System.out.println("\nPATTERN");
 		int thing = 0;
 		// iterate throught the column string and get the labels
 		for (int b = 0; b < gridSize; b++) {
 			// runs through each element of the ROWS
 			for (int a = 0; a < gridSize; a++) {
-				//System.out.print(col[a].charAt(b)+"\n");
-				if (col[b].charAt(a) == '1') {
+				// System.out.print(col[a].charAt(b)+"\n");
+				if (array[b].charAt(a) == '1') {
 					thing++;
-				}
-				else {
+				} else {
 					if (thing != 0) {
-						System.out.print(thing + " ");	
+						System.out.print(thing + ",");
 					}
 					thing = 0;
 				}
 			}
-			if(thing != 0) {
-				System.out.print(thing);	
+			if (thing != 0) {
+				System.out.print(thing);
 			}
-		thing = 0;
-		System.out.println("\n");
+			thing = 0;
+			System.out.println("");
 
 		}
-		return maxPossible;
-		
 	}
-	
 
+	protected String[] generateRows(int maxPossible) {
+		String[] row = new String[gridSize];
+
+		System.out.println("generated values");
+		for (int i = 0; i < gridSize; i++) {
+
+			Random rand = new Random();
+			int value = rand.nextInt(maxPossible);
+			System.out.print(value);
+			
+			String binVal = Integer.toBinaryString(value);
+			while (binVal.length() < gridSize) {
+				binVal = "0" + binVal;
+			}
+			System.out.print("	" + binVal + "\n");
+			row[i] = binVal;
+		}
 	
-	
+		System.out.println("\nROWS");
+		for (int a = 0; a < gridSize; a++) {
+			System.out.println(row[a]);
+
+		}
+		getLabel(row);
+
+		return row;
+	}
+
+	protected void generateCols(String[] row) {
+		String[] col = new String[gridSize];
+
+		for (int k = 0; k < gridSize; k++) {
+			String colVal = "";
+			for (int l = 0; l < gridSize; l++) {
+				colVal = colVal + row[l].charAt(k);
+			}
+			col[k] = colVal;
+		}
+
+		System.out.println("\nCOL");
+
+		for (int a = 0; a < gridSize; a++) {
+			System.out.println(col[a]);
+		}
+		getLabel(col);
+
+	}
+
+	protected void generateInts(int gridSize) {
+		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
+		String[] row = new String[gridSize];
+		String[] col = new String[gridSize];
+		row = generateRows(maxPossible);
+		generateCols(row);
+
+	}
 
 }
-
-
