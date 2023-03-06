@@ -31,7 +31,10 @@ public class GameModel {
 
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
-
+	
+	String[] row;
+	String[] col;
+	
 	/**
 	 * @return the gameMode
 	 */
@@ -135,15 +138,15 @@ public class GameModel {
 			totalPerRow = 0;
 		}
 		//System.out.println("return label val: " + returnLabel);
-		//System.out.println("array");
+		System.out.println("array");
 		for (String i: returnLabels) {
-			//System.out.println(i);
+			System.out.println(i);
 		}
 		return returnLabels;
 	}
 
 	protected String[] generateRows(int maxPossible) {
-		String[] row = new String[gridSize];
+		row = new String[gridSize];
 
 		//System.out.println("generated values");
 		for (int i = 0; i < gridSize; i++) {
@@ -160,9 +163,9 @@ public class GameModel {
 			row[i] = binVal;
 		}
 	
-		//System.out.println("\nROWS");
+		System.out.println("\nROWS");
 		for (int a = 0; a < gridSize; a++) {
-			//System.out.println(row[a]);
+			System.out.println(row[a]);
 
 		}
 		//getLabel(row);
@@ -171,7 +174,7 @@ public class GameModel {
 	}
 
 	protected String[] generateCols(String[] row) {
-		String[] col = new String[gridSize];
+		col = new String[gridSize];
 
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
@@ -181,10 +184,10 @@ public class GameModel {
 			col[k] = colVal;
 		}
 
-		//System.out.println("\nCOL");
+		System.out.println("\nCOL");
 
 		for (int a = 0; a < gridSize; a++) {
-			//System.out.println(col[a]);
+			System.out.println(col[a]);
 		}
 		//getLabel(col);
 		return col;

@@ -119,13 +119,68 @@ public class GameController {
 			view.instructionsButton.setEnabled(true);
 		});
 	}
+	
+	private void check(int indexi, int indexj) {
+		
+	}
 
 	private void boardActions() {
+		int indexi = 0;
+		int indexj = 0;
+		
+		ActionListener listener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	        	
+	        	for (int i = 0; i < model.gridSize; i++) {
+					for (int j = 0; j < model.gridSize; j++) {
+						if (e.getSource() == view.buttons[i][j]) {
+							
+							if (model.isMarkMode()) {
+								view.buttons[i][j].setBackground(new Color(226, 222, 222));
+								
+								
+							} else {
+								if (model.gameStarted == false) {
+									timerCounter(); 
+									model.timer.start();	
+								}
+								if (model.row[i].charAt(j) == '1') {
+									System.out.println("correct");
+									view.buttons[i][j].setBackground(new Color(17, 15, 15));
+
+								}
+								else {
+									view.buttons[i][j].setBackground(Color.red);
+									System.out.println("false");
+								}
+								view.buttons[i][j].setEnabled(false);
+							}
+							
+							
+							//check(i, j);
+						}
+						
+					}
+				}
+	        	
+	        }
+	    };
+	    
+		for (JButton[] i : view.buttons) {
+			//indexi++;
+			for (JButton j : i) {
+				j.addActionListener(listener);
+			}
+		}
+		/**
 		for (JButton[] i : view.buttons) {
 			for (JButton j : i) {
 				j.addActionListener((actionEvent) -> { 
 					if (model.isMarkMode()) {
 						j.setBackground(new Color(226, 222, 222));
+						
+						
 					} else {
 						if (model.gameStarted == false) {
 							timerCounter(); 
@@ -135,9 +190,18 @@ public class GameController {
 						j.setBackground(new Color(17, 15, 15));
 					}
 				});
+				indexj++;
 			}
+			indexi++;
 		}
+		**/
+		
+		//System.out.println("indexj" + indexj);
+		//System.out.println("indexi" + indexi);
+
 	}
+	
+
 
 	private void markCheckBoxAction() {
 		view.markCheckBox.addActionListener((actionEvent) -> {
