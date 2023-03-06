@@ -32,6 +32,31 @@ public class GameModel {
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
 	
+	int [] defaultFiveBVals = {21,20,29,21,21};
+	/**
+	 * 5x5
+		10101 	= 21
+		10100	= 20
+		11101	= 29
+		10101	= 21
+		10101   = 21
+		
+		6x6
+		110011	= 51
+		010010	= 18
+		000000	= 0
+		100001	= 33
+		010010	= 18
+		001100	= 12
+		
+		7x7
+		0101010	= 42
+		0011100	= 28
+		0100010	= 34
+		1101011 = 107
+		0100010	= 34
+		0011100	= 28
+	 */
 	String[] row;
 	String[] col;
 	
@@ -145,30 +170,63 @@ public class GameModel {
 		return returnLabels;
 	}
 
-	protected String[] generateRows(int maxPossible) {
+	
+	protected String intToBinary(int value) {
+		String binVal = Integer.toBinaryString(value);
+		while (binVal.length() < gridSize) {
+			binVal = "0" + binVal;
+		}
+		return binVal;
+	}
+	
+	protected String[] generateRows(int maxPossible, boolean useDefault) {
 		row = new String[gridSize];
+		
+		if (useDefault == true) {
+			switch(gridSize) {
+			case 5:
+				System.out.println("default 5x5");
+				for (int i = 0; i < gridSize; i++) {
+					row[i] = intToBinary(defaultFiveBVals[i]);
+					System.out.println(row[i]);
+				}
+				break;
+			case 6:
+				System.out.println("default 6x6");
+				for (int i = 0; i < gridSize; i++) {
+					row[i] = intToBinary(defaultFiveBVals[i]);
+					System.out.println(row[i]);
+				}
+				break;
+			case 7:
+				System.out.println("default 6x6");
+				for (int i = 0; i < gridSize; i++) {
+					row[i] = intToBinary(defaultFiveBVals[i]);
+					System.out.println(row[i]);
+				}
+				break;
 
-		//System.out.println("generated values");
-		for (int i = 0; i < gridSize; i++) {
-
-			Random rand = new Random();
-			int value = rand.nextInt(maxPossible);
-			//System.out.print(value);
-			
-			String binVal = Integer.toBinaryString(value);
-			while (binVal.length() < gridSize) {
-				binVal = "0" + binVal;
 			}
-			//System.out.print("	" + binVal + "\n");
-			row[i] = binVal;
+				
+				
+		}
+		else {
+			//System.out.println("generated values");
+			for (int i = 0; i < gridSize; i++) {
+
+				Random rand = new Random();
+				int value = rand.nextInt(maxPossible);
+				row[i] = intToBinary(value);
+			}
+		
+			System.out.println("\nROWS");
+			for (int a = 0; a < gridSize; a++) {
+				System.out.println(row[a]);
+
+			}
 		}
 	
-		System.out.println("\nROWS");
-		for (int a = 0; a < gridSize; a++) {
-			System.out.println(row[a]);
-
-		}
-		//getLabel(row);
+	
 
 		return row;
 	}
@@ -194,6 +252,8 @@ public class GameModel {
 
 	}
 
+	
+	
 //	protected void generateInts(int gridSize) {
 //		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
 //		String[] row = new String[gridSize];

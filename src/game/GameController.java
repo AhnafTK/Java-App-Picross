@@ -105,6 +105,7 @@ public class GameController {
 		gridSizeActions();
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
+		newBoard(true);
 		boardActions();
 		menuBarActions();
 	}
@@ -250,7 +251,7 @@ public class GameController {
 			System.out.println(model.getGameMode());
 			String options = (String) view.gridSizeCmbo.getSelectedItem();
 			changeGridSize(options);
-
+			
 		});
 
 	}
@@ -377,7 +378,7 @@ public class GameController {
 		view.newBoardButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 			+ model.langText.getString("newBoard") + "\n");
-			newBoard();
+			newBoard(false);
 		});
 
 	}
@@ -544,9 +545,9 @@ public class GameController {
 		
 	}
 	
-	private void newBoard() {
+	private void newBoard(boolean isDefault) {
 		String options = (String) view.gridSizeCmbo.getSelectedItem();
-
+		
 		int maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
 		String[] row = new String[model.gridSize];
 		String[] col = new String[model.gridSize];
@@ -561,7 +562,7 @@ public class GameController {
 			view.fiveRows = new JLabel[model.gridSize];
 			view.fiveCols = new JLabel[model.gridSize];
 
-			row = model.generateRows(maxPossible);
+			row = model.generateRows(maxPossible, isDefault);
 			col = model.generateCols(row);
 
 			returnLabelRow = model.getLabel(row);
@@ -584,7 +585,7 @@ public class GameController {
 			view.sixRows = new JLabel[model.gridSize];
 			view.sixCols = new JLabel[model.gridSize];
 
-			row = model.generateRows(maxPossible);
+			row = model.generateRows(maxPossible, isDefault);
 			col = model.generateCols(row);
 
 			returnLabelRow = model.getLabel(row);
@@ -606,7 +607,7 @@ public class GameController {
 			view.sevenRows = new JLabel[model.gridSize];
 			view.sevenCols = new JLabel[model.gridSize];
 
-			row = model.generateRows(maxPossible);
+			row = model.generateRows(maxPossible, isDefault);
 			col = model.generateCols(row);
 
 			returnLabelRow = model.getLabel(row);
@@ -631,24 +632,9 @@ public class GameController {
 		case "5x5":
 			view.history.append(model.langText.getString("upon_grid_change") + " 5x5\n");
 			model.gridSize = 5;
-			view.fiveRows = new JLabel[model.gridSize];
-			view.fiveCols = new JLabel[model.gridSize];
 			
-			if (model.getGameMode() == 1) {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.fiveRows[i] = new JLabel(view.fiveRowNum[i], SwingConstants.CENTER);
-					view.fiveCols[i] = new JLabel(view.fiveColNum[i], SwingConstants.CENTER);
-				}
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-			} else {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
-				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-			}
+			view.picrossWindow.remove(view.boardPanel);
+			view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
 			view.boardPanel.revalidate();
 			boardActions();
 			markCheckBoxAction();
@@ -661,22 +647,8 @@ public class GameController {
 			view.sixRows = new JLabel[model.gridSize];
 			view.sixCols = new JLabel[model.gridSize];
 			
-			if (model.getGameMode() == 1) {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sixRows[i] = new JLabel(view.sixRowNum[i], SwingConstants.CENTER);
-					view.sixCols[i] = new JLabel(view.sixColNum[i], SwingConstants.CENTER);
-				}
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode(),view.sixRows,view.sixCols));
-			} else {
-	
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sixRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.sixCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
-				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode(),view.sixRows,view.sixCols));
-			}
+			view.picrossWindow.remove(view.boardPanel);
+			view.designWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode(),view.sixRows,view.sixCols));
 			view.boardPanel.revalidate();
 			boardActions();
 			markCheckBoxAction();
