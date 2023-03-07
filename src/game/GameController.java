@@ -627,59 +627,7 @@ public class GameController {
 	}
 	
 	private void changeGridSize(String options) {
-		switch (options) {
-
-		case "5x5":
-			view.history.append(model.langText.getString("upon_grid_change") + " 5x5\n");
-			model.gridSize = 5;
-			
-			view.picrossWindow.remove(view.boardPanel);
-			view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
-			break;
-
-		// "6x6" option
-		case "6x6":
-			view.history.append(model.langText.getString("upon_grid_change") + " 6x6\n");
-			model.gridSize = 6;
-			view.sixRows = new JLabel[model.gridSize];
-			view.sixCols = new JLabel[model.gridSize];
-			
-			view.picrossWindow.remove(view.boardPanel);
-			view.designWindow.add(view.makeBoardPanel(model.langText,6, model.isMarkMode(),view.sixRows,view.sixCols));
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
-			break;
-
-		case "7x7":
-			view.history.append(model.langText.getString("upon_grid_change") + " 7x7\n");
-			model.gridSize = 7;
-			view.sevenRows = new JLabel[model.gridSize];
-			view.sevenCols = new JLabel[model.gridSize];
-			
-			if (model.getGameMode() == 1) {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sevenRows[i] = new JLabel(view.sevenRowNum[i], SwingConstants.CENTER);
-					view.sevenCols[i] = new JLabel(view.sevenColNum[i], SwingConstants.CENTER);
-				}
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
-			} else {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sevenRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.sevenCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
-				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
-			}
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
-			break;
-		}
+		newBoard(true);
 		if (model.getGameMode() == 1){
 			if (model.gameStarted == false) {
 				return;

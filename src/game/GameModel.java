@@ -33,6 +33,10 @@ public class GameModel {
 	protected boolean gameStarted = false;
 	
 	int [] defaultFiveBVals = {21,20,29,21,21};
+	int [] defaultSixBVals = {51,18,0,33,18,12};
+	int [] defaultSevBVals = {42,28,34,107,34,28,42};
+
+
 	/**
 	 * 5x5
 		10101 	= 21
@@ -56,6 +60,7 @@ public class GameModel {
 		1101011 = 107
 		0100010	= 34
 		0011100	= 28
+		0101010 = 42
 	 */
 	String[] row;
 	String[] col;
@@ -194,14 +199,14 @@ public class GameModel {
 			case 6:
 				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					row[i] = intToBinary(defaultFiveBVals[i]);
+					row[i] = intToBinary(defaultSixBVals[i]);
 					System.out.println(row[i]);
 				}
 				break;
 			case 7:
 				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					row[i] = intToBinary(defaultFiveBVals[i]);
+					row[i] = intToBinary(defaultSevBVals[i]);
 					System.out.println(row[i]);
 				}
 				break;
