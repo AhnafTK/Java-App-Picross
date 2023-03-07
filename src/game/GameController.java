@@ -137,27 +137,40 @@ public class GameController {
 	        	for (int i = 0; i < model.gridSize; i++) {
 					for (int j = 0; j < model.gridSize; j++) {
 						if (e.getSource() == view.buttons[i][j]) {
-							
-							if (model.isMarkMode()) {
-								view.buttons[i][j].setBackground(new Color(226, 222, 222));
-								
-							} else {
-								if (model.gameStarted == false) {
-									timerCounter(); 
-									model.timer.start();	
-								}
-								if (model.row[i].charAt(j) == '1') {
-									System.out.println("correct");
-									model.score++;
-									view.scoreCounter.setText(Integer.toString(model.score)); 
-									view.buttons[i][j].setBackground(new Color(17, 15, 15));
-
-								}
+							if (model.gameMode == 0) {
+								if (model.isMarkMode()) {
+									view.buttons[i][j].setBackground(new Color(226, 222, 222));
+									
+								} 
 								else {
-									view.buttons[i][j].setBackground(Color.red);
-									System.out.println("false");
+									view.buttons[i][j].setBackground(new Color(17, 15, 15));
 								}
 								view.buttons[i][j].setEnabled(false);
+
+							}
+							else {
+								if (model.isMarkMode()) {
+									view.buttons[i][j].setBackground(new Color(226, 222, 222));
+									
+								} else {
+									if (model.gameStarted == false) {
+										timerCounter(); 
+										model.timer.start();	
+									}
+									if (model.row[i].charAt(j) == '1') {
+										System.out.println("correct");
+										model.score++;
+										view.buttons[i][j].setBackground(new Color(17, 15, 15));
+
+									}
+									else {
+										model.score--;
+										view.buttons[i][j].setBackground(Color.red);
+										System.out.println("false");
+									}
+									view.scoreCounter.setText(Integer.toString(model.score)); 
+									view.buttons[i][j].setEnabled(false);
+								}	
 							}
 							
 						}
@@ -202,8 +215,6 @@ public class GameController {
 
 	}
 	
-
-
 	private void markCheckBoxAction() {
 		view.markCheckBox.addActionListener((actionEvent) -> {
 			// System.out.println("AAA");
@@ -340,26 +351,8 @@ public class GameController {
 		});
 		
 		view.resetButton.addActionListener((actionEvent) -> {
-			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-			+ model.langText.getString("reset") + "\n");
-			if (model.getGameMode() == 1){
-				if (model.gameStarted == false) {
-					return;
-				}
-				else {
-					model.timer.stop();
-					model.gameStarted = false;
-					view.timerCounter.setText("00:00");
-				}
-			}
-			for (JButton[] i : view.buttons) {
-				for (JButton j : i) {
-					j.setBackground(Color.WHITE);
-					j.setEnabled(true);
-				}
-			}
-
-		});
+            resetBoard();
+        });
 		
 		view.solveButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -367,13 +360,8 @@ public class GameController {
 		});
 
 		view.instructionsButton.addActionListener((actionEvent) -> {
-			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-			+ model.langText.getString("instructions") + "\n");
-			
-			view.Instructions(model.currentLocale);
-			view.instructionsButton.setEnabled(false);
-			instructionsActions();
-		});
+            showInstructions();
+        });
 		
 		view.newBoardButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -410,7 +398,7 @@ public class GameController {
 			}
 		});
 		view.newMenuOption.addActionListener((actionEvent)->{
-	
+			newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);
 		});
 		//view.solutionMenuOption.addActionListener((actionEvent)->{
 	
@@ -444,7 +432,7 @@ public class GameController {
 		});
 		view.backgroundColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
-			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.boardPanel.setBackground(colour);
 			view.leftPanel.setBackground(colour);
 			view.languagePanel.setBackground(colour);
@@ -466,7 +454,7 @@ public class GameController {
 		
 		view.textColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
-			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.scoreLabel.setForeground(colour);
 			view.scoreCounter.setForeground(colour);
 			view.timerLabel.setForeground(colour);
@@ -488,7 +476,7 @@ public class GameController {
 		view.componentColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
 			
-			Color colour = JColorChooser.showDialog(null, "Pick a color...I guess", Color.black);
+			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.scoreCounter.setBackground(colour);
 			view.timerCounter.setBackground(colour);
 			view.gridSizeCmbo.setBackground(colour);
@@ -510,27 +498,29 @@ public class GameController {
 		
 	}
 	
-	private void resetBoard() {
-		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-		+ model.langText.getString("reset") + "\n");
-		if (model.getGameMode() == 1){
-			if (model.gameStarted == false) {
-				return;
-			}
-			else {
-				model.timer.stop();
-				model.gameStarted = false;
-				view.timerCounter.setText("00:00");
-			}
-		}
-		for (JButton[] i : view.buttons) {
-			for (JButton j : i) {
-				j.setBackground(Color.WHITE);
-				j.setEnabled(true);
-			}
-		}
+	 private void resetBoard() {
+	        view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+	        + model.langText.getString("reset") + "\n");
+	        if (model.getGameMode() == 1){
+	            if (model.gameStarted == false) {
+	                return;
+	            }
+	            else {
+	                model.score = 0;
+	                view.scoreCounter.setText(Integer.toString(model.score));
+	                model.timer.stop();
+	                model.gameStarted = false;
+	                view.timerCounter.setText("00:00");
+	            }
+	        }
+	        for (JButton[] i : view.buttons) {
+	            for (JButton j : i) {
+	                j.setBackground(Color.WHITE);
+	                j.setEnabled(true);
+	            }
+	        }
 
-	}
+	    }
 	
 	private void showInstructions() {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -546,12 +536,19 @@ public class GameController {
 	}
 	
 	private void newBoard(String options, boolean isDefault) {
+		   if (isDefault == false && model.gameStarted == true && model.gameMode == 1) {
+	            model.score = 0;
+	            view.scoreCounter.setText(Integer.toString(model.score));
+	            model.timer.stop();
+	            model.gameStarted = false;
+	            view.timerCounter.setText("00:00");
+	        }
 		//String options = (String) view.gridSizeCmbo.getSelectedItem();
 		
 		int maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
 		String[] row = new String[model.gridSize];
 		String[] col = new String[model.gridSize];
-		
+
 		String[] returnLabelRow;
 		String[] returnLabelCol;
 		
@@ -573,11 +570,14 @@ public class GameController {
 				view.fiveRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
 				view.fiveCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
 			}
-			view.picrossWindow.remove(view.boardPanel);
-			view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
+			if(model.gameMode == 0) {
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+			}
+			else {
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+			}
 			break;
 			
 		case "6x6":
@@ -595,11 +595,14 @@ public class GameController {
 				view.sixRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
 				view.sixCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
 			}
-			view.picrossWindow.remove(view.boardPanel);
-			view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
+			if(model.gameMode == 0) {
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
+			}
+			else {
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
+			}
 			break;
 			
 		case "7x7":
@@ -617,13 +620,19 @@ public class GameController {
 				view.sevenRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
 				view.sevenCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
 			}
-			view.picrossWindow.remove(view.boardPanel);
-			view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
-			view.boardPanel.revalidate();
-			boardActions();
-			markCheckBoxAction();
+			if(model.gameMode == 0) {
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));	
+			}
+			else {
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));	
+			}
 			break;
 		}
+		view.boardPanel.revalidate();
+		boardActions();
+		markCheckBoxAction();
 	}
 	
 	private void changeGridSize(String options) {
