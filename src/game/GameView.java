@@ -369,7 +369,8 @@ public class GameView {
 		scorePanel = new JPanel();
 		timerPanel = new JPanel();
 		buttonPanel = new JPanel();
-		scoreCounter = new JTextField();
+		
+		scoreCounter = new JTextField("0");
 		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		scoreCounter.setPreferredSize(new Dimension(100, 25));
 		scoreCounter.setEditable(false);

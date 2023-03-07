@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+
 public class GameController {
 	GameModel model;
 	GameView view;
@@ -105,7 +106,7 @@ public class GameController {
 		gridSizeActions();
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
-		newBoard(true);
+		newBoard("5x5",true);
 		boardActions();
 		menuBarActions();
 	}
@@ -148,6 +149,7 @@ public class GameController {
 								}
 								if (model.row[i].charAt(j) == '1') {
 									System.out.println("correct");
+									model.score += 1;
 									view.buttons[i][j].setBackground(new Color(17, 15, 15));
 
 								}
@@ -378,7 +380,7 @@ public class GameController {
 		view.newBoardButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 			+ model.langText.getString("newBoard") + "\n");
-			newBoard(false);
+			newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);
 		});
 
 	}
@@ -545,8 +547,8 @@ public class GameController {
 		
 	}
 	
-	private void newBoard(boolean isDefault) {
-		String options = (String) view.gridSizeCmbo.getSelectedItem();
+	private void newBoard(String options, boolean isDefault) {
+		//String options = (String) view.gridSizeCmbo.getSelectedItem();
 		
 		int maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
 		String[] row = new String[model.gridSize];
@@ -627,7 +629,7 @@ public class GameController {
 	}
 	
 	private void changeGridSize(String options) {
-		newBoard(true);
+		newBoard(options, true);
 		if (model.getGameMode() == 1){
 			if (model.gameStarted == false) {
 				return;
