@@ -127,9 +127,7 @@ public class GameController {
 	}
 
 	private void boardActions() {
-		int indexi = 0;
-		int indexj = 0;
-		
+
 		ActionListener listener = new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
@@ -172,12 +170,9 @@ public class GameController {
 									view.buttons[i][j].setEnabled(false);
 								}	
 							}
-							
 						}
-						
 					}
 				}
-	        	
 	        }
 	    };
 	    
@@ -187,31 +182,6 @@ public class GameController {
 				j.addActionListener(listener);
 			}
 		}
-		/**
-		for (JButton[] i : view.buttons) {
-			for (JButton j : i) {
-				j.addActionListener((actionEvent) -> { 
-					if (model.isMarkMode()) {
-						j.setBackground(new Color(226, 222, 222));
-						
-						
-					} else {
-						if (model.gameStarted == false) {
-							timerCounter(); 
-							model.timer.start();	
-						}
-						j.setEnabled(false);
-						j.setBackground(new Color(17, 15, 15));
-					}
-				});
-				indexj++;
-			}
-			indexi++;
-		}
-		**/
-		
-		//System.out.println("indexj" + indexj);
-		//System.out.println("indexi" + indexi);
 
 	}
 	
@@ -227,7 +197,6 @@ public class GameController {
 			} else {
 				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("false") + "\n");
 				model.setMarkMode(false);
-
 			}
 		});
 	}
@@ -558,76 +527,101 @@ public class GameController {
 			model.gridSize = 5;
 			view.fiveRows = new JLabel[model.gridSize];
 			view.fiveCols = new JLabel[model.gridSize];
+			if (model.gameMode == 1) {
+				row = model.generateRows(maxPossible, isDefault);
+				col = model.generateCols(row);
 
-			row = model.generateRows(maxPossible, isDefault);
-			col = model.generateCols(row);
+				returnLabelRow = model.getLabel(row);
+				returnLabelCol = model.getLabel(col);
 
-			returnLabelRow = model.getLabel(row);
-			returnLabelCol = model.getLabel(col);
-
-			for (int i = 0; i < model.gridSize; i++) {
-				System.out.println(returnLabelRow[i]);
-				view.fiveRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-				view.fiveCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
-			}
-			if(model.gameMode == 0) {
-				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-			}
-			else {
+				for (int i = 0; i < model.gridSize; i++) {
+					System.out.println(returnLabelRow[i]);
+					view.fiveRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
+					view.fiveCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
+				}
 				view.picrossWindow.remove(view.boardPanel);
 				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
 			}
+			else {
+				for (int i = 0; i < model.gridSize; i++) {
+					view.fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+				
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+				
+			}
+			
+			
+			
 			break;
 			
 		case "6x6":
 			model.gridSize = 6;
 			view.sixRows = new JLabel[model.gridSize];
 			view.sixCols = new JLabel[model.gridSize];
+			if (model.gameMode == 1) {
+				row = model.generateRows(maxPossible, isDefault);
+				col = model.generateCols(row);
 
-			row = model.generateRows(maxPossible, isDefault);
-			col = model.generateCols(row);
+				returnLabelRow = model.getLabel(row);
+				returnLabelCol = model.getLabel(col);
 
-			returnLabelRow = model.getLabel(row);
-			returnLabelCol = model.getLabel(col);
-
-			for (int i = 0; i < model.gridSize; i++) {
-				view.sixRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-				view.sixCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
+				for (int i = 0; i < model.gridSize; i++) {
+					System.out.println(returnLabelRow[i]);
+					view.sixRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
+					view.sixCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
+				}
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
+				
 			}
-			if(model.gameMode == 0) {
+			else {
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sixRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.sixCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+
 				view.designWindow.remove(view.boardPanel);
 				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
 			}
-			else {
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
-			}
+			
+			
 			break;
 			
 		case "7x7":
 			model.gridSize = 7;
 			view.sevenRows = new JLabel[model.gridSize];
 			view.sevenCols = new JLabel[model.gridSize];
+			if (model.gameMode == 1) {
+				row = model.generateRows(maxPossible, isDefault);
+				col = model.generateCols(row);
 
-			row = model.generateRows(maxPossible, isDefault);
-			col = model.generateCols(row);
+				returnLabelRow = model.getLabel(row);
+				returnLabelCol = model.getLabel(col);
 
-			returnLabelRow = model.getLabel(row);
-			returnLabelCol = model.getLabel(col);
-
-			for (int i = 0; i < model.gridSize; i++) {
-				view.sevenRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-				view.sevenCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
-			}
-			if(model.gameMode == 0) {
-				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));	
+				for (int i = 0; i < model.gridSize; i++) {
+					System.out.println(returnLabelRow[i]);
+					view.sevenRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
+					view.sevenCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
+				}
+				
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				
 			}
 			else {
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));	
+				for (int i = 0; i < model.gridSize; i++) {
+					view.sevenRows[i] = new JLabel("0 0", SwingConstants.CENTER);
+					view.sevenCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
+				}
+				view.designWindow.remove(view.boardPanel);
+				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				
 			}
+			
+			
 			break;
 		}
 		view.boardPanel.revalidate();
@@ -635,6 +629,7 @@ public class GameController {
 		markCheckBoxAction();
 	}
 	
+	// causing problems with design
 	private void changeGridSize(String options) {
 		newBoard(options, true);
 		if (model.getGameMode() == 1){
