@@ -107,7 +107,7 @@ public class GameController {
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
 		newBoard("5x5",true);
-		boardActions();
+		//boardActions();
 		menuBarActions();
 	}
 
@@ -141,7 +141,6 @@ public class GameController {
 							if (model.isMarkMode()) {
 								view.buttons[i][j].setBackground(new Color(226, 222, 222));
 								
-								
 							} else {
 								if (model.gameStarted == false) {
 									timerCounter(); 
@@ -149,7 +148,8 @@ public class GameController {
 								}
 								if (model.row[i].charAt(j) == '1') {
 									System.out.println("correct");
-									model.score += 1;
+									model.score++;
+									view.scoreCounter.setText(Integer.toString(model.score)); 
 									view.buttons[i][j].setBackground(new Color(17, 15, 15));
 
 								}
@@ -160,8 +160,6 @@ public class GameController {
 								view.buttons[i][j].setEnabled(false);
 							}
 							
-							
-							//check(i, j);
 						}
 						
 					}
