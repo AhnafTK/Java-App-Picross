@@ -1,0 +1,39 @@
+src\game\GameView.java:506: warning: no @param for langText
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	                 ^
+src\game\GameView.java:506: warning: no @param for markMode
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	                 ^
+src\game\GameView.java:506: warning: no @param for rowArray
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	                 ^
+src\game\GameView.java:506: warning: no @param for colArray
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	                 ^
+src\game\GameView.java:506: warning: no @return
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	                 ^
+src\game\GameView.java:569: error: @param name not found
+	 * @param locale   - Used to get the selected language. *
+	          ^
+src\game\GameView.java:573: warning: no @param for currentLocale
+	protected void updateText(Locale currentLocale, ResourceBundle langText) {
+	               ^
+src\game\GameView.java:652: warning: no @param for currentLocale
+	protected void Design(Locale currentLocale, ResourceBundle langText) {
+	               ^
+src\game\GameView.java:652: warning: no @param for langText
+	protected void Design(Locale currentLocale, ResourceBundle langText) {
+	               ^
+src\game\GameView.java:687: warning: no @param for currentlocale
+	protected void Play(Locale currentlocale, ResourceBundle langText) {
+	               ^
+src\game\GameView.java:687: warning: no @param for langText
+	protected void Play(Locale currentlocale, ResourceBundle langText) {
+	               ^
+src\game\GameView.java:722: error: @param name not found
+	 * @param locale - Used to get the selected language. *
+	          ^
+src\game\GameView.java:725: warning: no @param for currentLocale
+	protected void Instructions(Locale currentLocale) {
+	               ^

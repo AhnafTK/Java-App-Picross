@@ -195,7 +195,7 @@ public class GameView {
 		splashWindow.setSize(400, 175);
 		splashWindow.setLocationRelativeTo(null);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(3000);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -206,7 +206,7 @@ public class GameView {
 
 	}
 	
-	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText) {
+	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText, int gameMode) {
 		menuBar = new JMenuBar();
 		window.setJMenuBar(menuBar);
 		
@@ -227,20 +227,31 @@ public class GameView {
 		gridSizeItemsContainer.add(sixSix);
 		gridSizeItemsContainer.add(sevSev);
 
-		// also add to change gridsize
-		gameMenuItemsContainer.add(saveMenuOption);
-		gameMenuItemsContainer.add(loadMenuOption);
-		gameMenuItemsContainer.addSeparator();
-		
-		gameMenuItemsContainer.add(newMenuOption);
-		gameMenuItemsContainer.add(resetMenuOption);
-		gameMenuItemsContainer.add(gridSizeItemsContainer);
 
-		gameMenuItemsContainer.addSeparator();
-		gameMenuItemsContainer.add(solveMenuOption);
-		gameMenuItemsContainer.addSeparator();
+		if (gameMode == 0) {
+			gameMenuItemsContainer.add(saveMenuOption);
+			gameMenuItemsContainer.add(loadMenuOption);
+			gameMenuItemsContainer.addSeparator();
+			
+			gameMenuItemsContainer.add(resetMenuOption);
+			gameMenuItemsContainer.add(gridSizeItemsContainer);
 
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(solveMenuOption);
+			gameMenuItemsContainer.addSeparator();				
+		}
+		else {
+			gameMenuItemsContainer.add(loadMenuOption);
+			gameMenuItemsContainer.addSeparator();
+			
+			gameMenuItemsContainer.add(newMenuOption);
+			gameMenuItemsContainer.add(resetMenuOption);
+			gameMenuItemsContainer.add(gridSizeItemsContainer);
 
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(solveMenuOption);
+			gameMenuItemsContainer.addSeparator();			
+		}
 		
 		gameMenuItemsContainer.add(toLauncherMenuOption);
 		gameMenuItemsContainer.add(exitMenuOption);
@@ -651,7 +662,7 @@ public class GameView {
 		designBack = new JButton("Back");
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
-		makeMenuBar(designWindow, currentLocale, langText);
+		makeMenuBar(designWindow, currentLocale, langText, 0);
 		//JPanel configGrid = new JPanel();
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
@@ -686,7 +697,7 @@ public class GameView {
 		
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
-		makeMenuBar(picrossWindow, currentlocale, langText);
+		makeMenuBar(picrossWindow, currentlocale, langText, 1);
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
