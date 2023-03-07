@@ -20,17 +20,10 @@ public class GameController {
 	GameModel model;
 	GameView view;
 	
-	
 	public GameController(GameModel model, GameView view) {
 		// TODO Auto-generated constructor stub
 		this.model = model;
 		this.view = view;
-		
-		// 
-		
-		//int lol = model.generateInts(5);
-		//model.generateInts(5);
-		//System.out.println(lol);
 	}
 
 	protected void startController() {
@@ -121,10 +114,6 @@ public class GameController {
 			view.instructionsButton.setEnabled(true);
 		});
 	}
-	
-	private void check(int indexi, int indexj) {
-		
-	}
 
 	private void boardActions() {
 
@@ -138,13 +127,11 @@ public class GameController {
 							if (model.gameMode == 0) {
 								if (model.isMarkMode()) {
 									view.buttons[i][j].setBackground(new Color(226, 222, 222));
-									
 								} 
 								else {
 									view.buttons[i][j].setBackground(new Color(17, 15, 15));
 								}
 								view.buttons[i][j].setEnabled(false);
-
 							}
 							else {
 								if (model.isMarkMode()) {
@@ -182,7 +169,6 @@ public class GameController {
 				j.addActionListener(listener);
 			}
 		}
-
 	}
 	
 	private void markCheckBoxAction() {
@@ -233,7 +219,6 @@ public class GameController {
 			changeGridSize(options);
 			
 		});
-
 	}
 	
 	
@@ -250,12 +235,10 @@ public class GameController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				model.seconds++;
-				
 				if (model.seconds == 60) {
 					model.minutes++;
 					model.seconds = 0;
 				}
-				
 				model.secFormat = dFormat.format(model.seconds);
 				model.minFormat = dFormat.format(model.minutes);
 
@@ -326,6 +309,8 @@ public class GameController {
 		view.solveButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
+			//model.solveBoard();
+			view.solveBoard(model.row, model.gridSize);
 		});
 
 		view.instructionsButton.addActionListener((actionEvent) -> {
@@ -505,15 +490,14 @@ public class GameController {
 	}
 	
 	private void newBoard(String options, boolean isDefault) {
-		   if (isDefault == false && model.gameStarted == true && model.gameMode == 1) {
-	            model.score = 0;
-	            view.scoreCounter.setText(Integer.toString(model.score));
-	            model.timer.stop();
-	            model.gameStarted = false;
-	            view.timerCounter.setText("00:00");
-	        }
+		if (isDefault == false && model.gameStarted == true && model.gameMode == 1) {
+			model.score = 0;
+	        view.scoreCounter.setText(Integer.toString(model.score));
+	        model.timer.stop();
+	        model.gameStarted = false;
+	        view.timerCounter.setText("00:00");
+	    }
 		//String options = (String) view.gridSizeCmbo.getSelectedItem();
-		
 		int maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
 		String[] row = new String[model.gridSize];
 		String[] col = new String[model.gridSize];
@@ -528,9 +512,9 @@ public class GameController {
 			view.fiveRows = new JLabel[model.gridSize];
 			view.fiveCols = new JLabel[model.gridSize];
 			if (model.gameMode == 1) {
+
 				row = model.generateRows(maxPossible, isDefault);
 				col = model.generateCols(row);
-
 				returnLabelRow = model.getLabel(row);
 				returnLabelCol = model.getLabel(col);
 
@@ -547,14 +531,9 @@ public class GameController {
 					view.fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
 					view.fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
 				}
-				
 				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
-				
+				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));	
 			}
-			
-			
-			
 			break;
 			
 		case "6x6":
@@ -586,7 +565,6 @@ public class GameController {
 				view.designWindow.remove(view.boardPanel);
 				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
 			}
-			
 			
 			break;
 			

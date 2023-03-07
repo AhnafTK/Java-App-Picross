@@ -780,5 +780,15 @@ public class GameView {
 	void updateView(int gridSize, int gameMode, boolean markMode) {
 		
 	}
+	
+	protected void solveBoard(String[] rows, int gridSize) {
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				if (rows[i].charAt(j) == '1') {
+					buttons[i][j].setBackground(Color.black);
+				}
+			}
+		}
+	}
 
 }

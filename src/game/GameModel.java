@@ -185,6 +185,7 @@ public class GameModel {
 	}
 	
 	protected String[] generateRows(int maxPossible, boolean useDefault) {
+		
 		row = new String[gridSize];
 		
 		if (useDefault == true) {
@@ -210,10 +211,7 @@ public class GameModel {
 					System.out.println(row[i]);
 				}
 				break;
-
-			}
-				
-				
+			}			
 		}
 		else {
 			//System.out.println("generated values");
@@ -231,14 +229,11 @@ public class GameModel {
 			}
 		}
 	
-	
-
 		return row;
 	}
 
 	protected String[] generateCols(String[] row) {
 		col = new String[gridSize];
-
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
@@ -246,9 +241,7 @@ public class GameModel {
 			}
 			col[k] = colVal;
 		}
-
 		System.out.println("\nCOL");
-
 		for (int a = 0; a < gridSize; a++) {
 			System.out.println(col[a]);
 		}
@@ -257,8 +250,16 @@ public class GameModel {
 
 	}
 
+	protected void solveBoard() {
+		for (int i=0; i < gridSize; i++) {
+			System.out.println(row[i]);
+			//System.out.println(col[i]);
+		}
+	}
 	
-	
+	protected String[] returnRows() {
+		return row;
+	}
 //	protected void generateInts(int gridSize) {
 //		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
 //		String[] row = new String[gridSize];
