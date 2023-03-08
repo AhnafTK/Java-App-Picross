@@ -1498,7 +1498,14 @@ public class GameView {
 		solveButton.setText(langText.getString("solve"));
 		langLabel.setText(langText.getString("languages"));
 		newBoardButton.setText(langText.getString("newBoard"));
-
+		solveMenuOption.setText(langText.getString("solve"));
+		newMenuOption.setText(langText.getString("newBoard"));
+		resetMenuOption.setText(langText.getString("reset"));
+		saveMenuOption.setText(langText.getString("save"));
+		loadMenuOption.setText(langText.getString("load"));
+		toLauncherMenuOption.setText(langText.getString("toLauncher"));
+		gridSizeItemsContainer.setText(langText.getString("gridSize"));
+		exitMenuOption.setText(langText.getString("exit"));
 	}
 
 	
