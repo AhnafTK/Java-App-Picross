@@ -39,7 +39,12 @@ public class GameView {
 	protected JTextArea history;
 	/** 2d-button array for the grid */
 	protected JButton[][] buttons;
-
+	
+	protected String[] viewRows;
+	protected String[] viewCols;
+	protected String[] viewRowLabels= {"0","0","0","0","0"};
+	protected String[] viewColLabels={"0","0","0","0","0"};
+	
 	protected JButton[][] buttonsDesign;
 	JButton playToLauncher;
 	JButton newGridButton;
@@ -66,6 +71,1126 @@ public class GameView {
 	//ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
 	protected int gridSize = 5;
+	/**
+	 * @return the instructionsButton
+	 */
+	protected JButton getInstructionsButton() {
+		return instructionsButton;
+	}
+
+	/**
+	 * @param instructionsButton the instructionsButton to set
+	 */
+	protected void setInstructionsButton(JButton instructionsButton) {
+		this.instructionsButton = instructionsButton;
+	}
+
+	/**
+	 * @return the instructionsBack
+	 */
+	protected JButton getInstructionsBack() {
+		return instructionsBack;
+	}
+
+	/**
+	 * @param instructionsBack the instructionsBack to set
+	 */
+	protected void setInstructionsBack(JButton instructionsBack) {
+		this.instructionsBack = instructionsBack;
+	}
+
+	/**
+	 * @return the designWindow
+	 */
+	protected JFrame getDesignWindow() {
+		return designWindow;
+	}
+
+	/**
+	 * @param designWindow the designWindow to set
+	 */
+	protected void setDesignWindow(JFrame designWindow) {
+		this.designWindow = designWindow;
+	}
+
+	/**
+	 * @return the startWindow
+	 */
+	protected JFrame getStartWindow() {
+		return startWindow;
+	}
+
+	/**
+	 * @param startWindow the startWindow to set
+	 */
+	protected void setStartWindow(JFrame startWindow) {
+		this.startWindow = startWindow;
+	}
+
+	/**
+	 * @return the splashWindow
+	 */
+	protected JFrame getSplashWindow() {
+		return splashWindow;
+	}
+
+	/**
+	 * @param splashWindow the splashWindow to set
+	 */
+	protected void setSplashWindow(JFrame splashWindow) {
+		this.splashWindow = splashWindow;
+	}
+
+	/**
+	 * @return the instructionsWindow
+	 */
+	protected JFrame getInstructionsWindow() {
+		return instructionsWindow;
+	}
+
+	/**
+	 * @param instructionsWindow the instructionsWindow to set
+	 */
+	protected void setInstructionsWindow(JFrame instructionsWindow) {
+		this.instructionsWindow = instructionsWindow;
+	}
+
+	/**
+	 * @return the picrossWindow
+	 */
+	protected JFrame getPicrossWindow() {
+		return picrossWindow;
+	}
+
+	/**
+	 * @param picrossWindow the picrossWindow to set
+	 */
+	protected void setPicrossWindow(JFrame picrossWindow) {
+		this.picrossWindow = picrossWindow;
+	}
+
+	/**
+	 * @return the gridSizeCmbo
+	 */
+	protected JComboBox<String> getGridSizeCmbo() {
+		return gridSizeCmbo;
+	}
+
+	/**
+	 * @param gridSizeCmbo the gridSizeCmbo to set
+	 */
+	protected void setGridSizeCmbo(JComboBox<String> gridSizeCmbo) {
+		this.gridSizeCmbo = gridSizeCmbo;
+	}
+
+	/**
+	 * @return the playButton
+	 */
+	protected JButton getPlayButton() {
+		return playButton;
+	}
+
+	/**
+	 * @param playButton the playButton to set
+	 */
+	protected void setPlayButton(JButton playButton) {
+		this.playButton = playButton;
+	}
+
+	/**
+	 * @return the designButton
+	 */
+	protected JButton getDesignButton() {
+		return designButton;
+	}
+
+	/**
+	 * @param designButton the designButton to set
+	 */
+	protected void setDesignButton(JButton designButton) {
+		this.designButton = designButton;
+	}
+
+	/**
+	 * @return the designBack
+	 */
+	protected JButton getDesignBack() {
+		return designBack;
+	}
+
+	/**
+	 * @param designBack the designBack to set
+	 */
+	protected void setDesignBack(JButton designBack) {
+		this.designBack = designBack;
+	}
+
+	/**
+	 * @return the resetButton
+	 */
+	protected JButton getResetButton() {
+		return resetButton;
+	}
+
+	/**
+	 * @param resetButton the resetButton to set
+	 */
+	protected void setResetButton(JButton resetButton) {
+		this.resetButton = resetButton;
+	}
+
+	/**
+	 * @return the solveButton
+	 */
+	protected JButton getSolveButton() {
+		return solveButton;
+	}
+
+	/**
+	 * @param solveButton the solveButton to set
+	 */
+	protected void setSolveButton(JButton solveButton) {
+		this.solveButton = solveButton;
+	}
+
+	/**
+	 * @return the newBoardButton
+	 */
+	protected JButton getNewBoardButton() {
+		return newBoardButton;
+	}
+
+	/**
+	 * @param newBoardButton the newBoardButton to set
+	 */
+	protected void setNewBoardButton(JButton newBoardButton) {
+		this.newBoardButton = newBoardButton;
+	}
+
+	/**
+	 * @return the history
+	 */
+	protected JTextArea getHistory() {
+		return history;
+	}
+
+	/**
+	 * @param history the history to set
+	 */
+	protected void setHistory(JTextArea history) {
+		this.history = history;
+	}
+
+	/**
+	 * @return the buttons
+	 */
+	protected JButton[][] getButtons() {
+		return buttons;
+	}
+
+	/**
+	 * @param buttons the buttons to set
+	 */
+	protected void setButtons(JButton[][] buttons) {
+		this.buttons = buttons;
+	}
+
+	/**
+	 * @return the buttonsDesign
+	 */
+	protected JButton[][] getButtonsDesign() {
+		return buttonsDesign;
+	}
+
+	/**
+	 * @param buttonsDesign the buttonsDesign to set
+	 */
+	protected void setButtonsDesign(JButton[][] buttonsDesign) {
+		this.buttonsDesign = buttonsDesign;
+	}
+
+	/**
+	 * @return the playToLauncher
+	 */
+	protected JButton getPlayToLauncher() {
+		return playToLauncher;
+	}
+
+	/**
+	 * @param playToLauncher the playToLauncher to set
+	 */
+	protected void setPlayToLauncher(JButton playToLauncher) {
+		this.playToLauncher = playToLauncher;
+	}
+
+	/**
+	 * @return the newGridButton
+	 */
+	protected JButton getNewGridButton() {
+		return newGridButton;
+	}
+
+	/**
+	 * @param newGridButton the newGridButton to set
+	 */
+	protected void setNewGridButton(JButton newGridButton) {
+		this.newGridButton = newGridButton;
+	}
+
+	/**
+	 * @return the engRadio
+	 */
+	protected JRadioButton getEngRadio() {
+		return engRadio;
+	}
+
+	/**
+	 * @param engRadio the engRadio to set
+	 */
+	protected void setEngRadio(JRadioButton engRadio) {
+		this.engRadio = engRadio;
+	}
+
+	/**
+	 * @return the frRadio
+	 */
+	protected JRadioButton getFrRadio() {
+		return frRadio;
+	}
+
+	/**
+	 * @param frRadio the frRadio to set
+	 */
+	protected void setFrRadio(JRadioButton frRadio) {
+		this.frRadio = frRadio;
+	}
+
+	/**
+	 * @return the leftPanel
+	 */
+	protected JPanel getLeftPanel() {
+		return leftPanel;
+	}
+
+	/**
+	 * @param leftPanel the leftPanel to set
+	 */
+	protected void setLeftPanel(JPanel leftPanel) {
+		this.leftPanel = leftPanel;
+	}
+
+	/**
+	 * @return the boardPanel
+	 */
+	protected JPanel getBoardPanel() {
+		return boardPanel;
+	}
+
+	/**
+	 * @param boardPanel the boardPanel to set
+	 */
+	protected void setBoardPanel(JPanel boardPanel) {
+		this.boardPanel = boardPanel;
+	}
+
+	/**
+	 * @return the designMenuReturnPanel
+	 */
+	protected JPanel getDesignMenuReturnPanel() {
+		return designMenuReturnPanel;
+	}
+
+	/**
+	 * @param designMenuReturnPanel the designMenuReturnPanel to set
+	 */
+	protected void setDesignMenuReturnPanel(JPanel designMenuReturnPanel) {
+		this.designMenuReturnPanel = designMenuReturnPanel;
+	}
+
+	/**
+	 * @return the markCheckBox
+	 */
+	protected JCheckBox getMarkCheckBox() {
+		return markCheckBox;
+	}
+
+	/**
+	 * @param markCheckBox the markCheckBox to set
+	 */
+	protected void setMarkCheckBox(JCheckBox markCheckBox) {
+		this.markCheckBox = markCheckBox;
+	}
+
+	/**
+	 * @return the scoreCounter
+	 */
+	protected JTextField getScoreCounter() {
+		return scoreCounter;
+	}
+
+	/**
+	 * @param scoreCounter the scoreCounter to set
+	 */
+	protected void setScoreCounter(JTextField scoreCounter) {
+		this.scoreCounter = scoreCounter;
+	}
+
+	/**
+	 * @return the timerCounter
+	 */
+	protected JTextField getTimerCounter() {
+		return timerCounter;
+	}
+
+	/**
+	 * @param timerCounter the timerCounter to set
+	 */
+	protected void setTimerCounter(JTextField timerCounter) {
+		this.timerCounter = timerCounter;
+	}
+
+	/**
+	 * @return the gridSize
+	 */
+	protected int getGridSize() {
+		return gridSize;
+	}
+
+	/**
+	 * @param gridSize the gridSize to set
+	 */
+	protected void setGridSize(int gridSize) {
+		this.gridSize = gridSize;
+	}
+
+	/**
+	 * @return the gameMode
+	 */
+	protected int getGameMode() {
+		return gameMode;
+	}
+
+	/**
+	 * @param gameMode the gameMode to set
+	 */
+	protected void setGameMode(int gameMode) {
+		this.gameMode = gameMode;
+	}
+
+	/**
+	 * @return the timerLabel
+	 */
+	protected JLabel getTimerLabel() {
+		return timerLabel;
+	}
+
+	/**
+	 * @param timerLabel the timerLabel to set
+	 */
+	protected void setTimerLabel(JLabel timerLabel) {
+		this.timerLabel = timerLabel;
+	}
+
+	/**
+	 * @return the scoreLabel
+	 */
+	protected JLabel getScoreLabel() {
+		return scoreLabel;
+	}
+
+	/**
+	 * @param scoreLabel the scoreLabel to set
+	 */
+	protected void setScoreLabel(JLabel scoreLabel) {
+		this.scoreLabel = scoreLabel;
+	}
+
+	/**
+	 * @return the gridSizeLabel
+	 */
+	protected JLabel getGridSizeLabel() {
+		return gridSizeLabel;
+	}
+
+	/**
+	 * @param gridSizeLabel the gridSizeLabel to set
+	 */
+	protected void setGridSizeLabel(JLabel gridSizeLabel) {
+		this.gridSizeLabel = gridSizeLabel;
+	}
+
+	/**
+	 * @return the langLabel
+	 */
+	protected JLabel getLangLabel() {
+		return langLabel;
+	}
+
+	/**
+	 * @param langLabel the langLabel to set
+	 */
+	protected void setLangLabel(JLabel langLabel) {
+		this.langLabel = langLabel;
+	}
+
+	/**
+	 * @return the colourLabel
+	 */
+	protected JLabel getColourLabel() {
+		return colourLabel;
+	}
+
+	/**
+	 * @param colourLabel the colourLabel to set
+	 */
+	protected void setColourLabel(JLabel colourLabel) {
+		this.colourLabel = colourLabel;
+	}
+
+	/**
+	 * @return the languagePanel
+	 */
+	protected JPanel getLanguagePanel() {
+		return languagePanel;
+	}
+
+	/**
+	 * @param languagePanel the languagePanel to set
+	 */
+	protected void setLanguagePanel(JPanel languagePanel) {
+		this.languagePanel = languagePanel;
+	}
+
+	/**
+	 * @return the languageButtonPanel
+	 */
+	protected JPanel getLanguageButtonPanel() {
+		return languageButtonPanel;
+	}
+
+	/**
+	 * @param languageButtonPanel the languageButtonPanel to set
+	 */
+	protected void setLanguageButtonPanel(JPanel languageButtonPanel) {
+		this.languageButtonPanel = languageButtonPanel;
+	}
+
+	/**
+	 * @return the gridSizeComboPanel
+	 */
+	protected JPanel getGridSizeComboPanel() {
+		return gridSizeComboPanel;
+	}
+
+	/**
+	 * @param gridSizeComboPanel the gridSizeComboPanel to set
+	 */
+	protected void setGridSizeComboPanel(JPanel gridSizeComboPanel) {
+		this.gridSizeComboPanel = gridSizeComboPanel;
+	}
+
+	/**
+	 * @return the scorePanel
+	 */
+	protected JPanel getScorePanel() {
+		return scorePanel;
+	}
+
+	/**
+	 * @param scorePanel the scorePanel to set
+	 */
+	protected void setScorePanel(JPanel scorePanel) {
+		this.scorePanel = scorePanel;
+	}
+
+	/**
+	 * @return the timerPanel
+	 */
+	protected JPanel getTimerPanel() {
+		return timerPanel;
+	}
+
+	/**
+	 * @param timerPanel the timerPanel to set
+	 */
+	protected void setTimerPanel(JPanel timerPanel) {
+		this.timerPanel = timerPanel;
+	}
+
+	/**
+	 * @return the buttonPanel
+	 */
+	protected JPanel getButtonPanel() {
+		return buttonPanel;
+	}
+
+	/**
+	 * @param buttonPanel the buttonPanel to set
+	 */
+	protected void setButtonPanel(JPanel buttonPanel) {
+		this.buttonPanel = buttonPanel;
+	}
+
+	/**
+	 * @return the configurationPanel
+	 */
+	protected JPanel getConfigurationPanel() {
+		return configurationPanel;
+	}
+
+	/**
+	 * @param configurationPanel the configurationPanel to set
+	 */
+	protected void setConfigurationPanel(JPanel configurationPanel) {
+		this.configurationPanel = configurationPanel;
+	}
+
+	/**
+	 * @return the historyPanel
+	 */
+	protected JPanel getHistoryPanel() {
+		return historyPanel;
+	}
+
+	/**
+	 * @param historyPanel the historyPanel to set
+	 */
+	protected void setHistoryPanel(JPanel historyPanel) {
+		this.historyPanel = historyPanel;
+	}
+
+	/**
+	 * @return the controlPanel
+	 */
+	protected JPanel getControlPanel() {
+		return controlPanel;
+	}
+
+	/**
+	 * @param controlPanel the controlPanel to set
+	 */
+	protected void setControlPanel(JPanel controlPanel) {
+		this.controlPanel = controlPanel;
+	}
+
+	/**
+	 * @return the colPanel
+	 */
+	protected JPanel getColPanel() {
+		return colPanel;
+	}
+
+	/**
+	 * @param colPanel the colPanel to set
+	 */
+	protected void setColPanel(JPanel colPanel) {
+		this.colPanel = colPanel;
+	}
+
+	/**
+	 * @return the rowPanel
+	 */
+	protected JPanel getRowPanel() {
+		return rowPanel;
+	}
+
+	/**
+	 * @param rowPanel the rowPanel to set
+	 */
+	protected void setRowPanel(JPanel rowPanel) {
+		this.rowPanel = rowPanel;
+	}
+
+	/**
+	 * @return the menuBar
+	 */
+	protected JMenuBar getMenuBar() {
+		return menuBar;
+	}
+
+	/**
+	 * @param menuBar the menuBar to set
+	 */
+	protected void setMenuBar(JMenuBar menuBar) {
+		this.menuBar = menuBar;
+	}
+
+	/**
+	 * @return the newMenuItem
+	 */
+	protected JMenuItem getNewMenuItem() {
+		return newMenuItem;
+	}
+
+	/**
+	 * @param newMenuItem the newMenuItem to set
+	 */
+	protected void setNewMenuItem(JMenuItem newMenuItem) {
+		this.newMenuItem = newMenuItem;
+	}
+
+	/**
+	 * @return the solutionMenuItem
+	 */
+	protected JMenuItem getSolutionMenuItem() {
+		return solutionMenuItem;
+	}
+
+	/**
+	 * @param solutionMenuItem the solutionMenuItem to set
+	 */
+	protected void setSolutionMenuItem(JMenuItem solutionMenuItem) {
+		this.solutionMenuItem = solutionMenuItem;
+	}
+
+	/**
+	 * @return the exitMenuItem
+	 */
+	protected JMenuItem getExitMenuItem() {
+		return exitMenuItem;
+	}
+
+	/**
+	 * @param exitMenuItem the exitMenuItem to set
+	 */
+	protected void setExitMenuItem(JMenuItem exitMenuItem) {
+		this.exitMenuItem = exitMenuItem;
+	}
+
+	/**
+	 * @return the backgroundColour
+	 */
+	protected JMenuItem getBackgroundColour() {
+		return backgroundColour;
+	}
+
+	/**
+	 * @param backgroundColour the backgroundColour to set
+	 */
+	protected void setBackgroundColour(JMenuItem backgroundColour) {
+		this.backgroundColour = backgroundColour;
+	}
+
+	/**
+	 * @return the textColour
+	 */
+	protected JMenuItem getTextColour() {
+		return textColour;
+	}
+
+	/**
+	 * @param textColour the textColour to set
+	 */
+	protected void setTextColour(JMenuItem textColour) {
+		this.textColour = textColour;
+	}
+
+	/**
+	 * @return the componentColour
+	 */
+	protected JMenuItem getComponentColour() {
+		return componentColour;
+	}
+
+	/**
+	 * @param componentColour the componentColour to set
+	 */
+	protected void setComponentColour(JMenuItem componentColour) {
+		this.componentColour = componentColour;
+	}
+
+	/**
+	 * @return the aboutMenu
+	 */
+	protected JMenuItem getAboutMenu() {
+		return aboutMenu;
+	}
+
+	/**
+	 * @param aboutMenu the aboutMenu to set
+	 */
+	protected void setAboutMenu(JMenuItem aboutMenu) {
+		this.aboutMenu = aboutMenu;
+	}
+
+	/**
+	 * @return the gameMenu
+	 */
+	protected JMenuItem getGameMenu() {
+		return gameMenu;
+	}
+
+	/**
+	 * @param gameMenu the gameMenu to set
+	 */
+	protected void setGameMenu(JMenuItem gameMenu) {
+		this.gameMenu = gameMenu;
+	}
+
+	/**
+	 * @return the gameMenuItemsContainer
+	 */
+	protected JMenu getGameMenuItemsContainer() {
+		return gameMenuItemsContainer;
+	}
+
+	/**
+	 * @param gameMenuItemsContainer the gameMenuItemsContainer to set
+	 */
+	protected void setGameMenuItemsContainer(JMenu gameMenuItemsContainer) {
+		this.gameMenuItemsContainer = gameMenuItemsContainer;
+	}
+
+	/**
+	 * @return the newMenuOption
+	 */
+	protected JMenuItem getNewMenuOption() {
+		return newMenuOption;
+	}
+
+	/**
+	 * @param newMenuOption the newMenuOption to set
+	 */
+	protected void setNewMenuOption(JMenuItem newMenuOption) {
+		this.newMenuOption = newMenuOption;
+	}
+
+	/**
+	 * @return the solutionMenuOption
+	 */
+	protected JMenuItem getSolutionMenuOption() {
+		return solutionMenuOption;
+	}
+
+	/**
+	 * @param solutionMenuOption the solutionMenuOption to set
+	 */
+	protected void setSolutionMenuOption(JMenuItem solutionMenuOption) {
+		this.solutionMenuOption = solutionMenuOption;
+	}
+
+	/**
+	 * @return the exitMenuOption
+	 */
+	protected JMenuItem getExitMenuOption() {
+		return exitMenuOption;
+	}
+
+	/**
+	 * @param exitMenuOption the exitMenuOption to set
+	 */
+	protected void setExitMenuOption(JMenuItem exitMenuOption) {
+		this.exitMenuOption = exitMenuOption;
+	}
+
+	/**
+	 * @return the resetMenuOption
+	 */
+	protected JMenuItem getResetMenuOption() {
+		return resetMenuOption;
+	}
+
+	/**
+	 * @param resetMenuOption the resetMenuOption to set
+	 */
+	protected void setResetMenuOption(JMenuItem resetMenuOption) {
+		this.resetMenuOption = resetMenuOption;
+	}
+
+	/**
+	 * @return the solveMenuOption
+	 */
+	protected JMenuItem getSolveMenuOption() {
+		return solveMenuOption;
+	}
+
+	/**
+	 * @param solveMenuOption the solveMenuOption to set
+	 */
+	protected void setSolveMenuOption(JMenuItem solveMenuOption) {
+		this.solveMenuOption = solveMenuOption;
+	}
+
+	/**
+	 * @return the toLauncherMenuOption
+	 */
+	protected JMenuItem getToLauncherMenuOption() {
+		return toLauncherMenuOption;
+	}
+
+	/**
+	 * @param toLauncherMenuOption the toLauncherMenuOption to set
+	 */
+	protected void setToLauncherMenuOption(JMenuItem toLauncherMenuOption) {
+		this.toLauncherMenuOption = toLauncherMenuOption;
+	}
+
+	/**
+	 * @return the saveMenuOption
+	 */
+	protected JMenuItem getSaveMenuOption() {
+		return saveMenuOption;
+	}
+
+	/**
+	 * @param saveMenuOption the saveMenuOption to set
+	 */
+	protected void setSaveMenuOption(JMenuItem saveMenuOption) {
+		this.saveMenuOption = saveMenuOption;
+	}
+
+	/**
+	 * @return the loadMenuOption
+	 */
+	protected JMenuItem getLoadMenuOption() {
+		return loadMenuOption;
+	}
+
+	/**
+	 * @param loadMenuOption the loadMenuOption to set
+	 */
+	protected void setLoadMenuOption(JMenuItem loadMenuOption) {
+		this.loadMenuOption = loadMenuOption;
+	}
+
+	/**
+	 * @return the gridSizeItemsContainer
+	 */
+	protected JMenu getGridSizeItemsContainer() {
+		return gridSizeItemsContainer;
+	}
+
+	/**
+	 * @param gridSizeItemsContainer the gridSizeItemsContainer to set
+	 */
+	protected void setGridSizeItemsContainer(JMenu gridSizeItemsContainer) {
+		this.gridSizeItemsContainer = gridSizeItemsContainer;
+	}
+
+	/**
+	 * @return the aboutMenuOption
+	 */
+	protected JMenuItem getAboutMenuOption() {
+		return aboutMenuOption;
+	}
+
+	/**
+	 * @param aboutMenuOption the aboutMenuOption to set
+	 */
+	protected void setAboutMenuOption(JMenuItem aboutMenuOption) {
+		this.aboutMenuOption = aboutMenuOption;
+	}
+
+	/**
+	 * @return the fiveFive
+	 */
+	protected JMenuItem getFiveFive() {
+		return fiveFive;
+	}
+
+	/**
+	 * @param fiveFive the fiveFive to set
+	 */
+	protected void setFiveFive(JMenuItem fiveFive) {
+		this.fiveFive = fiveFive;
+	}
+
+	/**
+	 * @return the sixSix
+	 */
+	protected JMenuItem getSixSix() {
+		return sixSix;
+	}
+
+	/**
+	 * @param sixSix the sixSix to set
+	 */
+	protected void setSixSix(JMenuItem sixSix) {
+		this.sixSix = sixSix;
+	}
+
+	/**
+	 * @return the sevSev
+	 */
+	protected JMenuItem getSevSev() {
+		return sevSev;
+	}
+
+	/**
+	 * @param sevSev the sevSev to set
+	 */
+	protected void setSevSev(JMenuItem sevSev) {
+		this.sevSev = sevSev;
+	}
+
+	/**
+	 * @return the fiveRows
+	 */
+	protected JLabel[] getFiveRows() {
+		return fiveRows;
+	}
+
+	/**
+	 * @param fiveRows the fiveRows to set
+	 */
+	protected void setFiveRows(JLabel[] fiveRows) {
+		this.fiveRows = fiveRows;
+	}
+
+	/**
+	 * @return the fiveCols
+	 */
+	protected JLabel[] getFiveCols() {
+		return fiveCols;
+	}
+
+	/**
+	 * @param fiveCols the fiveCols to set
+	 */
+	protected void setFiveCols(JLabel[] fiveCols) {
+		this.fiveCols = fiveCols;
+	}
+
+	/**
+	 * @return the fiveRowNum
+	 */
+	protected String[] getFiveRowNum() {
+		return fiveRowNum;
+	}
+
+	/**
+	 * @param fiveRowNum the fiveRowNum to set
+	 */
+	protected void setFiveRowNum(String[] fiveRowNum) {
+		this.fiveRowNum = fiveRowNum;
+	}
+
+	/**
+	 * @return the fiveColNum
+	 */
+	protected String[] getFiveColNum() {
+		return fiveColNum;
+	}
+
+	/**
+	 * @param fiveColNum the fiveColNum to set
+	 */
+	protected void setFiveColNum(String[] fiveColNum) {
+		this.fiveColNum = fiveColNum;
+	}
+
+	/**
+	 * @return the sixRows
+	 */
+	protected JLabel[] getSixRows() {
+		return sixRows;
+	}
+
+	/**
+	 * @param sixRows the sixRows to set
+	 */
+	protected void setSixRows(JLabel[] sixRows) {
+		this.sixRows = sixRows;
+	}
+
+	/**
+	 * @return the sixCols
+	 */
+	protected JLabel[] getSixCols() {
+		return sixCols;
+	}
+
+	/**
+	 * @param sixCols the sixCols to set
+	 */
+	protected void setSixCols(JLabel[] sixCols) {
+		this.sixCols = sixCols;
+	}
+
+	/**
+	 * @return the sixRowNum
+	 */
+	protected String[] getSixRowNum() {
+		return sixRowNum;
+	}
+
+	/**
+	 * @param sixRowNum the sixRowNum to set
+	 */
+	protected void setSixRowNum(String[] sixRowNum) {
+		this.sixRowNum = sixRowNum;
+	}
+
+	/**
+	 * @return the sixColNum
+	 */
+	protected String[] getSixColNum() {
+		return sixColNum;
+	}
+
+	/**
+	 * @param sixColNum the sixColNum to set
+	 */
+	protected void setSixColNum(String[] sixColNum) {
+		this.sixColNum = sixColNum;
+	}
+
+	/**
+	 * @return the sevenRows
+	 */
+	protected JLabel[] getSevenRows() {
+		return sevenRows;
+	}
+
+	/**
+	 * @param sevenRows the sevenRows to set
+	 */
+	protected void setSevenRows(JLabel[] sevenRows) {
+		this.sevenRows = sevenRows;
+	}
+
+	/**
+	 * @return the sevenCols
+	 */
+	protected JLabel[] getSevenCols() {
+		return sevenCols;
+	}
+
+	/**
+	 * @param sevenCols the sevenCols to set
+	 */
+	protected void setSevenCols(JLabel[] sevenCols) {
+		this.sevenCols = sevenCols;
+	}
+
+	/**
+	 * @return the sevenRowNum
+	 */
+	protected String[] getSevenRowNum() {
+		return sevenRowNum;
+	}
+
+	/**
+	 * @param sevenRowNum the sevenRowNum to set
+	 */
+	protected void setSevenRowNum(String[] sevenRowNum) {
+		this.sevenRowNum = sevenRowNum;
+	}
+
+	/**
+	 * @return the sevenColNum
+	 */
+	protected String[] getSevenColNum() {
+		return sevenColNum;
+	}
+
+	/**
+	 * @param sevenColNum the sevenColNum to set
+	 */
+	protected void setSevenColNum(String[] sevenColNum) {
+		this.sevenColNum = sevenColNum;
+	}
+
 	/** Boolean for the mark mode, false by default */
 	//protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
@@ -195,7 +1320,7 @@ public class GameView {
 		splashWindow.setSize(400, 175);
 		splashWindow.setLocationRelativeTo(null);
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -261,7 +1386,6 @@ public class GameView {
 		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer
 		
 		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
-		
 		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
 		backgroundColour = new JMenuItem("Background Colour");
@@ -466,14 +1590,10 @@ public class GameView {
 		history.setBorder(new LineBorder(new Color(17, 15, 15)));
 		history.setEditable(false);
 
-		////////////////////////////////////////////////////////////////
-
 		JScrollPane scroll = new JScrollPane(history);
 		scroll.setPreferredSize(new Dimension(200, 300));
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-		////////////////////////////////////////////////////////////////
 
 		historyPanel.add(scroll);
 
@@ -503,18 +1623,20 @@ public class GameView {
 	 * @param gridSize - Used to change the grid size. *
 	 ********************************************************************
 	 */
-	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode, JLabel rowArray[], JLabel colArray[]) {
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
 		boardPanel = new JPanel();
 		// Row panel
 		rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(gridSize, 1));
 		rowPanel.setPreferredSize(new Dimension(75, 0));
-
-		for (int i = 0; i < gridSize; i++) {
-			rowPanel.add(rowArray[i]);
+		
+		
+		for(int i = 0; i< gridSize; i++) {
+			JLabel rowLabel = new JLabel(viewRowLabels[i]);
+			rowPanel.add(rowLabel);
 		}
 		////////////////////////////////////////////////////////////////
-
+		
 		// Mark panel
 		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
 		// incase the grid size is changing, check to see if in markMode.
@@ -534,10 +1656,10 @@ public class GameView {
 		colPanel.setPreferredSize(new Dimension(0, 75));
 		colPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
 
-		for (int i = 0; i < gridSize; i++) {
-			colPanel.add(colArray[i]);
+		for(int i = 0; i< gridSize; i++) {
+			JLabel colLabel = new JLabel(viewColLabels[i]);
+			colPanel.add(colLabel);
 		}
-
 		////////////////////////////////////////////////////////////////
 		// Adds the components to the board panel
 		boardPanel.add(colPanel, BorderLayout.NORTH);
@@ -596,8 +1718,7 @@ public class GameView {
 	
 
 	protected void launcher(ResourceBundle langText, Locale currentLocale) {
-		//Locale defaultLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
-		//ResourceBundle defaultLangText = ResourceBundle.getBundle("MessagesBundle", defaultLocale);
+
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
 		////////////////////////////////////////////////////////////////
@@ -619,23 +1740,14 @@ public class GameView {
 		////////////////////////////////////////////////////////////////
 		playButton = new JButton(langText.getString("play"));
 		playButton.setPreferredSize(new Dimension(100, 30));
-		//playButton.addActionListener(this);
 		playButton.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
-		//JPanel configurationPanel = new JPanel();
-		//configurationPanel.setLayout(new GridLayout(1, 2));
-		//configurationPanel.add(makeLanguagePanel());
-		//configurationPanel.setPreferredSize(new Dimension(225, 60));
-		//configurationPanel.setBackground(Color.WHITE);
-		/////////////////////////////////////////////////////////////////
+
 		startPanel.add(designButton);
 		startPanel.add(playButton);
-		//startPanel.add(configurationPanel);
 		startWindow.add(titlePanel, BorderLayout.NORTH);
 		startWindow.add(startPanel,BorderLayout.CENTER);
 		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
 		startWindow.pack();
-		////////////////////////////////////////////////////////////////		
 		startWindow.setVisible(true);
 		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -650,15 +1762,7 @@ public class GameView {
 	 ********************************************************************
 	 */
 	protected void Design(Locale currentLocale, ResourceBundle langText) {
-		
-		fiveRows = new JLabel[gridSize];
-		fiveCols = new JLabel[gridSize];
-
-		for (int i = 0; i < gridSize; i++) {
-			fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-			fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-		}
-		
+				
 		designBack = new JButton("Back");
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
@@ -667,7 +1771,7 @@ public class GameView {
 		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
 		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		designWindow.add(makeBoardPanel(langText, gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
+		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
 		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
 		designWindow.add(makeControlPanel(),BorderLayout.EAST);
 		designWindow.pack();
@@ -701,7 +1805,7 @@ public class GameView {
 		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
+		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
 
 		//picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
@@ -797,9 +1901,20 @@ public class GameView {
 			for (int j = 0; j < gridSize; j++) {
 				if (rows[i].charAt(j) == '1') {
 					buttons[i][j].setBackground(Color.black);
+					buttons[i][j].setEnabled(false);
+
 				}
 			}
 		}
+	}
+	
+	protected void resetBoard() {
+		 for (JButton[] i : buttons) {
+	            for (JButton j : i) {
+	                j.setBackground(Color.WHITE);
+	                j.setEnabled(true);
+	            }
+	        }
 	}
 
 }

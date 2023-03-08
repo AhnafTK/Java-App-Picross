@@ -64,6 +64,8 @@ public class GameModel {
 	 */
 	String[] row;
 	String[] col;
+	String[] rowLabels;
+	String[] colLabels;
 	
 	/**
 	 * @return the gameMode
@@ -124,6 +126,90 @@ public class GameModel {
 		this.langText = langText;
 	}
 
+	protected String[] rowLabel() {
+		rowLabels = new String[gridSize];
+		String currentLabel = "";
+		//String[] returnLabels = new String[gridSize];
+		//System.out.println("\nPATTERN");
+		int increment = 0;
+		int totalPerRow = 0;
+		// iterate throught the column string and get the labels
+		for (int a = 0; a < gridSize; a++) {
+			// runs through each element of the ROWS
+			for (int b = 0; b < gridSize; b++) {
+				// System.out.print(col[a].charAt(b)+"\n");
+				if (row[a].charAt(b) == '1') { // if 1
+					increment++;
+					totalPerRow++;
+				} else { // if 0
+					if (increment != 0) { // if 0 and increment is not 0
+						//System.out.print(increment + " ");
+						currentLabel = currentLabel + increment + " ";
+					}
+					increment = 0;
+				}
+			}
+			if (increment != 0) {
+				currentLabel = currentLabel + increment + " ";
+			}
+			increment = 0;
+			//System.out.println("");
+			if (totalPerRow == 0) {
+				currentLabel = currentLabel + "0";
+				rowLabels[a] = currentLabel + " ";
+			} 
+			else {
+				rowLabels[a] = currentLabel + " ";
+				currentLabel = "";
+			}
+			
+			totalPerRow = 0;
+		}
+		return rowLabels;
+	}
+	
+	protected String[] colLabel() {
+		colLabels = new String[gridSize];
+		String currentLabel = "";
+		//String[] returnLabels = new String[gridSize];
+		//System.out.println("\nPATTERN");
+		int increment = 0;
+		int totalPerRow = 0;
+		// iterate throught the column string and get the labels
+		for (int a = 0; a < gridSize; a++) {
+			// runs through each element of the ROWS
+			for (int b = 0; b < gridSize; b++) {
+				// System.out.print(col[a].charAt(b)+"\n");
+				if (col[a].charAt(b) == '1') { // if 1
+					increment++;
+					totalPerRow++;
+				} else { // if 0
+					if (increment != 0) { // if 0 and increment is not 0
+						//System.out.print(increment + " ");
+						currentLabel = currentLabel + increment + " ";
+					}
+					increment = 0;
+				}
+			}
+			if (increment != 0) {
+				currentLabel = currentLabel + increment + " ";
+			}
+			increment = 0;
+			//System.out.println("");
+			if (totalPerRow == 0) {
+				currentLabel = currentLabel + "0";
+				colLabels[a] = currentLabel + " ";
+			} 
+			else {
+				colLabels[a] = currentLabel + " ";
+				currentLabel = "";
+			}
+			
+			totalPerRow = 0;
+		}
+		return colLabels;
+	}
+	
 	protected String[] getLabel(String[] array) {
 		
 		String[] returnLabels = new String[gridSize];
@@ -228,11 +314,11 @@ public class GameModel {
 
 			}
 		}
-	
 		return row;
+		
 	}
-
-	protected String[] generateCols(String[] row) {
+	
+	protected String[] generateCols() {
 		col = new String[gridSize];
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
@@ -247,7 +333,6 @@ public class GameModel {
 		}
 		//getLabel(col);
 		return col;
-
 	}
 
 	protected void solveBoard() {
@@ -256,6 +341,249 @@ public class GameModel {
 			//System.out.println(col[i]);
 		}
 	}
+	
+	protected void designMode() {
+		
+	}
+	
+	/**
+	 * @return the gridSize
+	 */
+	protected int getGridSize() {
+		return gridSize;
+	}
+
+	/**
+	 * @param gridSize the gridSize to set
+	 */
+	protected void setGridSize(int gridSize) {
+		this.gridSize = gridSize;
+	}
+
+	/**
+	 * @return the timer
+	 */
+	protected Timer getTimer() {
+		return timer;
+	}
+
+	/**
+	 * @param timer the timer to set
+	 */
+	protected void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+
+	/**
+	 * @return the scoreNumber
+	 */
+	protected int getScoreNumber() {
+		return scoreNumber;
+	}
+
+	/**
+	 * @param scoreNumber the scoreNumber to set
+	 */
+	protected void setScoreNumber(int scoreNumber) {
+		this.scoreNumber = scoreNumber;
+	}
+
+	/**
+	 * @return the timerNumber
+	 */
+	protected int getTimerNumber() {
+		return timerNumber;
+	}
+
+	/**
+	 * @param timerNumber the timerNumber to set
+	 */
+	protected void setTimerNumber(int timerNumber) {
+		this.timerNumber = timerNumber;
+	}
+
+	/**
+	 * @return the seconds
+	 */
+	protected int getSeconds() {
+		return seconds;
+	}
+
+	/**
+	 * @param seconds the seconds to set
+	 */
+	protected void setSeconds(int seconds) {
+		this.seconds = seconds;
+	}
+
+	/**
+	 * @return the minutes
+	 */
+	protected int getMinutes() {
+		return minutes;
+	}
+
+	/**
+	 * @param minutes the minutes to set
+	 */
+	protected void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
+	/**
+	 * @return the secFormat
+	 */
+	protected String getSecFormat() {
+		return secFormat;
+	}
+
+	/**
+	 * @param secFormat the secFormat to set
+	 */
+	protected void setSecFormat(String secFormat) {
+		this.secFormat = secFormat;
+	}
+
+	/**
+	 * @return the minFormat
+	 */
+	protected String getMinFormat() {
+		return minFormat;
+	}
+
+	/**
+	 * @param minFormat the minFormat to set
+	 */
+	protected void setMinFormat(String minFormat) {
+		this.minFormat = minFormat;
+	}
+
+	/**
+	 * @return the boardPuzzle
+	 */
+	protected int[][] getBoardPuzzle() {
+		return boardPuzzle;
+	}
+
+	/**
+	 * @param boardPuzzle the boardPuzzle to set
+	 */
+	protected void setBoardPuzzle(int[][] boardPuzzle) {
+		this.boardPuzzle = boardPuzzle;
+	}
+
+	/**
+	 * @return the gameStarted
+	 */
+	protected boolean isGameStarted() {
+		return gameStarted;
+	}
+
+	/**
+	 * @param gameStarted the gameStarted to set
+	 */
+	protected void setGameStarted(boolean gameStarted) {
+		this.gameStarted = gameStarted;
+	}
+
+	/**
+	 * @return the defaultFiveBVals
+	 */
+	protected int[] getDefaultFiveBVals() {
+		return defaultFiveBVals;
+	}
+
+	/**
+	 * @param defaultFiveBVals the defaultFiveBVals to set
+	 */
+	protected void setDefaultFiveBVals(int[] defaultFiveBVals) {
+		this.defaultFiveBVals = defaultFiveBVals;
+	}
+
+	/**
+	 * @return the defaultSixBVals
+	 */
+	protected int[] getDefaultSixBVals() {
+		return defaultSixBVals;
+	}
+
+	/**
+	 * @param defaultSixBVals the defaultSixBVals to set
+	 */
+	protected void setDefaultSixBVals(int[] defaultSixBVals) {
+		this.defaultSixBVals = defaultSixBVals;
+	}
+
+	/**
+	 * @return the defaultSevBVals
+	 */
+	protected int[] getDefaultSevBVals() {
+		return defaultSevBVals;
+	}
+
+	/**
+	 * @param defaultSevBVals the defaultSevBVals to set
+	 */
+	protected void setDefaultSevBVals(int[] defaultSevBVals) {
+		this.defaultSevBVals = defaultSevBVals;
+	}
+
+	/**
+	 * @return the row
+	 */
+	protected String[] getRow() {
+		return row;
+	}
+
+	/**
+	 * @param row the row to set
+	 */
+	protected void setRow(String[] row) {
+		this.row = row;
+	}
+
+	/**
+	 * @return the col
+	 */
+	protected String[] getCol() {
+		return col;
+	}
+
+	/**
+	 * @param col the col to set
+	 */
+	protected void setCol(String[] col) {
+		this.col = col;
+	}
+
+	/**
+	 * @return the time
+	 */
+	protected int getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	protected void setTime(int time) {
+		this.time = time;
+	}
+
+	/**
+	 * @return the score
+	 */
+	protected int getScore() {
+		return score;
+	}
+
+	/**
+	 * @param score the score to set
+	 */
+	protected void setScore(int score) {
+		this.score = score;
+	}
+
 	
 	protected String[] returnRows() {
 		return row;

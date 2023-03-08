@@ -11,8 +11,6 @@ import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 
@@ -26,17 +24,16 @@ public class GameController {
 		this.view = view;
 	}
 
-	protected void startController() {
-		splashActions();
-	}
+	protected void startController() {splashActions();}
 
 	private void splashActions() {
 		view.startLauncher(model.currentLocale, model.langText);			
 		launcherActions();
 	}
+	
 	private void launcherActions() {
 		view.playButton.addActionListener((actionEvent) -> {
-			System.out.println("clickd play");
+			// intialize default model
 			view.startWindow.dispose();
 			view.Play(model.currentLocale,model.langText);
 			playActions();
@@ -86,7 +83,6 @@ public class GameController {
 			} else {
 				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("false") + "\n");
 				model.setMarkMode(false);
-
 			}
 		});
 		boardActions();
@@ -102,10 +98,6 @@ public class GameController {
 		newBoard("5x5",true);
 		//boardActions();
 		menuBarActions();
-	}
-
-	private void performViewActions() {
-		launcherActions();
 	}
 
 	private void instructionsActions() {
@@ -124,7 +116,7 @@ public class GameController {
 	        	for (int i = 0; i < model.gridSize; i++) {
 					for (int j = 0; j < model.gridSize; j++) {
 						if (e.getSource() == view.buttons[i][j]) {
-							if (model.gameMode == 0) {
+							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
 									view.buttons[i][j].setBackground(new Color(226, 222, 222));
 								} 
@@ -138,7 +130,7 @@ public class GameController {
 									view.buttons[i][j].setBackground(new Color(226, 222, 222));
 									
 								} else {
-									if (model.gameStarted == false) {
+									if (model.isGameStarted() == false) {
 										timerCounter(); 
 										model.timer.start();	
 									}
@@ -217,10 +209,8 @@ public class GameController {
 			System.out.println(model.getGameMode());
 			String options = (String) view.gridSizeCmbo.getSelectedItem();
 			changeGridSize(options);
-			
 		});
 	}
-	
 	
 	/*
 	 * https://www.youtube.com/watch?v=zWw72j-EbqI&list=PL_ql-Q0xEccQzbifFP2SI5y3a_LkNaxA3&index=4
@@ -254,7 +244,7 @@ public class GameController {
 			view.picrossWindow.dispose();
 			view.launcher(model.langText, model.currentLocale);
 			launcherActions();
-			if (model.gameStarted == false) {
+			if (model.isGameStarted() == false) {
 				return;
 			}
 			else {
@@ -264,7 +254,7 @@ public class GameController {
 			}
 		}
 		else {
-			model.gameStarted = false;
+			model.setGameStarted(false);
 			view.designWindow.dispose();
 			System.out.println("clicked design back button");
 			view.launcher(model.langText, model.currentLocale);
@@ -283,17 +273,17 @@ public class GameController {
 				view.picrossWindow.dispose();
 				view.launcher(model.langText, model.currentLocale);
 				launcherActions();
-				if (model.gameStarted == false) {
+				if (model.isGameStarted() == false) {
 					return;
 				}
 				else {
 					model.timer.stop();
-					model.gameStarted = false;
+					model.setGameStarted(false);
 					view.timerCounter.setText("00:00");
 				}
 			}
 			else {
-				model.gameStarted = false;
+				model.setGameStarted(false);
 				view.designWindow.dispose();
 				System.out.println("clicked design back button");
 				view.launcher(model.langText, model.currentLocale);
@@ -302,20 +292,15 @@ public class GameController {
 			
 		});
 		
-		view.resetButton.addActionListener((actionEvent) -> {
-            resetBoard();
-        });
+		view.resetButton.addActionListener((actionEvent) -> {resetBoard();});
 		
 		view.solveButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
-			//model.solveBoard();
 			view.solveBoard(model.row, model.gridSize);
 		});
 
-		view.instructionsButton.addActionListener((actionEvent) -> {
-            showInstructions();
-        });
+		view.instructionsButton.addActionListener((actionEvent) -> {showInstructions();});
 		
 		view.newBoardButton.addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -351,39 +336,24 @@ public class GameController {
 				
 			}
 		});
-		view.newMenuOption.addActionListener((actionEvent)->{
-			newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);
-		});
-		//view.solutionMenuOption.addActionListener((actionEvent)->{
-	
-		//});
-		view.resetMenuOption.addActionListener((actionEvent)->{
-			resetBoard();
-		});
-		view.solveMenuOption.addActionListener((actionEvent)->{
-	
-		});
-		// gridisze here
-		view.fiveFive.addActionListener((actionEvent)->{
-			changeGridSize("5x5");
-		});
-		view.sixSix.addActionListener((actionEvent)->{
-			changeGridSize("6x6");
-
-		});
-		view.sevSev.addActionListener((actionEvent)->{
-			changeGridSize("7x7");
-
-		});
-		view.toLauncherMenuOption.addActionListener((actionEvent)->{
-			backToLauncher();
-		});
-		view.exitMenuOption.addActionListener((actionEvent)->{
-			System.exit(0);
-		});
-		view.aboutMenuOption.addActionListener((actionEvent)->{
-			showInstructions();
-		});
+		view.newMenuOption.addActionListener((actionEvent)->{newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);});
+		
+		view.resetMenuOption.addActionListener((actionEvent)->{resetBoard();});
+		
+		view.solveMenuOption.addActionListener((actionEvent)->{view.solveBoard(model.row, model.gridSize);});
+		
+		view.fiveFive.addActionListener((actionEvent)->{changeGridSize("5x5");});
+		
+		view.sixSix.addActionListener((actionEvent)->{changeGridSize("6x6");});
+		
+		view.sevSev.addActionListener((actionEvent)->{changeGridSize("7x7");});
+		
+		view.toLauncherMenuOption.addActionListener((actionEvent)->{backToLauncher();});
+		
+		view.exitMenuOption.addActionListener((actionEvent)->{System.exit(0);});
+		
+		view.aboutMenuOption.addActionListener((actionEvent)->{showInstructions();});
+		
 		view.backgroundColour.addActionListener((actionEvent) -> {
 			JColorChooser colourChooser = new JColorChooser();
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
@@ -452,29 +422,11 @@ public class GameController {
 		
 	}
 	
-	 private void resetBoard() {
-	        view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-	        + model.langText.getString("reset") + "\n");
-	        if (model.getGameMode() == 1){
-	            if (model.gameStarted == false) {
-	                return;
-	            }
-	            else {
-	                model.score = 0;
-	                view.scoreCounter.setText(Integer.toString(model.score));
-	                model.timer.stop();
-	                model.gameStarted = false;
-	                view.timerCounter.setText("00:00");
-	            }
-	        }
-	        for (JButton[] i : view.buttons) {
-	            for (JButton j : i) {
-	                j.setBackground(Color.WHITE);
-	                j.setEnabled(true);
-	            }
-	        }
-
-	    }
+	private void resetBoard() {
+		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
+	    + model.langText.getString("reset") + "\n");
+	    view.resetBoard();
+	}
 	
 	private void showInstructions() {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -485,121 +437,84 @@ public class GameController {
 		instructionsActions();
 	}
 	
-	private void solveBoard() {
-		
-	}
-	
 	private void newBoard(String options, boolean isDefault) {
+		int maxPossible;
 		if (isDefault == false && model.gameStarted == true && model.gameMode == 1) {
-			model.score = 0;
-	        view.scoreCounter.setText(Integer.toString(model.score));
+			model.setScore(0);
+			view.getScoreCounter().setText(Integer.toString(model.score));
+	        //view.scoreCounter.setText(Integer.toString(model.score));
 	        model.timer.stop();
-	        model.gameStarted = false;
-	        view.timerCounter.setText("00:00");
+	        model.setGameStarted(false);
+	        view.getTimerCounter().setText("00:00");
 	    }
 		//String options = (String) view.gridSizeCmbo.getSelectedItem();
-		int maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
-		String[] row = new String[model.gridSize];
-		String[] col = new String[model.gridSize];
-
-		String[] returnLabelRow;
-		String[] returnLabelCol;
 		
 		switch (options) {
 		
 		case "5x5":
 			model.gridSize = 5;
-			view.fiveRows = new JLabel[model.gridSize];
-			view.fiveCols = new JLabel[model.gridSize];
+			maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
+			view.viewRows = model.generateRows(maxPossible, isDefault);
+			view.viewCols = model.generateCols();
+			view.viewRowLabels = new String[model.gridSize];
+			view.viewRowLabels = model.rowLabel();
+			view.viewColLabels = model.colLabel();
+			
 			if (model.gameMode == 1) {
-
-				row = model.generateRows(maxPossible, isDefault);
-				col = model.generateCols(row);
-				returnLabelRow = model.getLabel(row);
-				returnLabelCol = model.getLabel(col);
-
-				for (int i = 0; i < model.gridSize; i++) {
-					System.out.println(returnLabelRow[i]);
-					view.fiveRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-					view.fiveCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
-				}
+				
 				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));
 			}
 			else {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.fiveRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.fiveCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
+				
 				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode(),view.fiveRows,view.fiveCols));	
+				view.designWindow.add(view.makeBoardPanel(model.langText,5,model.isMarkMode()));	
 			}
 			break;
 			
 		case "6x6":
 			model.gridSize = 6;
-			view.sixRows = new JLabel[model.gridSize];
-			view.sixCols = new JLabel[model.gridSize];
+			//model.gridSize = 5;
+			maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
+			view.viewRows = model.generateRows(maxPossible, isDefault);
+			view.viewCols = model.generateCols();
+			view.viewRowLabels = new String[model.gridSize];
+			view.viewRowLabels = model.rowLabel();
+			view.viewColLabels = model.colLabel();
 			if (model.gameMode == 1) {
-				row = model.generateRows(maxPossible, isDefault);
-				col = model.generateCols(row);
-
-				returnLabelRow = model.getLabel(row);
-				returnLabelCol = model.getLabel(col);
-
-				for (int i = 0; i < model.gridSize; i++) {
-					System.out.println(returnLabelRow[i]);
-					view.sixRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-					view.sixCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
-				}
-				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
 				
+				view.picrossWindow.remove(view.boardPanel);
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode()));
 			}
 			else {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sixRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.sixCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
-
+				
 				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode(),view.sixRows,view.sixCols));
+				view.designWindow.add(view.makeBoardPanel(model.langText,6,model.isMarkMode()));
 			}
 			
 			break;
 			
 		case "7x7":
 			model.gridSize = 7;
-			view.sevenRows = new JLabel[model.gridSize];
-			view.sevenCols = new JLabel[model.gridSize];
+			maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
+			view.viewRows = model.generateRows(maxPossible, isDefault);
+			view.viewCols = model.generateCols();
+			view.viewRowLabels = new String[model.gridSize];
+			view.viewRowLabels = model.rowLabel();
+			view.viewColLabels = model.colLabel();
+			
 			if (model.gameMode == 1) {
-				row = model.generateRows(maxPossible, isDefault);
-				col = model.generateCols(row);
-
-				returnLabelRow = model.getLabel(row);
-				returnLabelCol = model.getLabel(col);
-
-				for (int i = 0; i < model.gridSize; i++) {
-					System.out.println(returnLabelRow[i]);
-					view.sevenRows[i] = new JLabel(returnLabelRow[i], SwingConstants.CENTER);
-					view.sevenCols[i] = new JLabel(returnLabelCol[i], SwingConstants.CENTER);
-				}
-				
+								
 				view.picrossWindow.remove(view.boardPanel);
-				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				view.picrossWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
 				
 			}
 			else {
-				for (int i = 0; i < model.gridSize; i++) {
-					view.sevenRows[i] = new JLabel("0 0", SwingConstants.CENTER);
-					view.sevenCols[i] = new JLabel("<html>0<br/>0<br/>0<br/></html>", SwingConstants.CENTER);
-				}
+				
 				view.designWindow.remove(view.boardPanel);
-				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode(),view.sevenRows,view.sevenCols));
+				view.designWindow.add(view.makeBoardPanel(model.langText,7,model.isMarkMode()));
 				
 			}
-			
-			
 			break;
 		}
 		view.boardPanel.revalidate();
@@ -609,14 +524,15 @@ public class GameController {
 	
 	// causing problems with design
 	private void changeGridSize(String options) {
+		
 		newBoard(options, true);
 		if (model.getGameMode() == 1){
-			if (model.gameStarted == false) {
+			if (model.isGameStarted() == false) {
 				return;
 			}
 			else {
 				model.timer.stop();
-				model.gameStarted = false;
+				model.setGameStarted(false);
 				view.timerCounter.setText("00:00");
 			}
 		}
