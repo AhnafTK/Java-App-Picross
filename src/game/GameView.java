@@ -1023,173 +1023,6 @@ public class GameView {
 		this.sevSev = sevSev;
 	}
 
-	/**
-	 * @return the fiveRows
-	 */
-	protected JLabel[] getFiveRows() {
-		return fiveRows;
-	}
-
-	/**
-	 * @param fiveRows the fiveRows to set
-	 */
-	protected void setFiveRows(JLabel[] fiveRows) {
-		this.fiveRows = fiveRows;
-	}
-
-	/**
-	 * @return the fiveCols
-	 */
-	protected JLabel[] getFiveCols() {
-		return fiveCols;
-	}
-
-	/**
-	 * @param fiveCols the fiveCols to set
-	 */
-	protected void setFiveCols(JLabel[] fiveCols) {
-		this.fiveCols = fiveCols;
-	}
-
-	/**
-	 * @return the fiveRowNum
-	 */
-	protected String[] getFiveRowNum() {
-		return fiveRowNum;
-	}
-
-	/**
-	 * @param fiveRowNum the fiveRowNum to set
-	 */
-	protected void setFiveRowNum(String[] fiveRowNum) {
-		this.fiveRowNum = fiveRowNum;
-	}
-
-	/**
-	 * @return the fiveColNum
-	 */
-	protected String[] getFiveColNum() {
-		return fiveColNum;
-	}
-
-	/**
-	 * @param fiveColNum the fiveColNum to set
-	 */
-	protected void setFiveColNum(String[] fiveColNum) {
-		this.fiveColNum = fiveColNum;
-	}
-
-	/**
-	 * @return the sixRows
-	 */
-	protected JLabel[] getSixRows() {
-		return sixRows;
-	}
-
-	/**
-	 * @param sixRows the sixRows to set
-	 */
-	protected void setSixRows(JLabel[] sixRows) {
-		this.sixRows = sixRows;
-	}
-
-	/**
-	 * @return the sixCols
-	 */
-	protected JLabel[] getSixCols() {
-		return sixCols;
-	}
-
-	/**
-	 * @param sixCols the sixCols to set
-	 */
-	protected void setSixCols(JLabel[] sixCols) {
-		this.sixCols = sixCols;
-	}
-
-	/**
-	 * @return the sixRowNum
-	 */
-	protected String[] getSixRowNum() {
-		return sixRowNum;
-	}
-
-	/**
-	 * @param sixRowNum the sixRowNum to set
-	 */
-	protected void setSixRowNum(String[] sixRowNum) {
-		this.sixRowNum = sixRowNum;
-	}
-
-	/**
-	 * @return the sixColNum
-	 */
-	protected String[] getSixColNum() {
-		return sixColNum;
-	}
-
-	/**
-	 * @param sixColNum the sixColNum to set
-	 */
-	protected void setSixColNum(String[] sixColNum) {
-		this.sixColNum = sixColNum;
-	}
-
-	/**
-	 * @return the sevenRows
-	 */
-	protected JLabel[] getSevenRows() {
-		return sevenRows;
-	}
-
-	/**
-	 * @param sevenRows the sevenRows to set
-	 */
-	protected void setSevenRows(JLabel[] sevenRows) {
-		this.sevenRows = sevenRows;
-	}
-
-	/**
-	 * @return the sevenCols
-	 */
-	protected JLabel[] getSevenCols() {
-		return sevenCols;
-	}
-
-	/**
-	 * @param sevenCols the sevenCols to set
-	 */
-	protected void setSevenCols(JLabel[] sevenCols) {
-		this.sevenCols = sevenCols;
-	}
-
-	/**
-	 * @return the sevenRowNum
-	 */
-	protected String[] getSevenRowNum() {
-		return sevenRowNum;
-	}
-
-	/**
-	 * @param sevenRowNum the sevenRowNum to set
-	 */
-	protected void setSevenRowNum(String[] sevenRowNum) {
-		this.sevenRowNum = sevenRowNum;
-	}
-
-	/**
-	 * @return the sevenColNum
-	 */
-	protected String[] getSevenColNum() {
-		return sevenColNum;
-	}
-
-	/**
-	 * @param sevenColNum the sevenColNum to set
-	 */
-	protected void setSevenColNum(String[] sevenColNum) {
-		this.sevenColNum = sevenColNum;
-	}
 
 	/** Boolean for the mark mode, false by default */
 	//protected boolean markMode = false;
@@ -1254,53 +1087,7 @@ public class GameView {
 	JMenuItem sixSix = new JMenuItem("6x6");
 	JMenuItem sevSev = new JMenuItem("7x7");
 	
-	JLabel fiveRows[];
-	JLabel fiveCols[];
-	String fiveRowNum[] = {"3 1",
-						   "4",
-						   "3",
-						   "1",
-						   "2 2"};
-	
-	String fiveColNum[] = {"<html>1<br>1<br>1<html>",
-						   "<html>3<br>1<html>",
-						   "3",
-						   "<html>1<br>1<html>",
-						   "<html>2<br>2<html>"};
-	
-	JLabel sixRows[];
-	JLabel sixCols[];
-	String sixRowNum[] = {"1 1",
-			   			  "1 1",
-			   			  "1 1",
-			   			  "2",
-			   			  "2",
-						  "4"};
 
-	String sixColNum[] = {"2",
-			   		  	  "<html>1<br>1<html>",
-			   		  	  "3",
-			   		  	  "3",
-			   		  	  "<html>1<br>1<html>",
-			   		  	  "2"};
-	JLabel sevenRows[];
-	JLabel sevenCols[];
-	String sevenRowNum[] = {"1 3",
-							"3 2",
-							"2 1",
-							"4",
-							"5",
-							"1 3",
-							"1 3"};
-	
-	String sevenColNum[] = {"1",
-							"5",
-							"6",
-							"2",
-							"7",
-							"<html>2<br>3<html>",
-							"<html>1<br>2<html>"};
-	
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -1525,7 +1312,6 @@ public class GameView {
 		configurationPanel.setPreferredSize(new Dimension(225, 100));
 		// Vertically aligns the buttons in the panel
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		//buttonPanel.setPreferredSize(new Dimension(120, 180));
 		// Sets all of the buttons to the same size and creates an ActionListener
 		resetButton.setPreferredSize(new Dimension(120, 25));
 		solveButton.setPreferredSize(new Dimension(120, 25));
@@ -1736,7 +1522,6 @@ public class GameView {
 		designButton = new JButton(langText.getString("design"));
 		designButton.setPreferredSize(new Dimension(100, 30));
 		designButton.setBackground(Color.WHITE);
-		//designButton.addActionListener(this);
 		////////////////////////////////////////////////////////////////
 		playButton = new JButton(langText.getString("play"));
 		playButton.setPreferredSize(new Dimension(100, 30));
@@ -1767,8 +1552,6 @@ public class GameView {
 		designWindow = new JFrame();
 		designWindow.setLayout(new BorderLayout());
 		makeMenuBar(designWindow, currentLocale, langText, 0);
-		//JPanel configGrid = new JPanel();
-		//configGrid.setLayout(new GridLayout(2, 2, 0, 0));
 		////////////////////////////////////////////////////////////////
 		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
@@ -1791,13 +1574,6 @@ public class GameView {
 	protected void Play(Locale currentlocale, ResourceBundle langText) {
 		gameMode = 1;
 		
-		fiveRows = new JLabel[gridSize];
-		fiveCols = new JLabel[gridSize];
-
-		for (int i = 0; i < gridSize; i++) {
-			fiveRows[i] = new JLabel(fiveRowNum[i], SwingConstants.CENTER);
-			fiveCols[i] = new JLabel(fiveColNum[i], SwingConstants.CENTER);
-		}
 		
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
@@ -1806,8 +1582,6 @@ public class GameView {
 		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
 		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
 		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
-
-		//picrossWindow.add(makeBoardPanel(langText,gridSize, false, fiveRows, fiveCols), BorderLayout.CENTER); // mark mode false as default
 		picrossWindow.pack();
 		////////////////////////////////////////////////////////////////
 		picrossWindow.setResizable(false);
@@ -1826,51 +1600,20 @@ public class GameView {
 	 * @param locale - Used to get the selected language. *
 	 ************************************************************************
 	 */
-	protected void Instructions(Locale currentLocale) {
+	protected void Instructions(Locale currentLocale, ResourceBundle langText) {
 		instructionsWindow = new JFrame();
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));
-		JLabel instructionsLabel = new JLabel();
+		JTextArea instructionsLabel = new JTextArea();
+		instructionsLabel.setPreferredSize(new Dimension (450, 325));
 		instructionsBack = new JButton("Back");
 
 		////////////////////////////////////////////////////////////////
-
-		String printInstructions = "";
-
-		// If the language is set to English
-		if (currentLocale.getCountry() == "US") {
-			printInstructions = "<html><br/>There are multiple rows and columns that are adjacent<br/>"
-					+ "to the grid of buttons, these will have numbers that will indicate<br/>"
-					+ "how many correct tiles are in that row/column.<br/><br/>"
-					+ "The buttons in the grid can either be clicked or marked as empty,<br/>"
-					+ "they will be highlighted to indicate right or wrong. <br/><br/>"
-					+ "Once a button is clicked, the timer will start and the score<br/>"
-					+ "will be initialized to 0. When all of the correct tiles are placed,<br/>"
-					+ "the score goes up and the timer resets.<br/><br/>"
-					+ "At any time you can solve the grid, reset the board or generate<br/>"
-					+ "a new board that has a random pattern.<br/><br/></html>";
-		}
-
-		////////////////////////////////////////////////////////////////
-
-		// If the language is set to French
-		else {
-			printInstructions = "<html><br/>Il y a plusieurs lignes et colonnes adjacentes à la<br/>"
-					+ "grille de boutons. Les numéros de ces rangées indiquent le nombre<br/>"
-					+ "de tuiles corriges dans la rangée ou la colonne en question.<br/>"
-					+ "Les boutons de la grille peuvent être cliqués ou marqués<br/>"
-					+ "comme étant vides. Ils seront mis en évidence pour indiquer<br/>"
-					+ "s'ils sont bons ou mauvais. <br/><br/>"
-					+ "Dès qu'un bouton est cliqué, le minuteur démarre et<br/>" + "le score est initialisé à 0<br/>"
-					+ "Lorsque toutes les bonnes tuiles sont placées, le score augmente<br/>"
-					+ "et le minuteur se remet à zéro. <br/><br/>"
-					+ "À tout moment, vous pouvez résoudre la grille, réinitialiser le<br/>"
-					+ "plateau ou générer un nouveau plateau avec un motif aléatoire.<br/><br/></html>";
-		}
-
-		////////////////////////////////////////////////////////////////
-
-		instructionsLabel.setText(printInstructions);
+		
+		instructionsLabel.setText(langText.getString("instructions_text"));
+		instructionsLabel.setLineWrap(true);
+		instructionsLabel.setEditable(false);
+		instructionsLabel.setOpaque(false);
 		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
 
 		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));

@@ -1,15 +1,9 @@
 package game;
 
-import java.awt.Color;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
-import javax.swing.JColorChooser;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class GameModel {
@@ -588,18 +582,5 @@ public class GameModel {
 	protected String[] returnRows() {
 		return row;
 	}
-//	protected void generateInts(int gridSize) {
-//		int maxPossible = (int) (Math.pow(2, gridSize) - 1);
-//		String[] row = new String[gridSize];
-//		String[] col = new String[gridSize];
-//		
-//		row = generateRows(maxPossible);
-//		col = generateCols(row);
-//		
-//		String[] returnLabelRow = getLabel(row);
-//		String[] returnLabelCol = getLabel(col);
-//		
-//
-//	}
 
 }

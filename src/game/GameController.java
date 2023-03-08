@@ -432,7 +432,7 @@ public class GameController {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 		+ model.langText.getString("instructions") + "\n");
 		
-		view.Instructions(model.currentLocale);
+		view.Instructions(model.currentLocale, model.langText);
 		view.instructionsButton.setEnabled(false);
 		instructionsActions();
 	}
@@ -442,12 +442,10 @@ public class GameController {
 		if (isDefault == false && model.gameStarted == true && model.gameMode == 1) {
 			model.setScore(0);
 			view.getScoreCounter().setText(Integer.toString(model.score));
-	        //view.scoreCounter.setText(Integer.toString(model.score));
 	        model.timer.stop();
 	        model.setGameStarted(false);
 	        view.getTimerCounter().setText("00:00");
 	    }
-		//String options = (String) view.gridSizeCmbo.getSelectedItem();
 		
 		switch (options) {
 		
