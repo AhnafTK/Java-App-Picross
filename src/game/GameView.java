@@ -1104,7 +1104,7 @@ public class GameView {
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
-		ImageIcon splashLogo = new ImageIcon("./src/images/picross.jpg");
+		ImageIcon splashLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
 		JLabel splashLabel = new JLabel();
 		splashLabel.setIcon(splashLogo);
 		splashPanel.setPreferredSize(new Dimension(500, 125));
@@ -1347,7 +1347,7 @@ public class GameView {
 	 */
 	private JPanel makeTitlePanel() {
 		JPanel titlePanel = new JPanel();
-		ImageIcon picrossLogo = new ImageIcon("./src/images/picross.jpg");
+		ImageIcon picrossLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
 		JLabel picrossLabel = new JLabel();
 		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setPreferredSize(new Dimension(1000, 125));
@@ -1498,7 +1498,7 @@ public class GameView {
 		startWindow.setLayout(new BorderLayout());
 		////////////////////////////////////////////////////////////////
 		JPanel titlePanel = new JPanel();
-		ImageIcon titleLogo = new ImageIcon("./src/images/picross.jpg");
+		ImageIcon titleLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
 		JLabel titleLabel = new JLabel();
 		titleLabel.setIcon(titleLogo);
 		titlePanel.setPreferredSize(new Dimension(500, 125));
