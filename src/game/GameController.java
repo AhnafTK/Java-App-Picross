@@ -31,28 +31,28 @@ public class GameController {
 	}
 	
 	private void launcherActions() {
-		view.playButton.addActionListener((actionEvent) -> {
+		view.getPlayButton().addActionListener((actionEvent) -> {
 			// intialize default model
-			view.startWindow.dispose();
+			view.getStartWindow().dispose();
 			view.Play(model.currentLocale,model.langText);
 			playActions();
 		});
 
-		view.designButton.addActionListener((actionEvent) -> {
+		view.getDesignButton().addActionListener((actionEvent) -> {
 			model.gameStarted = true;
 			System.out.println("clicked design button");
-			view.startWindow.dispose();
+			view.getStartWindow().dispose();
 			view.Design(model.currentLocale, model.langText);
 			designActions();
 		});
 		
-		view.engRadio.addActionListener((actionEvent) -> {
+		view.getEngRadio().addActionListener((actionEvent) -> {
 			model.setCurrentLocale(new Locale.Builder().setLanguage("en").setRegion("US").build());
 			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
 			updateLauncherLanguage();
 		});
 		
-		view.frRadio.addActionListener((actionEvent) -> {
+		view.getFrRadio().addActionListener((actionEvent) -> {
 			model.setCurrentLocale(new Locale.Builder().setLanguage("fr").setRegion("FR").build());
 			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
 			updateLauncherLanguage();
@@ -60,10 +60,10 @@ public class GameController {
 	}
 
 	private void updateLauncherLanguage() {
-		view.designButton.setText(model.langText.getString("design"));
-		view.playButton.setText(model.langText.getString("play"));
-		view.engRadio.setText(model.langText.getString("english"));
-		view.frRadio.setText(model.langText.getString("french"));
+		view.getDesignButton().setText(model.langText.getString("design"));
+		view.getPlayButton().setText(model.langText.getString("play"));
+		view.getEngRadio().setText(model.langText.getString("english"));
+		view.getFrRadio().setText(model.langText.getString("french"));
 	}
 	private void designActions() {
 		model.setGameMode(0);
@@ -84,9 +84,9 @@ public class GameController {
 	}
 
 	private void instructionsActions() {
-		view.instructionsBack.addActionListener((actionEvent) -> {
-			view.instructionsWindow.dispose();
-			view.instructionsButton.setEnabled(true);
+		view.getInstructionsBack().addActionListener((actionEvent) -> {
+			view.getInstructionsWindow().dispose();
+			view.getInstructionsButton().setEnabled(true);
 		});
 	}
 
@@ -97,19 +97,19 @@ public class GameController {
 	        public void actionPerformed(ActionEvent e) {
 	        	for (int i = 0; i < model.getGridSize(); i++) {
 					for (int j = 0; j < model.getGridSize(); j++) {
-						if (e.getSource() == view.buttons[i][j]) {
+						if (e.getSource() == view.getButtons()[i][j]) {
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
-									view.buttons[i][j].setBackground(new Color(226, 222, 222));
+									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
 								} 
 								else {
-									view.buttons[i][j].setBackground(new Color(17, 15, 15));
+									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
 								}
-								view.buttons[i][j].setEnabled(false);
+								view.getButtons()[i][j].setEnabled(false);
 							}
 							else {
 								if (model.isMarkMode()) {
-									view.buttons[i][j].setBackground(view.mark_color);
+									view.getButtons()[i][j].setBackground(view.mark_color);
 								} else {
 									if (model.isGameStarted() == false) {
 										timerCounter(); 
@@ -118,15 +118,15 @@ public class GameController {
 									if (model.getRow(i).charAt(j) == '1') {
 										System.out.println("correct");
 										model.setScore(model.getScore()+1);
-										view.buttons[i][j].setBackground(view.tile_color);
+										view.getButtons()[i][j].setBackground(view.tile_color);
 									}
 									else {
 										model.setScore(model.getScore()-1);
-										view.buttons[i][j].setBackground(view.err_color);
+										view.getButtons()[i][j].setBackground(view.err_color);
 										System.out.println("false");
 									}
-									view.scoreCounter.setText(Integer.toString(model.getScore())); 
-									view.buttons[i][j].setEnabled(false);
+									view.getScoreCounter().setText(Integer.toString(model.getScore())); 
+									view.getButtons()[i][j].setEnabled(false);
 								}	
 							}
 						}
@@ -135,7 +135,7 @@ public class GameController {
 	        }
 	    };
 	    
-		for (JButton[] i : view.buttons) {
+		for (JButton[] i : view.getButtons()) {
 			//indexi++;
 			for (JButton j : i) {
 				j.addActionListener(listener);
@@ -144,8 +144,8 @@ public class GameController {
 	}
 	
 	private void markCheckBoxAction() {
-		view.markCheckBox.addActionListener((actionEvent) -> {
-			if (view.markCheckBox.isSelected()) {
+		view.getMarkCheckBox().addActionListener((actionEvent) -> {
+			if (view.getMarkCheckBox().isSelected()) {
 				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("true") + "\n");
 				model.setMarkMode(true);
 			} else {
@@ -156,26 +156,26 @@ public class GameController {
 	}
 
 	private void languageActions() {
-		view.engRadio.addActionListener((actionEvent) -> {
+		view.getEngRadio().addActionListener((actionEvent) -> {
 			model.setCurrentLocale(new Locale.Builder().setLanguage("en").setRegion("US").build());
 			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
 			view.updateText(model.getCurrentLocale(), model.getLangText());
-			view.leftPanel.revalidate();
+			view.getLeftPanel().revalidate();
 			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
 		});
-		view.frRadio.addActionListener((actionEvent) -> {
+		view.getFrRadio().addActionListener((actionEvent) -> {
 			model.setCurrentLocale(new Locale.Builder().setLanguage("fr").setRegion("FR").build());
 			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
 			view.updateText(model.currentLocale, model.langText);
-			view.leftPanel.revalidate();
+			view.getLeftPanel().revalidate();
 			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
 		});
 	}
 	
 	private void gridSizeActions() {
-		view.gridSizeCmbo.addActionListener((actionEvent) -> {
+		view.getGridSizeCmbo().addActionListener((actionEvent) -> {
 			System.out.println(model.getGameMode());
-			String options = (String) view.gridSizeCmbo.getSelectedItem();
+			String options = (String) view.getGridSizeCmbo().getSelectedItem();
 			changeGridSize(options);
 		});
 	}
@@ -198,7 +198,7 @@ public class GameController {
 				}
 				model.setSecFormat(dFormat.format(model.getSeconds()));
 				model.setMinFormat(dFormat.format(model.getMinutes()));
-				view.timerCounter.setText(model.getMinFormat() + ":" + model.getSecFormat());
+				view.getTimerCounter().setText(model.getMinFormat() + ":" + model.getSecFormat());
 			}
 		});
 	}
@@ -206,7 +206,7 @@ public class GameController {
 	private void backToLauncher() {
 		model.setMarkMode(false);
 		if (model.getGameMode() == 1) {
-			view.picrossWindow.dispose();
+			view.getPicrossWindow().dispose();
 			view.launcher(model.getLangText(), model.getCurrentLocale());
 			launcherActions();
 			if (model.isGameStarted() == false) {
@@ -215,12 +215,12 @@ public class GameController {
 			else {
 				model.timer.stop();
 				model.setGameStarted(false);
-				view.timerCounter.setText("00:00");
+				view.getTimerCounter().setText("00:00");
 			}
 		}
 		else {
 			model.setGameStarted(false);
-			view.designWindow.dispose();
+			view.getDesignWindow().dispose();
 			System.out.println("clicked design back button");
 			view.launcher(model.langText, model.currentLocale);
 			launcherActions();
@@ -231,10 +231,10 @@ public class GameController {
 		
 		languageActions();
 		
-		view.playToLauncher.addActionListener((actionEvent) -> {
+		view.getPlayToLauncher().addActionListener((actionEvent) -> {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
-				view.picrossWindow.dispose();
+				view.getPicrossWindow().dispose();
 				view.launcher(model.langText, model.currentLocale);
 				launcherActions();
 				if (model.isGameStarted() == false) {
@@ -243,12 +243,12 @@ public class GameController {
 				else {
 					model.timer.stop();
 					model.setGameStarted(false);
-					view.timerCounter.setText("00:00");
+					view.getTimerCounter().setText("00:00");
 				}
 			}
 			else {
 				model.setGameStarted(false);
-				view.designWindow.dispose();
+				view.getDesignWindow().dispose();
 				System.out.println("clicked design back button");
 				view.launcher(model.langText, model.currentLocale);
 				launcherActions();
@@ -256,17 +256,17 @@ public class GameController {
 			
 		});
 		
-		view.resetButton.addActionListener((actionEvent) -> {resetBoard();});
-		view.solveButton.addActionListener((actionEvent) -> {
+		view.getResetButton().addActionListener((actionEvent) -> {resetBoard();});
+		view.getSolveButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
 			view.solveBoard(model.row, model.gridSize);
 		});
-		view.instructionsButton.addActionListener((actionEvent) -> {showInstructions();});
-		view.newBoardButton.addActionListener((actionEvent) -> {
+		view.getInstructionsButton().addActionListener((actionEvent) -> {showInstructions();});
+		view.getNewBoardButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 			+ model.langText.getString("newBoard") + "\n");
-			newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);
+			newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);
 		});
 
 	}
@@ -296,7 +296,7 @@ public class GameController {
 				
 			}
 		});
-		view.newMenuOption.addActionListener((actionEvent)->{newBoard((String) view.gridSizeCmbo.getSelectedItem(),false);});
+		view.newMenuOption.addActionListener((actionEvent)->{newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
 		
 		view.resetMenuOption.addActionListener((actionEvent)->{resetBoard();});
 		
@@ -316,8 +316,8 @@ public class GameController {
 		
 		view.backgroundColour.addActionListener((actionEvent) -> {
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
-			view.boardPanel.setBackground(colour);
-			view.leftPanel.setBackground(colour);
+			view.getBoardPanel().setBackground(colour);
+			view.getLeftPanel().setBackground(colour);
 			view.languagePanel.setBackground(colour);
 			view.languageButtonPanel.setBackground(colour);
 			view.gridSizeComboPanel.setBackground(colour);
@@ -329,41 +329,41 @@ public class GameController {
 			view.controlPanel.setBackground(colour);
 			view.rowPanel.setBackground(colour);
 			view.colPanel.setBackground(colour);
-			view.engRadio.setBackground(colour);
-			view.frRadio.setBackground(colour);
-			view.markCheckBox.setBackground(colour);
+			view.getEngRadio().setBackground(colour);
+			view.getFrRadio().setBackground(colour);
+			view.getMarkCheckBox().setBackground(colour);
 		});
 		
 		
 		view.textColour.addActionListener((actionEvent) -> {
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.scoreLabel.setForeground(colour);
-			view.scoreCounter.setForeground(colour);
+			view.getScoreCounter().setForeground(colour);
 			view.timerLabel.setForeground(colour);
-			view.timerCounter.setForeground(colour);
+			view.getTimerCounter().setForeground(colour);
 			view.gridSizeLabel.setForeground(colour);
-			view.gridSizeCmbo.setForeground(colour);
-			view.playToLauncher.setForeground(colour);
-			view.solveButton.setForeground(colour);
-			view.resetButton.setForeground(colour);
-			view.newBoardButton.setForeground(colour);
-			view.instructionsButton.setForeground(colour);
+			view.getGridSizeCmbo().setForeground(colour);
+			view.getPlayToLauncher().setForeground(colour);
+			view.getSolveButton().setForeground(colour);
+			view.getResetButton().setForeground(colour);
+			view.getNewBoardButton().setForeground(colour);
+			view.getInstructionsButton().setForeground(colour);
 			view.langLabel.setForeground(colour);
-			view.engRadio.setForeground(colour);
-			view.frRadio.setForeground(colour);
-			view.markCheckBox.setForeground(colour);
+			view.getEngRadio().setForeground(colour);
+			view.getFrRadio().setForeground(colour);
+			view.getMarkCheckBox().setForeground(colour);
 		});
 		
 		view.componentColour.addActionListener((actionEvent) -> {			
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
-			view.scoreCounter.setBackground(colour);
-			view.timerCounter.setBackground(colour);
-			view.gridSizeCmbo.setBackground(colour);
-			view.playToLauncher.setBackground(colour);
-			view.resetButton.setBackground(colour);
-			view.solveButton.setBackground(colour);
-			view.newBoardButton.setBackground(colour);
-			view.instructionsButton.setBackground(colour);
+			view.getScoreCounter().setBackground(colour);
+			view.getTimerCounter().setBackground(colour);
+			view.getGridSizeCmbo().setBackground(colour);
+			view.getPlayToLauncher().setBackground(colour);
+			view.getResetButton().setBackground(colour);
+			view.getSolveButton().setBackground(colour);
+			view.getNewBoardButton().setBackground(colour);
+			view.getInstructionsButton().setBackground(colour);
 			view.history.setBackground(colour);
 			for (JButton[] i : view.getButtons()) {
 				for (JButton j : i) {
@@ -387,7 +387,7 @@ public class GameController {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 		+ model.langText.getString("instructions") + "\n");
 		view.Instructions(model.currentLocale, model.langText);
-		view.instructionsButton.setEnabled(false);
+		view.getInstructionsButton().setEnabled(false);
 		instructionsActions();
 	}
 	
@@ -422,15 +422,15 @@ public class GameController {
 		view.setViewColLabels(model.colLabel());
 		
 		if (model.getGameMode() == 1) {
-			view.picrossWindow.remove(view.boardPanel);
-			view.picrossWindow.add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getPicrossWindow().remove(view.getBoardPanel());
+			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
 		}
 		else {
-			view.designWindow.remove(view.boardPanel);
-			view.designWindow.add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));	
+			view.getDesignWindow().remove(view.getBoardPanel());
+			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));	
 		}
 		
-		view.boardPanel.revalidate();
+		view.getBoardPanel().revalidate();
 		boardActions();
 		markCheckBoxAction();
 	}
@@ -445,7 +445,7 @@ public class GameController {
 			else {
 				model.timer.stop();
 				model.setGameStarted(false);
-				view.timerCounter.setText("00:00");
+				view.getTimerCounter().setText("00:00");
 			}
 		}
 	}

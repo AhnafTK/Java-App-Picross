@@ -9,36 +9,36 @@ import javax.swing.border.LineBorder;
 
 // make the gui
 public class GameView {
-	protected JButton instructionsButton;
+	private JButton instructionsButton;
 	/** Button to return from the instructions page to the main game */
-	protected JButton instructionsBack;
+	private JButton instructionsBack;
 	/** JFrame for the design window */
-	protected JFrame designWindow;
+	private JFrame designWindow;
 	/** JFrame for the start window */
-	protected JFrame startWindow;
-	protected JFrame splashWindow;
+	private JFrame startWindow;
+	private JFrame splashWindow;
 	/** JFrame for the instructions window */
-	protected JFrame instructionsWindow;
+	private JFrame instructionsWindow;
 	/** JFrame for the main picross window */
-	protected JFrame picrossWindow;
+	private JFrame picrossWindow;
 	/** Combo box to change the grid size */
-	protected JComboBox<String> gridSizeCmbo;
+	private JComboBox<String> gridSizeCmbo;
 	/** Button to play the game */
-	protected JButton playButton;
+	private JButton playButton;
 	/** Button to open the design window */
-	protected JButton designButton;
+	private JButton designButton;
 	/** Button to return from the design page to the main page */
-	protected JButton designBack;
+	private JButton designBack;
 	/** Button to reset the game */
-	protected JButton resetButton;
+	private JButton resetButton;
 	/** Button to solve the game */
-	protected JButton solveButton;
+	private JButton solveButton;
 	/** Button to make a new board */
-	protected JButton newBoardButton;
+	private JButton newBoardButton;
 	/** Text area to display the input history */
 	protected JTextArea history;
 	/** 2d-button array for the grid */
-	protected JButton[][] buttons;
+	private JButton[][] buttons;
 	
 	Color tile_color = new Color(17, 15, 15);
 	Color mark_color = new Color(226, 222, 222);
@@ -49,24 +49,24 @@ public class GameView {
 	private String[] viewRowLabels= {"0","0","0","0","0"};
 	private String[] viewColLabels={"0","0","0","0","0"};
 	
-	protected JButton[][] buttonsDesign;
-	JButton playToLauncher;
-	JButton newGridButton;
+	private JButton[][] buttonsDesign;
+	private JButton playToLauncher;
+	private JButton newGridButton;
 	
 	/** Radio button to change the language to English */
-	protected JRadioButton engRadio;
+	private JRadioButton engRadio;
 	/** Radio button to change the language to French */
-	protected JRadioButton frRadio;
+	private JRadioButton frRadio;
 	/** Left panel to hold all of the menu components */
-	protected JPanel leftPanel;
+	private JPanel leftPanel;
 	/** Board panel to hold the grid of buttons */
-	protected JPanel boardPanel;
+	private JPanel boardPanel;
 	/** Panel to hold the back button in the design window */
-	protected JPanel designMenuReturnPanel;
+	private JPanel designMenuReturnPanel;
 	/** Check box for to enable the mark mode */
-	protected JCheckBox markCheckBox;
-	protected JTextField scoreCounter;
-	protected JTextField timerCounter;
+	private JCheckBox markCheckBox;
+	private JTextField scoreCounter;
+	private JTextField timerCounter;
 	
 
 	/**
