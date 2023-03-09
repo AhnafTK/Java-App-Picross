@@ -61,6 +61,12 @@ public class GameModel {
 	String[] rowLabels;
 	String[] colLabels;
 	
+	
+	protected void changeLanguage(String lang, String region) {
+		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
+		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+	}
+	
 	/**
 	 * @return the gameMode
 	 */

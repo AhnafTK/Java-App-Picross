@@ -47,14 +47,12 @@ public class GameController {
 		});
 		
 		view.getEngRadio().addActionListener((actionEvent) -> {
-			model.setCurrentLocale(new Locale.Builder().setLanguage("en").setRegion("US").build());
-			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
+			model.changeLanguage("en", "US");
 			updateLauncherLanguage();
 		});
 		
 		view.getFrRadio().addActionListener((actionEvent) -> {
-			model.setCurrentLocale(new Locale.Builder().setLanguage("fr").setRegion("FR").build());
-			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
+			model.changeLanguage("fr", "FR");
 			updateLauncherLanguage();
 		});	
 	}
@@ -157,15 +155,13 @@ public class GameController {
 
 	private void languageActions() {
 		view.getEngRadio().addActionListener((actionEvent) -> {
-			model.setCurrentLocale(new Locale.Builder().setLanguage("en").setRegion("US").build());
-			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
+			model.changeLanguage("en", "US");
 			view.updateText(model.getCurrentLocale(), model.getLangText());
 			view.getLeftPanel().revalidate();
 			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
 		});
 		view.getFrRadio().addActionListener((actionEvent) -> {
-			model.setCurrentLocale(new Locale.Builder().setLanguage("fr").setRegion("FR").build());
-			model.setLangText(ResourceBundle.getBundle("MessagesBundle", model.currentLocale));
+			model.changeLanguage("fr", "FR");
 			view.updateText(model.currentLocale, model.langText);
 			view.getLeftPanel().revalidate();
 			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
@@ -174,7 +170,7 @@ public class GameController {
 	
 	private void gridSizeActions() {
 		view.getGridSizeCmbo().addActionListener((actionEvent) -> {
-			System.out.println(model.getGameMode());
+			//System.out.println(model.getGameMode());
 			String options = (String) view.getGridSizeCmbo().getSelectedItem();
 			changeGridSize(options);
 		});
@@ -273,7 +269,7 @@ public class GameController {
 	
 	private void menuBarActions() {
 	
-		view.saveMenuOption.addActionListener((actionEvent)->{
+		view.getSaveMenuOption().addActionListener((actionEvent)->{
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
 			
@@ -284,7 +280,7 @@ public class GameController {
 				file = new File(fileChooser.getSelectedFile().getAbsolutePath());			
 			}
 		});
-		view.loadMenuOption.addActionListener((actionEvent)->{
+		view.getLoadMenuOption().addActionListener((actionEvent)->{
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
 			
@@ -296,65 +292,65 @@ public class GameController {
 				
 			}
 		});
-		view.newMenuOption.addActionListener((actionEvent)->{newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
+		view.getNewMenuOption().addActionListener((actionEvent)->{newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
 		
-		view.resetMenuOption.addActionListener((actionEvent)->{resetBoard();});
+		view.getResetMenuOption().addActionListener((actionEvent)->{resetBoard();});
 		
-		view.solveMenuOption.addActionListener((actionEvent)->{view.solveBoard(model.row, model.gridSize);});
+		view.getSolveMenuOption().addActionListener((actionEvent)->{view.solveBoard(model.row, model.gridSize);});
 		
-		view.fiveFive.addActionListener((actionEvent)->{changeGridSize("5x5");});
+		view.getFiveFive().addActionListener((actionEvent)->{changeGridSize("5x5");});
 		
-		view.sixSix.addActionListener((actionEvent)->{changeGridSize("6x6");});
+		view.getSixSix().addActionListener((actionEvent)->{changeGridSize("6x6");});
 		
-		view.sevSev.addActionListener((actionEvent)->{changeGridSize("7x7");});
+		view.getSevSev().addActionListener((actionEvent)->{changeGridSize("7x7");});
 		
-		view.toLauncherMenuOption.addActionListener((actionEvent)->{backToLauncher();});
+		view.getToLauncherMenuOption().addActionListener((actionEvent)->{backToLauncher();});
 		
-		view.exitMenuOption.addActionListener((actionEvent)->{System.exit(0);});
+		view.getExitMenuOption().addActionListener((actionEvent)->{System.exit(0);});
 		
-		view.aboutMenuOption.addActionListener((actionEvent)->{showInstructions();});
+		view.getAboutMenuOption().addActionListener((actionEvent)->{showInstructions();});
 		
-		view.backgroundColour.addActionListener((actionEvent) -> {
+		view.getBackgroundColour().addActionListener((actionEvent) -> {
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.getBoardPanel().setBackground(colour);
 			view.getLeftPanel().setBackground(colour);
-			view.languagePanel.setBackground(colour);
-			view.languageButtonPanel.setBackground(colour);
-			view.gridSizeComboPanel.setBackground(colour);
-			view.scorePanel.setBackground(colour);
-			view.timerPanel.setBackground(colour);
-			view.buttonPanel.setBackground(colour);
-			view.configurationPanel.setBackground(colour);
-			view.historyPanel.setBackground(colour);
-			view.controlPanel.setBackground(colour);
-			view.rowPanel.setBackground(colour);
-			view.colPanel.setBackground(colour);
+			view.getLanguagePanel().setBackground(colour);
+			view.getLanguageButtonPanel().setBackground(colour);
+			view.getGridSizeComboPanel().setBackground(colour);
+			view.getScorePanel().setBackground(colour);
+			view.getTimerPanel().setBackground(colour);
+			view.getButtonPanel().setBackground(colour);
+			view.getConfigurationPanel().setBackground(colour);
+			view.getHistoryPanel().setBackground(colour);
+			view.getControlPanel().setBackground(colour);
+			view.getRowPanel().setBackground(colour);
+			view.getColPanel().setBackground(colour);
 			view.getEngRadio().setBackground(colour);
 			view.getFrRadio().setBackground(colour);
 			view.getMarkCheckBox().setBackground(colour);
 		});
 		
 		
-		view.textColour.addActionListener((actionEvent) -> {
+		view.getTextColour().addActionListener((actionEvent) -> {
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
-			view.scoreLabel.setForeground(colour);
+			view.getScoreLabel().setForeground(colour);
 			view.getScoreCounter().setForeground(colour);
-			view.timerLabel.setForeground(colour);
+			view.getTimerLabel().setForeground(colour);
 			view.getTimerCounter().setForeground(colour);
-			view.gridSizeLabel.setForeground(colour);
+			view.getGridSizeLabel().setForeground(colour);
 			view.getGridSizeCmbo().setForeground(colour);
 			view.getPlayToLauncher().setForeground(colour);
 			view.getSolveButton().setForeground(colour);
 			view.getResetButton().setForeground(colour);
 			view.getNewBoardButton().setForeground(colour);
 			view.getInstructionsButton().setForeground(colour);
-			view.langLabel.setForeground(colour);
+			view.getLangLabel().setForeground(colour);
 			view.getEngRadio().setForeground(colour);
 			view.getFrRadio().setForeground(colour);
 			view.getMarkCheckBox().setForeground(colour);
 		});
 		
-		view.componentColour.addActionListener((actionEvent) -> {			
+		view.getComponentColour().addActionListener((actionEvent) -> {			
 			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
 			view.getScoreCounter().setBackground(colour);
 			view.getTimerCounter().setBackground(colour);

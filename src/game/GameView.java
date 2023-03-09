@@ -1041,7 +1041,7 @@ public class GameView {
 	/** Boolean for the mark mode, false by default */
 	//protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
-	protected int gameMode = 0;
+	private int gameMode = 0;
 	/*
 	 ********************************************************************
 	 * JLabel initializations. * The text that is in the label changes depending *
@@ -1049,58 +1049,61 @@ public class GameView {
 	 ********************************************************************
 	 */
 	/** Label for the timer */
-	protected JLabel timerLabel;
+	private JLabel timerLabel;
 	//protected JLabel timerLabel = new JLabel(langText.getString("timer"));
 	/** Label for the score */
 	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
-	protected JLabel scoreLabel;
+	private JLabel scoreLabel;
 	/** Label for the grid size */
 	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
-	protected JLabel gridSizeLabel;
+	private JLabel gridSizeLabel;
 	/** Label for the language */
-	protected JLabel langLabel = new JLabel();
+	private JLabel langLabel = new JLabel();
 	/** Label for the colour */
-	protected JLabel colourLabel = new JLabel();
-
-
-	protected JPanel languagePanel;
-	protected JPanel languageButtonPanel;
-	protected JPanel gridSizeComboPanel;
-	protected JPanel scorePanel;
-	protected JPanel timerPanel;
-	protected JPanel buttonPanel;
-	protected JPanel configurationPanel;
-	protected JPanel historyPanel;
-	protected JPanel controlPanel;
-	protected JPanel colPanel;
-	protected JPanel rowPanel;
-	
-	protected JMenuBar menuBar;
-	protected JMenuItem newMenuItem;
-	protected JMenuItem solutionMenuItem;
+	private JLabel colourLabel = new JLabel();
+	/**
+	 * 		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
+	 */
+	private JPanel languagePanel;
+	private JPanel languageButtonPanel;
+	private JPanel gridSizeComboPanel;
+	private JPanel scorePanel;
+	private JPanel timerPanel;
+	private JPanel buttonPanel;
+	private JPanel configurationPanel;
+	private JPanel historyPanel;
+	private JPanel controlPanel;
+	private JPanel colPanel;
+	private JPanel rowPanel;
+	private JMenuBar menuBar;
+	private JMenuItem newMenuItem;
+	private JMenuItem solutionMenuItem;
 	protected JMenuItem exitMenuItem;
+	private JMenuItem backgroundColour;
+	private JMenuItem textColour;
+	private JMenuItem componentColour;
+	private JMenuItem aboutMenu;
+	private JMenuItem gameMenu;
+	private JMenu gameMenuItemsContainer;
+	private JMenuItem newMenuOption;
+	private JMenuItem exitMenuOption;
+	private JMenuItem resetMenuOption;
+	private JMenuItem solveMenuOption;
+	private JMenuItem toLauncherMenuOption;
+	private JMenuItem saveMenuOption;
+	private JMenuItem loadMenuOption;
+	private JMenu gridSizeItemsContainer;
+	private JMenuItem aboutMenuOption;
+	private JMenuItem fiveFive = new JMenuItem("5x5");
+	private JMenuItem sixSix = new JMenuItem("6x6");
+	private JMenuItem sevSev = new JMenuItem("7x7");
 	
-	protected JMenuItem backgroundColour;
-	protected JMenuItem textColour;
-	protected JMenuItem componentColour;
-	protected JMenuItem aboutMenu;
-	protected JMenuItem gameMenu;
-
-	JMenu gameMenuItemsContainer;
-	JMenuItem newMenuOption;
-	JMenuItem exitMenuOption;
-	JMenuItem resetMenuOption;
-	JMenuItem solveMenuOption;
-	JMenuItem toLauncherMenuOption;
-	JMenuItem saveMenuOption;
-	JMenuItem loadMenuOption;
-	JMenu gridSizeItemsContainer;
-	JMenuItem aboutMenuOption;
-	JMenuItem fiveFive = new JMenuItem("5x5");
-	JMenuItem sixSix = new JMenuItem("6x6");
-	JMenuItem sevSev = new JMenuItem("7x7");
-	
-
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -1270,23 +1273,21 @@ public class GameView {
 	 ************************************************************************
 	 */
 	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
-		leftPanel = new JPanel();
 		scoreLabel = new JLabel(langText.getString("score"));
 		timerLabel = new JLabel(langText.getString("timer"));
+		
 		resetButton = new JButton(langText.getString("reset"));
 		resetButton.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
 		solveButton = new JButton(langText.getString("solve"));
 		solveButton.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
 		newBoardButton = new JButton(langText.getString("newBoard"));
 		newBoardButton.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
 		instructionsButton = new JButton(langText.getString("instructions"));
 		instructionsButton.setBackground(Color.WHITE);
 		playToLauncher = new JButton(langText.getString("back"));
 		playToLauncher.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
+		
+		leftPanel = new JPanel();
 		scorePanel = new JPanel();
 		timerPanel = new JPanel();
 		buttonPanel = new JPanel();
@@ -1401,7 +1402,6 @@ public class GameView {
 	 */
 	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
 		boardPanel = new JPanel();
-		// Row panel
 		rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(gridSize, 1));
 		rowPanel.setPreferredSize(new Dimension(75, 0));
@@ -1467,7 +1467,6 @@ public class GameView {
 			timerLabel.setText((langText.getString("timer")));
 			scoreLabel.setText(langText.getString("score"));
 			colourLabel.setText(langText.getString("colorScheme"));
-			
 		}
 
 		gridSizeLabel.setText(langText.getString("gridSize"));
@@ -1562,8 +1561,6 @@ public class GameView {
 	 */
 	protected void Play(Locale currentlocale, ResourceBundle langText) {
 		gameMode = 1;
-		
-		
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
 		makeMenuBar(picrossWindow, currentlocale, langText, 1);
@@ -1596,8 +1593,6 @@ public class GameView {
 		JTextArea instructionsLabel = new JTextArea();
 		instructionsLabel.setPreferredSize(new Dimension (450, 325));
 		instructionsBack = new JButton("Back");
-
-		////////////////////////////////////////////////////////////////
 		
 		instructionsLabel.setText(langText.getString("instructions_text"));
 		instructionsLabel.setLineWrap(true);
@@ -1607,25 +1602,14 @@ public class GameView {
 
 		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
 
-		////////////////////////////////////////////////////////////////
-
 		instructionsPanel.add(instructionsLabel);
 		instructionsPanel.add(instructionsBack);
 		instructionsWindow.add(instructionsPanel);
-
-		////////////////////////////////////////////////////////////////
-
 		instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
 		instructionsWindow.setResizable(false);
 		instructionsWindow.setSize(525, 425);
 		instructionsWindow.setVisible(true);
 		instructionsWindow.setLocationRelativeTo(null);
-	}
-
-
-	
-	void updateView(int gridSize, int gameMode, boolean markMode) {
-		
 	}
 	
 	protected void solveBoard(String[] rows, int gridSize) {
