@@ -40,10 +40,14 @@ public class GameView {
 	/** 2d-button array for the grid */
 	protected JButton[][] buttons;
 	
-	protected String[] viewRows;
-	protected String[] viewCols;
-	protected String[] viewRowLabels= {"0","0","0","0","0"};
-	protected String[] viewColLabels={"0","0","0","0","0"};
+	Color tile_color = new Color(17, 15, 15);
+	Color mark_color = new Color(226, 222, 222);
+	Color err_color = Color.red;
+	
+	private String[] viewRows;
+	private String[] viewCols;
+	private String[] viewRowLabels= {"0","0","0","0","0"};
+	private String[] viewColLabels={"0","0","0","0","0"};
 	
 	protected JButton[][] buttonsDesign;
 	JButton playToLauncher;
@@ -64,12 +68,36 @@ public class GameView {
 	protected JTextField scoreCounter;
 	protected JTextField timerCounter;
 	
-	/** Local builder to change the language */
-	
-	//Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
-	/** Resource bundle to get the language messages */
-	//ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 
+	/**
+	 * @return the viewRowLabels
+	 */
+	protected String[] getViewRowLabels() {
+		return viewRowLabels;
+	}
+
+	/**
+	 * @param viewRowLabels the viewRowLabels to set
+	 */
+	protected void setViewRowLabels(String[] viewRowLabels) {
+		this.viewRowLabels = viewRowLabels;
+	}
+
+	/**
+	 * @return the viewColLabels
+	 */
+	protected String[] getViewColLabels() {
+		return viewColLabels;
+	}
+
+	/**
+	 * @param viewColLabels the viewColLabels to set
+	 */
+	protected void setViewColLabels(String[] viewColLabels) {
+		this.viewColLabels = viewColLabels;
+	}
+
+	
 	protected int gridSize = 5;
 	/**
 	 * @return the instructionsButton
@@ -856,20 +884,6 @@ public class GameView {
 	}
 
 	/**
-	 * @return the solutionMenuOption
-	 */
-	protected JMenuItem getSolutionMenuOption() {
-		return solutionMenuOption;
-	}
-
-	/**
-	 * @param solutionMenuOption the solutionMenuOption to set
-	 */
-	protected void setSolutionMenuOption(JMenuItem solutionMenuOption) {
-		this.solutionMenuOption = solutionMenuOption;
-	}
-
-	/**
 	 * @return the exitMenuOption
 	 */
 	protected JMenuItem getExitMenuOption() {
@@ -1074,7 +1088,6 @@ public class GameView {
 
 	JMenu gameMenuItemsContainer;
 	JMenuItem newMenuOption;
-	JMenuItem solutionMenuOption;
 	JMenuItem exitMenuOption;
 	JMenuItem resetMenuOption;
 	JMenuItem solveMenuOption;
@@ -1091,13 +1104,11 @@ public class GameView {
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
-		
 		ImageIcon splashLogo = new ImageIcon("./src/images/picross.jpg");
 		JLabel splashLabel = new JLabel();
 		splashLabel.setIcon(splashLogo);
 		splashPanel.setPreferredSize(new Dimension(500, 125));
 		splashPanel.add(splashLabel);
-		
 		splashWindow.add(splashPanel);
 		splashWindow.pack();
 		splashWindow.setVisible(true);
@@ -1121,20 +1132,16 @@ public class GameView {
 	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText, int gameMode) {
 		menuBar = new JMenuBar();
 		window.setJMenuBar(menuBar);
-		
 		gameMenuItemsContainer = new JMenu("Game");
 		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		//solutionMenuOption = new JMenuItem("Show Solution", new ImageIcon(getClass().getResource("/images/piciconsol.gif")));
 		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
 		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
 		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
 		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
 		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
 		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
-
 		gridSizeItemsContainer = new JMenu("Grid Size");
 		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
-		
 		gridSizeItemsContainer.add(fiveFive);
 		gridSizeItemsContainer.add(sixSix);
 		gridSizeItemsContainer.add(sevSev);
@@ -1144,10 +1151,8 @@ public class GameView {
 			gameMenuItemsContainer.add(saveMenuOption);
 			gameMenuItemsContainer.add(loadMenuOption);
 			gameMenuItemsContainer.addSeparator();
-			
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
-
 			gameMenuItemsContainer.addSeparator();
 			gameMenuItemsContainer.add(solveMenuOption);
 			gameMenuItemsContainer.addSeparator();				
@@ -1155,11 +1160,9 @@ public class GameView {
 		else {
 			gameMenuItemsContainer.add(loadMenuOption);
 			gameMenuItemsContainer.addSeparator();
-			
 			gameMenuItemsContainer.add(newMenuOption);
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
-
 			gameMenuItemsContainer.addSeparator();
 			gameMenuItemsContainer.add(solveMenuOption);
 			gameMenuItemsContainer.addSeparator();			
@@ -1168,12 +1171,9 @@ public class GameView {
 		gameMenuItemsContainer.add(toLauncherMenuOption);
 		gameMenuItemsContainer.add(exitMenuOption);
 
-
 		JMenu helpMenuItemsContainer = new JMenu("Help");
-		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer
-		
+		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer		
 		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
-		
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
 		backgroundColour = new JMenuItem("Background Colour");
 		textColour = new JMenuItem("Text Colour");
@@ -1256,7 +1256,6 @@ public class GameView {
 		gridSizeComboPanel.add(gridSizeLabel);
 		gridSizeComboPanel.add(gridSizeCmbo);
 		gridSizeComboPanel.setPreferredSize(new Dimension(200, 30));
-
 		return gridSizeComboPanel;
 	}
 
@@ -1332,7 +1331,6 @@ public class GameView {
 		buttonPanel.add(resetButton);
 		buttonPanel.add(instructionsButton);
 		buttonPanel.add(playToLauncher);
-
 		leftPanel.add(makeGridSizeCombo(langText));
 		leftPanel.add(buttonPanel);
 		leftPanel.add(configurationPanel);
@@ -1354,7 +1352,6 @@ public class GameView {
 		picrossLabel.setIcon(picrossLogo);
 		titlePanel.setPreferredSize(new Dimension(1000, 125));
 		titlePanel.add(picrossLabel);
-
 		return titlePanel;
 	}
 
@@ -1365,24 +1362,19 @@ public class GameView {
 	 ********************************************************************
 	 */
 	private JPanel makeHistoryPanel() {
-
 		// This is the history text area where all of the user inputs will be recorded
 		historyPanel = new JPanel();
 		history = new JTextArea();
 		history.setLineWrap(true);
 		history.setWrapStyleWord(true);
-
 		history.setPreferredSize(new Dimension(200, 10000)); // important
 		history.setBorder(new LineBorder(new Color(17, 15, 15)));
 		history.setEditable(false);
-
 		JScrollPane scroll = new JScrollPane(history);
 		scroll.setPreferredSize(new Dimension(200, 300));
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
 		historyPanel.add(scroll);
-
 		return historyPanel;
 	}
 
@@ -1393,11 +1385,9 @@ public class GameView {
 	 ********************************************************************
 	 */
 	private JPanel makeControlPanel() {
-
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(250, 200));
 		controlPanel.add(makeHistoryPanel());
-
 		return controlPanel;
 	}
 
@@ -1416,13 +1406,10 @@ public class GameView {
 		rowPanel.setLayout(new GridLayout(gridSize, 1));
 		rowPanel.setPreferredSize(new Dimension(75, 0));
 		
-		
 		for(int i = 0; i< gridSize; i++) {
 			JLabel rowLabel = new JLabel(viewRowLabels[i]);
 			rowPanel.add(rowLabel);
 		}
-		////////////////////////////////////////////////////////////////
-		
 		// Mark panel
 		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
 		// incase the grid size is changing, check to see if in markMode.
@@ -1432,8 +1419,6 @@ public class GameView {
 		}
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		boardPanel.setLayout(new BorderLayout());
-
-		////////////////////////////////////////////////////////////////
 
 		// Column panel
 		colPanel = new JPanel();
@@ -1446,11 +1431,9 @@ public class GameView {
 			JLabel colLabel = new JLabel(viewColLabels[i]);
 			colPanel.add(colLabel);
 		}
-		////////////////////////////////////////////////////////////////
 		// Adds the components to the board panel
 		boardPanel.add(colPanel, BorderLayout.NORTH);
 		boardPanel.add(rowPanel, BorderLayout.WEST);
-		////////////////////////////////////////////////////////////////
 
 		JPanel gridButtonPanel = new JPanel();
 		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
@@ -1465,7 +1448,6 @@ public class GameView {
 			}
 		}
 
-		////////////////////////////////////////////////////////////////
 		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
 		return boardPanel;
 	}
@@ -1665,6 +1647,22 @@ public class GameView {
 	                j.setEnabled(true);
 	            }
 	        }
+	}
+
+	public String[] getViewRows() {
+		return viewRows;
+	}
+
+	public void setViewRows(String[] viewRows) {
+		this.viewRows = viewRows;
+	}
+
+	public String[] getViewCols() {
+		return viewCols;
+	}
+
+	public void setViewCols(String[] viewCols) {
+		this.viewCols = viewCols;
 	}
 
 }

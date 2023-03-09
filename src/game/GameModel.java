@@ -149,7 +149,7 @@ public class GameModel {
 			increment = 0;
 			//System.out.println("");
 			if (totalPerRow == 0) {
-				currentLabel = currentLabel + "0";
+				currentLabel = currentLabel + " ";
 				rowLabels[a] = currentLabel + " ";
 			} 
 			else {
@@ -158,6 +158,9 @@ public class GameModel {
 			}
 			
 			totalPerRow = 0;
+		}
+		for (int i = 0; i < gridSize; i++) {
+			System.out.println(rowLabels[i]);
 		}
 		return rowLabels;
 	}
@@ -180,81 +183,33 @@ public class GameModel {
 				} else { // if 0
 					if (increment != 0) { // if 0 and increment is not 0
 						//System.out.print(increment + " ");
-						currentLabel = currentLabel + increment + " ";
+						currentLabel = currentLabel + increment + "\n";
 					}
 					increment = 0;
 				}
 			}
 			if (increment != 0) {
-				currentLabel = currentLabel + increment + " ";
+				currentLabel = currentLabel + increment + "";
 			}
 			increment = 0;
 			//System.out.println("");
 			if (totalPerRow == 0) {
 				currentLabel = currentLabel + "0";
-				colLabels[a] = currentLabel + " ";
+				colLabels[a] = currentLabel + "";
 			} 
 			else {
-				colLabels[a] = currentLabel + " ";
+				colLabels[a] = currentLabel + "";
 				currentLabel = "";
 			}
 			
 			totalPerRow = 0;
+		}
+		for (int i = 0; i < gridSize; i++) {
+			System.out.println(colLabels[i]);
 		}
 		return colLabels;
 	}
 	
-	protected String[] getLabel(String[] array) {
-		
-		String[] returnLabels = new String[gridSize];
-		String currentLabel = "";
-		//System.out.println("\nPATTERN");
-		int increment = 0;
-		int totalPerRow = 0;
-		// iterate throught the column string and get the labels
-		for (int a = 0; a < gridSize; a++) {
-			// runs through each element of the ROWS
-			for (int b = 0; b < gridSize; b++) {
-				// System.out.print(col[a].charAt(b)+"\n");
-				if (array[a].charAt(b) == '1') { // if 1
-					increment++;
-					totalPerRow++;
-				} else { // if 0
-					if (increment != 0) { // if 0 and increment is not 0
-						//System.out.print(increment + " ");
-						currentLabel = currentLabel + increment + " ";
-					}
-					
-					increment = 0;
-				}
-			}
-			if (increment != 0) {
-				//System.out.print(increment);
-				currentLabel = currentLabel + increment + " ";
-
-			}
-			increment = 0;
-			//System.out.println("");
-			if (totalPerRow == 0) {
-				currentLabel = currentLabel + "0";
-				returnLabels[a] = currentLabel + " ";
-
-			} 
-			else {
-				returnLabels[a] = currentLabel + " ";
-				currentLabel = "";
-			}
-			
-			totalPerRow = 0;
-		}
-		//System.out.println("return label val: " + returnLabel);
-		System.out.println("array");
-		for (String i: returnLabels) {
-			System.out.println(i);
-		}
-		return returnLabels;
-	}
-
 	
 	protected String intToBinary(int value) {
 		String binVal = Integer.toBinaryString(value);
@@ -525,8 +480,8 @@ public class GameModel {
 	/**
 	 * @return the row
 	 */
-	protected String[] getRow() {
-		return row;
+	protected String getRow(int i ) {
+		return row[i];
 	}
 
 	/**
