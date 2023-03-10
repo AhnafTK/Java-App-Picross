@@ -110,7 +110,8 @@ public class GameController {
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
-									model.updateDesignBoard(i, j);
+									String newRow = model.updateDesignBoard(i, j);
+									view.updateDesignRow(newRow, i);
 								}
 								view.getButtons()[i][j].setEnabled(false);
 							}
@@ -434,8 +435,6 @@ public class GameController {
 		view.setViewColLabels(model.colLabel());
 		view.getPicrossWindow().remove(view.getBoardPanel());
 		view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-		
-	
 		view.getBoardPanel().revalidate();
 		boardActions();
 		markCheckBoxAction();
@@ -457,7 +456,6 @@ public class GameController {
 		
 		view.setViewRowLabels(model.rowLabelDesign());
 		view.setViewColLabels(model.colLabelDesign());
-
 		view.getDesignWindow().remove(view.getBoardPanel());
 		view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
 		view.getBoardPanel().revalidate();

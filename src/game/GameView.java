@@ -49,6 +49,9 @@ public class GameView {
 	private String[] viewCols;
 	private String[] viewRowLabels= {"0","0","0","0","0"};
 	private String[] viewColLabels={"0","0","0","0","0"};
+	String[] viewRowLabelsDesign;
+	String[] viewRowLabelsCol;
+
 	
 	private JButton[][] buttonsDesign;
 	private JButton playToLauncher;
@@ -70,6 +73,645 @@ public class GameView {
 	private JTextField timerCounter;
 	
 
+
+	/** Boolean for the mark mode, false by default */
+	//protected boolean markMode = false;
+	/** Int variable to check what the current game mode is, 0=design, 1=play */
+	private int gameMode = 0;
+	/*
+	 ********************************************************************
+	 * JLabel initializations. * The text that is in the label changes depending *
+	 * on what language is selected. *
+	 ********************************************************************
+	 */
+	/** Label for the timer */
+	private JLabel timerLabel;
+	//protected JLabel timerLabel = new JLabel(langText.getString("timer"));
+	/** Label for the score */
+	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
+	private JLabel scoreLabel;
+	/** Label for the grid size */
+	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
+	private JLabel gridSizeLabel;
+	/** Label for the language */
+	private JLabel langLabel = new JLabel();
+	/** Label for the colour */
+	private JLabel colourLabel = new JLabel();
+	/**
+	 * 		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
+	 */
+	private JPanel languagePanel;
+	private JPanel languageButtonPanel;
+	private JPanel gridSizeComboPanel;
+	private JPanel scorePanel;
+	private JPanel timerPanel;
+	private JPanel buttonPanel;
+	private JPanel configurationPanel;
+	private JPanel historyPanel;
+	private JPanel controlPanel;
+	private JPanel colPanel;
+	private JPanel rowPanel;
+	private JMenuBar menuBar;
+	private JMenuItem newMenuItem;
+	private JMenuItem solutionMenuItem;
+	protected JMenuItem exitMenuItem;
+	private JMenuItem backgroundColour;
+	private JMenuItem textColour;
+	private JMenuItem componentColour;
+	private JMenuItem aboutMenu;
+	private JMenuItem gameMenu;
+	private JMenu gameMenuItemsContainer;
+	private JMenuItem newMenuOption;
+	private JMenuItem exitMenuOption;
+	private JMenuItem resetMenuOption;
+	private JMenuItem solveMenuOption;
+	private JMenuItem toLauncherMenuOption;
+	private JMenuItem saveMenuOption;
+	private JMenuItem loadMenuOption;
+	private JMenu gridSizeItemsContainer;
+	private JMenuItem aboutMenuOption;
+	private JMenuItem fiveFive = new JMenuItem("5x5");
+	private JMenuItem sixSix = new JMenuItem("6x6");
+	private JMenuItem sevSev = new JMenuItem("7x7");
+	
+	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
+		splashWindow = new JFrame();
+		JPanel splashPanel = new JPanel();
+		ImageIcon splashLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
+		JLabel splashLabel = new JLabel();
+		splashLabel.setIcon(splashLogo);
+		splashPanel.setPreferredSize(new Dimension(500, 125));
+		splashPanel.add(splashLabel);
+		splashWindow.add(splashPanel);
+		splashWindow.pack();
+		splashWindow.setVisible(true);
+		splashWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		splashWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		splashWindow.setResizable(false);
+		splashWindow.setSize(400, 175);
+		splashWindow.setLocationRelativeTo(null);
+		try {
+			Thread.sleep(1000);
+			splashWindow.dispose();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		launcher(langText, currentLocale);
+
+	}
+	
+	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText, int gameMode) {
+		menuBar = new JMenuBar();
+		window.setJMenuBar(menuBar);
+		gameMenuItemsContainer = new JMenu("Game");
+		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
+		gridSizeItemsContainer = new JMenu("Grid Size");
+		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
+		gridSizeItemsContainer.add(fiveFive);
+		gridSizeItemsContainer.add(sixSix);
+		gridSizeItemsContainer.add(sevSev);
+
+
+		if (gameMode == 0) {
+			gameMenuItemsContainer.add(saveMenuOption);
+			gameMenuItemsContainer.add(loadMenuOption);
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(resetMenuOption);
+			gameMenuItemsContainer.add(gridSizeItemsContainer);
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(solveMenuOption);
+			gameMenuItemsContainer.addSeparator();				
+		}
+		else {
+			gameMenuItemsContainer.add(loadMenuOption);
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(newMenuOption);
+			gameMenuItemsContainer.add(resetMenuOption);
+			gameMenuItemsContainer.add(gridSizeItemsContainer);
+			gameMenuItemsContainer.addSeparator();
+			gameMenuItemsContainer.add(solveMenuOption);
+			gameMenuItemsContainer.addSeparator();			
+		}
+		
+		gameMenuItemsContainer.add(toLauncherMenuOption);
+		gameMenuItemsContainer.add(exitMenuOption);
+
+		JMenu helpMenuItemsContainer = new JMenu("Help");
+		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer		
+		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
+		backgroundColour = new JMenuItem("Background Colour");
+		textColour = new JMenuItem("Text Colour");
+		componentColour = new JMenuItem("Component Colour");
+		colourMenu.add(backgroundColour);
+		colourMenu.add(textColour);
+		colourMenu.add(componentColour);
+		
+		helpMenuItemsContainer.add(aboutMenuOption);
+		helpMenuItemsContainer.add(colourMenu);
+		
+		menuBar.add(gameMenuItemsContainer);
+		menuBar.add(helpMenuItemsContainer);
+
+	}
+
+	/**
+	 ************************************************************************
+	 * Default constructor for the Game class * This is where all of the GUI of the
+	 * game gets handled. *
+	 ************************************************************************
+	 */
+	public GameView() {
+		
+	}
+	
+	protected void startLauncher(Locale currentLocale, ResourceBundle langText) {
+		splashScreen(currentLocale, langText);
+	}
+	/*
+	 ********************************************************************
+	 * Make Language Panel * * This is where all of the language panels, labels,
+	 * radio buttons * and button group are located. * * Whatever radio button is
+	 * selected, will change the game to * that language. * "English" is selected by
+	 * default when the game is started. *
+	 ********************************************************************
+	 */
+	private JPanel makeLanguagePanel(Locale currentLocale, ResourceBundle langText) {
+		languagePanel = new JPanel();
+		languageButtonPanel = new JPanel();
+		// Button group that holds the "English" and "French" radio buttons
+		////////////////////////////////////////////////////////////////
+		if (currentLocale.getCountry() == "US") {
+			engRadio = new JRadioButton(langText.getString("english"), true);
+			frRadio = new JRadioButton(langText.getString("french"));
+		}
+		else {
+			engRadio = new JRadioButton(langText.getString("english"));
+			frRadio = new JRadioButton(langText.getString("french"), true);
+		}
+		ButtonGroup langButtons = new ButtonGroup();
+		langButtons.add(engRadio);
+		langButtons.add(frRadio);
+		langLabel.setText(langText.getString("languages"));
+		// Panel to align the language radio buttons
+		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
+		// Adds the radio buttons to the panel
+		languageButtonPanel.add(engRadio);
+		languageButtonPanel.add(frRadio);
+		// Main language panel that stores/aligns all of the labels/radio buttons
+		languagePanel.add(langLabel);
+		languagePanel.add(languageButtonPanel);
+		
+		return languagePanel;
+	}
+
+	/*
+	 ********************************************************************
+	 * Make Grid Size Combo * * Grid size combo box panel. * Combo box options are
+	 * initialized in a string array. * Grid size label changes depending on what
+	 * language is selected. *
+	 ********************************************************************
+	 */
+	private JPanel makeGridSizeCombo(ResourceBundle langText) {
+		String options[] = { "5x5", "6x6", "7x7" };
+		gridSizeCmbo = new JComboBox<>(options);
+		gridSizeCmbo.setBackground(Color.WHITE);
+		gridSizeComboPanel = new JPanel();
+		gridSizeLabel = new JLabel(langText.getString("gridSize"));
+		gridSizeComboPanel.add(gridSizeLabel);
+		gridSizeComboPanel.add(gridSizeCmbo);
+		gridSizeComboPanel.setPreferredSize(new Dimension(200, 30));
+		return gridSizeComboPanel;
+	}
+
+	/**
+	 ************************************************************************
+	 * Make Left Panel. * * This is the 'top-level' panel that stores everything for
+	 * the left * panel. All of the 'lower-level' components get added to this
+	 * panel. * *
+	 * 
+	 * @param locale   - Used to get the selected language. *
+	 * @param langText - Used to get the text from the language file. *
+	 ************************************************************************
+	 */
+	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
+		scoreLabel = new JLabel(langText.getString("score"));
+		timerLabel = new JLabel(langText.getString("timer"));
+		
+		resetButton = new JButton(langText.getString("reset"));
+		resetButton.setBackground(Color.WHITE);
+		solveButton = new JButton(langText.getString("solve"));
+		solveButton.setBackground(Color.WHITE);
+		newBoardButton = new JButton(langText.getString("newBoard"));
+		newBoardButton.setBackground(Color.WHITE);
+		instructionsButton = new JButton(langText.getString("instructions"));
+		instructionsButton.setBackground(Color.WHITE);
+		playToLauncher = new JButton(langText.getString("back"));
+		playToLauncher.setBackground(Color.WHITE);
+		
+		leftPanel = new JPanel();
+		scorePanel = new JPanel();
+		timerPanel = new JPanel();
+		buttonPanel = new JPanel();
+		
+		scoreCounter = new JTextField("0");
+		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		scoreCounter.setPreferredSize(new Dimension(100, 25));
+		scoreCounter.setEditable(false);
+		scorePanel.add(scoreLabel);
+		scorePanel.add(scoreCounter);
+		
+		timerCounter = new JTextField("00:00");
+		timerCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		timerCounter.setPreferredSize(new Dimension(100, 25));
+		timerCounter.setEditable(false);
+		timerPanel.add(timerLabel);
+		timerPanel.add(timerCounter);
+		
+		configurationPanel = new JPanel();
+		configurationPanel.setLayout(new GridLayout(1, 2));
+		configurationPanel.add(makeLanguagePanel(currentLocale, langText));
+		configurationPanel.setPreferredSize(new Dimension(225, 100));
+		// Vertically aligns the buttons in the panel
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+		// Sets all of the buttons to the same size and creates an ActionListener
+		resetButton.setPreferredSize(new Dimension(120, 25));
+		solveButton.setPreferredSize(new Dimension(120, 25));
+		newBoardButton.setPreferredSize(new Dimension(120, 25));
+		instructionsButton.setPreferredSize(new Dimension(120, 25));
+		playToLauncher.setPreferredSize(new Dimension(120, 25));
+		
+		if (gameMode == 1) {
+			leftPanel.add(scorePanel);
+			leftPanel.add(timerPanel);
+			buttonPanel.add(newBoardButton);
+			buttonPanel.add(solveButton);
+			buttonPanel.setPreferredSize(new Dimension(120, 180));
+		}
+		else {
+			buttonPanel.setPreferredSize(new Dimension(120, 120));
+		}
+		buttonPanel.add(resetButton);
+		buttonPanel.add(instructionsButton);
+		buttonPanel.add(playToLauncher);
+		leftPanel.add(makeGridSizeCombo(langText));
+		leftPanel.add(buttonPanel);
+		leftPanel.add(configurationPanel);
+		leftPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, (new Color(17, 15, 15))));
+		leftPanel.setPreferredSize(new Dimension(250, 200));
+		return leftPanel;
+	}
+
+	/**
+	 ********************************************************************
+	 * Make Title Panel * * This is where the ImageIcon for the * Picross logo is
+	 * created/set. *
+	 ********************************************************************
+	 */
+	private JPanel makeTitlePanel() {
+		JPanel titlePanel = new JPanel();
+		ImageIcon picrossLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
+		JLabel picrossLabel = new JLabel();
+		picrossLabel.setIcon(picrossLogo);
+		titlePanel.setPreferredSize(new Dimension(1000, 125));
+		titlePanel.add(picrossLabel);
+		return titlePanel;
+	}
+
+	/**
+	 ********************************************************************
+	 * Make History Panel * * This is where the history text area gets managed. *
+	 * All of the user inputs will be recorded here. *
+	 ********************************************************************
+	 */
+	private JPanel makeHistoryPanel() {
+		// This is the history text area where all of the user inputs will be recorded
+		historyPanel = new JPanel();
+		history = new JTextArea();
+		history.setLineWrap(true);
+		history.setWrapStyleWord(true);
+		history.setPreferredSize(new Dimension(200, 10000)); // important
+		history.setBorder(new LineBorder(new Color(17, 15, 15)));
+		history.setEditable(false);
+		JScrollPane scroll = new JScrollPane(history);
+		scroll.setPreferredSize(new Dimension(200, 300));
+		scroll.getVerticalScrollBar().setUnitIncrement(10);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		historyPanel.add(scroll);
+		return historyPanel;
+	}
+
+	/**
+	 ********************************************************************
+	 * Make Control panel * * This is 'top-level' panel that stores everything for
+	 * the history.*
+	 ********************************************************************
+	 */
+	private JPanel makeControlPanel() {
+		controlPanel = new JPanel();
+		controlPanel.setPreferredSize(new Dimension(250, 200));
+		controlPanel.add(makeHistoryPanel());
+		return controlPanel;
+	}
+
+	
+	/**
+	 ********************************************************************
+	 * Make Board panel * * This is where the button grid, row/column labels and
+	 * mark panel * are handled. * *
+	 * 
+	 * @param gridSize - Used to change the grid size. *
+	 ********************************************************************
+	 */
+	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
+		boardPanel = new JPanel();
+		rowPanel = new JPanel();
+		rowPanel.setLayout(new GridLayout(gridSize, 1));
+		rowPanel.setPreferredSize(new Dimension(75, 0));
+		
+		for(int i = 0; i< gridSize; i++) {
+			JLabel rowLabel = new JLabel(viewRowLabels[i],SwingConstants.CENTER);
+			rowPanel.add(rowLabel);
+		}
+		// Mark panel
+		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
+		// incase the grid size is changing, check to see if in markMode.
+		// if true, then set the checkmark in new board
+		if (markMode == true) {
+			markCheckBox.setSelected(true);
+		}
+		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
+		boardPanel.setLayout(new BorderLayout());
+
+		// Column panel
+		colPanel = new JPanel();
+		colPanel.add(markCheckBox);
+		colPanel.setLayout(new GridLayout(1, gridSize + 1));
+		colPanel.setPreferredSize(new Dimension(0, 75));
+		colPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
+
+		for(int i = 0; i< gridSize; i++) {
+			JLabel colLabel = new JLabel(viewColLabels[i], SwingConstants.CENTER);
+			colPanel.add(colLabel);
+		}
+		// Adds the components to the board panel
+		boardPanel.add(colPanel, BorderLayout.NORTH);
+		boardPanel.add(rowPanel, BorderLayout.WEST);
+
+		JPanel gridButtonPanel = new JPanel();
+		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
+		buttons = new JButton[gridSize][gridSize];
+
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				newGridButton = new JButton();
+				newGridButton.setBackground(Color.WHITE);
+				buttons[i][j] = newGridButton;
+				gridButtonPanel.add(buttons[i][j]);
+			}
+		}
+
+		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
+		return boardPanel;
+	}
+
+	void updateDesignRow(String newThing, int index) {
+		JLabel newLabel = new JLabel(newThing, SwingConstants.CENTER);
+		rowPanel.remove(index);
+		rowPanel.invalidate();
+		rowPanel.add(newLabel, index);
+		rowPanel.revalidate();
+	}
+	/**
+	 ********************************************************************
+	 * Update Text * * This updates the text after the language is changed. * *
+	 * 
+	 * @param locale   - Used to get the selected language. *
+	 * @param langText - Used to get the text from the language file. *
+	 ********************************************************************
+	 */
+	protected void updateText(Locale currentLocale, ResourceBundle langText) {
+
+		// This is only entered in the main game
+		if (gameMode == 1) {
+			timerLabel.setText((langText.getString("timer")));
+			scoreLabel.setText(langText.getString("score"));
+			colourLabel.setText(langText.getString("colorScheme"));
+		}
+
+		gridSizeLabel.setText(langText.getString("gridSize"));
+		markCheckBox.setText(langText.getString("mark"));
+		engRadio.setText(langText.getString("english"));
+		frRadio.setText(langText.getString("french"));
+		playToLauncher.setText(langText.getString("back"));
+		resetButton.setText(langText.getString("reset"));
+		instructionsButton.setText(langText.getString("instructions"));
+		solveButton.setText(langText.getString("solve"));
+		langLabel.setText(langText.getString("languages"));
+		newBoardButton.setText(langText.getString("newBoard"));
+		solveMenuOption.setText(langText.getString("solve"));
+		newMenuOption.setText(langText.getString("newBoard"));
+		resetMenuOption.setText(langText.getString("reset"));
+		saveMenuOption.setText(langText.getString("save"));
+		loadMenuOption.setText(langText.getString("load"));
+		toLauncherMenuOption.setText(langText.getString("toLauncher"));
+		gridSizeItemsContainer.setText(langText.getString("gridSize"));
+		exitMenuOption.setText(langText.getString("exit"));
+	}
+
+	
+
+	protected void launcher(ResourceBundle langText, Locale currentLocale) {
+
+		startWindow = new JFrame();
+		startWindow.setLayout(new BorderLayout());
+		////////////////////////////////////////////////////////////////
+		JPanel titlePanel = new JPanel();
+		ImageIcon titleLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
+		JLabel titleLabel = new JLabel();
+		titleLabel.setIcon(titleLogo);
+		titlePanel.setPreferredSize(new Dimension(500, 125));
+		titlePanel.add(titleLabel);
+		////////////////////////////////////////////////////////////////
+		JPanel startPanel = new JPanel();
+		startPanel.setBackground(new Color(17,15,15));
+		startPanel.setPreferredSize(new Dimension(100,100));
+		////////////////////////////////////////////////////////////////
+		designButton = new JButton(langText.getString("design"));
+		designButton.setPreferredSize(new Dimension(100, 30));
+		designButton.setBackground(Color.WHITE);
+		////////////////////////////////////////////////////////////////
+		playButton = new JButton(langText.getString("play"));
+		playButton.setPreferredSize(new Dimension(100, 30));
+		playButton.setBackground(Color.WHITE);
+
+		startPanel.add(designButton);
+		startPanel.add(playButton);
+		startWindow.add(titlePanel, BorderLayout.NORTH);
+		startWindow.add(startPanel,BorderLayout.CENTER);
+		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
+		startWindow.pack();
+		startWindow.setVisible(true);
+		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		startWindow.setResizable(false);
+		startWindow.setSize(400, 290);
+		startWindow.setLocationRelativeTo(null);
+	}
+
+	/**
+	 ********************************************************************
+	 * Design method * * This shows the "default" board layout to the user. *
+	 ********************************************************************
+	 */
+	protected void Design(Locale currentLocale, ResourceBundle langText) {
+				
+		designBack = new JButton("Back");
+		designWindow = new JFrame();
+		designWindow.setLayout(new BorderLayout());
+		makeMenuBar(designWindow, currentLocale, langText, 0);
+		////////////////////////////////////////////////////////////////
+		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
+		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
+		designWindow.add(makeControlPanel(),BorderLayout.EAST);
+		designWindow.pack();
+		designWindow.setResizable(false);
+		designWindow.setVisible(true);
+		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		designWindow.setSize(1000, 600);
+		designWindow.setLocationRelativeTo(null);
+	}
+
+	/**
+	 ********************************************************************
+	 * Play method * * This shows the main game. *
+	 ********************************************************************
+	 */
+	protected void Play(Locale currentlocale, ResourceBundle langText) {
+		gameMode = 1;
+		picrossWindow = new JFrame();
+		picrossWindow.setLayout(new BorderLayout());
+		makeMenuBar(picrossWindow, currentlocale, langText, 1);
+		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
+		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
+		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
+		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
+		picrossWindow.pack();
+		////////////////////////////////////////////////////////////////
+		picrossWindow.setResizable(false);
+		picrossWindow.setVisible(true);
+		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		picrossWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
+		picrossWindow.setSize(1000, 600);
+		picrossWindow.setLocationRelativeTo(null);
+	}
+
+	/**
+	 ************************************************************************
+	 * This is the instructions class that explains * how the game is supposed to be
+	 * played. * *
+	 * 
+	 * @param locale - Used to get the selected language. *
+	 ************************************************************************
+	 */
+	protected void Instructions(Locale currentLocale, ResourceBundle langText) {
+		instructionsWindow = new JFrame();
+		JPanel instructionsPanel = new JPanel();
+		instructionsPanel.setPreferredSize(new Dimension(500, 400));
+		JTextArea instructionsLabel = new JTextArea();
+		instructionsLabel.setPreferredSize(new Dimension (450, 325));
+		instructionsBack = new JButton("Back");
+		
+		instructionsLabel.setText(langText.getString("instructions_text"));
+		instructionsLabel.setLineWrap(true);
+		instructionsLabel.setEditable(false);
+		instructionsLabel.setOpaque(false);
+		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
+
+		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
+
+		instructionsPanel.add(instructionsLabel);
+		instructionsPanel.add(instructionsBack);
+		instructionsWindow.add(instructionsPanel);
+		instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
+		instructionsWindow.setResizable(false);
+		instructionsWindow.setSize(525, 425);
+		instructionsWindow.setVisible(true);
+		instructionsWindow.setLocationRelativeTo(null);
+	}
+	
+	protected void solveBoard(int gridSize) {
+		for (int i = 0; i < gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				if (getRows()[i].charAt(j) == '1') {
+					buttons[i][j].setBackground(Color.black);
+					buttons[i][j].setEnabled(false);
+				}
+			}
+		}
+	}
+	
+	protected void resetBoard() {
+		 for (JButton[] i : buttons) {
+	            for (JButton j : i) {
+	                j.setBackground(Color.WHITE);
+	                j.setEnabled(true);
+	            }
+	        }
+	}
+
+	public String[] getViewRows() {
+		return viewRows;
+	}
+
+	public void setViewRows(String[] viewRows) {
+		this.viewRows = viewRows;
+	}
+
+	public String[] getViewCols() {
+		return viewCols;
+	}
+
+	public void setViewCols(String[] viewCols) {
+		this.viewCols = viewCols;
+	}
+
+	protected void resetRowsAndCol() {
+		for(int i =0; i< gridSize; i++) {
+			viewRowLabels[i] = "0";
+			viewColLabels[i] = "0";
+		}
+		viewRows = new String[gridSize];
+		viewCols = new String[gridSize];
+
+		//{"0","0","0","0","0"};
+		
+	}
+
+	public String [] getRows() {
+		return rows;
+	}
+
+	public void setRows(String [] rows) {
+		this.rows = rows;
+	}
+	
 	/**
 	 * @return the viewRowLabels
 	 */
@@ -1039,633 +1681,4 @@ public class GameView {
 	}
 
 
-	/** Boolean for the mark mode, false by default */
-	//protected boolean markMode = false;
-	/** Int variable to check what the current game mode is, 0=design, 1=play */
-	private int gameMode = 0;
-	/*
-	 ********************************************************************
-	 * JLabel initializations. * The text that is in the label changes depending *
-	 * on what language is selected. *
-	 ********************************************************************
-	 */
-	/** Label for the timer */
-	private JLabel timerLabel;
-	//protected JLabel timerLabel = new JLabel(langText.getString("timer"));
-	/** Label for the score */
-	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
-	private JLabel scoreLabel;
-	/** Label for the grid size */
-	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
-	private JLabel gridSizeLabel;
-	/** Label for the language */
-	private JLabel langLabel = new JLabel();
-	/** Label for the colour */
-	private JLabel colourLabel = new JLabel();
-	/**
-	 * 		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
-		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
-		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
-		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
-		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
-	 */
-	private JPanel languagePanel;
-	private JPanel languageButtonPanel;
-	private JPanel gridSizeComboPanel;
-	private JPanel scorePanel;
-	private JPanel timerPanel;
-	private JPanel buttonPanel;
-	private JPanel configurationPanel;
-	private JPanel historyPanel;
-	private JPanel controlPanel;
-	private JPanel colPanel;
-	private JPanel rowPanel;
-	private JMenuBar menuBar;
-	private JMenuItem newMenuItem;
-	private JMenuItem solutionMenuItem;
-	protected JMenuItem exitMenuItem;
-	private JMenuItem backgroundColour;
-	private JMenuItem textColour;
-	private JMenuItem componentColour;
-	private JMenuItem aboutMenu;
-	private JMenuItem gameMenu;
-	private JMenu gameMenuItemsContainer;
-	private JMenuItem newMenuOption;
-	private JMenuItem exitMenuOption;
-	private JMenuItem resetMenuOption;
-	private JMenuItem solveMenuOption;
-	private JMenuItem toLauncherMenuOption;
-	private JMenuItem saveMenuOption;
-	private JMenuItem loadMenuOption;
-	private JMenu gridSizeItemsContainer;
-	private JMenuItem aboutMenuOption;
-	private JMenuItem fiveFive = new JMenuItem("5x5");
-	private JMenuItem sixSix = new JMenuItem("6x6");
-	private JMenuItem sevSev = new JMenuItem("7x7");
-	
-	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
-		splashWindow = new JFrame();
-		JPanel splashPanel = new JPanel();
-		ImageIcon splashLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
-		JLabel splashLabel = new JLabel();
-		splashLabel.setIcon(splashLogo);
-		splashPanel.setPreferredSize(new Dimension(500, 125));
-		splashPanel.add(splashLabel);
-		splashWindow.add(splashPanel);
-		splashWindow.pack();
-		splashWindow.setVisible(true);
-		splashWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		splashWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		splashWindow.setResizable(false);
-		splashWindow.setSize(400, 175);
-		splashWindow.setLocationRelativeTo(null);
-		try {
-			Thread.sleep(1000);
-			splashWindow.dispose();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		launcher(langText, currentLocale);
-
-	}
-	
-	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText, int gameMode) {
-		menuBar = new JMenuBar();
-		window.setJMenuBar(menuBar);
-		gameMenuItemsContainer = new JMenu("Game");
-		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
-		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
-		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
-		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
-		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
-		gridSizeItemsContainer = new JMenu("Grid Size");
-		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
-		gridSizeItemsContainer.add(fiveFive);
-		gridSizeItemsContainer.add(sixSix);
-		gridSizeItemsContainer.add(sevSev);
-
-
-		if (gameMode == 0) {
-			gameMenuItemsContainer.add(saveMenuOption);
-			gameMenuItemsContainer.add(loadMenuOption);
-			gameMenuItemsContainer.addSeparator();
-			gameMenuItemsContainer.add(resetMenuOption);
-			gameMenuItemsContainer.add(gridSizeItemsContainer);
-			gameMenuItemsContainer.addSeparator();
-			gameMenuItemsContainer.add(solveMenuOption);
-			gameMenuItemsContainer.addSeparator();				
-		}
-		else {
-			gameMenuItemsContainer.add(loadMenuOption);
-			gameMenuItemsContainer.addSeparator();
-			gameMenuItemsContainer.add(newMenuOption);
-			gameMenuItemsContainer.add(resetMenuOption);
-			gameMenuItemsContainer.add(gridSizeItemsContainer);
-			gameMenuItemsContainer.addSeparator();
-			gameMenuItemsContainer.add(solveMenuOption);
-			gameMenuItemsContainer.addSeparator();			
-		}
-		
-		gameMenuItemsContainer.add(toLauncherMenuOption);
-		gameMenuItemsContainer.add(exitMenuOption);
-
-		JMenu helpMenuItemsContainer = new JMenu("Help");
-		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer		
-		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
-		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
-		backgroundColour = new JMenuItem("Background Colour");
-		textColour = new JMenuItem("Text Colour");
-		componentColour = new JMenuItem("Component Colour");
-		colourMenu.add(backgroundColour);
-		colourMenu.add(textColour);
-		colourMenu.add(componentColour);
-		
-		helpMenuItemsContainer.add(aboutMenuOption);
-		helpMenuItemsContainer.add(colourMenu);
-		
-		menuBar.add(gameMenuItemsContainer);
-		menuBar.add(helpMenuItemsContainer);
-
-	}
-
-	/**
-	 ************************************************************************
-	 * Default constructor for the Game class * This is where all of the GUI of the
-	 * game gets handled. *
-	 ************************************************************************
-	 */
-	public GameView() {
-		
-	}
-	
-	protected void startLauncher(Locale currentLocale, ResourceBundle langText) {
-		splashScreen(currentLocale, langText);
-	}
-	/*
-	 ********************************************************************
-	 * Make Language Panel * * This is where all of the language panels, labels,
-	 * radio buttons * and button group are located. * * Whatever radio button is
-	 * selected, will change the game to * that language. * "English" is selected by
-	 * default when the game is started. *
-	 ********************************************************************
-	 */
-	private JPanel makeLanguagePanel(Locale currentLocale, ResourceBundle langText) {
-		languagePanel = new JPanel();
-		languageButtonPanel = new JPanel();
-		// Button group that holds the "English" and "French" radio buttons
-		////////////////////////////////////////////////////////////////
-		if (currentLocale.getCountry() == "US") {
-			engRadio = new JRadioButton(langText.getString("english"), true);
-			frRadio = new JRadioButton(langText.getString("french"));
-		}
-		else {
-			engRadio = new JRadioButton(langText.getString("english"));
-			frRadio = new JRadioButton(langText.getString("french"), true);
-		}
-		ButtonGroup langButtons = new ButtonGroup();
-		langButtons.add(engRadio);
-		langButtons.add(frRadio);
-		langLabel.setText(langText.getString("languages"));
-		// Panel to align the language radio buttons
-		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
-		// Adds the radio buttons to the panel
-		languageButtonPanel.add(engRadio);
-		languageButtonPanel.add(frRadio);
-		// Main language panel that stores/aligns all of the labels/radio buttons
-		languagePanel.add(langLabel);
-		languagePanel.add(languageButtonPanel);
-		
-		return languagePanel;
-	}
-
-	/*
-	 ********************************************************************
-	 * Make Grid Size Combo * * Grid size combo box panel. * Combo box options are
-	 * initialized in a string array. * Grid size label changes depending on what
-	 * language is selected. *
-	 ********************************************************************
-	 */
-	private JPanel makeGridSizeCombo(ResourceBundle langText) {
-		String options[] = { "5x5", "6x6", "7x7" };
-		gridSizeCmbo = new JComboBox<>(options);
-		gridSizeCmbo.setBackground(Color.WHITE);
-		gridSizeComboPanel = new JPanel();
-		gridSizeLabel = new JLabel(langText.getString("gridSize"));
-		gridSizeComboPanel.add(gridSizeLabel);
-		gridSizeComboPanel.add(gridSizeCmbo);
-		gridSizeComboPanel.setPreferredSize(new Dimension(200, 30));
-		return gridSizeComboPanel;
-	}
-
-	/**
-	 ************************************************************************
-	 * Make Left Panel. * * This is the 'top-level' panel that stores everything for
-	 * the left * panel. All of the 'lower-level' components get added to this
-	 * panel. * *
-	 * 
-	 * @param locale   - Used to get the selected language. *
-	 * @param langText - Used to get the text from the language file. *
-	 ************************************************************************
-	 */
-	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
-		scoreLabel = new JLabel(langText.getString("score"));
-		timerLabel = new JLabel(langText.getString("timer"));
-		
-		resetButton = new JButton(langText.getString("reset"));
-		resetButton.setBackground(Color.WHITE);
-		solveButton = new JButton(langText.getString("solve"));
-		solveButton.setBackground(Color.WHITE);
-		newBoardButton = new JButton(langText.getString("newBoard"));
-		newBoardButton.setBackground(Color.WHITE);
-		instructionsButton = new JButton(langText.getString("instructions"));
-		instructionsButton.setBackground(Color.WHITE);
-		playToLauncher = new JButton(langText.getString("back"));
-		playToLauncher.setBackground(Color.WHITE);
-		
-		leftPanel = new JPanel();
-		scorePanel = new JPanel();
-		timerPanel = new JPanel();
-		buttonPanel = new JPanel();
-		
-		scoreCounter = new JTextField("0");
-		scoreCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
-		scoreCounter.setPreferredSize(new Dimension(100, 25));
-		scoreCounter.setEditable(false);
-		scorePanel.add(scoreLabel);
-		scorePanel.add(scoreCounter);
-		
-		timerCounter = new JTextField("00:00");
-		timerCounter.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
-		timerCounter.setPreferredSize(new Dimension(100, 25));
-		timerCounter.setEditable(false);
-		timerPanel.add(timerLabel);
-		timerPanel.add(timerCounter);
-		
-		configurationPanel = new JPanel();
-		configurationPanel.setLayout(new GridLayout(1, 2));
-		configurationPanel.add(makeLanguagePanel(currentLocale, langText));
-		configurationPanel.setPreferredSize(new Dimension(225, 100));
-		// Vertically aligns the buttons in the panel
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-		// Sets all of the buttons to the same size and creates an ActionListener
-		resetButton.setPreferredSize(new Dimension(120, 25));
-		solveButton.setPreferredSize(new Dimension(120, 25));
-		newBoardButton.setPreferredSize(new Dimension(120, 25));
-		instructionsButton.setPreferredSize(new Dimension(120, 25));
-		playToLauncher.setPreferredSize(new Dimension(120, 25));
-		
-		if (gameMode == 1) {
-			leftPanel.add(scorePanel);
-			leftPanel.add(timerPanel);
-			buttonPanel.add(newBoardButton);
-			buttonPanel.add(solveButton);
-			buttonPanel.setPreferredSize(new Dimension(120, 180));
-		}
-		else {
-			buttonPanel.setPreferredSize(new Dimension(120, 120));
-		}
-		buttonPanel.add(resetButton);
-		buttonPanel.add(instructionsButton);
-		buttonPanel.add(playToLauncher);
-		leftPanel.add(makeGridSizeCombo(langText));
-		leftPanel.add(buttonPanel);
-		leftPanel.add(configurationPanel);
-		leftPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, (new Color(17, 15, 15))));
-		leftPanel.setPreferredSize(new Dimension(250, 200));
-		return leftPanel;
-	}
-
-	/**
-	 ********************************************************************
-	 * Make Title Panel * * This is where the ImageIcon for the * Picross logo is
-	 * created/set. *
-	 ********************************************************************
-	 */
-	private JPanel makeTitlePanel() {
-		JPanel titlePanel = new JPanel();
-		ImageIcon picrossLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
-		JLabel picrossLabel = new JLabel();
-		picrossLabel.setIcon(picrossLogo);
-		titlePanel.setPreferredSize(new Dimension(1000, 125));
-		titlePanel.add(picrossLabel);
-		return titlePanel;
-	}
-
-	/**
-	 ********************************************************************
-	 * Make History Panel * * This is where the history text area gets managed. *
-	 * All of the user inputs will be recorded here. *
-	 ********************************************************************
-	 */
-	private JPanel makeHistoryPanel() {
-		// This is the history text area where all of the user inputs will be recorded
-		historyPanel = new JPanel();
-		history = new JTextArea();
-		history.setLineWrap(true);
-		history.setWrapStyleWord(true);
-		history.setPreferredSize(new Dimension(200, 10000)); // important
-		history.setBorder(new LineBorder(new Color(17, 15, 15)));
-		history.setEditable(false);
-		JScrollPane scroll = new JScrollPane(history);
-		scroll.setPreferredSize(new Dimension(200, 300));
-		scroll.getVerticalScrollBar().setUnitIncrement(10);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		historyPanel.add(scroll);
-		return historyPanel;
-	}
-
-	/**
-	 ********************************************************************
-	 * Make Control panel * * This is 'top-level' panel that stores everything for
-	 * the history.*
-	 ********************************************************************
-	 */
-	private JPanel makeControlPanel() {
-		controlPanel = new JPanel();
-		controlPanel.setPreferredSize(new Dimension(250, 200));
-		controlPanel.add(makeHistoryPanel());
-		return controlPanel;
-	}
-
-	/**
-	 ********************************************************************
-	 * Make Board panel * * This is where the button grid, row/column labels and
-	 * mark panel * are handled. * *
-	 * 
-	 * @param gridSize - Used to change the grid size. *
-	 ********************************************************************
-	 */
-	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
-		boardPanel = new JPanel();
-		rowPanel = new JPanel();
-		rowPanel.setLayout(new GridLayout(gridSize, 1));
-		rowPanel.setPreferredSize(new Dimension(75, 0));
-		
-		for(int i = 0; i< gridSize; i++) {
-			JLabel rowLabel = new JLabel(viewRowLabels[i]);
-			rowPanel.add(rowLabel);
-		}
-		// Mark panel
-		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
-		// incase the grid size is changing, check to see if in markMode.
-		// if true, then set the checkmark in new board
-		if (markMode == true) {
-			markCheckBox.setSelected(true);
-		}
-		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-		boardPanel.setLayout(new BorderLayout());
-
-		// Column panel
-		colPanel = new JPanel();
-		colPanel.add(markCheckBox);
-		colPanel.setLayout(new GridLayout(1, gridSize + 1));
-		colPanel.setPreferredSize(new Dimension(0, 75));
-		colPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
-
-		for(int i = 0; i< gridSize; i++) {
-			JLabel colLabel = new JLabel(viewColLabels[i]);
-			colPanel.add(colLabel);
-		}
-		// Adds the components to the board panel
-		boardPanel.add(colPanel, BorderLayout.NORTH);
-		boardPanel.add(rowPanel, BorderLayout.WEST);
-
-		JPanel gridButtonPanel = new JPanel();
-		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
-		buttons = new JButton[gridSize][gridSize];
-
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				newGridButton = new JButton();
-				newGridButton.setBackground(Color.WHITE);
-				buttons[i][j] = newGridButton;
-				gridButtonPanel.add(buttons[i][j]);
-			}
-		}
-
-		boardPanel.add(gridButtonPanel, BorderLayout.CENTER);
-		return boardPanel;
-	}
-
-	/**
-	 ********************************************************************
-	 * Update Text * * This updates the text after the language is changed. * *
-	 * 
-	 * @param locale   - Used to get the selected language. *
-	 * @param langText - Used to get the text from the language file. *
-	 ********************************************************************
-	 */
-	protected void updateText(Locale currentLocale, ResourceBundle langText) {
-
-		// This is only entered in the main game
-		if (gameMode == 1) {
-			timerLabel.setText((langText.getString("timer")));
-			scoreLabel.setText(langText.getString("score"));
-			colourLabel.setText(langText.getString("colorScheme"));
-		}
-
-		gridSizeLabel.setText(langText.getString("gridSize"));
-		markCheckBox.setText(langText.getString("mark"));
-		engRadio.setText(langText.getString("english"));
-		frRadio.setText(langText.getString("french"));
-		playToLauncher.setText(langText.getString("back"));
-		resetButton.setText(langText.getString("reset"));
-		instructionsButton.setText(langText.getString("instructions"));
-		solveButton.setText(langText.getString("solve"));
-		langLabel.setText(langText.getString("languages"));
-		newBoardButton.setText(langText.getString("newBoard"));
-		solveMenuOption.setText(langText.getString("solve"));
-		newMenuOption.setText(langText.getString("newBoard"));
-		resetMenuOption.setText(langText.getString("reset"));
-		saveMenuOption.setText(langText.getString("save"));
-		loadMenuOption.setText(langText.getString("load"));
-		toLauncherMenuOption.setText(langText.getString("toLauncher"));
-		gridSizeItemsContainer.setText(langText.getString("gridSize"));
-		exitMenuOption.setText(langText.getString("exit"));
-	}
-
-	
-
-	protected void launcher(ResourceBundle langText, Locale currentLocale) {
-
-		startWindow = new JFrame();
-		startWindow.setLayout(new BorderLayout());
-		////////////////////////////////////////////////////////////////
-		JPanel titlePanel = new JPanel();
-		ImageIcon titleLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
-		JLabel titleLabel = new JLabel();
-		titleLabel.setIcon(titleLogo);
-		titlePanel.setPreferredSize(new Dimension(500, 125));
-		titlePanel.add(titleLabel);
-		////////////////////////////////////////////////////////////////
-		JPanel startPanel = new JPanel();
-		startPanel.setBackground(new Color(17,15,15));
-		startPanel.setPreferredSize(new Dimension(100,100));
-		////////////////////////////////////////////////////////////////
-		designButton = new JButton(langText.getString("design"));
-		designButton.setPreferredSize(new Dimension(100, 30));
-		designButton.setBackground(Color.WHITE);
-		////////////////////////////////////////////////////////////////
-		playButton = new JButton(langText.getString("play"));
-		playButton.setPreferredSize(new Dimension(100, 30));
-		playButton.setBackground(Color.WHITE);
-
-		startPanel.add(designButton);
-		startPanel.add(playButton);
-		startWindow.add(titlePanel, BorderLayout.NORTH);
-		startWindow.add(startPanel,BorderLayout.CENTER);
-		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
-		startWindow.pack();
-		startWindow.setVisible(true);
-		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startWindow.setResizable(false);
-		startWindow.setSize(400, 290);
-		startWindow.setLocationRelativeTo(null);
-	}
-
-	/**
-	 ********************************************************************
-	 * Design method * * This shows the "default" board layout to the user. *
-	 ********************************************************************
-	 */
-	protected void Design(Locale currentLocale, ResourceBundle langText) {
-				
-		designBack = new JButton("Back");
-		designWindow = new JFrame();
-		designWindow.setLayout(new BorderLayout());
-		makeMenuBar(designWindow, currentLocale, langText, 0);
-		////////////////////////////////////////////////////////////////
-		designWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		designWindow.add(makeBoardPanel(langText, gridSize, false), BorderLayout.CENTER); // mark mode false as default
-		designWindow.add(makeLeftPanel(currentLocale, langText, 0), BorderLayout.WEST); // 0 for design
-		designWindow.add(makeControlPanel(),BorderLayout.EAST);
-		designWindow.pack();
-		designWindow.setResizable(false);
-		designWindow.setVisible(true);
-		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		designWindow.setSize(1000, 600);
-		designWindow.setLocationRelativeTo(null);
-	}
-
-	/**
-	 ********************************************************************
-	 * Play method * * This shows the main game. *
-	 ********************************************************************
-	 */
-	protected void Play(Locale currentlocale, ResourceBundle langText) {
-		gameMode = 1;
-		picrossWindow = new JFrame();
-		picrossWindow.setLayout(new BorderLayout());
-		makeMenuBar(picrossWindow, currentlocale, langText, 1);
-		picrossWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		picrossWindow.add(makeLeftPanel(currentlocale, langText, 1), BorderLayout.WEST); // 1 for play mode 
-		picrossWindow.add(makeControlPanel(), BorderLayout.EAST);
-		picrossWindow.add(makeBoardPanel(langText,gridSize, false), BorderLayout.CENTER); // mark mode false as default
-		picrossWindow.pack();
-		////////////////////////////////////////////////////////////////
-		picrossWindow.setResizable(false);
-		picrossWindow.setVisible(true);
-		picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		picrossWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
-		picrossWindow.setSize(1000, 600);
-		picrossWindow.setLocationRelativeTo(null);
-	}
-
-	/**
-	 ************************************************************************
-	 * This is the instructions class that explains * how the game is supposed to be
-	 * played. * *
-	 * 
-	 * @param locale - Used to get the selected language. *
-	 ************************************************************************
-	 */
-	protected void Instructions(Locale currentLocale, ResourceBundle langText) {
-		instructionsWindow = new JFrame();
-		JPanel instructionsPanel = new JPanel();
-		instructionsPanel.setPreferredSize(new Dimension(500, 400));
-		JTextArea instructionsLabel = new JTextArea();
-		instructionsLabel.setPreferredSize(new Dimension (450, 325));
-		instructionsBack = new JButton("Back");
-		
-		instructionsLabel.setText(langText.getString("instructions_text"));
-		instructionsLabel.setLineWrap(true);
-		instructionsLabel.setEditable(false);
-		instructionsLabel.setOpaque(false);
-		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
-
-		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
-
-		instructionsPanel.add(instructionsLabel);
-		instructionsPanel.add(instructionsBack);
-		instructionsWindow.add(instructionsPanel);
-		instructionsWindow.setTitle("Instructions - Skylar Phanenhour, Ahnaf Kamal");
-		instructionsWindow.setResizable(false);
-		instructionsWindow.setSize(525, 425);
-		instructionsWindow.setVisible(true);
-		instructionsWindow.setLocationRelativeTo(null);
-	}
-	
-	protected void solveBoard(int gridSize) {
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				if (getRows()[i].charAt(j) == '1') {
-					buttons[i][j].setBackground(Color.black);
-					buttons[i][j].setEnabled(false);
-				}
-			}
-		}
-	}
-	
-	protected void resetBoard() {
-		 for (JButton[] i : buttons) {
-	            for (JButton j : i) {
-	                j.setBackground(Color.WHITE);
-	                j.setEnabled(true);
-	            }
-	        }
-	}
-
-	public String[] getViewRows() {
-		return viewRows;
-	}
-
-	public void setViewRows(String[] viewRows) {
-		this.viewRows = viewRows;
-	}
-
-	public String[] getViewCols() {
-		return viewCols;
-	}
-
-	public void setViewCols(String[] viewCols) {
-		this.viewCols = viewCols;
-	}
-
-	protected void resetRowsAndCol() {
-		for(int i =0; i< gridSize; i++) {
-			viewRowLabels[i] = "0";
-			viewColLabels[i] = "0";
-		}
-		viewRows = new String[gridSize];
-		viewCols = new String[gridSize];
-
-		//{"0","0","0","0","0"};
-		
-	}
-
-	public String [] getRows() {
-		return rows;
-	}
-
-	public void setRows(String [] rows) {
-		this.rows = rows;
-	}
 }

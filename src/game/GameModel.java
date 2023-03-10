@@ -1,5 +1,6 @@
 package game;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -66,9 +67,7 @@ public class GameModel {
 	String[] rowLabelsDesign;
 	String[] colLabelsDesign;
 	
-	void makeDesignBoard(int gridSize) {
-		designBoard = new String[gridSize][gridSize];
-	}
+
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -313,29 +312,25 @@ public class GameModel {
 		return col;
 	}
 
-	protected void solveBoard() {
-		for (int i=0; i < gridSize; i++) {
-			System.out.println(getRow()[i]);
-			//System.out.println(col[i]);
+	String updateLabels(int i) {
+		StringBuilder builder = new StringBuilder();
+		for (String row: designBoard[i]) {
+			builder.append(row);
 		}
+		String newRow = builder.toString();
+		rowLabelsDesign[i] = newRow;
+		System.out.println(newRow);
+		int increment = 0;
+		return newRow;
+	}
+	void makeDesignBoard(int gridSize) {
+		designBoard = new String[gridSize][gridSize];
 	}
 	
-	void updateLabels() {
-		
-	}
-	
-	void updateDesignBoard(int i, int j) {
+	String updateDesignBoard(int i, int j) {
 		System.out.println("tile clicked @: row = " + i + " number: "+j);
 		designBoard[i][j] = "1";
-		
-		updateLabels();
-
-		for (int c = 0; c<gridSize; c++) {
-			for(int k = 0; k <gridSize; k++) {
-				System.out.println(designBoard[c][k]);
-
-			}
-		}
+		return updateLabels(i);
 	}
 	void resetBoard() {
 		rowLabels = new String[gridSize];
