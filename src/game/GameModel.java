@@ -29,6 +29,8 @@ public class GameModel {
 	int [] defaultFiveBVals = {21,20,29,21,21};
 	int [] defaultSixBVals = {51,18,0,33,18,12};
 	int [] defaultSevBVals = {42,28,34,107,34,28,42};
+	
+	String[][] designBoard;
 
 
 	/**
@@ -61,7 +63,12 @@ public class GameModel {
 	String[] rowLabels;
 	String[] colLabels;
 	
+	String[] rowLabelsDesign;
+	String[] colLabelsDesign;
 	
+	void makeDesignBoard(int gridSize) {
+		designBoard = new String[gridSize][gridSize];
+	}
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -225,7 +232,23 @@ public class GameModel {
 		return binVal;
 	}
 	
-	protected String[] generateRows(int maxPossible, boolean useDefault) {
+	
+	protected String[] rowLabelDesign() {
+		rowLabelsDesign = new String[gridSize];
+		for(int i = 0; i<gridSize;i++) {
+			rowLabelsDesign[i] = "0";
+		}
+		return rowLabelsDesign;
+	}
+	
+	protected String[] colLabelDesign() {
+		colLabelsDesign = new String[gridSize];
+		for(int i = 0; i<gridSize;i++) {
+			colLabelsDesign[i] = "0";
+		}
+		return colLabelsDesign;
+	}
+ 	protected String[] generateRows(int maxPossible, boolean useDefault) {
 		
 		row = new String[gridSize];
 		
@@ -542,6 +565,31 @@ public class GameModel {
 	
 	protected String[] returnRows() {
 		return row;
+	}
+	
+	void updateLabels() {
+		
+	}
+	
+	void updateDesignBoard(int i, int j) {
+		System.out.println("tile clicked @: row = " + i + " number: "+j);
+		designBoard[i][j] = "1";
+		
+		updateLabels();
+
+		for (int c = 0; c<gridSize; c++) {
+			for(int k = 0; k <gridSize; k++) {
+				System.out.println(designBoard[c][k]);
+
+			}
+		}
+	}
+	void resetBoard() {
+		rowLabels = new String[gridSize];
+		colLabels = new String[gridSize];
+		gridSize = 5;
+		rowLabelsDesign = new String[gridSize];
+		colLabelsDesign = new String[gridSize];
 	}
 
 }

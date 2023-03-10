@@ -1649,4 +1649,15 @@ public class GameView {
 		this.viewCols = viewCols;
 	}
 
+	protected void resetRowsAndCol() {
+		for(int i =0; i< gridSize; i++) {
+			viewRowLabels[i] = "0";
+			viewColLabels[i] = "0";
+		}
+		viewRows = new String[gridSize];
+		viewCols = new String[gridSize];
+
+		//{"0","0","0","0","0"};
+		
+	}
 }

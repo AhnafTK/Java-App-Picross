@@ -32,6 +32,9 @@ public class GameController {
 	
 	private void launcherActions() {
 		view.getPlayButton().addActionListener((actionEvent) -> {
+			model.resetBoard();
+			view.resetRowsAndCol();
+
 			// intialize default model
 			view.getStartWindow().dispose();
 			view.Play(model.currentLocale,model.langText);
@@ -39,7 +42,9 @@ public class GameController {
 		});
 
 		view.getDesignButton().addActionListener((actionEvent) -> {
-			model.gameStarted = true;
+			model.setGameStarted(true);
+			model.resetBoard();
+			view.resetRowsAndCol();
 			System.out.println("clicked design button");
 			view.getStartWindow().dispose();
 			view.Design(model.currentLocale, model.langText);
@@ -65,6 +70,8 @@ public class GameController {
 	}
 	private void designActions() {
 		model.setGameMode(0);
+		model.makeDesignBoard(model.getGridSize());
+
 		leftPanelActions();
 		markCheckBoxAction();
 		boardActions();
@@ -77,7 +84,7 @@ public class GameController {
 		gridSizeActions();
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
-		newBoard("5x5",true);
+		newPlayBoard("5x5",true);
 		menuBarActions();
 	}
 
@@ -96,15 +103,18 @@ public class GameController {
 	        	for (int i = 0; i < model.getGridSize(); i++) {
 					for (int j = 0; j < model.getGridSize(); j++) {
 						if (e.getSource() == view.getButtons()[i][j]) {
+							// in design mode
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
+									model.updateDesignBoard(i, j);
 								}
 								view.getButtons()[i][j].setEnabled(false);
 							}
+							// in play mode
 							else {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(view.mark_color);
@@ -262,7 +272,7 @@ public class GameController {
 		view.getNewBoardButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 			+ model.langText.getString("newBoard") + "\n");
-			newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);
+			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);
 		});
 
 	}
@@ -292,7 +302,7 @@ public class GameController {
 				
 			}
 		});
-		view.getNewMenuOption().addActionListener((actionEvent)->{newBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
+		view.getNewMenuOption().addActionListener((actionEvent)->{newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
 		
 		view.getResetMenuOption().addActionListener((actionEvent)->{resetBoard();});
 		
@@ -387,7 +397,7 @@ public class GameController {
 		instructionsActions();
 	}
 	
-	private void newBoard(String options, boolean isDefault) {
+	private void newPlayBoard(String options, boolean isDefault) {
 		int maxPossible;
 		if (isDefault == false && model.isGameStarted() == true && model.getGameMode() == 1) {
 			model.setScore(0);
@@ -411,30 +421,50 @@ public class GameController {
 			break;
 		}
 		
-		maxPossible = (int) (Math.pow(2, model.gridSize) - 1);
+		
+		maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
 		view.setViewRows(model.generateRows(maxPossible, isDefault));
 		view.setViewCols(model.generateCols());
 		view.setViewRowLabels(model.rowLabel());
 		view.setViewColLabels(model.colLabel());
+		view.getPicrossWindow().remove(view.getBoardPanel());
+		view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
 		
-		if (model.getGameMode() == 1) {
-			view.getPicrossWindow().remove(view.getBoardPanel());
-			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-		}
-		else {
-			view.getDesignWindow().remove(view.getBoardPanel());
-			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));	
-		}
-		
+	
 		view.getBoardPanel().revalidate();
 		boardActions();
 		markCheckBoxAction();
 	}
-	
+	private void newDesignBoard(String options) {
+		switch (options) {
+		case "5x5":
+			model.setGridSize(5);
+			break;
+			
+		case "6x6":
+			model.setGridSize(6);
+			break;
+			
+		case "7x7":
+			model.setGridSize(7);
+			break;
+		}
+		
+		view.setViewRowLabels(model.rowLabelDesign());
+		view.setViewColLabels(model.colLabelDesign());
+
+		view.getDesignWindow().remove(view.getBoardPanel());
+		view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+		view.getBoardPanel().revalidate();
+		model.makeDesignBoard(model.getGridSize());
+		boardActions();
+		markCheckBoxAction();
+		
+	}
 	// causing problems with design
 	private void changeGridSize(String options) {
-		newBoard(options, true);
 		if (model.getGameMode() == 1){
+			newPlayBoard(options, true);
 			if (model.isGameStarted() == false) {
 				return;
 			}
@@ -443,6 +473,9 @@ public class GameController {
 				model.setGameStarted(false);
 				view.getTimerCounter().setText("00:00");
 			}
+		}
+		else {
+			newDesignBoard(options);
 		}
 	}
 }
