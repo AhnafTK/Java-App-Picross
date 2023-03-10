@@ -40,6 +40,7 @@ public class GameView {
 	/** 2d-button array for the grid */
 	private JButton[][] buttons;
 	
+	private String [] rows;
 	Color tile_color = new Color(17, 15, 15);
 	Color mark_color = new Color(226, 222, 222);
 	Color err_color = Color.red;
@@ -1612,13 +1613,12 @@ public class GameView {
 		instructionsWindow.setLocationRelativeTo(null);
 	}
 	
-	protected void solveBoard(String[] rows, int gridSize) {
+	protected void solveBoard(int gridSize) {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				if (rows[i].charAt(j) == '1') {
+				if (getRows()[i].charAt(j) == '1') {
 					buttons[i][j].setBackground(Color.black);
 					buttons[i][j].setEnabled(false);
-
 				}
 			}
 		}
@@ -1659,5 +1659,13 @@ public class GameView {
 
 		//{"0","0","0","0","0"};
 		
+	}
+
+	public String [] getRows() {
+		return rows;
+	}
+
+	public void setRows(String [] rows) {
+		this.rows = rows;
 	}
 }

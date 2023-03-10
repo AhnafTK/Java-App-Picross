@@ -58,7 +58,7 @@ public class GameModel {
 		0011100	= 28
 		0101010 = 42
 	 */
-	String[] row;
+	private String[] row;
 	String[] col;
 	String[] rowLabels;
 	String[] colLabels;
@@ -145,7 +145,7 @@ public class GameModel {
 			// runs through each element of the ROWS
 			for (int b = 0; b < gridSize; b++) {
 				// System.out.print(col[a].charAt(b)+"\n");
-				if (row[a].charAt(b) == '1') { // if 1
+				if (getRow()[a].charAt(b) == '1') { // if 1
 					increment++;
 					totalPerRow++;
 				} else { // if 0
@@ -250,29 +250,29 @@ public class GameModel {
 	}
  	protected String[] generateRows(int maxPossible, boolean useDefault) {
 		
-		row = new String[gridSize];
+		setRow(new String[gridSize]);
 		
 		if (useDefault == true) {
 			switch(gridSize) {
 			case 5:
 				System.out.println("default 5x5");
 				for (int i = 0; i < gridSize; i++) {
-					row[i] = intToBinary(defaultFiveBVals[i]);
-					System.out.println(row[i]);
+					getRow()[i] = intToBinary(defaultFiveBVals[i]);
+					System.out.println(getRow()[i]);
 				}
 				break;
 			case 6:
 				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					row[i] = intToBinary(defaultSixBVals[i]);
-					System.out.println(row[i]);
+					getRow()[i] = intToBinary(defaultSixBVals[i]);
+					System.out.println(getRow()[i]);
 				}
 				break;
 			case 7:
 				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					row[i] = intToBinary(defaultSevBVals[i]);
-					System.out.println(row[i]);
+					getRow()[i] = intToBinary(defaultSevBVals[i]);
+					System.out.println(getRow()[i]);
 				}
 				break;
 			}			
@@ -283,16 +283,16 @@ public class GameModel {
 
 				Random rand = new Random();
 				int value = rand.nextInt(maxPossible);
-				row[i] = intToBinary(value);
+				getRow()[i] = intToBinary(value);
 			}
 		
 			System.out.println("\nROWS");
 			for (int a = 0; a < gridSize; a++) {
-				System.out.println(row[a]);
+				System.out.println(getRow()[a]);
 
 			}
 		}
-		return row;
+		return getRow();
 		
 	}
 	
@@ -301,7 +301,7 @@ public class GameModel {
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				colVal = colVal + row[l].charAt(k);
+				colVal = colVal + getRow()[l].charAt(k);
 			}
 			col[k] = colVal;
 		}
@@ -315,13 +315,34 @@ public class GameModel {
 
 	protected void solveBoard() {
 		for (int i=0; i < gridSize; i++) {
-			System.out.println(row[i]);
+			System.out.println(getRow()[i]);
 			//System.out.println(col[i]);
 		}
 	}
 	
-	protected void designMode() {
+	void updateLabels() {
 		
+	}
+	
+	void updateDesignBoard(int i, int j) {
+		System.out.println("tile clicked @: row = " + i + " number: "+j);
+		designBoard[i][j] = "1";
+		
+		updateLabels();
+
+		for (int c = 0; c<gridSize; c++) {
+			for(int k = 0; k <gridSize; k++) {
+				System.out.println(designBoard[c][k]);
+
+			}
+		}
+	}
+	void resetBoard() {
+		rowLabels = new String[gridSize];
+		colLabels = new String[gridSize];
+		gridSize = 5;
+		rowLabelsDesign = new String[gridSize];
+		colLabelsDesign = new String[gridSize];
 	}
 	
 	/**
@@ -564,32 +585,12 @@ public class GameModel {
 
 	
 	protected String[] returnRows() {
+		return getRow();
+	}
+	public String[] getRow() {
 		return row;
 	}
 	
-	void updateLabels() {
-		
-	}
-	
-	void updateDesignBoard(int i, int j) {
-		System.out.println("tile clicked @: row = " + i + " number: "+j);
-		designBoard[i][j] = "1";
-		
-		updateLabels();
 
-		for (int c = 0; c<gridSize; c++) {
-			for(int k = 0; k <gridSize; k++) {
-				System.out.println(designBoard[c][k]);
-
-			}
-		}
-	}
-	void resetBoard() {
-		rowLabels = new String[gridSize];
-		colLabels = new String[gridSize];
-		gridSize = 5;
-		rowLabelsDesign = new String[gridSize];
-		colLabelsDesign = new String[gridSize];
-	}
 
 }

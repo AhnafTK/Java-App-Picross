@@ -266,8 +266,10 @@ public class GameController {
 		view.getSolveButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
-			view.solveBoard(model.row, model.gridSize);
+			view.setRows(model.getRow());
+			view.solveBoard(model.gridSize);
 		});
+	
 		view.getInstructionsButton().addActionListener((actionEvent) -> {showInstructions();});
 		view.getNewBoardButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
@@ -306,7 +308,10 @@ public class GameController {
 		
 		view.getResetMenuOption().addActionListener((actionEvent)->{resetBoard();});
 		
-		view.getSolveMenuOption().addActionListener((actionEvent)->{view.solveBoard(model.row, model.gridSize);});
+		view.getSolveMenuOption().addActionListener((actionEvent)->{
+			view.setRows(model.getRow());
+			view.solveBoard(model.getGridSize());}
+		);
 		
 		view.getFiveFive().addActionListener((actionEvent)->{changeGridSize("5x5");});
 		
