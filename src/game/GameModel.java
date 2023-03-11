@@ -21,11 +21,20 @@ public class GameModel {
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;
 
+	protected int totalValid = 0;
+	protected int currentValid = 0;
+	
+	protected int bestTime = 0;
+	protected int bestScore = 0;
+	
+	protected int score = 0;
+	
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
 
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
+	protected boolean gameFinished = false;
 	
 	int [] defaultFiveBVals = {21,20,29,21,21};
 	int [] defaultSixBVals = {51,18,0,33,18,12};
@@ -41,10 +50,32 @@ public class GameModel {
 	String[] rowLabelsDesign;
 	String[] colLabelsDesign;
 	
-
+	protected int timerToSeconds() {
+		minutes = getMinutes();
+		seconds = getSeconds();
+		
+		seconds = seconds + (minutes * 60);
+		bestTime = seconds;
+		return bestTime;
+	}
+	
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+	}
+	
+	/**
+	 * @return the gameFinished
+	 */
+	protected boolean getGameFinished() {
+		return gameFinished;
+	}
+
+	/**
+	 * @param gameFinished the gameFinished to set
+	 */
+	protected void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
 	}
 	
 	/**
@@ -74,9 +105,6 @@ public class GameModel {
 	protected void setGameMode(int gameMode) {
 		this.gameMode = gameMode;
 	}
-
-	protected int time = 0;
-	protected int score = 0;
 
 	/**
 	 * @return the currentLocale
@@ -193,6 +221,25 @@ public class GameModel {
 		return colLabels;
 	}
 		
+	protected void totalValidTiles() {
+		totalValid = 0;
+		for (int a = 0; a < gridSize; a++) {
+			for (int b = 0; b < gridSize; b++) {
+				if (getRow()[a].charAt(b) == '1') { // if 1
+					totalValid++;
+				}
+			}
+		}
+	}
+	
+	protected String writePattern() {
+		String pattern = "";
+		for (int i = 0; i < gridSize; i++) {
+			pattern = pattern + (getRow()[i]) + "\n";
+		}
+		return pattern;
+	}
+	
 	protected String intToBinary(int value) {
 		String binVal = Integer.toBinaryString(value);
 		while (binVal.length() < gridSize) {
@@ -550,28 +597,56 @@ public class GameModel {
 	}
 
 	/**
-	 * @return the time
+	 * @return the currentValid
 	 */
-	protected int getTime() {
-		return time;
+	protected int getCurrentValid() {
+		return currentValid;
 	}
 
 	/**
-	 * @param time the time to set
+	 * @param gridSize the gridSize to set
 	 */
-	protected void setTime(int time) {
-		this.time = time;
+	protected void setCurrentValid(int currentValid) {
+		this.currentValid = currentValid;
+	}
+	
+	/**
+	 * @return the bestTime
+	 */
+	protected int getBestTime() {
+		return bestTime;
 	}
 
 	/**
-	 * @return the score
+	 * @param bestTime the time to set
+	 */
+	protected void setBestTime(int bestTime) {
+		this.bestTime = bestTime;
+	}
+
+	/**
+	 * @return the bestScore
+	 */
+	protected int getBestScore() {
+		return bestScore;
+	}
+
+	/**
+	 * @param bestScore the score to set
+	 */
+	protected void setBestScore(int bestScore) {
+		this.bestScore = bestScore;
+	}
+
+	/**
+	 * @return the Score
 	 */
 	protected int getScore() {
 		return score;
 	}
 
 	/**
-	 * @param score the score to set
+	 * @param Score the score to set
 	 */
 	protected void setScore(int score) {
 		this.score = score;

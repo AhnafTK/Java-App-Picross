@@ -3,8 +3,12 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.text.DecimalFormat;
+import java.util.Formatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -100,6 +104,8 @@ public class GameController {
 		ActionListener listener = new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
+				model.totalValidTiles();
+
 	        	for (int i = 0; i < model.getGridSize(); i++) {
 					for (int j = 0; j < model.getGridSize(); j++) {
 						if (e.getSource() == view.getButtons()[i][j]) {
@@ -129,8 +135,17 @@ public class GameController {
 									}
 									if (model.getRow(i).charAt(j) == '1') {
 										System.out.println("correct");
+										model.setCurrentValid(model.getCurrentValid()+1);
 										model.setScore(model.getScore()+1);
 										view.getButtons()[i][j].setBackground(view.tile_color);
+										
+										if(model.getCurrentValid() == model.totalValid) {
+											model.timer.stop();
+											model.setBestScore(model.getScore());
+											model.setBestTime(model.timerToSeconds());
+									        model.setGameFinished(true);
+											view.gameCompleted();
+										}
 									}
 									else {
 										model.setScore(model.getScore()-1);
@@ -290,10 +305,24 @@ public class GameController {
 			fileChooser.setCurrentDirectory(new File("."));
 			
 			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-				File file;
-				//PrintWriter fileOut;
-				
-				file = new File(fileChooser.getSelectedFile().getAbsolutePath());			
+				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());			
+			
+				try {
+					BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
+					
+					fileWriter.write(model.writePattern());
+					if (model.getGameFinished() == true) {
+						fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
+						fileWriter.write(Integer.toString(model.getBestTime()));
+					}
+					fileWriter.close(); 
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		view.getLoadMenuOption().addActionListener((actionEvent)->{
@@ -395,6 +424,14 @@ public class GameController {
 	private void resetBoard() {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 	    + model.langText.getString("reset") + "\n");
+		model.setCurrentValid(0);
+		model.setScore(0);
+		view.getScoreCounter().setText(Integer.toString(model.getScore()));
+        model.timer.stop();
+        model.setGameStarted(false);
+        model.setGameFinished(false);
+        view.getTimerCounter().setText("00:00");
+
 	    view.resetBoard();
 	}
 	
@@ -408,6 +445,9 @@ public class GameController {
 	
 	private void newPlayBoard(String options, boolean isDefault) {
 		int maxPossible;
+		model.setCurrentValid(0);
+        model.setGameFinished(false);
+
 		if (isDefault == false && model.isGameStarted() == true && model.getGameMode() == 1) {
 			model.setScore(0);
 			view.getScoreCounter().setText(Integer.toString(model.getScore()));

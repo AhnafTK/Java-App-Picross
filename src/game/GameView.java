@@ -19,6 +19,7 @@ public class GameView {
 	private JFrame splashWindow;
 	/** JFrame for the instructions window */
 	private JFrame instructionsWindow;
+	private JFrame gameCompleteWindow;
 	/** JFrame for the main picross window */
 	private JFrame picrossWindow;
 	/** Combo box to change the grid size */
@@ -185,20 +186,15 @@ public class GameView {
 		gridSizeItemsContainer.add(sixSix);
 		gridSizeItemsContainer.add(sevSev);
 
-
+		gameMenuItemsContainer.add(saveMenuOption);
+		gameMenuItemsContainer.add(loadMenuOption);
+		gameMenuItemsContainer.addSeparator();
 		if (gameMode == 0) {
-			gameMenuItemsContainer.add(saveMenuOption);
-			gameMenuItemsContainer.add(loadMenuOption);
-			gameMenuItemsContainer.addSeparator();
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
-			gameMenuItemsContainer.addSeparator();
-			gameMenuItemsContainer.add(solveMenuOption);
-			gameMenuItemsContainer.addSeparator();				
+			gameMenuItemsContainer.addSeparator();			
 		}
 		else {
-			gameMenuItemsContainer.add(loadMenuOption);
-			gameMenuItemsContainer.addSeparator();
 			gameMenuItemsContainer.add(newMenuOption);
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
@@ -630,6 +626,16 @@ public class GameView {
 		picrossWindow.setLocationRelativeTo(null);
 	}
 
+	protected void gameCompleted() {
+		gameCompleteWindow = new JFrame();
+		
+		gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
+		gameCompleteWindow.setResizable(false);
+		gameCompleteWindow.setSize(525, 425);
+		gameCompleteWindow.setVisible(true);
+		gameCompleteWindow.setLocationRelativeTo(null);
+	}
+	
 	/**
 	 ************************************************************************
 	 * This is the instructions class that explains * how the game is supposed to be
