@@ -11,11 +11,13 @@ import java.text.DecimalFormat;
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.Timer;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class GameController {
 	GameModel model;
@@ -104,7 +106,9 @@ public class GameController {
 		ActionListener listener = new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-				model.totalValidTiles();
+				if (model.gameMode == 1) {
+					model.totalValidTiles();
+				}
 
 	        	for (int i = 0; i < model.getGridSize(); i++) {
 					for (int j = 0; j < model.getGridSize(); j++) {
@@ -113,6 +117,8 @@ public class GameController {
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
+									view.updateDesignRow("0", i);
+									view.updateDesignCol("0", j);
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
@@ -301,6 +307,10 @@ public class GameController {
 	private void menuBarActions() {
 	
 		view.getSaveMenuOption().addActionListener((actionEvent)->{
+			if (model.gameMode == 0) {
+				model.setRow(new String[model.gridSize]);
+			}
+		
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
 			
@@ -324,17 +334,49 @@ public class GameController {
 					e.printStackTrace();
 				}
 			}
+			
 		});
 		view.getLoadMenuOption().addActionListener((actionEvent)->{
+			if (model.gameMode == 0) {
+				model.setRow(new String[model.gridSize]);
+			}
+			
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
-			
-			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-				File file;
-				//PrintWriter fileOut;
+			fileChooser.setFileFilter(new FileNameExtensionFilter("Text files", "txt"));
+
+			if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
 				
-				file = new File(fileChooser.getSelectedFile().getAbsolutePath());
-				
+				try {
+					Scanner fileReader = new Scanner(file);
+					
+					if(file.isFile()) {
+						model.readFile(fileReader);
+						view.setViewCols(model.generateCols());
+						view.setViewRowLabels(model.rowLabel());
+						view.setViewColLabels(model.colLabel());
+						
+						if (model.getGameMode() == 0) {
+							view.getDesignWindow().remove(view.getBoardPanel());
+							view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+							view.getBoardPanel().revalidate();
+							model.makeDesignBoard(model.getGridSize());						
+						}
+						else {
+							view.getPicrossWindow().remove(view.getBoardPanel());
+							view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+							view.getBoardPanel().revalidate();
+						}
+						boardActions();
+						markCheckBoxAction();
+					}				
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		view.getNewMenuOption().addActionListener((actionEvent)->{newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
@@ -424,14 +466,16 @@ public class GameController {
 	private void resetBoard() {
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 	    + model.langText.getString("reset") + "\n");
-		model.setCurrentValid(0);
-		model.setScore(0);
-		view.getScoreCounter().setText(Integer.toString(model.getScore()));
-        model.timer.stop();
-        model.setGameStarted(false);
-        model.setGameFinished(false);
-        view.getTimerCounter().setText("00:00");
-
+		if (model.getGameMode() == 1 && model.isGameStarted() == true) {
+			model.setCurrentValid(0);
+			model.setScore(0);
+			view.getScoreCounter().setText(Integer.toString(model.getScore()));
+	        model.timer.stop();
+	        model.setGameStarted(false);
+	        model.setGameFinished(false);
+	        view.getTimerCounter().setText("00:00");
+		}
+		//newDesignBoard(Integer.toString(model.getGridSize()));
 	    view.resetBoard();
 	}
 	
@@ -482,16 +526,14 @@ public class GameController {
 		markCheckBoxAction();
 	}
 	private void newDesignBoard(String options) {
-		switch (options) {
-		case "5x5":
+		if (options.equals("5x5") || options.equals("5")) {
 			model.setGridSize(5);
-			break;
-		case "6x6":
+		}
+		if (options.equals("6x6") || options.equals("6")) {
 			model.setGridSize(6);
-			break;
-		case "7x7":
-			model.setGridSize(7);
-			break;
+		}
+		if (options.equals("6x6") || options.equals("6")) {
+			model.setGridSize(6);
 		}
 		
 		view.setViewRowLabels(model.rowLabelDesign());

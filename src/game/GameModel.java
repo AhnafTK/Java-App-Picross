@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javax.swing.Timer;
 
@@ -238,6 +239,18 @@ public class GameModel {
 			pattern = pattern + (getRow()[i]) + "\n";
 		}
 		return pattern;
+	}
+	
+	protected void readFile(Scanner fileReader) {
+		for (int i = 0; i < gridSize; i++) {
+			getRow()[i] = fileReader.nextLine();
+		}
+		if(fileReader.hasNextLine()) {
+			setBestScore(fileReader.nextInt());
+			System.out.println("Best Score: " + getBestScore());
+			setBestTime(fileReader.nextInt());	//Has to be fixed for grid sizes
+			System.out.println("Best Time: " + getBestTime());
+		}
 	}
 	
 	protected String intToBinary(int value) {
