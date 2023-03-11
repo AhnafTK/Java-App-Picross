@@ -33,32 +33,6 @@ public class GameModel {
 	
 	String[][] designBoard;
 
-
-	/**
-	 * 5x5
-		10101 	= 21
-		10100	= 20
-		11101	= 29
-		10101	= 21
-		10101   = 21
-		
-		6x6
-		110011	= 51
-		010010	= 18
-		000000	= 0
-		100001	= 33
-		010010	= 18
-		001100	= 12
-		
-		7x7
-		0101010	= 42
-		0011100	= 28
-		0100010	= 34
-		1101011 = 107
-		0100010	= 34
-		0011100	= 28
-		0101010 = 42
-	 */
 	private String[] row;
 	String[] col;
 	String[] rowLabels;
@@ -180,21 +154,18 @@ public class GameModel {
 	protected String[] colLabel() {
 		colLabels = new String[gridSize];
 		String currentLabel = "";
-		//String[] returnLabels = new String[gridSize];
-		//System.out.println("\nPATTERN");
+
 		int increment = 0;
 		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
 		for (int a = 0; a < gridSize; a++) {
 			// runs through each element of the ROWS
 			for (int b = 0; b < gridSize; b++) {
-				// System.out.print(col[a].charAt(b)+"\n");
 				if (col[a].charAt(b) == '1') { // if 1
 					increment++;
 					totalPerRow++;
 				} else { // if 0
 					if (increment != 0) { // if 0 and increment is not 0
-						//System.out.print(increment + " ");
 						currentLabel = currentLabel + increment + "\n";
 					}
 					increment = 0;
@@ -221,8 +192,7 @@ public class GameModel {
 		}
 		return colLabels;
 	}
-	
-	
+		
 	protected String intToBinary(int value) {
 		String binVal = Integer.toBinaryString(value);
 		while (binVal.length() < gridSize) {
@@ -230,7 +200,6 @@ public class GameModel {
 		}
 		return binVal;
 	}
-	
 	
 	protected String[] rowLabelDesign() {
 		rowLabelsDesign = new String[gridSize];
@@ -327,10 +296,40 @@ public class GameModel {
 		designBoard = new String[gridSize][gridSize];
 	}
 	
-	String updateDesignBoard(int i, int j) {
+	String updateRow(int i, int j) {
+		StringBuilder builder = new StringBuilder();
+		for (String row: designBoard[i]) {
+			if(row!=null) {
+				builder.append(row);
+			}
+		}
+		String newRow = builder.toString();
+		rowLabelsDesign[i] = newRow;
+		//System.out.println(newRow);
+		int increment = 0;
+		return newRow;
+	}
+	
+	String updateCol(int i, int j) {
+		StringBuilder builder = new StringBuilder();
+		
+		for(int k = 0; k < gridSize; k++) {
+			if(designBoard[k][j]!=null) {
+			builder.append(designBoard[k][j]);
+			System.out.println("K " + k + " j " + j + " "+ designBoard[k][j]);
+			}
+		}
+		
+		String newCol = builder.toString();
+		System.out.println(newCol);
+		
+		return newCol;
+	}
+	
+	void updateDesignBoard(int i, int j) {
 		System.out.println("tile clicked @: row = " + i + " number: "+j);
 		designBoard[i][j] = "1";
-		return updateLabels(i);
+		//return updateLabels(i);
 	}
 	void resetBoard() {
 		rowLabels = new String[gridSize];

@@ -110,8 +110,11 @@ public class GameController {
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
-									String newRow = model.updateDesignBoard(i, j);
+									model.updateDesignBoard(i, j);
+									String newRow = model.updateRow(i, j);
+									String newCol = model.updateCol(i, j);
 									view.updateDesignRow(newRow, i);
+									view.updateDesignCol(newCol, j);
 								}
 								view.getButtons()[i][j].setEnabled(false);
 							}
@@ -427,7 +430,6 @@ public class GameController {
 			break;
 		}
 		
-		
 		maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
 		view.setViewRows(model.generateRows(maxPossible, isDefault));
 		view.setViewCols(model.generateCols());
@@ -444,11 +446,9 @@ public class GameController {
 		case "5x5":
 			model.setGridSize(5);
 			break;
-			
 		case "6x6":
 			model.setGridSize(6);
 			break;
-			
 		case "7x7":
 			model.setGridSize(7);
 			break;

@@ -456,8 +456,7 @@ public class GameView {
 		}
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 		boardPanel.setLayout(new BorderLayout());
-
-		// Column panel
+	
 		colPanel = new JPanel();
 		colPanel.add(markCheckBox);
 		colPanel.setLayout(new GridLayout(1, gridSize + 1));
@@ -495,6 +494,15 @@ public class GameView {
 		rowPanel.invalidate();
 		rowPanel.add(newLabel, index);
 		rowPanel.revalidate();
+	}
+	
+	void updateDesignCol(String newThing, int index) {
+		
+		JLabel newLabel = new JLabel(newThing, SwingConstants.CENTER);
+		colPanel.remove(index+1);
+		colPanel.invalidate();
+		colPanel.add(newLabel, index+1);
+		colPanel.revalidate();
 	}
 	/**
 	 ********************************************************************
