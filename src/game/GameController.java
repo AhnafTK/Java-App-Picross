@@ -90,7 +90,7 @@ public class GameController {
 		gridSizeActions();
 		leftPanelActions();
 		markCheckBoxAction(); // checkbox features
-		newPlayBoard("5x5",true);
+		newPlayBoard("5x5",true, false);
 		menuBarActions();
 	}
 
@@ -291,7 +291,7 @@ public class GameController {
 		view.getSolveButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 					+ model.langText.getString("solve") + "\n");
-			view.setRows(model.getRow());
+			view.setViewRows(model.getRow());
 			view.solveBoard(model.gridSize);
 		});
 	
@@ -299,7 +299,7 @@ public class GameController {
 		view.getNewBoardButton().addActionListener((actionEvent) -> {
 			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 			+ model.langText.getString("newBoard") + "\n");
-			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);
+			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false, false);
 		});
 
 	}
@@ -321,6 +321,7 @@ public class GameController {
 					BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
 					
 					if (model.gameMode == 0) {
+						fileWriter.write(model.gridSize + "\n");
 						fileWriter.write(model.writeDesignPattern());
 
 					}
@@ -343,6 +344,7 @@ public class GameController {
 			}
 			
 		});
+		
 		view.getLoadMenuOption().addActionListener((actionEvent)->{
 			if (model.gameMode == 0) {
 				model.setRow(new String[model.gridSize]);
@@ -360,21 +362,10 @@ public class GameController {
 					
 					if(file.isFile()) {
 						model.readFile(fileReader);
-						view.setViewCols(model.generateCols());
-						view.setViewRowLabels(model.rowLabel());
-						view.setViewColLabels(model.colLabel());
-						
-						if (model.getGameMode() == 0) {
-							view.getDesignWindow().remove(view.getBoardPanel());
-							view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-							view.getBoardPanel().revalidate();
-							model.makeDesignBoard(model.getGridSize());						
-						}
-						else {
-							view.getPicrossWindow().remove(view.getBoardPanel());
-							view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-							view.getBoardPanel().revalidate();
-						}
+						//changeGridSize(Integer.toString((model.getGridSize())));
+						newPlayBoard(Integer.toString(model.getGridSize()), false, true);
+
+					
 						boardActions();
 						markCheckBoxAction();
 					}				
@@ -386,12 +377,12 @@ public class GameController {
 				}
 			}
 		});
-		view.getNewMenuOption().addActionListener((actionEvent)->{newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false);});
+		view.getNewMenuOption().addActionListener((actionEvent)->{newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false, false);});
 		
 		view.getResetMenuOption().addActionListener((actionEvent)->{resetBoard();});
 		
 		view.getSolveMenuOption().addActionListener((actionEvent)->{
-			view.setRows(model.getRow());
+			view.setViewRows(model.getRow());
 			view.solveBoard(model.getGridSize());}
 		);
 		
@@ -509,7 +500,7 @@ public class GameController {
 		instructionsActions();
 	}
 	
-	private void newPlayBoard(String options, boolean isDefault) {
+	private void newPlayBoard(String options, boolean isDefault, boolean readingFile) {
 		int maxPossible;
 		model.setCurrentValid(0);
         model.setGameFinished(false);
@@ -522,30 +513,50 @@ public class GameController {
 	        view.getTimerCounter().setText("00:00");
 	    }
 		
-		switch (options) {
-		case "5x5":
+		if (options.equals("5x5") || options.equals("5")) {
 			model.setGridSize(5);
-			break;
-			
-		case "6x6":
+		}
+		if (options.equals("6x6") || options.equals("6")) {
 			model.setGridSize(6);
-			break;
-			
-		case "7x7":
+		}
+		if (options.equals("7x7") || options.equals("7")) {
 			model.setGridSize(7);
-			break;
 		}
 		
-		maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
-		view.setViewRows(model.generateRows(maxPossible, isDefault));
-		view.setViewCols(model.generateCols());
-		view.setViewRowLabels(model.rowLabel());
-		view.setViewColLabels(model.colLabel());
-		view.getPicrossWindow().remove(view.getBoardPanel());
-		view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-		view.getBoardPanel().revalidate();
-		boardActions();
-		markCheckBoxAction();
+		if (readingFile) {
+			System.out.println("Reading file...");
+			view.setViewRows(model.getRow());
+			System.out.println("rows in view");
+			for (int i = 0; i < model.gridSize; i++) {
+				System.out.println("i: "+ i + "   "+ view.getViewRows()[i]);
+			}
+			view.setViewRowLabels(new String[model.gridSize]);
+			view.setViewColLabels(new String[model.gridSize]);
+
+			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
+			//view.setViewRows(model.generateRows(maxPossible, isDefault));
+			view.setViewCols(model.generateCols());
+			view.setViewRowLabels(model.rowLabel());
+			view.setViewColLabels(model.colLabel());
+			view.getPicrossWindow().remove(view.getBoardPanel());
+			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getBoardPanel().revalidate();
+			boardActions();
+			markCheckBoxAction();
+		}
+		else {
+			maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
+			view.setViewRows(model.generateRows(maxPossible, isDefault));
+			view.setViewCols(model.generateCols());
+			view.setViewRowLabels(model.rowLabel());
+			view.setViewColLabels(model.colLabel());
+			view.getPicrossWindow().remove(view.getBoardPanel());
+			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getBoardPanel().revalidate();
+			boardActions();
+			markCheckBoxAction();
+		}
+
 	}
 	private void newDesignBoard(String options) {
 		if (options.equals("5x5") || options.equals("5")) {
@@ -555,7 +566,7 @@ public class GameController {
 			model.setGridSize(6);
 		}
 		if (options.equals("7x7") || options.equals("7")) {
-			model.setGridSize(6);
+			model.setGridSize(7);
 		}
 		
 		view.setViewRowLabels(model.rowLabelDesign());
@@ -571,7 +582,7 @@ public class GameController {
 	// causing problems with design
 	private void changeGridSize(String options) {
 		if (model.getGameMode() == 1){
-			newPlayBoard(options, true);
+			newPlayBoard(options, true, false);
 			if (model.isGameStarted() == false) {
 				return;
 			}

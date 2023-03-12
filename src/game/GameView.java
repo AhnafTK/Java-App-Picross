@@ -41,7 +41,6 @@ public class GameView {
 	/** 2d-button array for the grid */
 	private JButton[][] buttons;
 	
-	private String [] rows;
 	Color tile_color = new Color(17, 15, 15);
 	Color mark_color = new Color(226, 222, 222);
 	Color err_color = Color.red;
@@ -438,7 +437,9 @@ public class GameView {
 		rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(gridSize, 1));
 		rowPanel.setPreferredSize(new Dimension(75, 0));
-		
+		System.out.println("GridSize = " + gridSize);
+		System.out.println("viewRowLabels size = " + viewRowLabels.length);
+
 		for(int i = 0; i< gridSize; i++) {
 			JLabel rowLabel = new JLabel(viewRowLabels[i],SwingConstants.CENTER);
 			rowPanel.add(rowLabel);
@@ -458,7 +459,8 @@ public class GameView {
 		colPanel.setLayout(new GridLayout(1, gridSize + 1));
 		colPanel.setPreferredSize(new Dimension(0, 75));
 		colPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(17, 15, 15)));
-
+		System.out.println("GridSize = " + gridSize);
+		System.out.println("viewColLabels size = " + viewColLabels.length);
 		for(int i = 0; i< gridSize; i++) {
 			JLabel colLabel = new JLabel(viewColLabels[i], SwingConstants.CENTER);
 			colPanel.add(colLabel);
@@ -673,7 +675,7 @@ public class GameView {
 	protected void solveBoard(int gridSize) {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				if (getRows()[i].charAt(j) == '1') {
+				if (viewRows[i].charAt(j) == '1') {
 					buttons[i][j].setBackground(Color.black);
 					buttons[i][j].setEnabled(false);
 				}
@@ -718,13 +720,7 @@ public class GameView {
 		
 	}
 
-	public String [] getRows() {
-		return rows;
-	}
 
-	public void setRows(String [] rows) {
-		this.rows = rows;
-	}
 	
 	/**
 	 * @return the viewRowLabels

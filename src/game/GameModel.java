@@ -44,7 +44,7 @@ public class GameModel {
 	String[][] designBoard;
 
 	private String[] row;
-	String[] col;
+	private String[] col;
 	String[] rowLabels;
 	String[] colLabels;
 	
@@ -226,7 +226,7 @@ public class GameModel {
 		totalValid = 0;
 		for (int a = 0; a < gridSize; a++) {
 			for (int b = 0; b < gridSize; b++) {
-				if (getRow()[a].charAt(b) == '1') { // if 1
+				if (row[a].charAt(b) == '1') { // if 1
 					totalValid++;
 				}
 			}
@@ -252,14 +252,26 @@ public class GameModel {
 	}
 	
 	protected void readFile(Scanner fileReader) {
+		// get gridsize first
+		int fileGridSize = fileReader.nextInt();
+		gridSize = fileGridSize;
+		System.out.println("GRIDSIZE " + gridSize);
+		row = new String[fileGridSize];
+		fileReader.nextLine();
 		for (int i = 0; i < gridSize; i++) {
-			getRow()[i] = fileReader.nextLine();
+			row[i] = fileReader.nextLine();
+			System.out.println("Row at i " + row[i]);
 		}
 		if(fileReader.hasNextLine()) {
-			setBestScore(fileReader.nextInt());
-			System.out.println("Best Score: " + getBestScore());
-			setBestTime(fileReader.nextInt());	//Has to be fixed for grid sizes
-			System.out.println("Best Time: " + getBestTime());
+			///setBestScore(fileReader.nextInt());
+			//System.out.println("Best Score: " + getBestScore());
+			//setBestTime(fileReader.nextInt());	//Has to be fixed for grid sizes
+			//System.out.println("Best Time: " + getBestTime());
+		}
+		System.out.println("model row is now: ");
+		for (int i = 0; i < gridSize; i++) {
+			System.out.println(row[i]);
+
 		}
 	}
 	
@@ -339,7 +351,11 @@ public class GameModel {
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				colVal = colVal + getRow()[l].charAt(k);
+				System.out.println("K " + k);
+				System.out.println("L " + l);
+				System.out.println(row[l].charAt(k));
+
+				colVal = colVal + row[l].charAt(k);
 			}
 			col[k] = colVal;
 		}
