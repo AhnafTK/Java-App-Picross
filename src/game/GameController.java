@@ -361,13 +361,23 @@ public class GameController {
 					Scanner fileReader = new Scanner(file);
 					
 					if(file.isFile()) {
-						model.readFile(fileReader);
-						//changeGridSize(Integer.toString((model.getGridSize())));
-						newPlayBoard(Integer.toString(model.getGridSize()), false, true);
-
+						if (model.gameMode == 1) {
+							model.readFile(fileReader);
+							//changeGridSize(Integer.toString((model.getGridSize())));
+							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
+							view.getGridSizeCmbo().setSelectedIndex(model.getGridSize() - 5); // -5 because 5 is the smallest size. so if we chose 7, 7-5 = index 2 in the cmbo
+						}
+						else {
+							model.readFileForDesign(fileReader);
+							newDesignBoard(Integer.toString(model.getGridSize()));
+							view.getGridSizeCmbo().setSelectedIndex(model.getGridSize() - 5);
+							//view.setViewRows(model.returnRows());
+							//view.solveBoard(model.getGridSize());
+						}
 					
 						boardActions();
 						markCheckBoxAction();
+						
 					}				
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -535,12 +545,21 @@ public class GameController {
 
 			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
 			//view.setViewRows(model.generateRows(maxPossible, isDefault));
+			
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
-			view.getPicrossWindow().remove(view.getBoardPanel());
-			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-			view.getBoardPanel().revalidate();
+			if (model.getGameMode() == 1){
+				view.getPicrossWindow().remove(view.getBoardPanel());
+				view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+				view.getBoardPanel().revalidate();
+			}
+			else {
+				view.getDesignWindow().remove(view.getBoardPanel());
+				view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+				view.getDesignWindow().revalidate();
+			}
+
 			boardActions();
 			markCheckBoxAction();
 		}
