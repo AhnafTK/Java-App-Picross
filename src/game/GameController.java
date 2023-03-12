@@ -554,7 +554,7 @@ public class GameController {
 		if (options.equals("6x6") || options.equals("6")) {
 			model.setGridSize(6);
 		}
-		if (options.equals("6x6") || options.equals("6")) {
+		if (options.equals("7x7") || options.equals("7")) {
 			model.setGridSize(6);
 		}
 		
