@@ -388,11 +388,23 @@ public class GameController {
 			view.solveBoard(model.getGridSize());}
 		);
 		
-		view.getFiveFive().addActionListener((actionEvent)->{changeGridSize("5x5");});
+		view.getFiveFive().addActionListener((actionEvent)->{
+				changeGridSize("5x5");
+				view.getGridSizeCmbo().setSelectedIndex(0); // set the selected on the combo box to correct one.
+			}
+		);
 		
-		view.getSixSix().addActionListener((actionEvent)->{changeGridSize("6x6");});
+		view.getSixSix().addActionListener((actionEvent)->{
+				changeGridSize("6x6");
+				view.getGridSizeCmbo().setSelectedIndex(1);
+			}
+		);
 		
-		view.getSevSev().addActionListener((actionEvent)->{changeGridSize("7x7");});
+		view.getSevSev().addActionListener((actionEvent)->{
+			changeGridSize("7x7");
+			view.getGridSizeCmbo().setSelectedIndex(2);
+}
+		);
 		
 		view.getToLauncherMenuOption().addActionListener((actionEvent)->{backToLauncher();});
 		
