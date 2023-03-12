@@ -475,7 +475,10 @@ public class GameController {
 	        model.setGameFinished(false);
 	        view.getTimerCounter().setText("00:00");
 		}
-		//newDesignBoard(Integer.toString(model.getGridSize()));
+		if (model.getGameMode() == 0) {
+			newDesignBoard(Integer.toString(model.getGridSize()));
+
+		}
 	    view.resetBoard();
 	}
 	
