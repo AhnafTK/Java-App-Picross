@@ -233,6 +233,16 @@ public class GameModel {
 		}
 	}
 	
+	protected String writeDesignPattern() {
+		String pattern = "";
+		for (int i = 0; i< gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				pattern = pattern + designBoard[i][j];
+			}
+			pattern = pattern + "\n";
+		}
+		return pattern;
+	}
 	protected String writePattern() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
@@ -354,6 +364,11 @@ public class GameModel {
 	}
 	void makeDesignBoard(int gridSize) {
 		designBoard = new String[gridSize][gridSize];
+		for (int i = 0; i< gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				designBoard[i][j] = "0";
+			}
+		}
 	}
 	
 	String updateRow(int i, int j) {

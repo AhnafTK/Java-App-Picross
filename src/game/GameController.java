@@ -307,9 +307,9 @@ public class GameController {
 	private void menuBarActions() {
 	
 		view.getSaveMenuOption().addActionListener((actionEvent)->{
-			if (model.gameMode == 0) {
-				model.setRow(new String[model.gridSize]);
-			}
+			//if (model.gameMode == 0) {
+				//model.setRow(new String[model.gridSize]);
+			//}
 		
 			JFileChooser fileChooser = new JFileChooser();
 			fileChooser.setCurrentDirectory(new File("."));
@@ -320,11 +320,18 @@ public class GameController {
 				try {
 					BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
 					
-					fileWriter.write(model.writePattern());
-					if (model.getGameFinished() == true) {
-						fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
-						fileWriter.write(Integer.toString(model.getBestTime()));
+					if (model.gameMode == 0) {
+						fileWriter.write(model.writeDesignPattern());
+
 					}
+					else {
+						fileWriter.write(model.writePattern());
+						if (model.getGameFinished() == true) {
+							fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
+							fileWriter.write(Integer.toString(model.getBestTime()));
+						}
+					}
+					
 					fileWriter.close(); 
 					
 				} catch (FileNotFoundException e) {
