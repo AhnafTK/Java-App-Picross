@@ -252,6 +252,7 @@ public class GameModel {
 	}
 	
 	protected void readFile(Scanner fileReader) {
+		System.out.println("READING FILE FOR PLAY");
 		// get gridsize first
 		int fileGridSize = fileReader.nextInt();
 		gridSize = fileGridSize;
@@ -273,6 +274,41 @@ public class GameModel {
 			System.out.println(row[i]);
 
 		}
+	}
+	
+	protected void readFileDesign(Scanner fileReader) {
+		System.out.println("READING FILE FOR DESIGN");
+		// get gridsize first
+		int fileGridSize = fileReader.nextInt();
+		gridSize = fileGridSize;
+		designBoard = new String[gridSize][gridSize];
+		
+		System.out.println("DESIGN BOARD SIZE CHANGED FROM FILE NOW = " + gridSize);
+		
+		row = new String[fileGridSize];
+		fileReader.nextLine();
+		
+		for (int i = 0; i< gridSize; i++) {
+			row[i] = fileReader.nextLine();
+			for (int j = 0; j < gridSize; j++) {
+				designBoard[i][j] = String.valueOf(row[i].charAt(j));
+				///System.out.print(designBoard[i][j]);
+			}
+		}
+		
+		System.out.println("model row is now(DESIGN): ");
+		for (int i = 0; i < gridSize; i++) {
+			System.out.println(row[i]);
+
+		}
+		
+		System.out.println("model designBoard is now(DESIGN): ");
+		for (int i = 0; i< gridSize; i++) {
+			for (int j = 0; j < gridSize; j++) {
+				System.out.print(designBoard[i][j]);
+			}
+		}
+		
 	}
 	
 	protected String intToBinary(int value) {
@@ -403,7 +439,7 @@ public class GameModel {
 	
 	String updateCol(int i, int j) {
 		StringBuilder builder = new StringBuilder();
-		
+		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === "+designBoard.length);
 		for(int k = 0; k < gridSize; k++) {
 			if(designBoard[k][j]!=null) {
 			builder.append(designBoard[k][j]);

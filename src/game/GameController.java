@@ -116,6 +116,7 @@ public class GameController {
 							// in design mode
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
+									model.updateDesignBoard(i, j);
 									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
 									view.updateDesignRow("0", i);
 									view.updateDesignCol("0", j);
@@ -361,13 +362,22 @@ public class GameController {
 					Scanner fileReader = new Scanner(file);
 					
 					if(file.isFile()) {
-						model.readFile(fileReader);
 						//changeGridSize(Integer.toString((model.getGridSize())));
 						if (model.gameMode == 1) {
+							model.readFile(fileReader);
 							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
 						}
 						else {
+							model.readFileDesign(fileReader);
 							newDesignBoard(Integer.toString(model.getGridSize()),true);
+							for (int i = 0; i < model.gridSize; i++) {
+								for (int j = 0; j < model.gridSize; j++) {
+									if (model.designBoard[i][j].equals("1")) {
+										view.getButtons()[i][j].setBackground(Color.black);
+										view.getButtons()[i][j].setEnabled(false);
+									}
+								}
+							}
 						}
 						boardActions();
 						markCheckBoxAction();
@@ -588,8 +598,18 @@ public class GameController {
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
+			System.out.println("view rows");
 			for (int i = 0; i < model.gridSize; i++) {
 				System.out.println("i: "+ i + "   "+ view.getViewRows()[i]);
+			}
+			
+			System.out.println("design board LENGTH in newDesignBoard " + model.designBoard.length);
+
+			System.out.println("design board in newDesignBoard");
+			for (int i = 0; i< model.gridSize; i++) {
+				for (int j = 0; j < model.gridSize; j++) {
+					System.out.print(model.designBoard[i][j]);
+				}
 			}
 			view.getDesignWindow().remove(view.getBoardPanel());
 			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
