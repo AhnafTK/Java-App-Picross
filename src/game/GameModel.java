@@ -264,10 +264,10 @@ public class GameModel {
 			System.out.println("Row at i " + row[i]);
 		}
 		if(fileReader.hasNextLine()) {
-			///setBestScore(fileReader.nextInt());
-			//System.out.println("Best Score: " + getBestScore());
-			//setBestTime(fileReader.nextInt());	//Has to be fixed for grid sizes
-			//System.out.println("Best Time: " + getBestTime());
+			setBestScore(fileReader.nextInt());
+			System.out.println("Best Score: " + getBestScore());
+			setBestTime(fileReader.nextInt());
+			System.out.println("Best Time: " + getBestTime());
 		}
 		System.out.println("model row is now: ");
 		for (int i = 0; i < gridSize; i++) {

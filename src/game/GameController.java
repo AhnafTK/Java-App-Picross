@@ -92,8 +92,19 @@ public class GameController {
 		markCheckBoxAction(); // checkbox features
 		newPlayBoard("5x5",true, false);
 		menuBarActions();
+		gameOverActions();
 	}
 
+	private void gameOverActions() {
+//		view.getGameCompleteSave().addActionListener((actionEvent) -> {
+//
+//		});
+//		
+//		view.getGameCompleteClose().addActionListener((actionEvent) -> {
+//
+//		});
+	}
+	
 	private void instructionsActions() {
 		view.getInstructionsBack().addActionListener((actionEvent) -> {
 			view.getInstructionsWindow().dispose();
@@ -151,7 +162,12 @@ public class GameController {
 											model.setBestScore(model.getScore());
 											model.setBestTime(model.timerToSeconds());
 									        model.setGameFinished(true);
-											view.gameCompleted();
+								        	for (int a = 0; a < model.getGridSize(); a++) {
+												for (int b = 0; b < model.getGridSize(); b++) {
+													view.getButtons()[a][b].setEnabled(false);
+												}
+								        	}
+											view.gameCompleted(model.getCurrentLocale(), model.getLangText(), model.getBestScore(), model.getBestTime());
 										}
 									}
 									else {

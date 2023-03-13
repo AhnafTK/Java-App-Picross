@@ -56,6 +56,8 @@ public class GameView {
 	private JButton[][] buttonsDesign;
 	private JButton playToLauncher;
 	private JButton newGridButton;
+	private JButton gameCompleteSave;
+	private JButton gameCompleteClose;
 	
 	/** Radio button to change the language to English */
 	private JRadioButton engRadio;
@@ -71,7 +73,9 @@ public class GameView {
 	private JCheckBox markCheckBox;
 	private JTextField scoreCounter;
 	private JTextField timerCounter;
-	
+	private JTextField nameTextField;
+	private JTextField bestTimeTextField;
+	private JTextField bestScoreTextField;
 
 
 	/** Boolean for the mark mode, false by default */
@@ -90,6 +94,9 @@ public class GameView {
 	/** Label for the score */
 	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
 	private JLabel scoreLabel;
+	private JLabel userNameLabel;
+	private JLabel bestTimeLabel;
+	private JLabel bestScoreLabel;
 	/** Label for the grid size */
 	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
 	private JLabel gridSizeLabel;
@@ -518,6 +525,11 @@ public class GameView {
 			timerLabel.setText((langText.getString("timer")));
 			scoreLabel.setText(langText.getString("score"));
 			colourLabel.setText(langText.getString("colorScheme"));
+			userNameLabel.setText(langText.getString("user_name"));
+			bestTimeLabel.setText(langText.getString("best_time"));
+			bestScoreLabel.setText(langText.getString("best_score"));
+			gameCompleteSave.setText(langText.getString("save"));
+			gameCompleteClose.setText(langText.getString("back"));
 		}
 
 		gridSizeLabel.setText(langText.getString("gridSize"));
@@ -629,14 +641,97 @@ public class GameView {
 		picrossWindow.setLocationRelativeTo(null);
 	}
 
-	protected void gameCompleted() {
+	protected void gameCompleted(Locale currentlocale, ResourceBundle langText, int bestScore, int bestTime) {
 		gameCompleteWindow = new JFrame();
+		gameCompleteWindow.setLayout(new BorderLayout());
+
+		JPanel titlePanel = new JPanel();
+		ImageIcon titleLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
+		JLabel titleLabel = new JLabel();
+		titleLabel.setIcon(titleLogo);
+		titlePanel.setPreferredSize(new Dimension(525, 125));
+		titlePanel.add(titleLabel);
 		
+		JPanel namePanel = new JPanel();
+		namePanel.setPreferredSize(new Dimension(275, 35));
+
+		userNameLabel = new JLabel(langText.getString("user_name"), SwingConstants.CENTER);
+		userNameLabel.setPreferredSize(new Dimension(110, 25));
+		nameTextField = new JTextField();
+		nameTextField.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		nameTextField.setPreferredSize(new Dimension(125, 25));
+		
+		namePanel.add(userNameLabel);
+		namePanel.add(nameTextField);
+		
+		JPanel bestScorePanel = new JPanel();
+		bestScorePanel.setPreferredSize(new Dimension(275, 35));
+		bestScoreLabel = new JLabel(langText.getString("best_score"), SwingConstants.CENTER);
+		bestScoreLabel.setPreferredSize(new Dimension(110, 25));
+		bestScoreTextField = new JTextField();
+		bestScoreTextField.setText(Integer.toString(bestScore));
+		bestScoreTextField.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		bestScoreTextField.setBackground(Color.WHITE);
+		bestScoreTextField.setPreferredSize(new Dimension(125, 25));
+		bestScoreTextField.setEditable(false);
+		
+		bestScorePanel.add(bestScoreLabel);
+		bestScorePanel.add(bestScoreTextField);
+		
+		JPanel bestTimePanel = new JPanel();
+		bestTimePanel.setPreferredSize(new Dimension(275, 35));
+
+		bestTimeLabel = new JLabel(langText.getString("best_time"), SwingConstants.CENTER);
+		bestTimeLabel.setPreferredSize(new Dimension(110, 25));
+		bestTimeTextField = new JTextField();
+		bestTimeTextField.setText(Integer.toString(bestTime) + " Seconds");
+		bestTimeTextField.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		bestTimeTextField.setBackground(Color.WHITE);
+		bestTimeTextField.setPreferredSize(new Dimension(125, 25));
+		bestTimeTextField.setEditable(false);
+		
+		bestTimePanel.add(bestTimeLabel);
+		bestTimePanel.add(bestTimeTextField);
+		
+		JPanel statsPanel = new JPanel();
+		statsPanel.setPreferredSize(new Dimension(300, 200));
+		statsPanel.add(namePanel);
+		statsPanel.add(bestScorePanel);
+		statsPanel.add(bestTimePanel);
+
+		gameCompleteSave = new JButton(langText.getString("save"));
+		gameCompleteSave.setPreferredSize(new Dimension(100, 30));
+		gameCompleteSave.setBackground(Color.WHITE);
+//		if (nameTextField.getText().isBlank()) {
+//			gameCompleteSave.setEnabled(false);
+//		}
+//		else {
+//			gameCompleteSave.setEnabled(true);
+//		}
+		
+		gameCompleteClose = new JButton(langText.getString("back"));
+		gameCompleteClose.setPreferredSize(new Dimension(100, 30));
+		gameCompleteClose.setBackground(Color.WHITE);
+		
+		JPanel gameOverRightPanel = new JPanel();
+		gameOverRightPanel.setPreferredSize(new Dimension(210, 200));
+		
+		JPanel gameOverButtonPanel = new JPanel();
+		gameOverButtonPanel.setPreferredSize(new Dimension(100, 100));
+		gameOverButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+		gameOverButtonPanel.add(gameCompleteSave);
+		gameOverButtonPanel.add(gameCompleteClose);
+		gameOverRightPanel.add(gameOverButtonPanel);
+		
+		gameCompleteWindow.add(titlePanel, BorderLayout.NORTH);
+		gameCompleteWindow.add(statsPanel, BorderLayout.WEST);
+		gameCompleteWindow.add(gameOverRightPanel, BorderLayout.EAST);
 		gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
 		gameCompleteWindow.setResizable(false);
-		gameCompleteWindow.setSize(525, 425);
+		gameCompleteWindow.setSize(525, 300);
 		gameCompleteWindow.setVisible(true);
 		gameCompleteWindow.setLocationRelativeTo(null);
+		
 	}
 	
 	/**
@@ -754,6 +849,33 @@ public class GameView {
 	
 	protected int gridSize = 5;
 	/**
+	 * @return the gameCompleteSave
+	 */
+	protected JButton getGameCompleteSave() {
+		return gameCompleteSave;
+	}
+
+	/**
+	 * @param gameCompleteSave the gameCompleteSave to set
+	 */
+	protected void setGameCompleteSave(JButton gameCompleteSave) {
+		this.gameCompleteSave = gameCompleteSave;
+	}
+
+	/**
+	 * @return the gameCompleteClose
+	 */
+	protected JButton getGameCompleteClose() {
+		return gameCompleteClose;
+	}
+
+	/**
+	 * @param gameCompleteClose the gameCompleteClose to set
+	 */
+	protected void setGameCompleteClose(JButton gameCompleteClose) {
+		this.gameCompleteClose = gameCompleteClose;
+	}
+	/**
 	 * @return the instructionsButton
 	 */
 	protected JButton getInstructionsButton() {
@@ -788,6 +910,20 @@ public class GameView {
 		return designWindow;
 	}
 
+	/**
+	 * @return the gameCompleteWindow
+	 */
+	protected JFrame getGameCompleteWindow() {
+		return gameCompleteWindow;
+	}
+
+	/**
+	 * @param gameCompleteWindow the gameCompleteWindow to set
+	 */
+	protected void setGameCompleteWindow(JFrame gameCompleteWindow) {
+		this.gameCompleteWindow = gameCompleteWindow;
+	}
+	
 	/**
 	 * @param designWindow the designWindow to set
 	 */
