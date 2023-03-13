@@ -16,6 +16,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -92,17 +93,22 @@ public class GameController {
 		markCheckBoxAction(); // checkbox features
 		newPlayBoard("5x5",true, false);
 		menuBarActions();
-		gameOverActions();
 	}
 
 	private void gameOverActions() {
-//		view.getGameCompleteSave().addActionListener((actionEvent) -> {
-//
-//		});
-//		
-//		view.getGameCompleteClose().addActionListener((actionEvent) -> {
-//
-//		});
+		view.getNameTextField().addActionListener((actionEvent) -> {
+			if (!(view.getNameTextField().getText().isBlank())) {
+				model.setUsername(view.getNameTextField().getText());
+			}
+		});
+		
+		view.getGameCompleteSave().addActionListener((actionEvent) -> {
+			saveGameActions();
+		});
+		
+		view.getGameCompleteClose().addActionListener((actionEvent) -> {
+			view.getGameCompleteWindow().dispose();
+		});
 	}
 	
 	private void instructionsActions() {
@@ -167,7 +173,10 @@ public class GameController {
 													view.getButtons()[a][b].setEnabled(false);
 												}
 								        	}
+								        	model.setUsername(null);
 											view.gameCompleted(model.getCurrentLocale(), model.getLangText(), model.getBestScore(), model.getBestTime());
+											gameOverActions();
+										    JOptionPane.showMessageDialog(view.getGameCompleteWindow(),"Make sure you click 'enter' to successfully input a username in the text field.");  
 										}
 									}
 									else {
@@ -321,46 +330,51 @@ public class GameController {
 
 	}
 	
-	private void menuBarActions() {
+	private void saveGameActions() {
+		//if (model.gameMode == 0) {
+		//model.setRow(new String[model.gridSize]);
+	//}
+
+	JFileChooser fileChooser = new JFileChooser();
+	fileChooser.setCurrentDirectory(new File("."));
 	
-		view.getSaveMenuOption().addActionListener((actionEvent)->{
-			//if (model.gameMode == 0) {
-				//model.setRow(new String[model.gridSize]);
-			//}
-		
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setCurrentDirectory(new File("."));
-			
-			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());			
-			
-				try {
-					BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-					fileWriter.write(model.gridSize + "\n");
+	if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+		File file = new File(fileChooser.getSelectedFile().getAbsolutePath());			
+	
+		try {
+			BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
+			fileWriter.write(model.gridSize + "\n");
 
-					if (model.gameMode == 0) {
-						fileWriter.write(model.writeDesignPattern());
+			if (model.gameMode == 0) {
+				fileWriter.write(model.writeDesignPattern());
 
+			}
+			else {
+				fileWriter.write(model.writePattern());
+				if (model.getGameFinished() == true) {
+					fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
+					fileWriter.write(Integer.toString(model.getBestTime()) + "\n");
+					if(model.getUsername() != null) {
+						fileWriter.write(model.getUsername());	
 					}
-					else {
-						fileWriter.write(model.writePattern());
-						if (model.getGameFinished() == true) {
-							fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
-							fileWriter.write(Integer.toString(model.getBestTime()));
-						}
-					}
-					
-					fileWriter.close(); 
-					
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 			
-		});
+			fileWriter.close(); 
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+			
+	}
+	
+	private void menuBarActions() {
+	
+		view.getSaveMenuOption().addActionListener((actionEvent)->{saveGameActions();});
 		
 		view.getLoadMenuOption().addActionListener((actionEvent)->{
 			if (model.gameMode == 0) {
@@ -395,8 +409,8 @@ public class GameController {
 								}
 							}
 						}
-						boardActions();
-						markCheckBoxAction();
+//						boardActions();
+//						markCheckBoxAction();
 					}				
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

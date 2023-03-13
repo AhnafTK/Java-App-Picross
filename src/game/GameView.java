@@ -815,8 +815,20 @@ public class GameView {
 		//{"0","0","0","0","0"};
 		
 	}
-
-
+	
+	/**
+	 * @return the nameTextField
+	 */
+	public JTextField getNameTextField() {
+		return nameTextField;
+	}
+	
+	/**
+	 * @param nameTextField the nameTextField to set
+	 */
+	public void setNameTextField(JTextField nameTextField) {
+		this.nameTextField= nameTextField;
+	}
 	
 	/**
 	 * @return the viewRowLabels

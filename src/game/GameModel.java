@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class GameModel {
@@ -33,6 +34,8 @@ public class GameModel {
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
 
+	protected String username;
+	
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
 	protected boolean gameFinished = false;
@@ -63,6 +66,20 @@ public class GameModel {
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+	}
+	
+	/**
+	 * @return the username
+	 */
+	protected String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	protected void setUsername(String username) {
+		this.username = username;
 	}
 	
 	/**
@@ -268,6 +285,17 @@ public class GameModel {
 			System.out.println("Best Score: " + getBestScore());
 			setBestTime(fileReader.nextInt());
 			System.out.println("Best Time: " + getBestTime());
+			if(fileReader.hasNextLine()) {
+				if(fileReader.nextLine().isBlank()) {
+				    JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());  		
+				}
+				else{
+					// having troubles reading the username
+					setUsername(fileReader.nextLine());
+					System.out.println("Username: " + getUsername());
+				    JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: " + getBestScore() + "\nBest Time: " + getBestTime());  	
+				}
+			}
 		}
 		System.out.println("model row is now: ");
 		for (int i = 0; i < gridSize; i++) {
@@ -387,9 +415,9 @@ public class GameModel {
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				System.out.println("K " + k);
-				System.out.println("L " + l);
-				System.out.println(row[l].charAt(k));
+				//System.out.println("K " + k);
+				//System.out.println("L " + l);
+				//System.out.println(row[l].charAt(k));
 
 				colVal = colVal + row[l].charAt(k);
 			}
