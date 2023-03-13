@@ -116,10 +116,9 @@ public class GameController {
 							// in design mode
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
-									model.updateDesignBoard(i, j);
 									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
-									view.updateDesignRow("0", i);
-									view.updateDesignCol("0", j);
+									//view.updateDesignRow("0", i);
+									//view.updateDesignCol("0", j);
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
@@ -128,8 +127,9 @@ public class GameController {
 									String newCol = model.updateCol(i, j);
 									view.updateDesignRow(newRow, i);
 									view.updateDesignCol(newCol, j);
+									view.getButtons()[i][j].setEnabled(false);
+
 								}
-								view.getButtons()[i][j].setEnabled(false);
 							}
 							// in play mode
 							else {
@@ -320,9 +320,9 @@ public class GameController {
 			
 				try {
 					BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-					
+					fileWriter.write(model.gridSize + "\n");
+
 					if (model.gameMode == 0) {
-						fileWriter.write(model.gridSize + "\n");
 						fileWriter.write(model.writeDesignPattern());
 
 					}
