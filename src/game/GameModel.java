@@ -251,30 +251,6 @@ public class GameModel {
 		return pattern;
 	}
 	
-	protected void readFileForDesign(Scanner fileReader) {
-		int fileGridSize = fileReader.nextInt();
-		gridSize = fileGridSize;
-		System.out.println("GRIDSIZE " + gridSize);
-		designBoard = new String[gridSize][gridSize];
-		fileReader.nextLine();
-		for (int i = 0; i < gridSize; i++) {
-			String currentLine = fileReader.nextLine();
-			System.out.println(currentLine);
-			for (int j = 0; j < gridSize; j++) {
-				designBoard[i][j] = String.valueOf(currentLine.charAt(j));
-				//System.out.println(fileReader.next().charAt(j));
-				//designBoard[i][j] = String.valueOf(fileReader.next().charAt(j));
-			}
-		}
-		System.out.println("design board after reading");
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				System.out.println(designBoard[i][j]);
-
-			}
-		}
-		
-	}
 	protected void readFile(Scanner fileReader) {
 		// get gridsize first
 		int fileGridSize = fileReader.nextInt();

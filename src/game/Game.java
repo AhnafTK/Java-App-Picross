@@ -19,7 +19,6 @@ public class Game extends JFrame{
 		GameController controller = new GameController(model,view);
 		controller.startController();
 		
-		
 	}
 	
 }

@@ -361,23 +361,16 @@ public class GameController {
 					Scanner fileReader = new Scanner(file);
 					
 					if(file.isFile()) {
+						model.readFile(fileReader);
+						//changeGridSize(Integer.toString((model.getGridSize())));
 						if (model.gameMode == 1) {
-							model.readFile(fileReader);
-							//changeGridSize(Integer.toString((model.getGridSize())));
 							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
-							view.getGridSizeCmbo().setSelectedIndex(model.getGridSize() - 5); // -5 because 5 is the smallest size. so if we chose 7, 7-5 = index 2 in the cmbo
 						}
 						else {
-							model.readFileForDesign(fileReader);
-							newDesignBoard(Integer.toString(model.getGridSize()));
-							view.getGridSizeCmbo().setSelectedIndex(model.getGridSize() - 5);
-							//view.setViewRows(model.returnRows());
-							//view.solveBoard(model.getGridSize());
+							newDesignBoard(Integer.toString(model.getGridSize()),true);
 						}
-					
 						boardActions();
 						markCheckBoxAction();
-						
 					}				
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -496,7 +489,7 @@ public class GameController {
 	        view.getTimerCounter().setText("00:00");
 		}
 		if (model.getGameMode() == 0) {
-			newDesignBoard(Integer.toString(model.getGridSize()));
+			newDesignBoard(Integer.toString(model.getGridSize()),false);
 
 		}
 	    view.resetBoard();
@@ -545,21 +538,12 @@ public class GameController {
 
 			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
 			//view.setViewRows(model.generateRows(maxPossible, isDefault));
-			
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
-			if (model.getGameMode() == 1){
-				view.getPicrossWindow().remove(view.getBoardPanel());
-				view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-				view.getBoardPanel().revalidate();
-			}
-			else {
-				view.getDesignWindow().remove(view.getBoardPanel());
-				view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-				view.getDesignWindow().revalidate();
-			}
-
+			view.getPicrossWindow().remove(view.getBoardPanel());
+			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getBoardPanel().revalidate();
 			boardActions();
 			markCheckBoxAction();
 		}
@@ -577,7 +561,8 @@ public class GameController {
 		}
 
 	}
-	private void newDesignBoard(String options) {
+	private void newDesignBoard(String options, boolean readingFile) {
+		
 		if (options.equals("5x5") || options.equals("5")) {
 			model.setGridSize(5);
 		}
@@ -588,14 +573,40 @@ public class GameController {
 			model.setGridSize(7);
 		}
 		
-		view.setViewRowLabels(model.rowLabelDesign());
-		view.setViewColLabels(model.colLabelDesign());
-		view.getDesignWindow().remove(view.getBoardPanel());
-		view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
-		view.getBoardPanel().revalidate();
-		model.makeDesignBoard(model.getGridSize());
-		boardActions();
-		markCheckBoxAction();
+		if (readingFile) {
+			System.out.println("Reading file...");
+			view.setViewRows(model.getRow());
+			System.out.println("rows in view");
+			for (int i = 0; i < model.gridSize; i++) {
+				System.out.println("i: "+ i + "   "+ view.getViewRows()[i]);
+			}
+			view.setViewRowLabels(new String[model.gridSize]);
+			view.setViewColLabels(new String[model.gridSize]);
+
+			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
+			//view.setViewRows(model.generateRows(maxPossible, isDefault));
+			view.setViewCols(model.generateCols());
+			view.setViewRowLabels(model.rowLabel());
+			view.setViewColLabels(model.colLabel());
+			for (int i = 0; i < model.gridSize; i++) {
+				System.out.println("i: "+ i + "   "+ view.getViewRows()[i]);
+			}
+			view.getDesignWindow().remove(view.getBoardPanel());
+			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getDesignWindow().revalidate();
+			boardActions();
+			markCheckBoxAction();
+		}
+		else {
+			view.setViewRowLabels(model.rowLabelDesign());
+			view.setViewColLabels(model.colLabelDesign());
+			view.getDesignWindow().remove(view.getBoardPanel());
+			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
+			view.getBoardPanel().revalidate();
+			model.makeDesignBoard(model.getGridSize());
+			boardActions();
+			markCheckBoxAction();
+		}
 		
 	}
 	// causing problems with design
@@ -612,7 +623,7 @@ public class GameController {
 			}
 		}
 		else {
-			newDesignBoard(options);
+			newDesignBoard(options, false);
 		}
 	}
 }

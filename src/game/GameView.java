@@ -433,6 +433,7 @@ public class GameView {
 	 ********************************************************************
 	 */
 	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
+		System.out.println("making board panel");
 		boardPanel = new JPanel();
 		rowPanel = new JPanel();
 		rowPanel.setLayout(new GridLayout(gridSize, 1));
