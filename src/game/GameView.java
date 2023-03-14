@@ -166,6 +166,15 @@ public class GameView {
 
 	////////////////////////////////////////////////////////////////
 	
+	/**
+	 ************************************************************************
+	 * Default constructor for the Game class * This is where all of the GUI of the
+	 * game gets handled. *
+	 ************************************************************************
+	 */
+	protected GameView() {
+		
+	}
 	
 	/**
 	 * This method is to make the splash screen JFrame and all its components
@@ -187,7 +196,7 @@ public class GameView {
 		splashWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		splashWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		splashWindow.setResizable(false);
-		splashWindow.setSize(400, 175);
+		splashWindow.setSize(400, 165);
 		splashWindow.setLocationRelativeTo(null);
 		try {
 			Thread.sleep(1000);
@@ -261,16 +270,6 @@ public class GameView {
 		menuBar.add(gameMenuItemsContainer);
 		menuBar.add(helpMenuItemsContainer);
 
-	}
-
-	/**
-	 ************************************************************************
-	 * Default constructor for the Game class * This is where all of the GUI of the
-	 * game gets handled. *
-	 ************************************************************************
-	 */
-	private GameView() {
-		
 	}
 	
 	/**
