@@ -96,12 +96,8 @@ public class GameController {
 	}
 
 	private void gameOverActions() {
-		view.getNameTextField().addActionListener((actionEvent) -> {
-			if (!(view.getNameTextField().getText().isBlank())) {
-				model.setUsername(view.getNameTextField().getText());
-			}
-		});
-		
+
+	
 		view.getGameCompleteSave().addActionListener((actionEvent) -> {
 			saveGameActions();
 		});
@@ -177,7 +173,7 @@ public class GameController {
 								        	model.setUsername(null);
 											view.gameCompleted(model.getCurrentLocale(), model.getLangText(), model.getBestScore(), model.getBestTime());
 											gameOverActions();
-										    JOptionPane.showMessageDialog(view.getGameCompleteWindow(),"Make sure you click 'enter' to successfully input a username in the text field.");  
+										    //JOptionPane.showMessageDialog(view.getGameCompleteWindow(),"Make sure you click 'enter' to successfully input a username in the text field.");  
 										}
 									}
 									else {
@@ -332,9 +328,6 @@ public class GameController {
 	}
 	
 	private void saveGameActions() {
-		//if (model.gameMode == 0) {
-		//model.setRow(new String[model.gridSize]);
-	//}
 
 	JFileChooser fileChooser = new JFileChooser();
 	fileChooser.setCurrentDirectory(new File("."));
@@ -355,6 +348,10 @@ public class GameController {
 				if (model.getGameFinished() == true) {
 					fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
 					fileWriter.write(Integer.toString(model.getBestTime()) + "\n");
+					
+					model.setUsername(view.getNameTextField().getText());
+					//System.out.println("printng name: " + view.getNameTextField().getText());
+					
 					if(model.getUsername() != null) {
 						fileWriter.write(model.getUsername());	
 					}
