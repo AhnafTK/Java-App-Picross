@@ -20,48 +20,58 @@ public class GameModel {
 	protected int gridSize = 5;
 	/** Boolean for the mark mode, false by default */
 	protected boolean markMode = false;
-	/** Int variable to check what the current game mode is, 0=design, 1=play */
+	/*** Instance of timer.*/
 	private Timer timer;
+	/*** Holds the game mode. 0 = design/launcher, 1 = play */
 	private int gameMode = 0;
-	private int scoreNumber = 0;
+	/*** Holds the number of the timer.*/
 	private int timerNumber = 0;
-
+	/*** Holds the total number of valid tiles selected.*/
 	private int totalValid = 0;
+	/*** Holds current number of valid tiles selected.*/
 	private int currentValid = 0;
+	/*** Holds the best time.*/
 	private int bestTime = 0;
+	/*** Holds the best score.*/
 	private int bestScore = 0;
-
+	/*** Holds the score.*/
 	private int score = 0;
-
+	/*** holds seconds and minutes data.*/
 	private int seconds, minutes;
+	/*** Holds second format and minute format.*/
 	private String secFormat, minFormat;
-
+	/*** used to store the user name of the player.*/
 	private String username;
-
-	private int[][] boardPuzzle;
+	/*** Whether game is started or not.*/
 	private boolean gameStarted = false;
+	/*** Whether game is finished or not.*/
 	private boolean gameFinished = false;
-
+	/*** Default int values for the 5x5 grid*/
 	private int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
+	/** Default int values for the 6x6 grid*/
 	private int[] defaultSixBVals = { 51, 18, 0, 33, 18, 12 };
+	/*** Default int values for the 7x7 grid*/
 	private	int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
-
+	/*** Design board. 0's when empty. 1's for when selected.*/
 	private String[][] designBoard;
-
-	private String[] row;
+	/*** Stores values(Binary string) of rows*/
+	private String[] row; 
+	/*** Stores values (binary string) of col*/
 	private String[] col;
+	/** Holds the number of tiles for the row labels*/
 	private String[] rowLabels;
+	/** Holds  the number of tiles for the column labels*/
 	private String[] colLabels;
-
+	/*** Holds the row label numbers for design mode*/
 	private String[] rowLabelsDesign;
+	/*** Holds the col label numbers for design mode*/
 	private String[] colLabelsDesign;
-
+	
 	/**
 	 * Converts the timer to seconds format.
 	 * @return Converted time.
 	 */
 	protected int timerToSeconds() {
-		
 		minutes = getMinutes();
 		seconds = getSeconds();
 		seconds = seconds + (minutes * 60);
@@ -85,14 +95,12 @@ public class GameModel {
 	 * @return Array of string containing the generated labels
 	 */
 	protected String[] rowLabel() {
-
 		rowLabels = new String[gridSize];
 		String currentLabel = "";
 		int increment = 0;
 		// iterate throught the column string and get the labels
 
 		for (int i = 0; i < gridSize; i++) {
-
 			System.out.println("row at i: " + row[i]);
 			for (int j = 0; j < gridSize; j++) {
 				if (row[i].charAt(j) == '1') {
@@ -488,20 +496,6 @@ public class GameModel {
 	}
 
 	/**
-	 * @return the scoreNumber
-	 */
-	protected int getScoreNumber() {
-		return scoreNumber;
-	}
-
-	/**
-	 * @param scoreNumber the scoreNumber to set
-	 */
-	protected void setScoreNumber(int scoreNumber) {
-		this.scoreNumber = scoreNumber;
-	}
-
-	/**
 	 * @return the timerNumber
 	 */
 	protected int getTimerNumber() {
@@ -571,19 +565,6 @@ public class GameModel {
 		this.minFormat = minFormat;
 	}
 
-	/**
-	 * @return the boardPuzzle
-	 */
-	protected int[][] getBoardPuzzle() {
-		return boardPuzzle;
-	}
-
-	/**
-	 * @param boardPuzzle the boardPuzzle to set
-	 */
-	protected void setBoardPuzzle(int[][] boardPuzzle) {
-		this.boardPuzzle = boardPuzzle;
-	}
 
 	/**
 	 * @return the gameStarted
