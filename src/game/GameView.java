@@ -100,6 +100,8 @@ public class GameView {
 	protected Color mark_color = new Color(226, 222, 222);
 	/** Colour for when the tile is clicked incorrectly*/
 	protected Color err_color = Color.red;
+	/** Default colour for the components, gets changed from colour picker*/
+	protected Color component_color = new Color(255, 255, 255);
 
 	//JRadioButton Declarations
 	
@@ -744,7 +746,7 @@ public class GameView {
 	protected void resetBoard() {
 		 for (JButton[] i : buttonsPlay) {
 	            for (JButton j : i) {
-	                j.setBackground(Color.WHITE);
+	                j.setBackground(component_color);
 	                j.setEnabled(true);
 	            }
 	        }

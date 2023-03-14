@@ -494,20 +494,20 @@ public class GameController {
 		});
 		
 		view.getComponentColour().addActionListener((actionEvent) -> {			
-			Color colour = JColorChooser.showDialog(null, "Pick a color...", Color.black);
-			view.getScoreCounter().setBackground(colour);
-			view.getTimerCounter().setBackground(colour);
-			view.getGridSizeCmbo().setBackground(colour);
-			view.getPlayToLauncher().setBackground(colour);
-			view.getResetButton().setBackground(colour);
-			view.getSolveButton().setBackground(colour);
-			view.getNewBoardButton().setBackground(colour);
-			view.getInstructionsButton().setBackground(colour);
-			view.history.setBackground(colour);
+			view.component_color = JColorChooser.showDialog(null, "Pick a color...", Color.black);
+			view.getScoreCounter().setBackground(view.component_color);
+			view.getTimerCounter().setBackground(view.component_color);
+			view.getGridSizeCmbo().setBackground(view.component_color);
+			view.getPlayToLauncher().setBackground(view.component_color);
+			view.getResetButton().setBackground(view.component_color);
+			view.getSolveButton().setBackground(view.component_color);
+			view.getNewBoardButton().setBackground(view.component_color);
+			view.getInstructionsButton().setBackground(view.component_color);
+			view.history.setBackground(view.component_color);
 			for (JButton[] i : view.getButtons()) {
 				for (JButton j : i) {
 					if(j.isEnabled()) {
-						j.setBackground(colour);
+						j.setBackground(view.component_color);
 					}
 				}
 			}
