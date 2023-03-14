@@ -7,112 +7,55 @@ import java.util.ResourceBundle;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-// make the gui
+/**
+ * This class is used to handle the GUI processing of the MVC
+ * 
+ * @author Skylar Phanenhour and Ahnaf Kamal
+ *
+ */
 public class GameView {
-	private JButton instructionsButton;
-	/** Button to return from the instructions page to the main game */
-	private JButton instructionsBack;
-	/** JFrame for the design window */
-	private JFrame designWindow;
-	/** JFrame for the start window */
-	private JFrame startWindow;
-	private JFrame splashWindow;
-	/** JFrame for the instructions window */
-	private JFrame instructionsWindow;
-	private JFrame gameCompleteWindow;
-	/** JFrame for the main picross window */
-	private JFrame picrossWindow;
-	/** Combo box to change the grid size */
-	private JComboBox<String> gridSizeCmbo;
-	/** Button to play the game */
-	private JButton playButton;
-	/** Button to open the design window */
-	private JButton designButton;
-	/** Button to return from the design page to the main page */
-	private JButton designBack;
-	/** Button to reset the game */
-	private JButton resetButton;
-	/** Button to solve the game */
-	private JButton solveButton;
-	/** Button to make a new board */
-	private JButton newBoardButton;
-	/** Text area to display the input history */
-	protected JTextArea history;
-	/** 2d-button array for the grid */
-	private JButton[][] buttons;
-	
-	Color tile_color = new Color(17, 15, 15);
-	Color mark_color = new Color(226, 222, 222);
-	Color err_color = Color.red;
-	
-	private String[] viewRows;
-	private String[] viewCols;
-	private String[] viewRowLabels= {"0","0","0","0","0"};
-	private String[] viewColLabels={"0","0","0","0","0"};
-	String[] viewRowLabelsDesign;
-	String[] viewRowLabelsCol;
+	////////////////////////////////////////////////////////////////
 
+	//JFrame declarations
 	
-	private JButton[][] buttonsDesign;
-	private JButton playToLauncher;
+	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow;
+
+	////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////
+
+	//JButton Declarations
+	
+	//Buttons for the splash screen
+	private JButton playButton, designButton, playToLauncher;
+	//Buttons to return back to previous JFrames
+	private JButton designBack, instructionsBack;
+	//Buttons for the play frame, some also used in design
+	private JButton resetButton, solveButton, newBoardButton, instructionsButton;
+	//Buttons for the design and play grids
+	private JButton[][] buttonsPlay, buttonsDesign;
 	private JButton newGridButton;
-	private JButton gameCompleteSave;
-	private JButton gameCompleteClose;
+	//Buttons for the game completed window
+	private JButton gameCompleteSave = new JButton();
+	private JButton gameCompleteClose = new JButton();
 	
-	/** Radio button to change the language to English */
-	private JRadioButton engRadio;
-	/** Radio button to change the language to French */
-	private JRadioButton frRadio;
-	/** Left panel to hold all of the menu components */
-	private JPanel leftPanel;
-	/** Board panel to hold the grid of buttons */
-	private JPanel boardPanel;
-	/** Panel to hold the back button in the design window */
-	private JPanel designMenuReturnPanel;
-	/** Check box for to enable the mark mode */
-	private JCheckBox markCheckBox;
-	private JTextField scoreCounter;
-	private JTextField timerCounter;
-	private JTextField nameTextField;
-	private JTextField bestTimeTextField;
-	private JTextField bestScoreTextField;
+	////////////////////////////////////////////////////////////////
 
+	////////////////////////////////////////////////////////////////
+	
+	//JTextField Declarations
+	
+	//Text field for the score and timer in play
+	private JTextField scoreCounter, timerCounter;
+	//Text field for the name, best time, and best score when the game is completed
+	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
+	
+	////////////////////////////////////////////////////////////////
 
-	/** Boolean for the mark mode, false by default */
-	//protected boolean markMode = false;
-	/** Int variable to check what the current game mode is, 0=design, 1=play */
-	private int gameMode = 0;
-	/*
-	 ********************************************************************
-	 * JLabel initializations. * The text that is in the label changes depending *
-	 * on what language is selected. *
-	 ********************************************************************
-	 */
-	/** Label for the timer */
-	private JLabel timerLabel;
-	//protected JLabel timerLabel = new JLabel(langText.getString("timer"));
-	/** Label for the score */
-	//protected JLabel scoreLabel = new JLabel(langText.getString("score"));
-	private JLabel scoreLabel;
-	private JLabel userNameLabel;
-	private JLabel bestTimeLabel;
-	private JLabel bestScoreLabel;
-	/** Label for the grid size */
-	//protected JLabel gridSizeLabel = new JLabel(langText.getString("gridSize"));
-	private JLabel gridSizeLabel;
-	/** Label for the language */
-	private JLabel langLabel = new JLabel();
-	/** Label for the colour */
-	private JLabel colourLabel = new JLabel();
-	/**
-	 * 		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
-		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
-		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
-		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
-		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
-	 */
+	////////////////////////////////////////////////////////////////
+
+	//JPanel Declarations
+	
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
 	private JPanel gridSizeComboPanel;
@@ -124,16 +67,28 @@ public class GameView {
 	private JPanel controlPanel;
 	private JPanel colPanel;
 	private JPanel rowPanel;
-	private JMenuBar menuBar;
+	private JPanel leftPanel;
+	private JPanel boardPanel;
+	private JPanel designMenuReturnPanel;
+	
+	////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////
+
+	//JMenu Declarations
+	
+	private JMenu gameMenuItemsContainer;
+	private JMenu helpMenuItemsContainer;
+	private JMenu colourMenu;
+	private JMenu gridSizeItemsContainer;
+	
+	//JMenuItem Declarations
+	
+	//Menu items for the game menu
 	private JMenuItem newMenuItem;
 	private JMenuItem solutionMenuItem;
-	protected JMenuItem exitMenuItem;
-	private JMenuItem backgroundColour;
-	private JMenuItem textColour;
-	private JMenuItem componentColour;
-	private JMenuItem aboutMenu;
+	private JMenuItem exitMenuItem;
 	private JMenuItem gameMenu;
-	private JMenu gameMenuItemsContainer;
 	private JMenuItem newMenuOption;
 	private JMenuItem exitMenuOption;
 	private JMenuItem resetMenuOption;
@@ -141,12 +96,83 @@ public class GameView {
 	private JMenuItem toLauncherMenuOption;
 	private JMenuItem saveMenuOption;
 	private JMenuItem loadMenuOption;
-	private JMenu gridSizeItemsContainer;
 	private JMenuItem aboutMenuOption;
 	private JMenuItem fiveFive = new JMenuItem("5x5");
 	private JMenuItem sixSix = new JMenuItem("6x6");
 	private JMenuItem sevSev = new JMenuItem("7x7");
 	
+	//Menu items for the help menu
+	private JMenuItem aboutMenu;
+	private JMenuItem backgroundColour, componentColour, textColour;
+	////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////
+
+	//JLabel Declarations
+	
+	private JLabel timerLabel;
+	private JLabel scoreLabel;
+	private JLabel userNameLabel = new JLabel();
+	private JLabel bestTimeLabel = new JLabel();
+	private JLabel bestScoreLabel = new JLabel();
+	private JLabel gridSizeLabel;
+	private JLabel langLabel;	
+	
+	////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////
+
+	//Colour Declarations
+	
+	/** Colour for when the tile is clicked correctly*/
+	protected Color tile_color = new Color(17, 15, 15);
+	/** Colour for when the tile is marked*/
+	protected Color mark_color = new Color(226, 222, 222);
+	/** Colour for when the tile is clicked incorrectly*/
+	protected Color err_color = Color.red;
+	
+	////////////////////////////////////////////////////////////////
+	
+	////////////////////////////////////////////////////////////////
+
+	//JRadioButton Declarations
+	
+	private JRadioButton engRadio;
+	private JRadioButton frRadio;
+	
+	////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////
+
+	//String Declarations
+	
+	private String[] viewRows;
+	private String[] viewCols;
+	private String[] viewRowLabels= {"0","0","0","0","0"};
+	private String[] viewColLabels={"0","0","0","0","0"};
+	
+	////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////
+
+	//Other Declarations
+	
+	/** Text area to display the input history */
+	protected JTextArea history;
+	private JComboBox<String> gridSizeCmbo;
+	private JCheckBox markCheckBox;
+	private int gameMode = 0;
+	private int gridSize = 5;
+
+	////////////////////////////////////////////////////////////////
+	
+	
+	/**
+	 * This method is to make the splash screen JFrame and all its components
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
+	 */
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
@@ -167,26 +193,32 @@ public class GameView {
 			Thread.sleep(1000);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		launcher(langText, currentLocale);
-
 	}
 	
+	/**
+	 * This method is used to make the menu bar and all its sub-menus
+	 * 
+	 * @param window
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
+	 * @param gameMode
+	 */
 	protected void makeMenuBar(JFrame window, Locale currentLocale, ResourceBundle langText, int gameMode) {
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		window.setJMenuBar(menuBar);
-		gameMenuItemsContainer = new JMenu("Game");
-		newMenuOption = new JMenuItem("New Board", new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
+		gameMenuItemsContainer = new JMenu(langText.getString("game"));
+		newMenuOption = new JMenuItem(langText.getString("newBoard"), new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
 		exitMenuOption = new JMenuItem("Exit To Desktop", new ImageIcon(getClass().getResource("/images/piciconext.gif")));
 		resetMenuOption = new JMenuItem("Reset Board", new ImageIcon(getClass().getResource("/images/reset.jpg")));
 		solveMenuOption = new JMenuItem("Solve Puzzle", new ImageIcon(getClass().getResource("/images/solve.jpg")));
 		toLauncherMenuOption = new JMenuItem("To Launcher", new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		saveMenuOption = new JMenuItem("Save", new ImageIcon(getClass().getResource("/images/save.jpg")));
-		loadMenuOption = new JMenuItem("Load", new ImageIcon(getClass().getResource("/images/load.jpg")));
-		gridSizeItemsContainer = new JMenu("Grid Size");
+		saveMenuOption = new JMenuItem(langText.getString("save"), new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem(langText.getString("load"), new ImageIcon(getClass().getResource("/images/load.jpg")));
+		gridSizeItemsContainer = new JMenu(langText.getString("gridSize"));
 		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
 		gridSizeItemsContainer.add(fiveFive);
 		gridSizeItemsContainer.add(sixSix);
@@ -212,9 +244,9 @@ public class GameView {
 		gameMenuItemsContainer.add(toLauncherMenuOption);
 		gameMenuItemsContainer.add(exitMenuOption);
 
-		JMenu helpMenuItemsContainer = new JMenu("Help");
-		JMenu colourMenu = new JMenu("Colours"); // submenu under helpMenuItemsContainer		
-		aboutMenuOption = new JMenuItem("About",new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		helpMenuItemsContainer = new JMenu(langText.getString("help"));
+		colourMenu = new JMenu(langText.getString("colours")); 	
+		aboutMenuOption = new JMenuItem(langText.getString("about"), new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
 		backgroundColour = new JMenuItem("Background Colour");
 		textColour = new JMenuItem("Text Colour");
@@ -237,25 +269,23 @@ public class GameView {
 	 * game gets handled. *
 	 ************************************************************************
 	 */
-	public GameView() {
+	private GameView() {
 		
 	}
 	
+	/**
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
+	 */
 	protected void startLauncher(Locale currentLocale, ResourceBundle langText) {
 		splashScreen(currentLocale, langText);
 	}
-	/*
-	 ********************************************************************
-	 * Make Language Panel * * This is where all of the language panels, labels,
-	 * radio buttons * and button group are located. * * Whatever radio button is
-	 * selected, will change the game to * that language. * "English" is selected by
-	 * default when the game is started. *
-	 ********************************************************************
-	 */
+
+	
 	private JPanel makeLanguagePanel(Locale currentLocale, ResourceBundle langText) {
 		languagePanel = new JPanel();
 		languageButtonPanel = new JPanel();
-		// Button group that holds the "English" and "French" radio buttons
 		////////////////////////////////////////////////////////////////
 		if (currentLocale.getCountry() == "US") {
 			engRadio = new JRadioButton(langText.getString("english"), true);
@@ -268,7 +298,7 @@ public class GameView {
 		ButtonGroup langButtons = new ButtonGroup();
 		langButtons.add(engRadio);
 		langButtons.add(frRadio);
-		langLabel.setText(langText.getString("languages"));
+		langLabel = new JLabel(langText.getString("languages"));
 		// Panel to align the language radio buttons
 		languageButtonPanel.setLayout(new BoxLayout(languageButtonPanel, BoxLayout.Y_AXIS));
 		// Adds the radio buttons to the panel
@@ -281,13 +311,7 @@ public class GameView {
 		return languagePanel;
 	}
 
-	/*
-	 ********************************************************************
-	 * Make Grid Size Combo * * Grid size combo box panel. * Combo box options are
-	 * initialized in a string array. * Grid size label changes depending on what
-	 * language is selected. *
-	 ********************************************************************
-	 */
+
 	private JPanel makeGridSizeCombo(ResourceBundle langText) {
 		String options[] = { "5x5", "6x6", "7x7" };
 		gridSizeCmbo = new JComboBox<>(options);
@@ -300,16 +324,7 @@ public class GameView {
 		return gridSizeComboPanel;
 	}
 
-	/**
-	 ************************************************************************
-	 * Make Left Panel. * * This is the 'top-level' panel that stores everything for
-	 * the left * panel. All of the 'lower-level' components get added to this
-	 * panel. * *
-	 * 
-	 * @param locale   - Used to get the selected language. *
-	 * @param langText - Used to get the text from the language file. *
-	 ************************************************************************
-	 */
+
 	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
 		scoreLabel = new JLabel(langText.getString("score"));
 		timerLabel = new JLabel(langText.getString("timer"));
@@ -378,12 +393,7 @@ public class GameView {
 		return leftPanel;
 	}
 
-	/**
-	 ********************************************************************
-	 * Make Title Panel * * This is where the ImageIcon for the * Picross logo is
-	 * created/set. *
-	 ********************************************************************
-	 */
+
 	private JPanel makeTitlePanel() {
 		JPanel titlePanel = new JPanel();
 		ImageIcon picrossLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
@@ -394,12 +404,7 @@ public class GameView {
 		return titlePanel;
 	}
 
-	/**
-	 ********************************************************************
-	 * Make History Panel * * This is where the history text area gets managed. *
-	 * All of the user inputs will be recorded here. *
-	 ********************************************************************
-	 */
+
 	private JPanel makeHistoryPanel() {
 		// This is the history text area where all of the user inputs will be recorded
 		historyPanel = new JPanel();
@@ -417,12 +422,6 @@ public class GameView {
 		return historyPanel;
 	}
 
-	/**
-	 ********************************************************************
-	 * Make Control panel * * This is 'top-level' panel that stores everything for
-	 * the history.*
-	 ********************************************************************
-	 */
 	private JPanel makeControlPanel() {
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(250, 200));
@@ -432,12 +431,11 @@ public class GameView {
 
 	
 	/**
-	 ********************************************************************
-	 * Make Board panel * * This is where the button grid, row/column labels and
-	 * mark panel * are handled. * *
 	 * 
-	 * @param gridSize - Used to change the grid size. *
-	 ********************************************************************
+	 * @param langText - Used to get the text from the language file. 
+	 * @param gridSize
+	 * @param markMode
+	 * @return
 	 */
 	protected JPanel makeBoardPanel(ResourceBundle langText, int gridSize, boolean markMode) {
 		System.out.println("making board panel");
@@ -452,10 +450,7 @@ public class GameView {
 			JLabel rowLabel = new JLabel(viewRowLabels[i],SwingConstants.CENTER);
 			rowPanel.add(rowLabel);
 		}
-		// Mark panel
-		markCheckBox = new JCheckBox(langText.getString("mark")); // TODO: resets to english when grid size changes
-		// incase the grid size is changing, check to see if in markMode.
-		// if true, then set the checkmark in new board
+		markCheckBox = new JCheckBox(langText.getString("mark"));
 		if (markMode == true) {
 			markCheckBox.setSelected(true);
 		}
@@ -479,14 +474,14 @@ public class GameView {
 
 		JPanel gridButtonPanel = new JPanel();
 		gridButtonPanel.setLayout(new GridLayout(gridSize, gridSize));
-		buttons = new JButton[gridSize][gridSize];
+		buttonsPlay = new JButton[gridSize][gridSize];
 
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				newGridButton = new JButton();
 				newGridButton.setBackground(Color.WHITE);
-				buttons[i][j] = newGridButton;
-				gridButtonPanel.add(buttons[i][j]);
+				buttonsPlay[i][j] = newGridButton;
+				gridButtonPanel.add(buttonsPlay[i][j]);
 			}
 		}
 
@@ -494,7 +489,7 @@ public class GameView {
 		return boardPanel;
 	}
 
-	void updateDesignRow(String newThing, int index) {
+	protected void updateDesignRow(String newThing, int index) {
 		JLabel newLabel = new JLabel(newThing, SwingConstants.CENTER);
 		rowPanel.remove(index);
 		rowPanel.invalidate();
@@ -502,7 +497,7 @@ public class GameView {
 		rowPanel.revalidate();
 	}
 	
-	void updateDesignCol(String newThing, int index) {
+	protected void updateDesignCol(String newThing, int index) {
 		
 		JLabel newLabel = new JLabel(newThing, SwingConstants.CENTER);
 		colPanel.remove(index+1);
@@ -510,13 +505,11 @@ public class GameView {
 		colPanel.add(newLabel, index+1);
 		colPanel.revalidate();
 	}
+
 	/**
-	 ********************************************************************
-	 * Update Text * * This updates the text after the language is changed. * *
 	 * 
-	 * @param locale   - Used to get the selected language. *
-	 * @param langText - Used to get the text from the language file. *
-	 ********************************************************************
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
 	 */
 	protected void updateText(Locale currentLocale, ResourceBundle langText) {
 
@@ -524,7 +517,6 @@ public class GameView {
 		if (gameMode == 1) {
 			timerLabel.setText((langText.getString("timer")));
 			scoreLabel.setText(langText.getString("score"));
-			colourLabel.setText(langText.getString("colorScheme"));
 			userNameLabel.setText(langText.getString("user_name"));
 			bestTimeLabel.setText(langText.getString("best_time"));
 			bestScoreLabel.setText(langText.getString("best_score"));
@@ -548,12 +540,21 @@ public class GameView {
 		saveMenuOption.setText(langText.getString("save"));
 		loadMenuOption.setText(langText.getString("load"));
 		toLauncherMenuOption.setText(langText.getString("toLauncher"));
-		gridSizeItemsContainer.setText(langText.getString("gridSize"));
 		exitMenuOption.setText(langText.getString("exit"));
+		helpMenuItemsContainer.setText(langText.getString("help"));
+		colourMenu.setText(langText.getString("colours"));
+		gridSizeItemsContainer.setText(langText.getString("gridSize"));
+		aboutMenuOption.setText(langText.getString("about"));
+		gameMenuItemsContainer.setText(langText.getString("game"));
 	}
 
 	
 
+	/**
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
+	 */
 	protected void launcher(ResourceBundle langText, Locale currentLocale) {
 
 		startWindow = new JFrame();
@@ -592,10 +593,11 @@ public class GameView {
 		startWindow.setLocationRelativeTo(null);
 	}
 
+
 	/**
-	 ********************************************************************
-	 * Design method * * This shows the "default" board layout to the user. *
-	 ********************************************************************
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
 	 */
 	protected void Design(Locale currentLocale, ResourceBundle langText) {
 				
@@ -617,10 +619,11 @@ public class GameView {
 		designWindow.setLocationRelativeTo(null);
 	}
 
+
 	/**
-	 ********************************************************************
-	 * Play method * * This shows the main game. *
-	 ********************************************************************
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
 	 */
 	protected void Play(Locale currentlocale, ResourceBundle langText) {
 		gameMode = 1;
@@ -641,6 +644,13 @@ public class GameView {
 		picrossWindow.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * 
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
+	 * @param bestScore
+	 * @param bestTime
+	 */
 	protected void gameCompleted(Locale currentlocale, ResourceBundle langText, int bestScore, int bestTime) {
 		gameCompleteWindow = new JFrame();
 		gameCompleteWindow.setLayout(new BorderLayout());
@@ -699,17 +709,11 @@ public class GameView {
 		statsPanel.add(bestScorePanel);
 		statsPanel.add(bestTimePanel);
 
-		gameCompleteSave = new JButton(langText.getString("save"));
+		gameCompleteSave.setText(langText.getString("save"));
 		gameCompleteSave.setPreferredSize(new Dimension(100, 30));
 		gameCompleteSave.setBackground(Color.WHITE);
-//		if (nameTextField.getText().isBlank()) {
-//			gameCompleteSave.setEnabled(false);
-//		}
-//		else {
-//			gameCompleteSave.setEnabled(true);
-//		}
 		
-		gameCompleteClose = new JButton(langText.getString("back"));
+		gameCompleteClose.setText(langText.getString("back"));
 		gameCompleteClose.setPreferredSize(new Dimension(100, 30));
 		gameCompleteClose.setBackground(Color.WHITE);
 		
@@ -733,14 +737,11 @@ public class GameView {
 		gameCompleteWindow.setLocationRelativeTo(null);
 		
 	}
-	
+
 	/**
-	 ************************************************************************
-	 * This is the instructions class that explains * how the game is supposed to be
-	 * played. * *
 	 * 
-	 * @param locale - Used to get the selected language. *
-	 ************************************************************************
+	 * @param currentLocale - Used to get the selected language. 
+	 * @param langText - Used to get the text from the language file. 
 	 */
 	protected void Instructions(Locale currentLocale, ResourceBundle langText) {
 		instructionsWindow = new JFrame();
@@ -772,36 +773,20 @@ public class GameView {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				if (viewRows[i].charAt(j) == '1') {
-					buttons[i][j].setBackground(Color.black);
-					buttons[i][j].setEnabled(false);
+					buttonsPlay[i][j].setBackground(Color.black);
+					buttonsPlay[i][j].setEnabled(false);
 				}
 			}
 		}
 	}
 	
 	protected void resetBoard() {
-		 for (JButton[] i : buttons) {
+		 for (JButton[] i : buttonsPlay) {
 	            for (JButton j : i) {
 	                j.setBackground(Color.WHITE);
 	                j.setEnabled(true);
 	            }
 	        }
-	}
-
-	public String[] getViewRows() {
-		return viewRows;
-	}
-
-	public void setViewRows(String[] viewRows) {
-		this.viewRows = viewRows;
-	}
-
-	public String[] getViewCols() {
-		return viewCols;
-	}
-
-	public void setViewCols(String[] viewCols) {
-		this.viewCols = viewCols;
 	}
 
 	protected void resetRowsAndCol() {
@@ -814,6 +799,22 @@ public class GameView {
 
 		//{"0","0","0","0","0"};
 		
+	}
+	
+	protected String[] getViewRows() {
+		return viewRows;
+	}
+
+	protected void setViewRows(String[] viewRows) {
+		this.viewRows = viewRows;
+	}
+
+	protected String[] getViewCols() {
+		return viewCols;
+	}
+
+	protected void setViewCols(String[] viewCols) {
+		this.viewCols = viewCols;
 	}
 	
 	/**
@@ -859,7 +860,6 @@ public class GameView {
 	}
 
 	
-	protected int gridSize = 5;
 	/**
 	 * @return the gameCompleteSave
 	 */
@@ -1112,17 +1112,17 @@ public class GameView {
 	}
 
 	/**
-	 * @return the buttons
+	 * @return the buttonsPlay
 	 */
 	protected JButton[][] getButtons() {
-		return buttons;
+		return buttonsPlay;
 	}
 
 	/**
-	 * @param buttons the buttons to set
+	 * @param buttonsPlay the buttonsPlay to set
 	 */
-	protected void setButtons(JButton[][] buttons) {
-		this.buttons = buttons;
+	protected void setButtons(JButton[][] buttonsPlay) {
+		this.buttonsPlay = buttonsPlay;
 	}
 
 	/**
@@ -1364,20 +1364,6 @@ public class GameView {
 	}
 
 	/**
-	 * @return the colourLabel
-	 */
-	protected JLabel getColourLabel() {
-		return colourLabel;
-	}
-
-	/**
-	 * @param colourLabel the colourLabel to set
-	 */
-	protected void setColourLabel(JLabel colourLabel) {
-		this.colourLabel = colourLabel;
-	}
-
-	/**
 	 * @return the languagePanel
 	 */
 	protected JPanel getLanguagePanel() {
@@ -1532,20 +1518,6 @@ public class GameView {
 	}
 
 	/**
-	 * @return the menuBar
-	 */
-	protected JMenuBar getMenuBar() {
-		return menuBar;
-	}
-
-	/**
-	 * @param menuBar the menuBar to set
-	 */
-	protected void setMenuBar(JMenuBar menuBar) {
-		this.menuBar = menuBar;
-	}
-
-	/**
 	 * @return the newMenuItem
 	 */
 	protected JMenuItem getNewMenuItem() {
@@ -1657,19 +1629,6 @@ public class GameView {
 		this.gameMenu = gameMenu;
 	}
 
-	/**
-	 * @return the gameMenuItemsContainer
-	 */
-	protected JMenu getGameMenuItemsContainer() {
-		return gameMenuItemsContainer;
-	}
-
-	/**
-	 * @param gameMenuItemsContainer the gameMenuItemsContainer to set
-	 */
-	protected void setGameMenuItemsContainer(JMenu gameMenuItemsContainer) {
-		this.gameMenuItemsContainer = gameMenuItemsContainer;
-	}
 
 	/**
 	 * @return the newMenuOption
@@ -1769,19 +1728,6 @@ public class GameView {
 		this.loadMenuOption = loadMenuOption;
 	}
 
-	/**
-	 * @return the gridSizeItemsContainer
-	 */
-	protected JMenu getGridSizeItemsContainer() {
-		return gridSizeItemsContainer;
-	}
-
-	/**
-	 * @param gridSizeItemsContainer the gridSizeItemsContainer to set
-	 */
-	protected void setGridSizeItemsContainer(JMenu gridSizeItemsContainer) {
-		this.gridSizeItemsContainer = gridSizeItemsContainer;
-	}
 
 	/**
 	 * @return the aboutMenuOption
