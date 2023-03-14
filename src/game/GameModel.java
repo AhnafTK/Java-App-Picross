@@ -285,17 +285,22 @@ public class GameModel {
 			System.out.println("Best Score: " + getBestScore());
 			setBestTime(fileReader.nextInt());
 			System.out.println("Best Time: " + getBestTime());
-			if(fileReader.hasNextLine()) {
-				if(fileReader.nextLine().isBlank()) {
-				    JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());  		
-				}
-				else{
-					// having troubles reading the username
-					setUsername(fileReader.nextLine());
-					System.out.println("Username: " + getUsername());
-				    JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: " + getBestScore() + "\nBest Time: " + getBestTime());  	
-				}
+			
+			fileReader.nextLine();
+			
+			String name = fileReader.nextLine();
+			if (!name.equals(null)) {
+				setUsername(name);
+				System.out.println("Username: " + getUsername());
+				JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: " + getBestScore() + "\nBest Time: " + getBestTime());  	
 			}
+			else {
+				setUsername(fileReader.nextLine());
+				System.out.println("Username: " + getUsername());
+			    JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());  		
+			}
+			
+			
 		}
 		System.out.println("model row is now: ");
 		for (int i = 0; i < gridSize; i++) {
@@ -451,20 +456,49 @@ public class GameModel {
 		}
 	}
 	
-	String updateRow(int i, int j) {
-		StringBuilder builder = new StringBuilder();
-		for (String row: designBoard[i]) {
-			if(row!=null) {
-				builder.append(row);
-			}
-		}
-		String newRow = builder.toString();
-		rowLabelsDesign[i] = newRow;
-		//System.out.println(newRow);
-		int increment = 0;
-		return newRow;
-	}
-	
+    String updateRow(int i, int j) {
+        StringBuilder builder = new StringBuilder();
+        for (String row: designBoard[i]) {
+            if(row!=null) {
+                builder.append(row);
+            }
+        }
+        String newRow = builder.toString();
+        System.out.println("Appended row: " + newRow);
+        
+        String updatedRowLabel = "";
+        int inc = 0;
+        int total = 0;
+        for(int c = 0; c < gridSize; c++) {
+        	
+            System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
+
+            if (newRow.charAt(c) == '1') {
+                inc++;
+            }
+            else {
+            	if (inc != 0 ) {
+            		updatedRowLabel += Integer.toString(inc) + ",";
+            	}
+                System.out.println("hit 0: inc is  " + inc);
+                ///System.out.println(actual);
+
+                inc = 0;
+            }
+
+        }
+        if(newRow.charAt(gridSize-1) == '1') {
+            System.out.println("PREVIOUS " + updatedRowLabel);
+
+        	updatedRowLabel = updatedRowLabel + "1";
+        }
+        System.out.println("generated label: " + updatedRowLabel);
+
+        rowLabelsDesign[i] = updatedRowLabel;
+        //System.out.println(newRow);
+        return updatedRowLabel;
+    }
+    
 	String updateCol(int i, int j) {
 		StringBuilder builder = new StringBuilder();
 		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === "+designBoard.length);
@@ -476,7 +510,7 @@ public class GameModel {
 		}
 		
 		String newCol = builder.toString();
-		System.out.println(newCol);
+		//System.out.println(newCol);
 		
 		return newCol;
 	}

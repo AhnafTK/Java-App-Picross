@@ -18,7 +18,8 @@ public class Game extends JFrame{
 		GameView view = new GameView();
 		GameController controller = new GameController(model,view);
 		controller.startController();
-		
+		// gridsize 
+		// row and col
 	}
 	
 }
