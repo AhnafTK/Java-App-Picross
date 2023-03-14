@@ -167,7 +167,7 @@ public class GameView {
 
 		// Pauses the thread, to make the splash screen disappear after 3 seconds
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(3000);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -67,7 +67,6 @@ public class GameController {
 			model.setGameStarted(true);
 			model.resetBoard();
 			view.resetRowsAndCol();
-			System.out.println("clicked design button");
 			view.getStartWindow().dispose();
 			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
@@ -174,17 +173,16 @@ public class GameController {
 							else {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(view.mark_color);
-									view.history.append(model.getLangText().getString("upon_grid_mark") + ": [" + i
+									view.history.append(model.getLangText().getString("upon_grid_mark") + ": \n[" + i
 											+ ", " + j + "]\n");
 								} else {
-									view.history.append(model.getLangText().getString("upon_grid_click") + ": [" + i
+									view.history.append(model.getLangText().getString("upon_grid_click") + ": \n[" + i
 											+ ", " + j + "]\n");
 									if (model.isGameStarted() == false) {
 										timerCounter();
 										model.getTimer().start();
 									}
 									if (model.getRow(i).charAt(j) == '1') {
-										System.out.println("correct");
 										model.setCurrentValid(model.getCurrentValid() + 1);
 										model.setScore(model.getScore() + 1);
 										view.getButtons()[i][j].setBackground(view.tile_color);
@@ -206,7 +204,6 @@ public class GameController {
 									} else {
 										model.setScore(model.getScore() - 1);
 										view.getButtons()[i][j].setBackground(view.err_color);
-										System.out.println("false");
 									}
 									view.getScoreCounter().setText(Integer.toString(model.getScore()));
 									view.getButtons()[i][j].setEnabled(false);
@@ -316,7 +313,6 @@ public class GameController {
 		} else {
 			model.setGameStarted(false);
 			view.getDesignWindow().dispose();
-			System.out.println("clicked design back button");
 			view.launcher(model.getLangText(), model.getCurrentLocale());
 			launcherActions();
 		}
@@ -344,7 +340,6 @@ public class GameController {
 			} else {
 				model.setGameStarted(false);
 				view.getDesignWindow().dispose();
-				System.out.println("clicked design back button");
 				view.launcher(model.getLangText(), model.getCurrentLocale());
 				launcherActions();
 			}
@@ -357,6 +352,15 @@ public class GameController {
 		view.getSolveButton().addActionListener((actionEvent) -> {
 			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("solve") + "\n");
 			view.setViewRows(model.getRow());
+			if (model.getGameMode() == 1 && model.isGameStarted() == true) {
+				model.setCurrentValid(0);
+				model.setScore(0);
+				view.getScoreCounter().setText(Integer.toString(model.getScore()));
+				model.getTimer().stop();
+				model.setGameStarted(false);
+				model.setGameFinished(false);
+				view.getTimerCounter().setText("00:00");
+			}
 			view.solveBoard(model.gridSize);
 		});
 
@@ -393,10 +397,13 @@ public class GameController {
 					if (model.getGameFinished() == true) {
 						fileWriter.write(Integer.toString(model.getBestScore()) + "\n");
 						fileWriter.write(Integer.toString(model.getBestTime()) + "\n");
-						model.setUsername(view.getNameTextField().getText());
-						if (model.getUsername() != null) {
-							fileWriter.write(model.getUsername());
+						if (view.getNameTextField().getText().isBlank()) {
+							model.setUsername(" ");
 						}
+						else { 
+							model.setUsername(view.getNameTextField().getText());
+						}
+						fileWriter.write(model.getUsername());
 					}
 				}
 
@@ -435,6 +442,9 @@ public class GameController {
 					Scanner fileReader = new Scanner(file);
 
 					if (file.isFile()) {
+						model.gridSize = fileReader.nextInt();
+						view.getGridSizeCmbo().setSelectedIndex(model.gridSize - 5);
+						
 						if (model.getGameMode() == 1) {
 							model.readFile(fileReader);
 							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
@@ -469,6 +479,15 @@ public class GameController {
 
 		view.getSolveMenuOption().addActionListener((actionEvent) -> {
 			view.setViewRows(model.getRow());
+			if (model.getGameMode() == 1 && model.isGameStarted() == true) {
+				model.setCurrentValid(0);
+				model.setScore(0);
+				view.getScoreCounter().setText(Integer.toString(model.getScore()));
+				model.getTimer().stop();
+				model.setGameStarted(false);
+				model.setGameFinished(false);
+				view.getTimerCounter().setText("00:00");
+			}
 			view.solveBoard(model.getGridSize());
 		});
 
@@ -611,7 +630,6 @@ public class GameController {
 		if (options.equals("7x7") || options.equals("7")) { model.setGridSize(7); }
 		
 		if (readingFile) {
-			System.out.println("Reading file...");
 			view.setViewRows(model.getRow());
 			view.setViewRowLabels(new String[model.gridSize]);
 			view.setViewColLabels(new String[model.gridSize]);
@@ -647,7 +665,6 @@ public class GameController {
 		if (options.equals("7x7") || options.equals("7")) { model.setGridSize(7); }
 
 		if (readingFile) {
-			System.out.println("Reading file...");
 			view.setViewRows(model.getRow());
 			view.setViewRowLabels(new String[model.gridSize]);
 			view.setViewColLabels(new String[model.gridSize]);
