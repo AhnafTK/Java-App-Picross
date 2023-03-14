@@ -23,7 +23,7 @@ public class GameView {
 	// Buttons for the play frame, some also used in design
 	private JButton resetButton, solveButton, newBoardButton, instructionsButton;
 	// Buttons for the design and play grids
-	private JButton[][] buttonsPlay, buttonsDesign;
+	private JButton[][] buttonsPlay;
 	private JButton newGridButton;
 	// Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
@@ -49,7 +49,6 @@ public class GameView {
 	private JPanel rowPanel;
 	private JPanel leftPanel;
 	private JPanel boardPanel;
-	private JPanel designMenuReturnPanel;
 
 	// JMenu Declarations
 
@@ -352,8 +351,7 @@ public class GameView {
 		// Creates all of the menu items for the help menu with the selected language
 		// text and the associated image icons
 		helpMenuItemsContainer = new JMenu(langText.getString("help"));
-		aboutMenuOption = new JMenuItem(langText.getString("about"),
-				new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		aboutMenuOption = new JMenuItem(langText.getString("about"),new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		// Builds a sub-menu for the color choosers
 		colourMenu = new JMenu(langText.getString("colours"));
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
@@ -613,7 +611,6 @@ public class GameView {
 			rowPanel.add(rowLabel);
 		}
 
-		////////////////////////////////////////////////////////////////
 
 		// Checks if the mark check box is selected
 		markCheckBox = new JCheckBox(langText.getString("mark"));
@@ -622,7 +619,6 @@ public class GameView {
 		}
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
 
-		////////////////////////////////////////////////////////////////
 
 		// Col panel to store the labels vertically
 		colPanel = new JPanel();
@@ -636,8 +632,6 @@ public class GameView {
 			JLabel colLabel = new JLabel(viewColLabels[i], SwingConstants.CENTER);
 			colPanel.add(colLabel);
 		}
-
-		////////////////////////////////////////////////////////////////
 
 		// Makes the 2d button grid, based on the grid size
 		JPanel gridButtonPanel = new JPanel();
@@ -653,8 +647,6 @@ public class GameView {
 				gridButtonPanel.add(buttonsPlay[i][j]);
 			}
 		}
-
-		////////////////////////////////////////////////////////////////
 
 		// Adds the components to the board panel
 		boardPanel = new JPanel();
@@ -756,9 +748,6 @@ public class GameView {
 		titlePanel.setPreferredSize(new Dimension(525, 125));
 		titlePanel.add(titleLabel);
 
-		////////////////////////////////////////////////////////////////
-
-		// Panel for the username label and text field
 		// Panel for the username label and text field
 		userNameLabel = new JLabel("<html>"+langText.getString("user_name")+"</html>", SwingConstants.CENTER);
 		userNameLabel.setPreferredSize(new Dimension(110, 25));
@@ -775,8 +764,6 @@ public class GameView {
 		namePanel.add(userNameLabel);
 		namePanel.add(nameTextField);
 
-		////////////////////////////////////////////////////////////////
-
 		// Panel for the score label and text field
 		bestScoreLabel = new JLabel(langText.getString("best_score"), SwingConstants.CENTER);
 		bestScoreLabel.setPreferredSize(new Dimension(110, 25));
@@ -791,8 +778,6 @@ public class GameView {
 		bestScorePanel.setPreferredSize(new Dimension(275, 35));
 		bestScorePanel.add(bestScoreLabel);
 		bestScorePanel.add(bestScoreTextField);
-
-		////////////////////////////////////////////////////////////////
 
 		// Panel for the time label and text field
 		bestTimeLabel = new JLabel(langText.getString("best_time"), SwingConstants.CENTER);
@@ -809,16 +794,12 @@ public class GameView {
 		bestTimePanel.add(bestTimeLabel);
 		bestTimePanel.add(bestTimeTextField);
 
-		////////////////////////////////////////////////////////////////
-
 		// Higher level panel that stores the three panels above
 		JPanel statsPanel = new JPanel();
 		statsPanel.setPreferredSize(new Dimension(300, 400));
 		statsPanel.add(namePanel);
 		statsPanel.add(bestScorePanel);
 		statsPanel.add(bestTimePanel);
-
-		////////////////////////////////////////////////////////////////
 
 		// JButton to save the user's stats
 		gameCompleteSave.setText(langText.getString("save"));
@@ -829,8 +810,6 @@ public class GameView {
 		gameCompleteClose.setText(langText.getString("back"));
 		gameCompleteClose.setPreferredSize(new Dimension(100, 30));
 		gameCompleteClose.setBackground(Color.WHITE);
-
-		////////////////////////////////////////////////////////////////
 
 		// Adds the save and close buttons to a panel, to keep the formatting
 		JPanel gameOverButtonPanel = new JPanel();
@@ -843,8 +822,6 @@ public class GameView {
 		JPanel gameOverRightPanel = new JPanel();
 		gameOverRightPanel.setPreferredSize(new Dimension(210, 200));
 		gameOverRightPanel.add(gameOverButtonPanel);
-
-		////////////////////////////////////////////////////////////////
 
 		// JFrame for the game completed window
 		gameCompleteWindow = new JFrame();
@@ -879,21 +856,15 @@ public class GameView {
 		instructionsLabel.setOpaque(false);
 		instructionsLabel.setFont(new Font("Calibri Regular", Font.PLAIN, 16));
 
-		////////////////////////////////////////////////////////////////
-
 		// Button the close the instructions window
 		instructionsBack = new JButton("Back");
 		instructionsBack.setFont(new Font("Calibri Regular", Font.BOLD, 12));
-
-		////////////////////////////////////////////////////////////////
 
 		// Panel to hold all of the text and the button to close the window
 		JPanel instructionsPanel = new JPanel();
 		instructionsPanel.setPreferredSize(new Dimension(500, 400));
 		instructionsPanel.add(instructionsLabel);
 		instructionsPanel.add(instructionsBack);
-
-		////////////////////////////////////////////////////////////////
 
 		// JFrame for the instructions window
 		instructionsWindow = new JFrame();
@@ -918,7 +889,7 @@ public class GameView {
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				if (viewRows[i].charAt(j) == '1') {
-					buttonsPlay[i][j].setBackground(Color.black);
+					buttonsPlay[i][j].setBackground(tile_color);
 				}
 				buttonsPlay[i][j].setEnabled(false);
 			}
