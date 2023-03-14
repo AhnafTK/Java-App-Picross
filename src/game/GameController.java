@@ -123,7 +123,7 @@ public class GameController {
 		ActionListener listener = new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
-				if (model.gameMode == 1) {
+				if (model.getGameMode() == 1) {
 					model.totalValidTiles();
 				}
 
@@ -134,8 +134,7 @@ public class GameController {
 							if (model.getGameMode() == 0) {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(new Color(226, 222, 222));
-									//view.updateDesignRow("0", i);
-									//view.updateDesignCol("0", j);
+
 								} 
 								else {
 									view.getButtons()[i][j].setBackground(new Color(17, 15, 15));
@@ -163,7 +162,7 @@ public class GameController {
 										model.setScore(model.getScore()+1);
 										view.getButtons()[i][j].setBackground(view.tile_color);
 										
-										if(model.getCurrentValid() == model.totalValid) {
+										if(model.getCurrentValid() == model.getTotalValid()) {
 											model.getTimer().stop();
 											model.setBestScore(model.getScore());
 											model.setBestTime(model.timerToSeconds());
@@ -248,7 +247,7 @@ public class GameController {
 		model.setTimer(new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				model.seconds++;
+				model.setSeconds(model.getSeconds() + 1);
 				if (model.getSeconds() == 60) {
 					model.setMinutes(model.getMinutes()+1);
 					model.setSeconds(0);
@@ -345,7 +344,7 @@ public class GameController {
 			BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
 			fileWriter.write(model.gridSize + "\n");
 
-			if (model.gameMode == 0) {
+			if (model.getGameMode() == 0) {
 				fileWriter.write(model.writeDesignPattern());
 
 			}
@@ -377,7 +376,7 @@ public class GameController {
 		view.getSaveMenuOption().addActionListener((actionEvent)->{saveGameActions();});
 		
 		view.getLoadMenuOption().addActionListener((actionEvent)->{
-			if (model.gameMode == 0) {
+			if (model.getGameMode() == 0) {
 				model.setRow(new String[model.gridSize]);
 			}
 			
@@ -393,7 +392,7 @@ public class GameController {
 					
 					if(file.isFile()) {
 						//changeGridSize(Integer.toString((model.getGridSize())));
-						if (model.gameMode == 1) {
+						if (model.getGameMode() == 1) {
 							model.readFile(fileReader);
 							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
 						}
@@ -402,7 +401,7 @@ public class GameController {
 							newDesignBoard(Integer.toString(model.getGridSize()),true);
 							for (int i = 0; i < model.gridSize; i++) {
 								for (int j = 0; j < model.gridSize; j++) {
-									if (model.designBoard[i][j].equals("1")) {
+									if (model.getDesignBoard()[i][j].equals("1")) {
 										view.getButtons()[i][j].setBackground(Color.black);
 										view.getButtons()[i][j].setEnabled(false);
 									}
@@ -622,8 +621,7 @@ public class GameController {
 			view.setViewRowLabels(new String[model.gridSize]);
 			view.setViewColLabels(new String[model.gridSize]);
 
-			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
-			//view.setViewRows(model.generateRows(maxPossible, isDefault));
+
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
@@ -632,12 +630,12 @@ public class GameController {
 				System.out.println("i: "+ i + "   "+ view.getViewRows()[i]);
 			}
 			
-			System.out.println("design board LENGTH in newDesignBoard " + model.designBoard.length);
+			System.out.println("design board LENGTH in newDesignBoard " + model.getDesignBoard().length);
 
 			System.out.println("design board in newDesignBoard");
 			for (int i = 0; i< model.gridSize; i++) {
 				for (int j = 0; j < model.gridSize; j++) {
-					System.out.print(model.designBoard[i][j]);
+					System.out.print(model.getDesignBoard()[i][j]);
 				}
 			}
 			view.getDesignWindow().remove(view.getBoardPanel());

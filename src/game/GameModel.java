@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
-
+/**
+ * Beginning of the GameModel class. Responsible for logic/state of the game and its components.
+ */
 public class GameModel {
 	
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
@@ -20,41 +22,45 @@ public class GameModel {
 	protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
 	private Timer timer;
-	protected int gameMode = 0;
-	protected int scoreNumber = 0;
-	protected int timerNumber = 0;
+	private int gameMode = 0;
+	private int scoreNumber = 0;
+	private int timerNumber = 0;
 
-	protected int totalValid = 0;
+	private int totalValid = 0;
 	protected int currentValid = 0;
 
-	protected int bestTime = 0;
-	protected int bestScore = 0;
+	private int bestTime = 0;
+	private int bestScore = 0;
 
-	protected int score = 0;
+	private int score = 0;
 
-	protected int seconds, minutes;
-	protected String secFormat, minFormat;
+	private int seconds, minutes;
+	private String secFormat, minFormat;
 
-	protected String username;
+	private String username;
 
-	protected int[][] boardPuzzle;
-	protected boolean gameStarted = false;
-	protected boolean gameFinished = false;
+	private int[][] boardPuzzle;
+	private boolean gameStarted = false;
+	private boolean gameFinished = false;
 
-	int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
-	int[] defaultSixBVals = { 51, 18, 0, 33, 18, 12 };
-	int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
+	private int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
+	private int[] defaultSixBVals = { 51, 18, 0, 33, 18, 12 };
+	private	int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
 
-	String[][] designBoard;
+	private String[][] designBoard;
 
 	private String[] row;
 	private String[] col;
-	String[] rowLabels;
-	String[] colLabels;
+	private String[] rowLabels;
+	private String[] colLabels;
 
-	String[] rowLabelsDesign;
-	String[] colLabelsDesign;
+	private String[] rowLabelsDesign;
+	private String[] colLabelsDesign;
 
+	/**
+	 * Converts the timer to seconds format.
+	 * @return Converted time.
+	 */
 	protected int timerToSeconds() {
 		
 		minutes = getMinutes();
@@ -64,14 +70,21 @@ public class GameModel {
 		return bestTime;
 	}
 
+	/**
+	 * Changes the language of the game.
+	 * @param lang The name of the language.
+	 * @param region The region related to the language
+	 */
 	protected void changeLanguage(String lang, String region) {
-		
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 		
 	}
 
-
+	/**
+	 * Makes the labels for the rows
+	 * @return Array of string containing the generated labels
+	 */
 	protected String[] rowLabel() {
 
 		rowLabels = new String[gridSize];
@@ -105,7 +118,11 @@ public class GameModel {
 		}
 		return rowLabels;
 	}
-
+	
+	/**
+	 * Makes columns based on rows.
+	 * @return Array of string containing generated columns
+	 */
 	protected String[] colLabel() {
 		
 		colLabels = new String[gridSize];
@@ -136,37 +153,53 @@ public class GameModel {
 		return colLabels;
 	}
 
+	/**
+	 * Finds the number of valid tiles by iterating through the rows and counting the 1's
+	 */
 	protected void totalValidTiles() {
 		
-		totalValid = 0;
+		setTotalValid(0);
 		for (int a = 0; a < gridSize; a++) {
 			for (int b = 0; b < gridSize; b++) {
 				if (row[a].charAt(b) == '1') { // if 1
-					totalValid++;
+					setTotalValid(getTotalValid() + 1);
 				}
 			}
 		}
 	}
 
+	/**
+	 * Copies the designBoard row by row and returns the final concatenated string. (designMode)
+	 * @return String containing the row data of 0's and 1's
+	 */
 	protected String writeDesignPattern() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				pattern = pattern + designBoard[i][j];
+				pattern = pattern + getDesignBoard()[i][j];
 			}
 			pattern = pattern + "\n";
 		}
 		return pattern;
 	}
 
+	/**
+	 * Copies the play board row by row and returns the final concatenated string. (play mode)
+	 * @return String containing the row data of 0's and 1's
+	 */
 	protected String writePattern() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
-			pattern = pattern + (getRow()[i]) + "\n";
+			pattern = pattern + row[i] + "\n";
 		}
 		return pattern;
 	}
 
+
+	/**
+	 * Reads a given file, and gathers necessary info to update the board.
+	 * @param fileReader Scanner used to read the file.
+	 */
 	protected void readFile(Scanner fileReader) {
 		System.out.println("READING FILE FOR PLAY");
 		// get gridsize first
@@ -199,23 +232,29 @@ public class GameModel {
 		}
 	}
 
+	/**
+	 * Reading a file in design mode.
+	 * @param fileReader Used to read the file.
+	 */
 	protected void readFileDesign(Scanner fileReader) {
-		
-		// get gridsize first
 		gridSize = fileReader.nextInt();
-		designBoard = new String[gridSize][gridSize];
+		setDesignBoard(new String[gridSize][gridSize]);
 		row = new String[gridSize];
 		fileReader.nextLine();
 
 		for (int i = 0; i < gridSize; i++) {
 			row[i] = fileReader.nextLine();
 			for (int j = 0; j < gridSize; j++) {
-				designBoard[i][j] = String.valueOf(row[i].charAt(j));
+				getDesignBoard()[i][j] = String.valueOf(row[i].charAt(j));
 			}
 		}
-
 	}
 
+	/**
+	 * Converts an int into binary as String datatype.
+	 * @param value The value to be converted.
+	 * @return Binary string
+	 */
 	protected String intToBinary(int value) {
 		String binVal = Integer.toBinaryString(value);
 		while (binVal.length() < gridSize) {
@@ -224,6 +263,10 @@ public class GameModel {
 		return binVal;
 	}
 
+	/**
+	 * Initializes the RowLabelDesign array which contains the row labels, with 0's
+	 * @return String array containing the row labels
+	 */
 	protected String[] makeRowLabelDesign() {
 		rowLabelsDesign = new String[gridSize];
 		for (int i = 0; i < gridSize; i++) {
@@ -232,6 +275,10 @@ public class GameModel {
 		return rowLabelsDesign;
 	}
 
+	/**
+	 * Initializes the colLabelDesign array which contains the col labels, with 0's
+	 * @return String array containing the col labels
+	 */
 	protected String[] makeColLabelDesign() {
 		colLabelsDesign = new String[gridSize];
 		for (int i = 0; i < gridSize; i++) {
@@ -240,6 +287,12 @@ public class GameModel {
 		return colLabelsDesign;
 	}
 
+	/**
+	 * Generates the rows given maxPossible and boolean useDefault. 
+	 * @param maxPossible maximum possible int that can be generated based on gridSize. 
+	 * @param useDefault True when using default values, false when random numbers are to be generated.
+	 * @return row with the generated values.
+	 */
 	protected String[] generateRows(int maxPossible, boolean useDefault) {
 
 		row = new String[gridSize];
@@ -247,46 +300,36 @@ public class GameModel {
 		if (useDefault == true) {
 			switch (gridSize) {
 			case 5:
-				System.out.println("default 5x5");
 				for (int i = 0; i < gridSize; i++) {
-					getRow()[i] = intToBinary(defaultFiveBVals[i]);
-					System.out.println(getRow()[i]);
+					row[i] = intToBinary(defaultFiveBVals[i]);
 				}
 				break;
 			case 6:
-				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					getRow()[i] = intToBinary(defaultSixBVals[i]);
-					System.out.println(getRow()[i]);
+					row[i] = intToBinary(defaultSixBVals[i]);
 				}
 				break;
 			case 7:
-				System.out.println("default 6x6");
 				for (int i = 0; i < gridSize; i++) {
-					getRow()[i] = intToBinary(defaultSevBVals[i]);
-					System.out.println(getRow()[i]);
+					row[i] = intToBinary(defaultSevBVals[i]);
 				}
 				break;
 			}
 		} else {
-			// System.out.println("generated values");
 			for (int i = 0; i < gridSize; i++) {
-
 				Random rand = new Random();
 				int value = rand.nextInt(maxPossible);
-				getRow()[i] = intToBinary(value);
-			}
-
-			System.out.println("\nROWS");
-			for (int a = 0; a < gridSize; a++) {
-				System.out.println(getRow()[a]);
-
+				row[i] = intToBinary(value);
 			}
 		}
-		return getRow();
+		return row;
 
 	}
 
+	/**
+	 * Generate columns based on the rows
+	 * @return Return generated column.
+	 */
 	protected String[] generateCols() {
 		
 		col = new String[gridSize];
@@ -302,25 +345,33 @@ public class GameModel {
 		for (int a = 0; a < gridSize; a++) {
 			System.out.println(col[a]);
 		}
-		// getLabel(col);
 		return col;
 	}
 
 
-
+	/**
+	 * Makes the board for design.
+	 * @param gridSize Size of the board.
+	 */
 	void makeDesignBoard(int gridSize) {
-		designBoard = new String[gridSize][gridSize];
+		setDesignBoard(new String[gridSize][gridSize]);
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
-				designBoard[i][j] = "0";
+				getDesignBoard()[i][j] = "0";
 			}
 		}
 	}
 
+	/**
+	 * Updates the row labels when change is detected on the board in design mode.
+	 * @param i index i, accesses rows.
+	 * @param j index j, accesses items in rows.
+	 * @return returned the string containing updated tile numbers.
+	 */
 	String updateRow(int i, int j) {
 		
 		StringBuilder builder = new StringBuilder();
-		for (String row : designBoard[i]) {
+		for (String row : getDesignBoard()[i]) {
 			if (row != null) {
 				builder.append(row);
 			}
@@ -351,14 +402,20 @@ public class GameModel {
 		
 	}
 
+	/**
+	 * Updates the col labels when change is detected on the board in design mode.
+	 * @param i index i, accesses rows.
+	 * @param j index j, accesses items in rows.
+	 * @return returned the string containing updated tile numbers.
+	 */
 	String updateCol(int i, int j) {
 		
 		StringBuilder builder = new StringBuilder();
-		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === " + designBoard.length);
+		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === " + getDesignBoard().length);
 		for (int k = 0; k < gridSize; k++) {
-			if (designBoard[k][j] != null) {
-				builder.append(designBoard[k][j]);
-				System.out.println("K " + k + " j " + j + " " + designBoard[k][j]);
+			if (getDesignBoard()[k][j] != null) {
+				builder.append(getDesignBoard()[k][j]);
+				System.out.println("K " + k + " j " + j + " " + getDesignBoard()[k][j]);
 			}
 		}
 		String updatedColLabel = "";
@@ -383,13 +440,19 @@ public class GameModel {
 		return updatedColLabel;
 	}
 
+	/**
+	 * Updates the design board by setting selected tiles as 1
+	 * @param i Index i of the array (row)
+	 * @param j Index j of the row.
+	 */
 	void updateDesignBoard(int i, int j) {
-
-		designBoard[i][j] = "1";
+		getDesignBoard()[i][j] = "1";
 	}
 
+	/**
+	 * Resets the board by setting the labels array to zero.
+	 */
 	void resetBoard() {
-		
 		rowLabels = new String[gridSize];
 		colLabels = new String[gridSize];
 		gridSize = 5;
@@ -753,6 +816,22 @@ public class GameModel {
 	 */
 	protected void setLangText(ResourceBundle langText) {
 		this.langText = langText;
+	}
+
+	public int getTotalValid() {
+		return totalValid;
+	}
+
+	public void setTotalValid(int totalValid) {
+		this.totalValid = totalValid;
+	}
+
+	public String[][] getDesignBoard() {
+		return designBoard;
+	}
+
+	public void setDesignBoard(String[][] designBoard) {
+		this.designBoard = designBoard;
 	}
 
 
