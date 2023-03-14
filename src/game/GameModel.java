@@ -505,11 +505,33 @@ public class GameModel {
 			System.out.println("K " + k + " j " + j + " "+ designBoard[k][j]);
 			}
 		}
-		
+        String updatedColLabel = "";
 		String newCol = builder.toString();
+		
+		int inc = 0;
+        int total = 0;
+        for(int c = 0; c < gridSize; c++) {
+           // System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
+            if (newCol.charAt(c) == '1') {
+                inc++;
+            }
+            else {
+            	if (inc != 0 ) {
+            		updatedColLabel += Integer.toString(inc) + " ";
+            	}
+                System.out.println("hit 0: inc is  " + inc);
+                ///System.out.println(actual);
+                inc = 0;
+            }
+            // if im nearing the end
+            if((c+1) == gridSize && inc!=0) {
+            	updatedColLabel += inc;
+            }
+
+        }
 		//System.out.println(newCol);
 		
-		return newCol;
+		return updatedColLabel;
 	}
 	
 	void updateDesignBoard(int i, int j) {
