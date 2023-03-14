@@ -118,7 +118,6 @@ public class GameView {
 	protected JTextArea history;
 	private JComboBox<String> gridSizeCmbo;
 	private JCheckBox markCheckBox;
-	private int gameMode = 0;
 	private int gridSize = 5;
 
 	/**
@@ -269,7 +268,6 @@ public class GameView {
 	 * @param langText      - Used to get the text from the language file.
 	 */
 	protected void Play(Locale currentLocale, ResourceBundle langText) {
-		gameMode = 1;
 		picrossWindow = new JFrame();
 		picrossWindow.setLayout(new BorderLayout());
 		makeMenuBar(picrossWindow, currentLocale, langText, 1);
@@ -925,896 +923,1024 @@ public class GameView {
 		viewCols = new String[gridSize];
 	}
 
-	/**
+	/**	 
+	 * Get the viewRows
 	 * @return the viewRows
 	 */
 	protected String[] getViewRows() {
 		return viewRows;
 	}
 
-	/**
+	/**	 
+	 * Set the viewRows
 	 * @param viewRows the viewRows to set
 	 */
 	protected void setViewRows(String[] viewRows) {
 		this.viewRows = viewRows;
 	}
 
-	/**
+	/**	 
+	 * Get the viewCols
 	 * @return the viewCols
 	 */
 	protected String[] getViewCols() {
 		return viewCols;
 	}
 
-	/**
+	/**	 
+	 * Set the viewCols
 	 * @param viewCols the viewCols to set
 	 */
 	protected void setViewCols(String[] viewCols) {
 		this.viewCols = viewCols;
 	}
 
-	/**
+	/**	 
+	 * Get the nameTextField
 	 * @return the nameTextField
 	 */
 	protected JTextField getNameTextField() {
 		return nameTextField;
 	}
 
-	/**
+	/**	 
+	 * Set the nameTextField
 	 * @param nameTextField the nameTextField to set
 	 */
 	protected void setNameTextField(JTextField nameTextField) {
 		this.nameTextField = nameTextField;
 	}
 
-	/**
+	/**	 
+	 * Get the viewRowLabels
 	 * @return the viewRowLabels
 	 */
 	protected String[] getViewRowLabels() {
 		return viewRowLabels;
 	}
 
-	/**
+	/**	 
+	 * Set the viewRowLabels
 	 * @param viewRowLabels the viewRowLabels to set
 	 */
 	protected void setViewRowLabels(String[] viewRowLabels) {
 		this.viewRowLabels = viewRowLabels;
 	}
 
-	/**
+	/**	 
+	 * Get the viewColLabels
 	 * @return the viewColLabels
 	 */
 	protected String[] getViewColLabels() {
 		return viewColLabels;
 	}
 
-	/**
+	/**	 
+	 * Set the viewColLabels
 	 * @param viewColLabels the viewColLabels to set
 	 */
 	protected void setViewColLabels(String[] viewColLabels) {
 		this.viewColLabels = viewColLabels;
 	}
 
-	/**
+	/**	 
+	 * Get the gameCompleteSave
 	 * @return the gameCompleteSave
 	 */
 	protected JButton getGameCompleteSave() {
 		return gameCompleteSave;
 	}
 
-	/**
+	/**	 
+	 * Set the gameCompleteSave
 	 * @param gameCompleteSave the gameCompleteSave to set
 	 */
 	protected void setGameCompleteSave(JButton gameCompleteSave) {
 		this.gameCompleteSave = gameCompleteSave;
 	}
 
-	/**
+	/**	 
+	 * Get the gameCompleteClose
 	 * @return the gameCompleteClose
 	 */
 	protected JButton getGameCompleteClose() {
 		return gameCompleteClose;
 	}
 
-	/**
+	/**	 
+	 * Set the gameCompleteClose
 	 * @param gameCompleteClose the gameCompleteClose to set
 	 */
 	protected void setGameCompleteClose(JButton gameCompleteClose) {
 		this.gameCompleteClose = gameCompleteClose;
 	}
 
-	/**
+	/**	 
+	 * Get the instructionsButton
 	 * @return the instructionsButton
 	 */
 	protected JButton getInstructionsButton() {
 		return instructionsButton;
 	}
 
-	/**
+	/**	 
+	 * Set the instructionsButton
 	 * @param instructionsButton the instructionsButton to set
 	 */
 	protected void setInstructionsButton(JButton instructionsButton) {
 		this.instructionsButton = instructionsButton;
 	}
 
-	/**
+	/**	 
+	 * Get the instructionsBack
 	 * @return the instructionsBack
 	 */
 	protected JButton getInstructionsBack() {
 		return instructionsBack;
 	}
 
-	/**
+	/**	 
+	 * Set the instructionsBack
 	 * @param instructionsBack the instructionsBack to set
 	 */
 	protected void setInstructionsBack(JButton instructionsBack) {
 		this.instructionsBack = instructionsBack;
 	}
 
-	/**
+	/**	 
+	 * Get the designWindow
 	 * @return the designWindow
 	 */
 	protected JFrame getDesignWindow() {
 		return designWindow;
 	}
 
-	/**
+	/**	 
+	 * Get the gameCompleteWindow
 	 * @return the gameCompleteWindow
 	 */
 	protected JFrame getGameCompleteWindow() {
 		return gameCompleteWindow;
 	}
 
-	/**
+	/**	 
+	 * Set the gameCompleteWindow
 	 * @param gameCompleteWindow the gameCompleteWindow to set
 	 */
 	protected void setGameCompleteWindow(JFrame gameCompleteWindow) {
 		this.gameCompleteWindow = gameCompleteWindow;
 	}
 
-	/**
+	/**	 
+	 * Set the designWindow
 	 * @param designWindow the designWindow to set
 	 */
 	protected void setDesignWindow(JFrame designWindow) {
 		this.designWindow = designWindow;
 	}
 
-	/**
+	/**	 
+	 * Get the startWindow
 	 * @return the startWindow
 	 */
 	protected JFrame getStartWindow() {
 		return startWindow;
 	}
 
-	/**
+	/**	 
+	 * Set the startWindow
 	 * @param startWindow the startWindow to set
 	 */
 	protected void setStartWindow(JFrame startWindow) {
 		this.startWindow = startWindow;
 	}
 
-	/**
+	/**	 
+	 * Get the instructionsWindow
 	 * @return the instructionsWindow
 	 */
 	protected JFrame getInstructionsWindow() {
 		return instructionsWindow;
 	}
 
-	/**
+	/**	 
+	 * Set the instructionsWindow
 	 * @param instructionsWindow the instructionsWindow to set
 	 */
 	protected void setInstructionsWindow(JFrame instructionsWindow) {
 		this.instructionsWindow = instructionsWindow;
 	}
 
-	/**
+	/**	 
+	 * Get the picrossWindow
 	 * @return the picrossWindow
 	 */
 	protected JFrame getPicrossWindow() {
 		return picrossWindow;
 	}
 
-	/**
+	/**	 
+	 * Set the picrossWindow
 	 * @param picrossWindow the picrossWindow to set
 	 */
 	protected void setPicrossWindow(JFrame picrossWindow) {
 		this.picrossWindow = picrossWindow;
 	}
 
-	/**
+	/**	 
+	 * Get the gridSizeCmbo
 	 * @return the gridSizeCmbo
 	 */
 	protected JComboBox<String> getGridSizeCmbo() {
 		return gridSizeCmbo;
 	}
 
-	/**
+	/**	 
+	 * Set the gridSizeCmbo
 	 * @param gridSizeCmbo the gridSizeCmbo to set
 	 */
 	protected void setGridSizeCmbo(JComboBox<String> gridSizeCmbo) {
 		this.gridSizeCmbo = gridSizeCmbo;
 	}
 
-	/**
+	/**	 
+	 * Get the playButton
 	 * @return the playButton
 	 */
 	protected JButton getPlayButton() {
 		return playButton;
 	}
 
-	/**
+	/**	 
+	 * Set the playButton
 	 * @param playButton the playButton to set
 	 */
 	protected void setPlayButton(JButton playButton) {
 		this.playButton = playButton;
 	}
 
-	/**
+	/**	 
+	 * Get the designButton
 	 * @return the designButton
 	 */
 	protected JButton getDesignButton() {
 		return designButton;
 	}
 
-	/**
+	/**	 
+	 * Set the designButton
 	 * @param designButton the designButton to set
 	 */
 	protected void setDesignButton(JButton designButton) {
 		this.designButton = designButton;
 	}
 
-	/**
+	/**	 
+	 * Get the designBack
 	 * @return the designBack
 	 */
 	protected JButton getDesignBack() {
 		return designBack;
 	}
 
-	/**
+	/**	 
+	 * Set the designBack
 	 * @param designBack the designBack to set
 	 */
 	protected void setDesignBack(JButton designBack) {
 		this.designBack = designBack;
 	}
 
-	/**
+	/**	 
+	 * Get the resetButton
 	 * @return the resetButton
 	 */
 	protected JButton getResetButton() {
 		return resetButton;
 	}
 
-	/**
+	/**	 
+	 * Set the resetButton
 	 * @param resetButton the resetButton to set
 	 */
 	protected void setResetButton(JButton resetButton) {
 		this.resetButton = resetButton;
 	}
 
-	/**
+	/**	 
+	 * Get the solveButton
 	 * @return the solveButton
 	 */
 	protected JButton getSolveButton() {
 		return solveButton;
 	}
 
-	/**
+	/**	 
+	 * Set the solveButton
 	 * @param solveButton the solveButton to set
 	 */
 	protected void setSolveButton(JButton solveButton) {
 		this.solveButton = solveButton;
 	}
 
-	/**
+	/**	 
+	 * Get the newBoardButton
 	 * @return the newBoardButton
 	 */
 	protected JButton getNewBoardButton() {
 		return newBoardButton;
 	}
 
-	/**
+	/**	 
+	 * Set the newBoardButton
 	 * @param newBoardButton the newBoardButton to set
 	 */
 	protected void setNewBoardButton(JButton newBoardButton) {
 		this.newBoardButton = newBoardButton;
 	}
 
-	/**
+	/**	 
+	 * Get the buttonsPlay
 	 * @return the buttonsPlay
 	 */
 	protected JButton[][] getButtons() {
 		return buttonsPlay;
 	}
 
-	/**
+	/**	 
+	 * Set the buttonsPlay
 	 * @param buttonsPlay the buttonsPlay to set
 	 */
 	protected void setButtons(JButton[][] buttonsPlay) {
 		this.buttonsPlay = buttonsPlay;
 	}
 
-	/**
+	/**	 
+	 * Get the playToLauncher
 	 * @return the playToLauncher
 	 */
 	protected JButton getPlayToLauncher() {
 		return playToLauncher;
 	}
 
-	/**
+	/**	 
+	 * Set the playToLauncher
 	 * @param playToLauncher the playToLauncher to set
 	 */
 	protected void setPlayToLauncher(JButton playToLauncher) {
 		this.playToLauncher = playToLauncher;
 	}
 
-	/**
+	/**	 
+	 * Get the engRadio
 	 * @return the engRadio
 	 */
 	protected JRadioButton getEngRadio() {
 		return engRadio;
 	}
 
-	/**
+	/**	 
+	 * Set the engRadio
 	 * @param engRadio the engRadio to set
 	 */
 	protected void setEngRadio(JRadioButton engRadio) {
 		this.engRadio = engRadio;
 	}
 
-	/**
+	/**	 
+	 * Get the frRadio
 	 * @return the frRadio
 	 */
 	protected JRadioButton getFrRadio() {
 		return frRadio;
 	}
 
-	/**
+	/**	 
+	 * Set the frRadio
 	 * @param frRadio the frRadio to set
 	 */
 	protected void setFrRadio(JRadioButton frRadio) {
 		this.frRadio = frRadio;
 	}
 
-	/**
+	/**	 
+	 * Get the leftPanel
 	 * @return the leftPanel
 	 */
 	protected JPanel getLeftPanel() {
 		return leftPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the leftPanel
 	 * @param leftPanel the leftPanel to set
 	 */
 	protected void setLeftPanel(JPanel leftPanel) {
 		this.leftPanel = leftPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the boardPanel
 	 * @return the boardPanel
 	 */
 	protected JPanel getBoardPanel() {
 		return boardPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the boardPanel
 	 * @param boardPanel the boardPanel to set
 	 */
 	protected void setBoardPanel(JPanel boardPanel) {
 		this.boardPanel = boardPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the markCheckBox
 	 * @return the markCheckBox
 	 */
 	protected JCheckBox getMarkCheckBox() {
 		return markCheckBox;
 	}
 
-	/**
+	/**	 
+	 * Set the markCheckBox
 	 * @param markCheckBox the markCheckBox to set
 	 */
 	protected void setMarkCheckBox(JCheckBox markCheckBox) {
 		this.markCheckBox = markCheckBox;
 	}
 
-	/**
+	/**	 
+	 * Get the scoreCounter
 	 * @return the scoreCounter
 	 */
 	protected JTextField getScoreCounter() {
 		return scoreCounter;
 	}
 
-	/**
+	/**	 
+	 * Set the scoreCounter
 	 * @param scoreCounter the scoreCounter to set
 	 */
 	protected void setScoreCounter(JTextField scoreCounter) {
 		this.scoreCounter = scoreCounter;
 	}
 
-	/**
+	/**	 
+	 * Get the timerCounter
 	 * @return the timerCounter
 	 */
 	protected JTextField getTimerCounter() {
 		return timerCounter;
 	}
 
-	/**
+	/**	 
+	 * Set the timerCounter
 	 * @param timerCounter the timerCounter to set
 	 */
 	protected void setTimerCounter(JTextField timerCounter) {
 		this.timerCounter = timerCounter;
 	}
 
-	/**
+	/**	 
+	 * Get the timerLabel
 	 * @return the timerLabel
 	 */
 	protected JLabel getTimerLabel() {
 		return timerLabel;
 	}
 
-	/**
+	/**	 
+	 * Set the timerLabel
 	 * @param timerLabel the timerLabel to set
 	 */
 	protected void setTimerLabel(JLabel timerLabel) {
 		this.timerLabel = timerLabel;
 	}
 
-	/**
+	/**	 
+	 * Get the scoreLabel
 	 * @return the scoreLabel
 	 */
 	protected JLabel getScoreLabel() {
 		return scoreLabel;
 	}
 
-	/**
+	/**	 
+	 * Set the scoreLabel
 	 * @param scoreLabel the scoreLabel to set
 	 */
 	protected void setScoreLabel(JLabel scoreLabel) {
 		this.scoreLabel = scoreLabel;
 	}
 
-	/**
+	/**	 
+	 * Get the gridSizeLabel
 	 * @return the gridSizeLabel
 	 */
 	protected JLabel getGridSizeLabel() {
 		return gridSizeLabel;
 	}
 
-	/**
+	/**	 
+	 * Set the gridSizeLabel
 	 * @param gridSizeLabel the gridSizeLabel to set
 	 */
 	protected void setGridSizeLabel(JLabel gridSizeLabel) {
 		this.gridSizeLabel = gridSizeLabel;
 	}
 
-	/**
+	/**	 
+	 * Get the langLabel
 	 * @return the langLabel
 	 */
 	protected JLabel getLangLabel() {
 		return langLabel;
 	}
 
-	/**
+	/**	 
+	 * Set the langLabel
 	 * @param langLabel the langLabel to set
 	 */
 	protected void setLangLabel(JLabel langLabel) {
 		this.langLabel = langLabel;
 	}
 
-	/**
+	/**	 
+	 * Get the languagePanel
 	 * @return the languagePanel
 	 */
 	protected JPanel getLanguagePanel() {
 		return languagePanel;
 	}
 
-	/**
+	/**	 
+	 * Set the languagePanel
 	 * @param languagePanel the languagePanel to set
 	 */
 	protected void setLanguagePanel(JPanel languagePanel) {
 		this.languagePanel = languagePanel;
 	}
 
-	/**
+	/**	 
+	 * Get the languageButtonPanel
 	 * @return the languageButtonPanel
 	 */
 	protected JPanel getLanguageButtonPanel() {
 		return languageButtonPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the languageButtonPanel
 	 * @param languageButtonPanel the languageButtonPanel to set
 	 */
 	protected void setLanguageButtonPanel(JPanel languageButtonPanel) {
 		this.languageButtonPanel = languageButtonPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the gridSizeComboPanel
 	 * @return the gridSizeComboPanel
 	 */
 	protected JPanel getGridSizeComboPanel() {
 		return gridSizeComboPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the gridSizeComboPanel
 	 * @param gridSizeComboPanel the gridSizeComboPanel to set
 	 */
 	protected void setGridSizeComboPanel(JPanel gridSizeComboPanel) {
 		this.gridSizeComboPanel = gridSizeComboPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the scorePanel
 	 * @return the scorePanel
 	 */
 	protected JPanel getScorePanel() {
 		return scorePanel;
 	}
 
-	/**
+	/**	 
+	 * Set the scorePanel
 	 * @param scorePanel the scorePanel to set
 	 */
 	protected void setScorePanel(JPanel scorePanel) {
 		this.scorePanel = scorePanel;
 	}
 
-	/**
+	/**	 
+	 * Get the timerPanel
 	 * @return the timerPanel
 	 */
 	protected JPanel getTimerPanel() {
 		return timerPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the timerPanel
 	 * @param timerPanel the timerPanel to set
 	 */
 	protected void setTimerPanel(JPanel timerPanel) {
 		this.timerPanel = timerPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the buttonPanel
 	 * @return the buttonPanel
 	 */
 	protected JPanel getButtonPanel() {
 		return buttonPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the buttonPanel
 	 * @param buttonPanel the buttonPanel to set
 	 */
 	protected void setButtonPanel(JPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the configurationPanel
 	 * @return the configurationPanel
 	 */
 	protected JPanel getConfigurationPanel() {
 		return configurationPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the configurationPanel
 	 * @param configurationPanel the configurationPanel to set
 	 */
 	protected void setConfigurationPanel(JPanel configurationPanel) {
 		this.configurationPanel = configurationPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the historyPanel
 	 * @return the historyPanel
 	 */
 	protected JPanel getHistoryPanel() {
 		return historyPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the historyPanel
 	 * @param historyPanel the historyPanel to set
 	 */
 	protected void setHistoryPanel(JPanel historyPanel) {
 		this.historyPanel = historyPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the controlPanel
 	 * @return the controlPanel
 	 */
 	protected JPanel getControlPanel() {
 		return controlPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the controlPanel
 	 * @param controlPanel the controlPanel to set
 	 */
 	protected void setControlPanel(JPanel controlPanel) {
 		this.controlPanel = controlPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the colPanel
 	 * @return the colPanel
 	 */
 	protected JPanel getColPanel() {
 		return colPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the colPanel
 	 * @param colPanel the colPanel to set
 	 */
 	protected void setColPanel(JPanel colPanel) {
 		this.colPanel = colPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the rowPanel
 	 * @return the rowPanel
 	 */
 	protected JPanel getRowPanel() {
 		return rowPanel;
 	}
 
-	/**
+	/**	 
+	 * Set the rowPanel
 	 * @param rowPanel the rowPanel to set
 	 */
 	protected void setRowPanel(JPanel rowPanel) {
 		this.rowPanel = rowPanel;
 	}
 
-	/**
+	/**	 
+	 * Get the newMenuItem
 	 * @return the newMenuItem
 	 */
 	protected JMenuItem getNewMenuItem() {
 		return newMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Set the newMenuItem
 	 * @param newMenuItem the newMenuItem to set
 	 */
 	protected void setNewMenuItem(JMenuItem newMenuItem) {
 		this.newMenuItem = newMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Get the solutionMenuItem
 	 * @return the solutionMenuItem
 	 */
 	protected JMenuItem getSolutionMenuItem() {
 		return solutionMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Set the solutionMenuItem
 	 * @param solutionMenuItem the solutionMenuItem to set
 	 */
 	protected void setSolutionMenuItem(JMenuItem solutionMenuItem) {
 		this.solutionMenuItem = solutionMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Get the exitMenuItem
 	 * @return the exitMenuItem
 	 */
 	protected JMenuItem getExitMenuItem() {
 		return exitMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Set the exitMenuItem
 	 * @param exitMenuItem the exitMenuItem to set
 	 */
 	protected void setExitMenuItem(JMenuItem exitMenuItem) {
 		this.exitMenuItem = exitMenuItem;
 	}
 
-	/**
+	/**	 
+	 * Get the backgroundColour
 	 * @return the backgroundColour
 	 */
 	protected JMenuItem getBackgroundColour() {
 		return backgroundColour;
 	}
 
-	/**
+	/**	 
+	 * Set the backgroundColour
 	 * @param backgroundColour the backgroundColour to set
 	 */
 	protected void setBackgroundColour(JMenuItem backgroundColour) {
 		this.backgroundColour = backgroundColour;
 	}
 
-	/**
+	/**	 
+	 * Get the textColour
 	 * @return the textColour
 	 */
 	protected JMenuItem getTextColour() {
 		return textColour;
 	}
 
-	/**
+	/**	 
+	 * Set the textColour
 	 * @param textColour the textColour to set
 	 */
 	protected void setTextColour(JMenuItem textColour) {
 		this.textColour = textColour;
 	}
 
-	/**
+	/**	 
+	 * Get the componentColour
 	 * @return the componentColour
 	 */
 	protected JMenuItem getComponentColour() {
 		return componentColour;
 	}
 
-	/**
+	/**	 
+	 * Set the componentColour
 	 * @param componentColour the componentColour to set
 	 */
 	protected void setComponentColour(JMenuItem componentColour) {
 		this.componentColour = componentColour;
 	}
 
-	/**
+	/**	 
+	 * Get the aboutMenu
 	 * @return the aboutMenu
 	 */
 	protected JMenuItem getAboutMenu() {
 		return aboutMenu;
 	}
 
-	/**
+	/**	 
+	 * Set the aboutMenu
 	 * @param aboutMenu the aboutMenu to set
 	 */
 	protected void setAboutMenu(JMenuItem aboutMenu) {
 		this.aboutMenu = aboutMenu;
 	}
 
-	/**
+	/**	 
+	 * Get the gameMenu
 	 * @return the gameMenu
 	 */
 	protected JMenuItem getGameMenu() {
 		return gameMenu;
 	}
 
-	/**
+	/**	 
+	 * Set the gameMenu
 	 * @param gameMenu the gameMenu to set
 	 */
 	protected void setGameMenu(JMenuItem gameMenu) {
 		this.gameMenu = gameMenu;
 	}
 
-	/**
+	/**	 
+	 * Get the newMenuOption
 	 * @return the newMenuOption
 	 */
 	protected JMenuItem getNewMenuOption() {
 		return newMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the newMenuOption
 	 * @param newMenuOption the newMenuOption to set
 	 */
 	protected void setNewMenuOption(JMenuItem newMenuOption) {
 		this.newMenuOption = newMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the exitMenuOption
 	 * @return the exitMenuOption
 	 */
 	protected JMenuItem getExitMenuOption() {
 		return exitMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the exitMenuOption
 	 * @param exitMenuOption the exitMenuOption to set
 	 */
 	protected void setExitMenuOption(JMenuItem exitMenuOption) {
 		this.exitMenuOption = exitMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the resetMenuOption
 	 * @return the resetMenuOption
 	 */
 	protected JMenuItem getResetMenuOption() {
 		return resetMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the resetMenuOption
 	 * @param resetMenuOption the resetMenuOption to set
 	 */
 	protected void setResetMenuOption(JMenuItem resetMenuOption) {
 		this.resetMenuOption = resetMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the solveMenuOption
 	 * @return the solveMenuOption
 	 */
 	protected JMenuItem getSolveMenuOption() {
 		return solveMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the solveMenuOption
 	 * @param solveMenuOption the solveMenuOption to set
 	 */
 	protected void setSolveMenuOption(JMenuItem solveMenuOption) {
 		this.solveMenuOption = solveMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the toLauncherMenuOption
 	 * @return the toLauncherMenuOption
 	 */
 	protected JMenuItem getToLauncherMenuOption() {
 		return toLauncherMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the toLauncherMenuOption
 	 * @param toLauncherMenuOption the toLauncherMenuOption to set
 	 */
 	protected void setToLauncherMenuOption(JMenuItem toLauncherMenuOption) {
 		this.toLauncherMenuOption = toLauncherMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the saveMenuOption
 	 * @return the saveMenuOption
 	 */
 	protected JMenuItem getSaveMenuOption() {
 		return saveMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the saveMenuOption
 	 * @param saveMenuOption the saveMenuOption to set
 	 */
 	protected void setSaveMenuOption(JMenuItem saveMenuOption) {
 		this.saveMenuOption = saveMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the loadMenuOption
 	 * @return the loadMenuOption
 	 */
 	protected JMenuItem getLoadMenuOption() {
 		return loadMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the loadMenuOption
 	 * @param loadMenuOption the loadMenuOption to set
 	 */
 	protected void setLoadMenuOption(JMenuItem loadMenuOption) {
 		this.loadMenuOption = loadMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the aboutMenuOption
 	 * @return the aboutMenuOption
 	 */
 	protected JMenuItem getAboutMenuOption() {
 		return aboutMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Set the aboutMenuOption
 	 * @param aboutMenuOption the aboutMenuOption to set
 	 */
 	protected void setAboutMenuOption(JMenuItem aboutMenuOption) {
 		this.aboutMenuOption = aboutMenuOption;
 	}
 
-	/**
+	/**	 
+	 * Get the fiveFive
 	 * @return the fiveFive
 	 */
 	protected JMenuItem getFiveFive() {
 		return fiveFive;
 	}
 
-	/**
+	/**	 
+	 * Set the fiveFive
 	 * @param fiveFive the fiveFive to set
 	 */
 	protected void setFiveFive(JMenuItem fiveFive) {
 		this.fiveFive = fiveFive;
 	}
 
-	/**
+	/**	 
+	 * Get the sixSix
 	 * @return the sixSix
 	 */
 	protected JMenuItem getSixSix() {
 		return sixSix;
 	}
 
-	/**
+	/**	 
+	 * Set the sixSix
 	 * @param sixSix the sixSix to set
 	 */
 	protected void setSixSix(JMenuItem sixSix) {
 		this.sixSix = sixSix;
 	}
 
-	/**
+	/**	 
+	 * Get the sevSev
 	 * @return the sevSev
 	 */
 	protected JMenuItem getSevSev() {
 		return sevSev;
 	}
 
-	/**
+	/**	 
+	 * Set the sevSev
 	 * @param sevSev the sevSev to set
 	 */
 	protected void setSevSev(JMenuItem sevSev) {
