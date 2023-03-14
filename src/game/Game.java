@@ -20,6 +20,7 @@ public class Game extends JFrame{
 		controller.startController();
 		// gridsize 
 		// row and col
+		// reset the timer and score when the solve button is clicked
 	}
 	
 }
