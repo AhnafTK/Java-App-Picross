@@ -671,7 +671,7 @@ public class GameModel {
 	 * Gets the row array
 	 * @return the row array.
 	 */
-	public String[] getRow() {
+	protected String[] getRow() {
 		return row;
 	}
 	
@@ -775,7 +775,7 @@ public class GameModel {
 	 * Returns the total valid number.
 	 * @return totalValid: containing the total number of valids.
 	 */
-	public int getTotalValid() {
+	protected int getTotalValid() {
 		return totalValid;
 	}
 
@@ -783,7 +783,7 @@ public class GameModel {
 	 * Gets the designBoard.
 	 * @return designBoard array.
 	 */
-	public String[][] getDesignBoard() {
+	protected String[][] getDesignBoard() {
 		return designBoard;
 	}
 }

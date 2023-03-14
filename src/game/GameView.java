@@ -971,14 +971,14 @@ public class GameView {
 	/**
 	 * @return the nameTextField
 	 */
-	public JTextField getNameTextField() {
+	protected JTextField getNameTextField() {
 		return nameTextField;
 	}
 	
 	/**
 	 * @param nameTextField the nameTextField to set
 	 */
-	public void setNameTextField(JTextField nameTextField) {
+	protected void setNameTextField(JTextField nameTextField) {
 		this.nameTextField= nameTextField;
 	}
 	
