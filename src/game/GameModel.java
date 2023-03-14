@@ -1,6 +1,5 @@
 package game;
 
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -23,8 +22,6 @@ public class GameModel {
 	private Timer timer;
 	/*** Holds the game mode. 0 = design/launcher, 1 = play */
 	private int gameMode = 0;
-	/*** Holds the number of the timer.*/
-	private int timerNumber = 0;
 	/*** Holds the total number of valid tiles selected.*/
 	private int totalValid = 0;
 	/*** Holds current number of valid tiles selected.*/
@@ -661,7 +658,7 @@ public class GameModel {
 
 	/**
 	 * Sets the score variable.
-	 * @param Score the score to set
+	 * @param score the score to set
 	 */
 	protected void setScore(int score) {
 		this.score = score;

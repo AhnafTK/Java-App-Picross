@@ -8,15 +8,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
-import java.util.Formatter;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
