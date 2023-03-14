@@ -12,7 +12,6 @@ import javax.swing.Timer;
  * Beginning of the GameModel class. Responsible for logic/state of the game and its components.
  */
 public class GameModel {
-	
 	private Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
 	private ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -72,8 +71,6 @@ public class GameModel {
 	 * @return Converted time.
 	 */
 	protected int timerToSeconds() {
-		minutes = getMinutes();
-		seconds = getSeconds();
 		seconds = seconds + (minutes * 60);
 		bestTime = seconds;
 		return bestTime;
@@ -165,11 +162,11 @@ public class GameModel {
 	 */
 	protected void totalValidTiles() {
 		
-		setTotalValid(0);
+		totalValid = 0;
 		for (int a = 0; a < gridSize; a++) {
 			for (int b = 0; b < gridSize; b++) {
 				if (row[a].charAt(b) == '1') { // if 1
-					setTotalValid(getTotalValid() + 1);
+					totalValid = totalValid + 1;
 				}
 			}
 		}
@@ -220,20 +217,19 @@ public class GameModel {
 		}
 		
 		if (fileReader.hasNextLine()) {
-			
-			setBestScore(fileReader.nextInt());
-			setBestTime(fileReader.nextInt());
+			bestScore = fileReader.nextInt();
+			bestTime = fileReader.nextInt();
 
 			fileReader.nextLine();
 			String name = fileReader.nextLine();
 			
 			if (!name.equals(null)) {
-				setUsername(name);
-				JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: "
-						+ getBestScore() + "\nBest Time: " + getBestTime());
+				username = name;
+				JOptionPane.showMessageDialog(null, "Read a file with username: " + username + "\nBest Score: "
+						+ bestScore + "\nBest Time: " + bestTime);
 			} else {
 				setUsername(fileReader.nextLine());
-				JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());
+				JOptionPane.showMessageDialog(null, "Read a file with best Score: " + bestScore + "\nBest Time: " + bestTime);
 			}
 
 		}
@@ -245,7 +241,7 @@ public class GameModel {
 	 */
 	protected void readFileDesign(Scanner fileReader) {
 		gridSize = fileReader.nextInt();
-		setDesignBoard(new String[gridSize][gridSize]);
+		designBoard = new String[gridSize][gridSize];
 		row = new String[gridSize];
 		fileReader.nextLine();
 
@@ -361,7 +357,7 @@ public class GameModel {
 	 * @param gridSize Size of the board.
 	 */
 	void makeDesignBoard(int gridSize) {
-		setDesignBoard(new String[gridSize][gridSize]);
+		designBoard = new String[gridSize][gridSize];
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				getDesignBoard()[i][j] = "0";
@@ -452,14 +448,14 @@ public class GameModel {
 	 * @param i Index i of the array (row)
 	 * @param j Index j of the row.
 	 */
-	void updateDesignBoard(int i, int j) {
-		getDesignBoard()[i][j] = "1";
+	protected void updateDesignBoard(int i, int j) {
+		designBoard[i][j] = "1";
 	}
 
 	/**
 	 * Resets the board by setting the labels array to zero.
 	 */
-	void resetBoard() {
+	protected void resetBoard() {
 		rowLabels = new String[gridSize];
 		colLabels = new String[gridSize];
 		gridSize = 5;
@@ -496,20 +492,6 @@ public class GameModel {
 	}
 
 	/**
-	 * @return the timerNumber
-	 */
-	protected int getTimerNumber() {
-		return timerNumber;
-	}
-
-	/**
-	 * @param timerNumber the timerNumber to set
-	 */
-	protected void setTimerNumber(int timerNumber) {
-		this.timerNumber = timerNumber;
-	}
-
-	/**
 	 * @return the seconds
 	 */
 	protected int getSeconds() {
@@ -517,6 +499,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the seconds
 	 * @param seconds the seconds to set
 	 */
 	protected void setSeconds(int seconds) {
@@ -524,6 +507,7 @@ public class GameModel {
 	}
 
 	/**
+	 * gets the minutes
 	 * @return the minutes
 	 */
 	protected int getMinutes() {
@@ -531,6 +515,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the minutes
 	 * @param minutes the minutes to set
 	 */
 	protected void setMinutes(int minutes) {
@@ -538,6 +523,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Returns secFormat
 	 * @return the secFormat
 	 */
 	protected String getSecFormat() {
@@ -545,6 +531,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets secFormat
 	 * @param secFormat the secFormat to set
 	 */
 	protected void setSecFormat(String secFormat) {
@@ -552,6 +539,7 @@ public class GameModel {
 	}
 
 	/**
+	 * gets minFormat
 	 * @return the minFormat
 	 */
 	protected String getMinFormat() {
@@ -559,14 +547,15 @@ public class GameModel {
 	}
 
 	/**
+	 * sets MinFormat
 	 * @param minFormat the minFormat to set
 	 */
 	protected void setMinFormat(String minFormat) {
 		this.minFormat = minFormat;
 	}
 
-
 	/**
+	 * gets gameStarted
 	 * @return the gameStarted
 	 */
 	protected boolean isGameStarted() {
@@ -574,6 +563,7 @@ public class GameModel {
 	}
 
 	/**
+	 * sets gameStarted
 	 * @param gameStarted the gameStarted to set
 	 */
 	protected void setGameStarted(boolean gameStarted) {
@@ -581,48 +571,8 @@ public class GameModel {
 	}
 
 	/**
-	 * @return the defaultFiveBVals
-	 */
-	protected int[] getDefaultFiveBVals() {
-		return defaultFiveBVals;
-	}
-
-	/**
-	 * @param defaultFiveBVals the defaultFiveBVals to set
-	 */
-	protected void setDefaultFiveBVals(int[] defaultFiveBVals) {
-		this.defaultFiveBVals = defaultFiveBVals;
-	}
-
-	/**
-	 * @return the defaultSixBVals
-	 */
-	protected int[] getDefaultSixBVals() {
-		return defaultSixBVals;
-	}
-
-	/**
-	 * @param defaultSixBVals the defaultSixBVals to set
-	 */
-	protected void setDefaultSixBVals(int[] defaultSixBVals) {
-		this.defaultSixBVals = defaultSixBVals;
-	}
-
-	/**
-	 * @return the defaultSevBVals
-	 */
-	protected int[] getDefaultSevBVals() {
-		return defaultSevBVals;
-	}
-
-	/**
-	 * @param defaultSevBVals the defaultSevBVals to set
-	 */
-	protected void setDefaultSevBVals(int[] defaultSevBVals) {
-		this.defaultSevBVals = defaultSevBVals;
-	}
-
-	/**
+	 * gets the row array at an index
+	 * @param i Index
 	 * @return the row
 	 */
 	protected String getRow(int i) {
@@ -630,6 +580,7 @@ public class GameModel {
 	}
 
 	/**
+	 * sets the row array
 	 * @param row the row to set
 	 */
 	protected void setRow(String[] row) {
@@ -637,6 +588,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Gets the col array.
 	 * @return the col
 	 */
 	protected String[] getCol() {
@@ -644,6 +596,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the col
 	 * @param col the col to set
 	 */
 	protected void setCol(String[] col) {
@@ -651,6 +604,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Gets the currentValid variable.
 	 * @return the currentValid
 	 */
 	protected int getCurrentValid() {
@@ -658,13 +612,15 @@ public class GameModel {
 	}
 
 	/**
-	 * @param gridSize the gridSize to set
+	 * Sets the currentValid variable
+	 * @param currentValid the value to set it to.
 	 */
 	protected void setCurrentValid(int currentValid) {
 		this.currentValid = currentValid;
 	}
 
 	/**
+	 * gets the bestTime variable.
 	 * @return the bestTime
 	 */
 	protected int getBestTime() {
@@ -672,6 +628,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the bestTime variable.
 	 * @param bestTime the time to set
 	 */
 	protected void setBestTime(int bestTime) {
@@ -679,6 +636,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Gets the best score variable
 	 * @return the bestScore
 	 */
 	protected int getBestScore() {
@@ -686,6 +644,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the bestScore varaible.
 	 * @param bestScore the score to set
 	 */
 	protected void setBestScore(int bestScore) {
@@ -693,6 +652,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Returns the score variable
 	 * @return the Score
 	 */
 	protected int getScore() {
@@ -700,21 +660,23 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the score variable.
 	 * @param Score the score to set
 	 */
 	protected void setScore(int score) {
 		this.score = score;
 	}
 
-	protected String[] returnRows() {
-		return getRow();
-	}
-
+	/**
+	 * Gets the row array
+	 * @return the row array.
+	 */
 	public String[] getRow() {
 		return row;
 	}
 	
 	/**
+	 * Gets the username
 	 * @return the username
 	 */
 	protected String getUsername() {
@@ -722,6 +684,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the userName
 	 * @param username the username to set
 	 */
 	protected void setUsername(String username) {
@@ -729,6 +692,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Gets gameFinished status.
 	 * @return the gameFinished
 	 */
 	protected boolean getGameFinished() {
@@ -736,6 +700,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets gameFinished status.
 	 * @param gameFinished the gameFinished to set
 	 */
 	protected void setGameFinished(boolean gameFinished) {
@@ -743,27 +708,15 @@ public class GameModel {
 	}
 
 	/**
+	 * Returns game mode.
 	 * @return the gameMode
 	 */
 	protected int getGameMode() {
 		return gameMode;
 	}
-
+	
 	/**
-	 * @return the markMode
-	 */
-	protected boolean isMarkMode() {
-		return markMode;
-	}
-
-	/**
-	 * @param markMode the markMode to set
-	 */
-	protected void setMarkMode(boolean markMode) {
-		this.markMode = markMode;
-	}
-
-	/**
+	 * Sets the gameMode.
 	 * @param gameMode the gameMode to set
 	 */
 	protected void setGameMode(int gameMode) {
@@ -771,6 +724,23 @@ public class GameModel {
 	}
 
 	/**
+	 * returns markMode.
+	 * @return the markMode
+	 */
+	protected boolean isMarkMode() {
+		return markMode;
+	}
+
+	/**
+	 * Sets mark mode.
+	 * @param markMode the markMode to set
+	 */
+	protected void setMarkMode(boolean markMode) {
+		this.markMode = markMode;
+	}
+
+	/**
+	 * Returns the locale.
 	 * @return the currentLocale
 	 */
 	protected Locale getCurrentLocale() {
@@ -778,6 +748,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the Locale
 	 * @param currentLocale the currentLocale to set
 	 */
 	protected void setCurrentLocale(Locale currentLocale) {
@@ -785,6 +756,7 @@ public class GameModel {
 	}
 
 	/**
+	 * Returns the current langText.
 	 * @return the langText
 	 */
 	protected ResourceBundle getLangText() {
@@ -792,27 +764,26 @@ public class GameModel {
 	}
 
 	/**
+	 * Sets the resourceBundle.
 	 * @param langText the langText to set
 	 */
 	protected void setLangText(ResourceBundle langText) {
 		this.langText = langText;
 	}
 
+	/**
+	 * Returns the total valid number.
+	 * @return totalValid: containing the total number of valids.
+	 */
 	public int getTotalValid() {
 		return totalValid;
 	}
 
-	public void setTotalValid(int totalValid) {
-		this.totalValid = totalValid;
-	}
-
+	/**
+	 * Gets the designBoard.
+	 * @return designBoard array.
+	 */
 	public String[][] getDesignBoard() {
 		return designBoard;
 	}
-
-	public void setDesignBoard(String[][] designBoard) {
-		this.designBoard = designBoard;
-	}
-
-
 }
