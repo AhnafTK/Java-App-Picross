@@ -13,9 +13,9 @@ import javax.swing.Timer;
  */
 public class GameModel {
 	
-	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+	private Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
-	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+	private ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 	/** Int variable to hold the grid size, 5x5 by default */
 	protected int gridSize = 5;
 	/** Boolean for the mark mode, false by default */
@@ -27,8 +27,7 @@ public class GameModel {
 	private int timerNumber = 0;
 
 	private int totalValid = 0;
-	protected int currentValid = 0;
-
+	private int currentValid = 0;
 	private int bestTime = 0;
 	private int bestScore = 0;
 

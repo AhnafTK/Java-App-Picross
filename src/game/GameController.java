@@ -33,7 +33,7 @@ public class GameController {
 	protected void startController() {splashActions();}
 
 	private void splashActions() {
-		view.startLauncher(model.currentLocale, model.langText);			
+		view.startLauncher(model.getCurrentLocale(), model.getLangText());			
 		launcherActions();
 	}
 	
@@ -44,7 +44,7 @@ public class GameController {
 
 			// intialize default model
 			view.getStartWindow().dispose();
-			view.Play(model.currentLocale,model.langText);
+			view.Play(model.getCurrentLocale(),model.getLangText());
 			playActions();
 		});
 
@@ -54,7 +54,7 @@ public class GameController {
 			view.resetRowsAndCol();
 			System.out.println("clicked design button");
 			view.getStartWindow().dispose();
-			view.Design(model.currentLocale, model.langText);
+			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
 		});
 		
@@ -70,10 +70,10 @@ public class GameController {
 	}
 
 	private void updateLauncherLanguage() {
-		view.getDesignButton().setText(model.langText.getString("design"));
-		view.getPlayButton().setText(model.langText.getString("play"));
-		view.getEngRadio().setText(model.langText.getString("english"));
-		view.getFrRadio().setText(model.langText.getString("french"));
+		view.getDesignButton().setText(model.getLangText().getString("design"));
+		view.getPlayButton().setText(model.getLangText().getString("play"));
+		view.getEngRadio().setText(model.getLangText().getString("english"));
+		view.getFrRadio().setText(model.getLangText().getString("french"));
 	}
 	private void designActions() {
 		model.setGameMode(0);
@@ -151,7 +151,9 @@ public class GameController {
 							else {
 								if (model.isMarkMode()) {
 									view.getButtons()[i][j].setBackground(view.mark_color);
+									view.history.append(model.getLangText().getString("upon_grid_mark") + ": [" + i + ", " + j + "]\n");
 								} else {
+                                    view.history.append(model.getLangText().getString("upon_grid_click") + ": [" + i + ", " + j + "]\n");
 									if (model.isGameStarted() == false) {
 										timerCounter(); 
 										model.getTimer().start();	
@@ -204,10 +206,10 @@ public class GameController {
 	private void markCheckBoxAction() {
 		view.getMarkCheckBox().addActionListener((actionEvent) -> {
 			if (view.getMarkCheckBox().isSelected()) {
-				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("true") + "\n");
+				view.history.append(model.getLangText().getString("mark") + ": " + model.getLangText().getString("true") + "\n");
 				model.setMarkMode(true);
 			} else {
-				view.history.append(model.langText.getString("mark") + ": " + model.langText.getString("false") + "\n");
+				view.history.append(model.getLangText().getString("mark") + ": " + model.getLangText().getString("false") + "\n");
 				model.setMarkMode(false);
 			}
 		});
@@ -218,13 +220,13 @@ public class GameController {
 			model.changeLanguage("en", "US");
 			view.updateText(model.getCurrentLocale(), model.getLangText());
 			view.getLeftPanel().revalidate();
-			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("english") + "\n");
+			view.history.append("\n" + model.getLangText().getString("upon_lang_change") + model.getLangText().getString("english") + "\n");
 		});
 		view.getFrRadio().addActionListener((actionEvent) -> {
 			model.changeLanguage("fr", "FR");
-			view.updateText(model.currentLocale, model.langText);
+			view.updateText(model.getCurrentLocale(), model.getLangText());
 			view.getLeftPanel().revalidate();
-			view.history.append("\n" + model.langText.getString("upon_lang_change") + model.langText.getString("french") + "\n");
+			view.history.append("\n" + model.getLangText().getString("upon_lang_change") + model.getLangText().getString("french") + "\n");
 		});
 	}
 	
@@ -278,7 +280,7 @@ public class GameController {
 			model.setGameStarted(false);
 			view.getDesignWindow().dispose();
 			System.out.println("clicked design back button");
-			view.launcher(model.langText, model.currentLocale);
+			view.launcher(model.getLangText(), model.getCurrentLocale());
 			launcherActions();
 		}
 	}
@@ -291,7 +293,7 @@ public class GameController {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
 				view.getPicrossWindow().dispose();
-				view.launcher(model.langText, model.currentLocale);
+				view.launcher(model.getLangText(), model.getCurrentLocale());
 				launcherActions();
 				if (model.isGameStarted() == false) {
 					return;
@@ -306,7 +308,7 @@ public class GameController {
 				model.setGameStarted(false);
 				view.getDesignWindow().dispose();
 				System.out.println("clicked design back button");
-				view.launcher(model.langText, model.currentLocale);
+				view.launcher(model.getLangText(), model.getCurrentLocale());
 				launcherActions();
 			}
 			
@@ -314,16 +316,16 @@ public class GameController {
 		
 		view.getResetButton().addActionListener((actionEvent) -> {resetBoard();});
 		view.getSolveButton().addActionListener((actionEvent) -> {
-			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-					+ model.langText.getString("solve") + "\n");
+			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+					+ model.getLangText().getString("solve") + "\n");
 			view.setViewRows(model.getRow());
 			view.solveBoard(model.gridSize);
 		});
 	
 		view.getInstructionsButton().addActionListener((actionEvent) -> {showInstructions();});
 		view.getNewBoardButton().addActionListener((actionEvent) -> {
-			view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-			+ model.langText.getString("newBoard") + "\n");
+			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+			+ model.getLangText().getString("newBoard") + "\n");
 			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(),false, false);
 		});
 
@@ -517,8 +519,7 @@ public class GameController {
 	
 	private void resetBoard() {
 		
-		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-	    + model.langText.getString("reset") + "\n");
+		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("reset") + "\n");
 		if (model.getGameMode() == 1 && model.isGameStarted() == true) {
 			model.setCurrentValid(0);
 			model.setScore(0);
@@ -536,9 +537,9 @@ public class GameController {
 	}
 	
 	private void showInstructions() {
-		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
-		+ model.langText.getString("instructions") + "\n");
-		view.Instructions(model.currentLocale, model.langText);
+		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+		+ model.getLangText().getString("instructions") + "\n");
+		view.Instructions(model.getCurrentLocale(), model.getLangText());
 		view.getInstructionsButton().setEnabled(false);
 		instructionsActions();
 	}
