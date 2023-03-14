@@ -470,28 +470,25 @@ public class GameModel {
         int inc = 0;
         int total = 0;
         for(int c = 0; c < gridSize; c++) {
-        	
-            System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
-
+           // System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
             if (newRow.charAt(c) == '1') {
                 inc++;
             }
             else {
             	if (inc != 0 ) {
-            		updatedRowLabel += Integer.toString(inc) + ",";
+            		updatedRowLabel += Integer.toString(inc) + " ";
             	}
                 System.out.println("hit 0: inc is  " + inc);
                 ///System.out.println(actual);
-
                 inc = 0;
+            }
+            // if im nearing the end
+            if((c+1) == gridSize && inc!=0) {
+            	updatedRowLabel += inc;
             }
 
         }
-        if(newRow.charAt(gridSize-1) == '1') {
-            System.out.println("PREVIOUS " + updatedRowLabel);
 
-        	updatedRowLabel = updatedRowLabel + "1";
-        }
         System.out.println("generated label: " + updatedRowLabel);
 
         rowLabelsDesign[i] = updatedRowLabel;
