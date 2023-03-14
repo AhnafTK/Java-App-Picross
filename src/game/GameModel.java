@@ -25,49 +25,49 @@ public class GameModel {
 
 	protected int totalValid = 0;
 	protected int currentValid = 0;
-	
+
 	protected int bestTime = 0;
 	protected int bestScore = 0;
-	
+
 	protected int score = 0;
-	
+
 	protected int seconds, minutes;
 	protected String secFormat, minFormat;
 
 	protected String username;
-	
+
 	protected int[][] boardPuzzle;
 	protected boolean gameStarted = false;
 	protected boolean gameFinished = false;
-	
-	int [] defaultFiveBVals = {21,20,29,21,21};
-	int [] defaultSixBVals = {51,18,0,33,18,12};
-	int [] defaultSevBVals = {42,28,34,107,34,28,42};
-	
+
+	int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
+	int[] defaultSixBVals = { 51, 18, 0, 33, 18, 12 };
+	int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
+
 	String[][] designBoard;
 
 	private String[] row;
 	private String[] col;
 	String[] rowLabels;
 	String[] colLabels;
-	
+
 	String[] rowLabelsDesign;
 	String[] colLabelsDesign;
-	
+
 	protected int timerToSeconds() {
 		minutes = getMinutes();
 		seconds = getSeconds();
-		
+
 		seconds = seconds + (minutes * 60);
 		bestTime = seconds;
 		return bestTime;
 	}
-	
+
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
 	}
-	
+
 	/**
 	 * @return the username
 	 */
@@ -81,7 +81,7 @@ public class GameModel {
 	protected void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	/**
 	 * @return the gameFinished
 	 */
@@ -95,7 +95,7 @@ public class GameModel {
 	protected void setGameFinished(boolean gameFinished) {
 		this.gameFinished = gameFinished;
 	}
-	
+
 	/**
 	 * @return the gameMode
 	 */
@@ -153,50 +153,39 @@ public class GameModel {
 	}
 
 	protected String[] rowLabel() {
+
 		rowLabels = new String[gridSize];
 		String currentLabel = "";
-		//String[] returnLabels = new String[gridSize];
-		//System.out.println("\nPATTERN");
 		int increment = 0;
-		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
-		for (int a = 0; a < gridSize; a++) {
-			// runs through each element of the ROWS
-			for (int b = 0; b < gridSize; b++) {
-				// System.out.print(col[a].charAt(b)+"\n");
-				if (getRow()[a].charAt(b) == '1') { // if 1
+
+		for (int i = 0; i < gridSize; i++) {
+
+			System.out.println("row at i: " + row[i]);
+			for (int j = 0; j < gridSize; j++) {
+				if (row[i].charAt(j) == '1') {
 					increment++;
-					totalPerRow++;
-				} else { // if 0
-					if (increment != 0) { // if 0 and increment is not 0
-						//System.out.print(increment + " ");
-						currentLabel = currentLabel + increment + " ";
+				} else {
+					if (increment != 0) {
+						currentLabel += Integer.toString(increment) + " ";
 					}
 					increment = 0;
 				}
+				if (j + 1 == gridSize && increment != 0) {
+					currentLabel += Integer.toString(increment);
+					increment = 0;
+				}
 			}
-			if (increment != 0) {
-				currentLabel = currentLabel + increment + " ";
-			}
-			increment = 0;
-			//System.out.println("");
-			if (totalPerRow == 0) {
-				currentLabel = currentLabel + " ";
-				rowLabels[a] = currentLabel + " ";
-			} 
-			else {
-				rowLabels[a] = currentLabel + " ";
-				currentLabel = "";
-			}
-			
-			totalPerRow = 0;
+			rowLabels[i] = currentLabel;
+			currentLabel = "";
 		}
+
 		for (int i = 0; i < gridSize; i++) {
 			System.out.println(rowLabels[i]);
 		}
 		return rowLabels;
 	}
-	
+
 	protected String[] colLabel() {
 		colLabels = new String[gridSize];
 		String currentLabel = "";
@@ -204,41 +193,33 @@ public class GameModel {
 		int increment = 0;
 		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
-		for (int a = 0; a < gridSize; a++) {
-			// runs through each element of the ROWS
-			for (int b = 0; b < gridSize; b++) {
-				if (col[a].charAt(b) == '1') { // if 1
+		for (int i = 0; i < gridSize; i++) {
+
+			System.out.println("row at i: " + col[i]);
+			for (int j = 0; j < gridSize; j++) {
+				if (col[i].charAt(j) == '1') {
 					increment++;
-					totalPerRow++;
-				} else { // if 0
-					if (increment != 0) { // if 0 and increment is not 0
-						currentLabel = currentLabel + increment + "\n";
+				} else {
+					if (increment != 0) {
+						currentLabel += Integer.toString(increment) + " ";
 					}
 					increment = 0;
 				}
+				if (j + 1 == gridSize && increment != 0) {
+					currentLabel += Integer.toString(increment);
+					increment = 0;
+				}
 			}
-			if (increment != 0) {
-				currentLabel = currentLabel + increment + "";
-			}
-			increment = 0;
-			//System.out.println("");
-			if (totalPerRow == 0) {
-				currentLabel = currentLabel + "0";
-				colLabels[a] = currentLabel + "";
-			} 
-			else {
-				colLabels[a] = currentLabel + "";
-				currentLabel = "";
-			}
-			
-			totalPerRow = 0;
+			colLabels[i] = currentLabel;
+			currentLabel = "";
 		}
 		for (int i = 0; i < gridSize; i++) {
 			System.out.println(colLabels[i]);
 		}
 		return colLabels;
 	}
-		
+
+	
 	protected void totalValidTiles() {
 		totalValid = 0;
 		for (int a = 0; a < gridSize; a++) {
@@ -249,10 +230,10 @@ public class GameModel {
 			}
 		}
 	}
-	
+
 	protected String writeDesignPattern() {
 		String pattern = "";
-		for (int i = 0; i< gridSize; i++) {
+		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				pattern = pattern + designBoard[i][j];
 			}
@@ -260,6 +241,7 @@ public class GameModel {
 		}
 		return pattern;
 	}
+
 	protected String writePattern() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
@@ -267,7 +249,7 @@ public class GameModel {
 		}
 		return pattern;
 	}
-	
+
 	protected void readFile(Scanner fileReader) {
 		System.out.println("READING FILE FOR PLAY");
 		// get gridsize first
@@ -280,27 +262,27 @@ public class GameModel {
 			row[i] = fileReader.nextLine();
 			System.out.println("Row at i " + row[i]);
 		}
-		if(fileReader.hasNextLine()) {
+		if (fileReader.hasNextLine()) {
 			setBestScore(fileReader.nextInt());
 			System.out.println("Best Score: " + getBestScore());
 			setBestTime(fileReader.nextInt());
 			System.out.println("Best Time: " + getBestTime());
-			
+
 			fileReader.nextLine();
-			
+
 			String name = fileReader.nextLine();
 			if (!name.equals(null)) {
 				setUsername(name);
 				System.out.println("Username: " + getUsername());
-				JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: " + getBestScore() + "\nBest Time: " + getBestTime());  	
-			}
-			else {
+				JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: "
+						+ getBestScore() + "\nBest Time: " + getBestTime());
+			} else {
 				setUsername(fileReader.nextLine());
 				System.out.println("Username: " + getUsername());
-			    JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());  		
+				JOptionPane.showMessageDialog(null,
+						"Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());
 			}
-			
-			
+
 		}
 		System.out.println("model row is now: ");
 		for (int i = 0; i < gridSize; i++) {
@@ -308,42 +290,42 @@ public class GameModel {
 
 		}
 	}
-	
+
 	protected void readFileDesign(Scanner fileReader) {
 		System.out.println("READING FILE FOR DESIGN");
 		// get gridsize first
 		int fileGridSize = fileReader.nextInt();
 		gridSize = fileGridSize;
 		designBoard = new String[gridSize][gridSize];
-		
+
 		System.out.println("DESIGN BOARD SIZE CHANGED FROM FILE NOW = " + gridSize);
-		
+
 		row = new String[fileGridSize];
 		fileReader.nextLine();
-		
-		for (int i = 0; i< gridSize; i++) {
+
+		for (int i = 0; i < gridSize; i++) {
 			row[i] = fileReader.nextLine();
 			for (int j = 0; j < gridSize; j++) {
 				designBoard[i][j] = String.valueOf(row[i].charAt(j));
-				///System.out.print(designBoard[i][j]);
+				/// System.out.print(designBoard[i][j]);
 			}
 		}
-		
+
 		System.out.println("model row is now(DESIGN): ");
 		for (int i = 0; i < gridSize; i++) {
 			System.out.println(row[i]);
 
 		}
-		
+
 		System.out.println("model designBoard is now(DESIGN): ");
-		for (int i = 0; i< gridSize; i++) {
+		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				System.out.print(designBoard[i][j]);
 			}
 		}
-		
+
 	}
-	
+
 	protected String intToBinary(int value) {
 		String binVal = Integer.toBinaryString(value);
 		while (binVal.length() < gridSize) {
@@ -351,28 +333,29 @@ public class GameModel {
 		}
 		return binVal;
 	}
-	
+
 	protected String[] rowLabelDesign() {
 		rowLabelsDesign = new String[gridSize];
-		for(int i = 0; i<gridSize;i++) {
+		for (int i = 0; i < gridSize; i++) {
 			rowLabelsDesign[i] = "0";
 		}
 		return rowLabelsDesign;
 	}
-	
+
 	protected String[] colLabelDesign() {
 		colLabelsDesign = new String[gridSize];
-		for(int i = 0; i<gridSize;i++) {
+		for (int i = 0; i < gridSize; i++) {
 			colLabelsDesign[i] = "0";
 		}
 		return colLabelsDesign;
 	}
- 	protected String[] generateRows(int maxPossible, boolean useDefault) {
-		
+
+	protected String[] generateRows(int maxPossible, boolean useDefault) {
+
 		setRow(new String[gridSize]);
-		
+
 		if (useDefault == true) {
-			switch(gridSize) {
+			switch (gridSize) {
 			case 5:
 				System.out.println("default 5x5");
 				for (int i = 0; i < gridSize; i++) {
@@ -394,17 +377,16 @@ public class GameModel {
 					System.out.println(getRow()[i]);
 				}
 				break;
-			}			
-		}
-		else {
-			//System.out.println("generated values");
+			}
+		} else {
+			// System.out.println("generated values");
 			for (int i = 0; i < gridSize; i++) {
 
 				Random rand = new Random();
 				int value = rand.nextInt(maxPossible);
 				getRow()[i] = intToBinary(value);
 			}
-		
+
 			System.out.println("\nROWS");
 			for (int a = 0; a < gridSize; a++) {
 				System.out.println(getRow()[a]);
@@ -412,17 +394,17 @@ public class GameModel {
 			}
 		}
 		return getRow();
-		
+
 	}
-	
+
 	protected String[] generateCols() {
 		col = new String[gridSize];
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				//System.out.println("K " + k);
-				//System.out.println("L " + l);
-				//System.out.println(row[l].charAt(k));
+				// System.out.println("K " + k);
+				// System.out.println("L " + l);
+				// System.out.println(row[l].charAt(k));
 
 				colVal = colVal + row[l].charAt(k);
 			}
@@ -432,13 +414,13 @@ public class GameModel {
 		for (int a = 0; a < gridSize; a++) {
 			System.out.println(col[a]);
 		}
-		//getLabel(col);
+		// getLabel(col);
 		return col;
 	}
 
 	String updateLabels(int i) {
 		StringBuilder builder = new StringBuilder();
-		for (String row: designBoard[i]) {
+		for (String row : designBoard[i]) {
 			builder.append(row);
 		}
 		String newRow = builder.toString();
@@ -447,98 +429,98 @@ public class GameModel {
 		int increment = 0;
 		return newRow;
 	}
+
 	void makeDesignBoard(int gridSize) {
 		designBoard = new String[gridSize][gridSize];
-		for (int i = 0; i< gridSize; i++) {
+		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				designBoard[i][j] = "0";
 			}
 		}
 	}
-	
-    String updateRow(int i, int j) {
-        StringBuilder builder = new StringBuilder();
-        for (String row: designBoard[i]) {
-            if(row!=null) {
-                builder.append(row);
-            }
-        }
-        String newRow = builder.toString();
-        System.out.println("Appended row: " + newRow);
-        
-        String updatedRowLabel = "";
-        int inc = 0;
-        int total = 0;
-        for(int c = 0; c < gridSize; c++) {
-           // System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
-            if (newRow.charAt(c) == '1') {
-                inc++;
-            }
-            else {
-            	if (inc != 0 ) {
-            		updatedRowLabel += Integer.toString(inc) + " ";
-            	}
-                System.out.println("hit 0: inc is  " + inc);
-                ///System.out.println(actual);
-                inc = 0;
-            }
-            // if im nearing the end
-            if((c+1) == gridSize && inc!=0) {
-            	updatedRowLabel += inc;
-            }
 
-        }
-
-        System.out.println("generated label: " + updatedRowLabel);
-
-        rowLabelsDesign[i] = updatedRowLabel;
-        //System.out.println(newRow);
-        return updatedRowLabel;
-    }
-    
-	String updateCol(int i, int j) {
+	String updateRow(int i, int j) {
 		StringBuilder builder = new StringBuilder();
-		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === "+designBoard.length);
-		for(int k = 0; k < gridSize; k++) {
-			if(designBoard[k][j]!=null) {
-			builder.append(designBoard[k][j]);
-			System.out.println("K " + k + " j " + j + " "+ designBoard[k][j]);
+		for (String row : designBoard[i]) {
+			if (row != null) {
+				builder.append(row);
 			}
 		}
-        String updatedColLabel = "";
-		String newCol = builder.toString();
-		
-		int inc = 0;
-        int total = 0;
-        for(int c = 0; c < gridSize; c++) {
-           // System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
-            if (newCol.charAt(c) == '1') {
-                inc++;
-            }
-            else {
-            	if (inc != 0 ) {
-            		updatedColLabel += Integer.toString(inc) + " ";
-            	}
-                System.out.println("hit 0: inc is  " + inc);
-                ///System.out.println(actual);
-                inc = 0;
-            }
-            // if im nearing the end
-            if((c+1) == gridSize && inc!=0) {
-            	updatedColLabel += inc;
-            }
+		String newRow = builder.toString();
+		System.out.println("Appended row: " + newRow);
 
-        }
-		//System.out.println(newCol);
-		
+		String updatedRowLabel = "";
+		int inc = 0;
+		int total = 0;
+		for (int c = 0; c < gridSize; c++) {
+			// System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
+			if (newRow.charAt(c) == '1') {
+				inc++;
+			} else {
+				if (inc != 0) {
+					updatedRowLabel += Integer.toString(inc) + " ";
+				}
+				System.out.println("hit 0: inc is  " + inc);
+				/// System.out.println(actual);
+				inc = 0;
+			}
+			// if im nearing the end
+			if ((c + 1) == gridSize && inc != 0) {
+				updatedRowLabel += inc;
+			}
+
+		}
+
+		System.out.println("generated label: " + updatedRowLabel);
+
+		rowLabelsDesign[i] = updatedRowLabel;
+		// System.out.println(newRow);
+		return updatedRowLabel;
+	}
+
+	String updateCol(int i, int j) {
+		StringBuilder builder = new StringBuilder();
+		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === " + designBoard.length);
+		for (int k = 0; k < gridSize; k++) {
+			if (designBoard[k][j] != null) {
+				builder.append(designBoard[k][j]);
+				System.out.println("K " + k + " j " + j + " " + designBoard[k][j]);
+			}
+		}
+		String updatedColLabel = "";
+		String newCol = builder.toString();
+
+		int inc = 0;
+		int total = 0;
+		for (int c = 0; c < gridSize; c++) {
+			// System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
+			if (newCol.charAt(c) == '1') {
+				inc++;
+			} else {
+				if (inc != 0) {
+					updatedColLabel += Integer.toString(inc) + " ";
+				}
+				System.out.println("hit 0: inc is  " + inc);
+				/// System.out.println(actual);
+				inc = 0;
+			}
+			// if im nearing the end
+			if ((c + 1) == gridSize && inc != 0) {
+				updatedColLabel += inc;
+			}
+
+		}
+		// System.out.println(newCol);
+
 		return updatedColLabel;
 	}
-	
+
 	void updateDesignBoard(int i, int j) {
-		System.out.println("tile clicked @: row = " + i + " number: "+j);
+		System.out.println("tile clicked @: row = " + i + " number: " + j);
 		designBoard[i][j] = "1";
-		//return updateLabels(i);
+		// return updateLabels(i);
 	}
+
 	void resetBoard() {
 		rowLabels = new String[gridSize];
 		colLabels = new String[gridSize];
@@ -546,7 +528,7 @@ public class GameModel {
 		rowLabelsDesign = new String[gridSize];
 		colLabelsDesign = new String[gridSize];
 	}
-	
+
 	/**
 	 * @return the gridSize
 	 */
@@ -732,7 +714,7 @@ public class GameModel {
 	/**
 	 * @return the row
 	 */
-	protected String getRow(int i ) {
+	protected String getRow(int i) {
 		return row[i];
 	}
 
@@ -770,7 +752,7 @@ public class GameModel {
 	protected void setCurrentValid(int currentValid) {
 		this.currentValid = currentValid;
 	}
-	
+
 	/**
 	 * @return the bestTime
 	 */
@@ -813,14 +795,12 @@ public class GameModel {
 		this.score = score;
 	}
 
-	
 	protected String[] returnRows() {
 		return getRow();
 	}
+
 	public String[] getRow() {
 		return row;
 	}
-	
-
 
 }
