@@ -14,18 +14,8 @@ import javax.swing.border.LineBorder;
  *
  */
 public class GameView {
-	////////////////////////////////////////////////////////////////
 
-	//JFrame declarations
-	
 	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow;
-
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
-
-	//JButton Declarations
-	
 	//Buttons for the splash screen
 	private JButton playButton, designButton, playToLauncher;
 	//Buttons to return back to previous JFrames
@@ -38,24 +28,14 @@ public class GameView {
 	//Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
-	
-	////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////
-	
 	//JTextField Declarations
-	
 	//Text field for the score and timer in play
 	private JTextField scoreCounter, timerCounter;
 	//Text field for the name, best time, and best score when the game is completed
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
-	
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
 
 	//JPanel Declarations
-	
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
 	private JPanel gridSizeComboPanel;
@@ -70,10 +50,6 @@ public class GameView {
 	private JPanel leftPanel;
 	private JPanel boardPanel;
 	private JPanel designMenuReturnPanel;
-	
-	////////////////////////////////////////////////////////////////
-	
-	////////////////////////////////////////////////////////////////
 
 	//JMenu Declarations
 	
@@ -104,12 +80,9 @@ public class GameView {
 	//Menu items for the help menu
 	private JMenuItem aboutMenu;
 	private JMenuItem backgroundColour, componentColour, textColour;
-	////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////
 
 	//JLabel Declarations
-	
 	private JLabel timerLabel;
 	private JLabel scoreLabel;
 	private JLabel userNameLabel = new JLabel();
@@ -118,9 +91,6 @@ public class GameView {
 	private JLabel gridSizeLabel;
 	private JLabel langLabel;	
 	
-	////////////////////////////////////////////////////////////////
-	
-	////////////////////////////////////////////////////////////////
 
 	//Colour Declarations
 	
@@ -130,20 +100,12 @@ public class GameView {
 	protected Color mark_color = new Color(226, 222, 222);
 	/** Colour for when the tile is clicked incorrectly*/
 	protected Color err_color = Color.red;
-	
-	////////////////////////////////////////////////////////////////
-	
-	////////////////////////////////////////////////////////////////
 
 	//JRadioButton Declarations
 	
 	private JRadioButton engRadio;
 	private JRadioButton frRadio;
 	
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
-
 	//String Declarations
 	
 	private String[] viewRows;
@@ -151,9 +113,6 @@ public class GameView {
 	private String[] viewRowLabels= {"0","0","0","0","0"};
 	private String[] viewColLabels={"0","0","0","0","0"};
 	
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
 
 	//Other Declarations
 	
@@ -164,7 +123,6 @@ public class GameView {
 	private int gameMode = 0;
 	private int gridSize = 5;
 
-	////////////////////////////////////////////////////////////////
 	
 	/**
 	 ************************************************************************
@@ -183,6 +141,7 @@ public class GameView {
 	 * @param langText - Used to get the text from the language file. 
 	 */
 	protected void splashScreen(Locale currentLocale, ResourceBundle langText) {
+		
 		splashWindow = new JFrame();
 		JPanel splashPanel = new JPanel();
 		ImageIcon splashLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
@@ -198,6 +157,7 @@ public class GameView {
 		splashWindow.setResizable(false);
 		splashWindow.setSize(400, 165);
 		splashWindow.setLocationRelativeTo(null);
+		
 		try {
 			Thread.sleep(1000);
 			splashWindow.dispose();
@@ -312,6 +272,7 @@ public class GameView {
 
 
 	private JPanel makeGridSizeCombo(ResourceBundle langText) {
+		
 		String options[] = { "5x5", "6x6", "7x7" };
 		gridSizeCmbo = new JComboBox<>(options);
 		gridSizeCmbo.setBackground(Color.WHITE);
@@ -325,6 +286,7 @@ public class GameView {
 
 
 	private JPanel makeLeftPanel(Locale currentLocale, ResourceBundle langText, int gameMode) {
+		
 		scoreLabel = new JLabel(langText.getString("score"));
 		timerLabel = new JLabel(langText.getString("timer"));
 		

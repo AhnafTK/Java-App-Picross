@@ -155,7 +155,7 @@ public class GameController {
 								} else {
 									if (model.isGameStarted() == false) {
 										timerCounter(); 
-										model.timer.start();	
+										model.getTimer().start();	
 									}
 									if (model.getRow(i).charAt(j) == '1') {
 										System.out.println("correct");
@@ -164,7 +164,7 @@ public class GameController {
 										view.getButtons()[i][j].setBackground(view.tile_color);
 										
 										if(model.getCurrentValid() == model.totalValid) {
-											model.timer.stop();
+											model.getTimer().stop();
 											model.setBestScore(model.getScore());
 											model.setBestTime(model.timerToSeconds());
 									        model.setGameFinished(true);
@@ -245,7 +245,7 @@ public class GameController {
 		model.setSeconds(0);
 		model.setMinutes(0);
 		DecimalFormat dFormat = new DecimalFormat("00");
-		model.timer = new Timer(1000, new ActionListener() {
+		model.setTimer(new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				model.seconds++;
@@ -257,7 +257,7 @@ public class GameController {
 				model.setMinFormat(dFormat.format(model.getMinutes()));
 				view.getTimerCounter().setText(model.getMinFormat() + ":" + model.getSecFormat());
 			}
-		});
+		}));
 	}
 	
 	private void backToLauncher() {
@@ -270,7 +270,7 @@ public class GameController {
 				return;
 			}
 			else {
-				model.timer.stop();
+				model.getTimer().stop();
 				model.setGameStarted(false);
 				view.getTimerCounter().setText("00:00");
 			}
@@ -298,7 +298,7 @@ public class GameController {
 					return;
 				}
 				else {
-					model.timer.stop();
+					model.getTimer().stop();
 					model.setGameStarted(false);
 					view.getTimerCounter().setText("00:00");
 				}
@@ -517,13 +517,14 @@ public class GameController {
 	}
 	
 	private void resetBoard() {
+		
 		view.history.append(model.langText.getString("upon_click") + model.langText.getString("button")
 	    + model.langText.getString("reset") + "\n");
 		if (model.getGameMode() == 1 && model.isGameStarted() == true) {
 			model.setCurrentValid(0);
 			model.setScore(0);
 			view.getScoreCounter().setText(Integer.toString(model.getScore()));
-	        model.timer.stop();
+	        model.getTimer().stop();
 	        model.setGameStarted(false);
 	        model.setGameFinished(false);
 	        view.getTimerCounter().setText("00:00");
@@ -544,6 +545,7 @@ public class GameController {
 	}
 	
 	private void newPlayBoard(String options, boolean isDefault, boolean readingFile) {
+		
 		int maxPossible;
 		model.setCurrentValid(0);
         model.setGameFinished(false);
@@ -551,7 +553,7 @@ public class GameController {
 		if (isDefault == false && model.isGameStarted() == true && model.getGameMode() == 1) {
 			model.setScore(0);
 			view.getScoreCounter().setText(Integer.toString(model.getScore()));
-	        model.timer.stop();
+	        model.getTimer().stop();
 	        model.setGameStarted(false);
 	        view.getTimerCounter().setText("00:00");
 	    }
@@ -575,9 +577,6 @@ public class GameController {
 			}
 			view.setViewRowLabels(new String[model.gridSize]);
 			view.setViewColLabels(new String[model.gridSize]);
-
-			//maxPossible = (int) (Math.pow(2, model.getGridSize()) - 1);
-			//view.setViewRows(model.generateRows(maxPossible, isDefault));
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
@@ -648,8 +647,8 @@ public class GameController {
 			markCheckBoxAction();
 		}
 		else {
-			view.setViewRowLabels(model.rowLabelDesign());
-			view.setViewColLabels(model.colLabelDesign());
+			view.setViewRowLabels(model.makeRowLabelDesign());
+			view.setViewColLabels(model.makeColLabelDesign());
 			view.getDesignWindow().remove(view.getBoardPanel());
 			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(),model.getGridSize(),model.isMarkMode()));
 			view.getBoardPanel().revalidate();
@@ -667,7 +666,7 @@ public class GameController {
 				return;
 			}
 			else {
-				model.timer.stop();
+				model.getTimer().stop();
 				model.setGameStarted(false);
 				view.getTimerCounter().setText("00:00");
 			}

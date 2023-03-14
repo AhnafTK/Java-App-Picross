@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class GameModel {
+	
 	Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
 	/** Resource bundle to get the language messages */
 	ResourceBundle langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
@@ -18,7 +19,7 @@ public class GameModel {
 	/** Boolean for the mark mode, false by default */
 	protected boolean markMode = false;
 	/** Int variable to check what the current game mode is, 0=design, 1=play */
-	Timer timer;
+	private Timer timer;
 	protected int gameMode = 0;
 	protected int scoreNumber = 0;
 	protected int timerNumber = 0;
@@ -55,102 +56,21 @@ public class GameModel {
 	String[] colLabelsDesign;
 
 	protected int timerToSeconds() {
+		
 		minutes = getMinutes();
 		seconds = getSeconds();
-
 		seconds = seconds + (minutes * 60);
 		bestTime = seconds;
 		return bestTime;
 	}
 
 	protected void changeLanguage(String lang, String region) {
+		
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+		
 	}
 
-	/**
-	 * @return the username
-	 */
-	protected String getUsername() {
-		return username;
-	}
-
-	/**
-	 * @param username the username to set
-	 */
-	protected void setUsername(String username) {
-		this.username = username;
-	}
-
-	/**
-	 * @return the gameFinished
-	 */
-	protected boolean getGameFinished() {
-		return gameFinished;
-	}
-
-	/**
-	 * @param gameFinished the gameFinished to set
-	 */
-	protected void setGameFinished(boolean gameFinished) {
-		this.gameFinished = gameFinished;
-	}
-
-	/**
-	 * @return the gameMode
-	 */
-	protected int getGameMode() {
-		return gameMode;
-	}
-
-	/**
-	 * @return the markMode
-	 */
-	protected boolean isMarkMode() {
-		return markMode;
-	}
-
-	/**
-	 * @param markMode the markMode to set
-	 */
-	protected void setMarkMode(boolean markMode) {
-		this.markMode = markMode;
-	}
-
-	/**
-	 * @param gameMode the gameMode to set
-	 */
-	protected void setGameMode(int gameMode) {
-		this.gameMode = gameMode;
-	}
-
-	/**
-	 * @return the currentLocale
-	 */
-	protected Locale getCurrentLocale() {
-		return currentLocale;
-	}
-
-	/**
-	 * @param currentLocale the currentLocale to set
-	 */
-	protected void setCurrentLocale(Locale currentLocale) {
-		this.currentLocale = currentLocale;
-	}
-
-	/**
-	 * @return the langText
-	 */
-	protected ResourceBundle getLangText() {
-		return langText;
-	}
-
-	/**
-	 * @param langText the langText to set
-	 */
-	protected void setLangText(ResourceBundle langText) {
-		this.langText = langText;
-	}
 
 	protected String[] rowLabel() {
 
@@ -187,11 +107,10 @@ public class GameModel {
 	}
 
 	protected String[] colLabel() {
+		
 		colLabels = new String[gridSize];
 		String currentLabel = "";
-
 		int increment = 0;
-		int totalPerRow = 0;
 		// iterate throught the column string and get the labels
 		for (int i = 0; i < gridSize; i++) {
 
@@ -213,14 +132,12 @@ public class GameModel {
 			colLabels[i] = currentLabel;
 			currentLabel = "";
 		}
-		for (int i = 0; i < gridSize; i++) {
-			System.out.println(colLabels[i]);
-		}
+
 		return colLabels;
 	}
 
-	
 	protected void totalValidTiles() {
+		
 		totalValid = 0;
 		for (int a = 0; a < gridSize; a++) {
 			for (int b = 0; b < gridSize; b++) {
@@ -253,74 +170,47 @@ public class GameModel {
 	protected void readFile(Scanner fileReader) {
 		System.out.println("READING FILE FOR PLAY");
 		// get gridsize first
-		int fileGridSize = fileReader.nextInt();
-		gridSize = fileGridSize;
-		System.out.println("GRIDSIZE " + gridSize);
-		row = new String[fileGridSize];
+		gridSize = fileReader.nextInt();
+		row = new String[gridSize];
+		
 		fileReader.nextLine();
+		
 		for (int i = 0; i < gridSize; i++) {
 			row[i] = fileReader.nextLine();
-			System.out.println("Row at i " + row[i]);
 		}
+		
 		if (fileReader.hasNextLine()) {
+			
 			setBestScore(fileReader.nextInt());
-			System.out.println("Best Score: " + getBestScore());
 			setBestTime(fileReader.nextInt());
-			System.out.println("Best Time: " + getBestTime());
 
 			fileReader.nextLine();
-
 			String name = fileReader.nextLine();
+			
 			if (!name.equals(null)) {
 				setUsername(name);
-				System.out.println("Username: " + getUsername());
 				JOptionPane.showMessageDialog(null, "Read a file with username: " + getUsername() + "\nBest Score: "
 						+ getBestScore() + "\nBest Time: " + getBestTime());
 			} else {
 				setUsername(fileReader.nextLine());
-				System.out.println("Username: " + getUsername());
-				JOptionPane.showMessageDialog(null,
-						"Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());
+				JOptionPane.showMessageDialog(null, "Read a file with best Score: " + getBestScore() + "\nBest Time: " + getBestTime());
 			}
-
-		}
-		System.out.println("model row is now: ");
-		for (int i = 0; i < gridSize; i++) {
-			System.out.println(row[i]);
 
 		}
 	}
 
 	protected void readFileDesign(Scanner fileReader) {
-		System.out.println("READING FILE FOR DESIGN");
+		
 		// get gridsize first
-		int fileGridSize = fileReader.nextInt();
-		gridSize = fileGridSize;
+		gridSize = fileReader.nextInt();
 		designBoard = new String[gridSize][gridSize];
-
-		System.out.println("DESIGN BOARD SIZE CHANGED FROM FILE NOW = " + gridSize);
-
-		row = new String[fileGridSize];
+		row = new String[gridSize];
 		fileReader.nextLine();
 
 		for (int i = 0; i < gridSize; i++) {
 			row[i] = fileReader.nextLine();
 			for (int j = 0; j < gridSize; j++) {
 				designBoard[i][j] = String.valueOf(row[i].charAt(j));
-				/// System.out.print(designBoard[i][j]);
-			}
-		}
-
-		System.out.println("model row is now(DESIGN): ");
-		for (int i = 0; i < gridSize; i++) {
-			System.out.println(row[i]);
-
-		}
-
-		System.out.println("model designBoard is now(DESIGN): ");
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				System.out.print(designBoard[i][j]);
 			}
 		}
 
@@ -334,7 +224,7 @@ public class GameModel {
 		return binVal;
 	}
 
-	protected String[] rowLabelDesign() {
+	protected String[] makeRowLabelDesign() {
 		rowLabelsDesign = new String[gridSize];
 		for (int i = 0; i < gridSize; i++) {
 			rowLabelsDesign[i] = "0";
@@ -342,7 +232,7 @@ public class GameModel {
 		return rowLabelsDesign;
 	}
 
-	protected String[] colLabelDesign() {
+	protected String[] makeColLabelDesign() {
 		colLabelsDesign = new String[gridSize];
 		for (int i = 0; i < gridSize; i++) {
 			colLabelsDesign[i] = "0";
@@ -352,8 +242,8 @@ public class GameModel {
 
 	protected String[] generateRows(int maxPossible, boolean useDefault) {
 
-		setRow(new String[gridSize]);
-
+		row = new String[gridSize];
+		
 		if (useDefault == true) {
 			switch (gridSize) {
 			case 5:
@@ -398,14 +288,12 @@ public class GameModel {
 	}
 
 	protected String[] generateCols() {
+		
 		col = new String[gridSize];
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				// System.out.println("K " + k);
-				// System.out.println("L " + l);
-				// System.out.println(row[l].charAt(k));
-
+				
 				colVal = colVal + row[l].charAt(k);
 			}
 			col[k] = colVal;
@@ -418,17 +306,7 @@ public class GameModel {
 		return col;
 	}
 
-	String updateLabels(int i) {
-		StringBuilder builder = new StringBuilder();
-		for (String row : designBoard[i]) {
-			builder.append(row);
-		}
-		String newRow = builder.toString();
-		rowLabelsDesign[i] = newRow;
-		System.out.println(newRow);
-		int increment = 0;
-		return newRow;
-	}
+
 
 	void makeDesignBoard(int gridSize) {
 		designBoard = new String[gridSize][gridSize];
@@ -440,6 +318,7 @@ public class GameModel {
 	}
 
 	String updateRow(int i, int j) {
+		
 		StringBuilder builder = new StringBuilder();
 		for (String row : designBoard[i]) {
 			if (row != null) {
@@ -447,13 +326,11 @@ public class GameModel {
 			}
 		}
 		String newRow = builder.toString();
-		System.out.println("Appended row: " + newRow);
-
 		String updatedRowLabel = "";
+		
 		int inc = 0;
-		int total = 0;
+		
 		for (int c = 0; c < gridSize; c++) {
-			// System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
 			if (newRow.charAt(c) == '1') {
 				inc++;
 			} else {
@@ -461,24 +338,21 @@ public class GameModel {
 					updatedRowLabel += Integer.toString(inc) + " ";
 				}
 				System.out.println("hit 0: inc is  " + inc);
-				/// System.out.println(actual);
 				inc = 0;
 			}
-			// if im nearing the end
 			if ((c + 1) == gridSize && inc != 0) {
 				updatedRowLabel += inc;
 			}
 
 		}
 
-		System.out.println("generated label: " + updatedRowLabel);
-
 		rowLabelsDesign[i] = updatedRowLabel;
-		// System.out.println(newRow);
 		return updatedRowLabel;
+		
 	}
 
 	String updateCol(int i, int j) {
+		
 		StringBuilder builder = new StringBuilder();
 		System.out.println("DESIGN BOARD LENGTH WHEN UPDATECOL === " + designBoard.length);
 		for (int k = 0; k < gridSize; k++) {
@@ -491,37 +365,31 @@ public class GameModel {
 		String newCol = builder.toString();
 
 		int inc = 0;
-		int total = 0;
 		for (int c = 0; c < gridSize; c++) {
-			// System.out.println("index c:" + c + " value here : " + newRow.charAt(c));
 			if (newCol.charAt(c) == '1') {
 				inc++;
 			} else {
 				if (inc != 0) {
 					updatedColLabel += Integer.toString(inc) + " ";
 				}
-				System.out.println("hit 0: inc is  " + inc);
-				/// System.out.println(actual);
 				inc = 0;
 			}
 			// if im nearing the end
 			if ((c + 1) == gridSize && inc != 0) {
 				updatedColLabel += inc;
 			}
-
 		}
-		// System.out.println(newCol);
 
 		return updatedColLabel;
 	}
 
 	void updateDesignBoard(int i, int j) {
-		System.out.println("tile clicked @: row = " + i + " number: " + j);
+
 		designBoard[i][j] = "1";
-		// return updateLabels(i);
 	}
 
 	void resetBoard() {
+		
 		rowLabels = new String[gridSize];
 		colLabels = new String[gridSize];
 		gridSize = 5;
@@ -802,5 +670,90 @@ public class GameModel {
 	public String[] getRow() {
 		return row;
 	}
+	
+	/**
+	 * @return the username
+	 */
+	protected String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	protected void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the gameFinished
+	 */
+	protected boolean getGameFinished() {
+		return gameFinished;
+	}
+
+	/**
+	 * @param gameFinished the gameFinished to set
+	 */
+	protected void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
+	}
+
+	/**
+	 * @return the gameMode
+	 */
+	protected int getGameMode() {
+		return gameMode;
+	}
+
+	/**
+	 * @return the markMode
+	 */
+	protected boolean isMarkMode() {
+		return markMode;
+	}
+
+	/**
+	 * @param markMode the markMode to set
+	 */
+	protected void setMarkMode(boolean markMode) {
+		this.markMode = markMode;
+	}
+
+	/**
+	 * @param gameMode the gameMode to set
+	 */
+	protected void setGameMode(int gameMode) {
+		this.gameMode = gameMode;
+	}
+
+	/**
+	 * @return the currentLocale
+	 */
+	protected Locale getCurrentLocale() {
+		return currentLocale;
+	}
+
+	/**
+	 * @param currentLocale the currentLocale to set
+	 */
+	protected void setCurrentLocale(Locale currentLocale) {
+		this.currentLocale = currentLocale;
+	}
+
+	/**
+	 * @return the langText
+	 */
+	protected ResourceBundle getLangText() {
+		return langText;
+	}
+
+	/**
+	 * @param langText the langText to set
+	 */
+	protected void setLangText(ResourceBundle langText) {
+		this.langText = langText;
+	}
+
 
 }
