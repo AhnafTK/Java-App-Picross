@@ -304,8 +304,8 @@ public class GameView {
 		// Creates all of the menu items for the game menu with text based on the
 		// selected languages and the associated image icons
 		gameMenuItemsContainer = new JMenu(langText.getString("game"));
-		newMenuOption = new JMenuItem(langText.getString("newBoard"),new ImageIcon(getClass().getResource("/images/piciconnew.gif")));
-		exitMenuOption = new JMenuItem(langText.getString("exit"),new ImageIcon(getClass().getResource("/images/piciconext.gif")));
+		newMenuOption = new JMenuItem(langText.getString("newBoard"),new ImageIcon(getClass().getResource("/images/newboard.jpg")));
+		exitMenuOption = new JMenuItem(langText.getString("exit"),new ImageIcon(getClass().getResource("/images/exit.jpg")));
 		resetMenuOption = new JMenuItem(langText.getString("reset"),new ImageIcon(getClass().getResource("/images/reset.jpg")));
 		solveMenuOption = new JMenuItem(langText.getString("solve"),new ImageIcon(getClass().getResource("/images/solve.jpg")));
 		toLauncherMenuOption = new JMenuItem(langText.getString("toLauncher"),new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
@@ -352,7 +352,7 @@ public class GameView {
 		aboutMenuOption = new JMenuItem(langText.getString("about"),new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		// Builds a sub-menu for the color choosers
 		colourMenu = new JMenu(langText.getString("colours"));
-		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/piciconcol.gif")));
+		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/colors.jpg")));
 		backgroundColour = new JMenuItem("Background Colour");
 		textColour = new JMenuItem("Text Colour");
 		componentColour = new JMenuItem("Component Colour");
