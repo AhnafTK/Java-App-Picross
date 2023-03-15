@@ -827,7 +827,8 @@ public class GameView {
 		gameCompleteWindow.add(titlePanel, BorderLayout.NORTH);
 		gameCompleteWindow.add(statsPanel, BorderLayout.WEST);
 		gameCompleteWindow.add(gameOverRightPanel, BorderLayout.EAST);
-		gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
+		//gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
+		gameCompleteWindow.setTitle(langText.getString("game_complete"));
 		gameCompleteWindow.setResizable(false);
 		gameCompleteWindow.setSize(525, 300);
 		gameCompleteWindow.setVisible(true);
