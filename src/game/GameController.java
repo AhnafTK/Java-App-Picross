@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +19,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Beginning of the controller class. Interacts with the view and model. Responsible for action listeners.
+ * @param <WindowEvent>
+ * @param <WindowEvent>
  */
 public class GameController {
 	private GameModel model;
@@ -70,6 +73,16 @@ public class GameController {
 			view.getStartWindow().dispose();
 			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
+		});
+		
+		view.getClientButton().addActionListener((actionEvent) -> {
+			System.out.println("client");
+			view.Client(model.getCurrentLocale(), model.getLangText());
+		});
+		
+		view.getServerButton().addActionListener((actionEvent) -> {
+			System.out.println("server");
+			view.Server(model.getCurrentLocale(), model.getLangText());
 		});
 
 		view.getEngRadio().addActionListener((actionEvent) -> {
@@ -133,6 +146,32 @@ public class GameController {
 	 * Responsible for actions related to showing the instructions
 	 */
 	private void instructionsActions() {
+		//WindowListener windowListener = new WindowListener();
+		view.getInstructionsWindow().addWindowListener(new WindowListener(){
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				// TODO Auto-generated method stub
+				view.getInstructionsButton().setEnabled(true);;
+			}
+			@Override
+			public void windowOpened(java.awt.event.WindowEvent e) {}
+
+			@Override
+			public void windowClosed(java.awt.event.WindowEvent e) {}
+
+			@Override
+			public void windowIconified(java.awt.event.WindowEvent e) {}
+
+			@Override
+			public void windowDeiconified(java.awt.event.WindowEvent e) {}
+
+			@Override
+			public void windowActivated(java.awt.event.WindowEvent e) {}
+
+			@Override
+			public void windowDeactivated(java.awt.event.WindowEvent e) {}
+	    });
+		
 		view.getInstructionsBack().addActionListener((actionEvent) -> {
 			view.getInstructionsWindow().dispose();
 			view.getInstructionsButton().setEnabled(true);

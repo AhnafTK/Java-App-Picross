@@ -15,9 +15,9 @@ import javax.swing.border.LineBorder;
  */
 public class GameView {
 
-	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow;
+	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow, clientWindow, serverWindow;
 	// Buttons for the splash screen
-	private JButton playButton, designButton, playToLauncher;
+	private JButton playButton, designButton, clientButton, serverButton, playToLauncher;
 	// Buttons to return back to previous JFrames
 	private JButton designBack, instructionsBack;
 	// Buttons for the play frame, some also used in design
@@ -34,7 +34,7 @@ public class GameView {
 	private JTextField scoreCounter, timerCounter;
 	// Text field for the name, best time, and best score when the game is completed
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
-
+	
 	// JPanel Declarations
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
@@ -116,6 +116,7 @@ public class GameView {
 
 	/** Text area to display the input history */
 	protected JTextArea history;
+	protected JTextArea logTextArea;
 	private JComboBox<String> gridSizeCmbo;
 	private JCheckBox markCheckBox;
 	private int gridSize = 5;
@@ -167,7 +168,7 @@ public class GameView {
 
 		// Pauses the thread, to make the splash screen disappear after 3 seconds
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 			splashWindow.dispose();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -199,7 +200,7 @@ public class GameView {
 		// Panel to hold the design and play buttons
 		JPanel startPanel = new JPanel();
 		startPanel.setBackground(new Color(17, 15, 15));
-		startPanel.setPreferredSize(new Dimension(100, 100));
+		startPanel.setPreferredSize(new Dimension(250, 40));
 
 		// Creates the design button
 		designButton = new JButton(langText.getString("design"));
@@ -211,24 +212,50 @@ public class GameView {
 		playButton.setPreferredSize(new Dimension(100, 30));
 		playButton.setBackground(Color.WHITE);
 
+		
+		// Panel to hold the client and server buttons
+		JPanel serverPanel = new JPanel();
+		serverPanel.setBackground(new Color(17, 15, 15));
+		serverPanel.setPreferredSize(new Dimension(250, 40));
+		
+		// Creates the client button
+		clientButton = new JButton(langText.getString("client"));
+		clientButton.setPreferredSize(new Dimension(100, 30));
+		clientButton.setBackground(Color.WHITE);
+		
+		// Creates the server button
+		serverButton = new JButton(langText.getString("server"));
+		serverButton.setPreferredSize(new Dimension(100, 30));
+		serverButton.setBackground(Color.WHITE);
+		
 		// Adds the buttons to the panels
 		startPanel.add(designButton);
 		startPanel.add(playButton);
+		serverPanel.add(clientButton);
+		serverPanel.add(serverButton);
 
+		// Main panel to hold all of the buttons; design, play, client and server
+		JPanel launcherButtonsPanel = new JPanel();
+		launcherButtonsPanel.setBackground(new Color(17, 15, 15));
+		launcherButtonsPanel.setPreferredSize(new Dimension(100, 200));
+		
+		launcherButtonsPanel.add(startPanel);
+		launcherButtonsPanel.add(serverPanel);
+		
 		////////////////////////////////////////////////////////////////
 
 		// JFrame for the launcher/start window
 		startWindow = new JFrame();
 		startWindow.setLayout(new BorderLayout());
 		startWindow.add(titlePanel, BorderLayout.NORTH);
-		startWindow.add(startPanel, BorderLayout.CENTER);
+		startWindow.add(launcherButtonsPanel);
 		startWindow.add(makeLanguagePanel(currentLocale, langText), BorderLayout.SOUTH);
 		startWindow.pack();
 		startWindow.setVisible(true);
 		startWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startWindow.setResizable(false);
-		startWindow.setSize(400, 290);
+		startWindow.setSize(400, 325);
 		startWindow.setLocationRelativeTo(null);
 	}
 
@@ -288,6 +315,66 @@ public class GameView {
 		picrossWindow.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * This is the method to build the play game mode
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 */
+	protected void Client(Locale currentLocale, ResourceBundle langText) {
+		// JFrame for the client window
+		clientWindow = new JFrame();
+		clientWindow.setLayout(new BorderLayout());
+		clientWindow.add(makeTitlePanel(), BorderLayout.NORTH);
+		clientWindow.add(makeServerLog(), BorderLayout.CENTER);
+		clientWindow.pack();
+		clientWindow.setResizable(false);
+		clientWindow.setVisible(true);
+		clientWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		clientWindow.setTitle("Client - Skylar Phanenhour, Ahnaf Kamal");
+		clientWindow.setSize(600, 400);
+		clientWindow.setLocationRelativeTo(null);
+	}
+
+	/**
+	 * This is the method to build the play game mode
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 */
+	protected void Server(Locale currentLocale, ResourceBundle langText) {
+		// JFrame for the server window
+		serverWindow = new JFrame();
+		serverWindow.setLayout(new BorderLayout());
+		serverWindow.add(makeTitlePanel(), BorderLayout.NORTH);
+		serverWindow.add(makeServerLog(), BorderLayout.CENTER);
+		serverWindow.pack();
+		serverWindow.setResizable(false);
+		serverWindow.setVisible(true);
+		serverWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		serverWindow.setTitle("Client - Skylar Phanenhour, Ahnaf Kamal");
+		serverWindow.setSize(600, 400);
+		serverWindow.setLocationRelativeTo(null);
+	}
+	
+	protected JPanel makeServerLog() {
+		JPanel serverLogPanel = new JPanel();
+		logTextArea = new JTextArea();
+		logTextArea.setLineWrap(true);
+		logTextArea.setWrapStyleWord(true);
+		logTextArea.setPreferredSize(new Dimension(200, 10000));
+		logTextArea.setBorder(new LineBorder(new Color(17, 15, 15)));
+
+		// Makes the scroll bar for our text area
+		JScrollPane scroll = new JScrollPane(logTextArea);
+		scroll.setPreferredSize(new Dimension(575, 100));
+		scroll.getVerticalScrollBar().setUnitIncrement(10);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		serverLogPanel.add(scroll);
+
+		return serverLogPanel;
+	}
+	
 	/**
 	 * This method is used to make the menu bar and all its sub-menus
 	 * 
@@ -697,7 +784,9 @@ public class GameView {
 	protected void updateText(Locale currentLocale, ResourceBundle langText) {
 
 		// Gets the text from the ResourceBundle and sets it everywhere needed
-		timerLabel.setText((langText.getString("timer")));
+		clientButton.setText(langText.getString("client"));
+		serverButton.setText(langText.getString("server"));
+		timerLabel.setText(langText.getString("timer"));	
 		scoreLabel.setText(langText.getString("score"));
 		userNameLabel.setText(langText.getString("user_name"));
 		bestTimeLabel.setText(langText.getString("best_time"));
@@ -737,15 +826,7 @@ public class GameView {
 	 * @param bestTime      - Gets the final time when the game is complete
 	 */
 	protected void gameCompleted(Locale currentLocale, ResourceBundle langText, int bestScore, int bestTime) {
-
-		// Panel for the image icon at the top
-		JPanel titlePanel = new JPanel();
-		ImageIcon titleLogo = new ImageIcon(getClass().getResource("/images/picross.jpg"));
-		JLabel titleLabel = new JLabel();
-		titleLabel.setIcon(titleLogo);
-		titlePanel.setPreferredSize(new Dimension(525, 125));
-		titlePanel.add(titleLabel);
-
+		
 		// Panel for the username label and text field
 		userNameLabel = new JLabel("<html>"+langText.getString("user_name")+"</html>", SwingConstants.CENTER);
 		userNameLabel.setPreferredSize(new Dimension(110, 25));
@@ -824,7 +905,7 @@ public class GameView {
 		// JFrame for the game completed window
 		gameCompleteWindow = new JFrame();
 		gameCompleteWindow.setLayout(new BorderLayout());
-		gameCompleteWindow.add(titlePanel, BorderLayout.NORTH);
+		gameCompleteWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		gameCompleteWindow.add(statsPanel, BorderLayout.WEST);
 		gameCompleteWindow.add(gameOverRightPanel, BorderLayout.EAST);
 		//gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
@@ -1196,6 +1277,38 @@ public class GameView {
 		this.designButton = designButton;
 	}
 
+	/**	 
+	 * Get the clientButton
+	 * @return the clientButton
+	 */
+	protected JButton getClientButton() {
+		return clientButton;
+	}
+
+	/**	 
+	 * Set the clientButton
+	 * @param clientButton the clientButton to set
+	 */
+	protected void setClientButton(JButton clientButton) {
+		this.clientButton = clientButton;
+	}
+	
+	/**	 
+	 * Get the serverButton
+	 * @return the serverButton
+	 */
+	protected JButton getServerButton() {
+		return serverButton;
+	}
+
+	/**	 
+	 * Set the serverButton
+	 * @param serverButton the serverButton to set
+	 */
+	protected void setServerButton(JButton serverButton) {
+		this.serverButton = serverButton;
+	}
+	
 	/**	 
 	 * Get the designBack
 	 * @return the designBack
