@@ -361,7 +361,7 @@ public class GameView {
 		serverWindow.setResizable(false);
 		serverWindow.setVisible(true);
 		serverWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		serverWindow.setTitle("Client - Skylar Phanenhour, Ahnaf Kamal");
+		serverWindow.setTitle("Server - Skylar Phanenhour, Ahnaf Kamal");
 		serverWindow.setSize(600, 400);
 		serverWindow.setLocationRelativeTo(null);
 	}
@@ -412,6 +412,12 @@ public class GameView {
 		clientPortText = new JTextField();
 		clientPortText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		clientPortText.setPreferredSize(new Dimension(75, 25));
+		
+		
+		/****************************
+		 * TODO: the text for the buttons when french is selected, 
+		 * get cut off due to the size
+		 ****************************/
 		
 		clientConnect = new JButton(langText.getString("connect"));
 		clientConnect.setPreferredSize(new Dimension(90, 30));
@@ -481,7 +487,7 @@ public class GameView {
 		leaderboardButton.setBackground(Color.WHITE);
 		
 		disconnectServer = new JButton(langText.getString("disconnect"));
-		disconnectServer.setPreferredSize(new Dimension(100, 30));
+		disconnectServer.setPreferredSize(new Dimension(125, 30));
 		disconnectServer.setBackground(Color.WHITE);		
 		
 		endConnections = new JButton(langText.getString("end"));
