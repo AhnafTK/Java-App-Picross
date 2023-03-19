@@ -76,12 +76,10 @@ public class GameController {
 		});
 		
 		view.getClientButton().addActionListener((actionEvent) -> {
-			System.out.println("client");
 			view.Client(model.getCurrentLocale(), model.getLangText());
 		});
 		
 		view.getServerButton().addActionListener((actionEvent) -> {
-			System.out.println("server");
 			view.Server(model.getCurrentLocale(), model.getLangText());
 		});
 

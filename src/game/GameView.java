@@ -28,12 +28,16 @@ public class GameView {
 	// Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
-
+	private JButton clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
+	private JButton leaderboardButton, disconnectServer, endConnections;
+	
 	// JTextField Declarations
 	// Text field for the score and timer in play
 	private JTextField scoreCounter, timerCounter;
 	// Text field for the name, best time, and best score when the game is completed
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
+	private JTextField clientUserText, clientServerText, clientPortText;
+	private JTextField serverPortText;
 	
 	// JPanel Declarations
 	private JPanel languagePanel;
@@ -88,7 +92,11 @@ public class GameView {
 	private JLabel bestScoreLabel = new JLabel();
 	private JLabel gridSizeLabel;
 	private JLabel langLabel;
-
+	private JLabel clientUserLabel; 
+	private JLabel clientServerLabel; 
+	private JLabel clientPortLabel;
+	private JLabel serverPortLabel;
+	
 	// Colour Declarations
 
 	/** Colour for when the tile is clicked correctly */
@@ -326,7 +334,8 @@ public class GameView {
 		clientWindow = new JFrame();
 		clientWindow.setLayout(new BorderLayout());
 		clientWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		clientWindow.add(makeServerLog(), BorderLayout.CENTER);
+		clientWindow.add(makeClientPanel(currentLocale, langText), BorderLayout.CENTER);
+		//clientWindow.add(makeServerLog());
 		clientWindow.pack();
 		clientWindow.setResizable(false);
 		clientWindow.setVisible(true);
@@ -347,7 +356,7 @@ public class GameView {
 		serverWindow = new JFrame();
 		serverWindow.setLayout(new BorderLayout());
 		serverWindow.add(makeTitlePanel(), BorderLayout.NORTH);
-		serverWindow.add(makeServerLog(), BorderLayout.CENTER);
+		serverWindow.add(makeServerPanel(currentLocale, langText), BorderLayout.CENTER);
 		serverWindow.pack();
 		serverWindow.setResizable(false);
 		serverWindow.setVisible(true);
@@ -367,12 +376,124 @@ public class GameView {
 
 		// Makes the scroll bar for our text area
 		JScrollPane scroll = new JScrollPane(logTextArea);
-		scroll.setPreferredSize(new Dimension(575, 100));
+		scroll.setPreferredSize(new Dimension(575, 125));
 		scroll.getVerticalScrollBar().setUnitIncrement(10);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		serverLogPanel.add(scroll);
 
 		return serverLogPanel;
+	}
+	
+	protected JPanel makeClientPanel(Locale currentLocale, ResourceBundle langText) {
+		JPanel clientPanel = new JPanel();
+
+		clientPanel.add(makeClientButtons(currentLocale, langText));
+		clientPanel.add(makeServerLog());
+
+		return clientPanel;
+	}
+
+	
+	protected JPanel makeClientButtons(Locale currentLocale, ResourceBundle langText) {
+		JPanel clientButtonPanel = new JPanel();
+		clientButtonPanel.setPreferredSize(new Dimension(600, 75));
+		
+		clientUserLabel = new JLabel(langText.getString("user") + ": ");
+		clientUserText = new JTextField();
+		clientUserText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		clientUserText.setPreferredSize(new Dimension(100, 25));
+		
+		clientServerLabel = new JLabel(langText.getString("server") + ": ");
+		clientServerText = new JTextField();
+		clientServerText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		clientServerText.setPreferredSize(new Dimension(100, 25));
+		
+		clientPortLabel = new JLabel(langText.getString("port") + ": ");
+		clientPortText = new JTextField();
+		clientPortText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		clientPortText.setPreferredSize(new Dimension(75, 25));
+		
+		clientConnect = new JButton(langText.getString("connect"));
+		clientConnect.setPreferredSize(new Dimension(90, 30));
+		clientConnect.setBackground(Color.WHITE);
+		
+		clientEnd = new JButton(langText.getString("end"));
+		clientEnd.setPreferredSize(new Dimension(60, 30));
+		clientEnd.setBackground(Color.WHITE);
+		
+		clientPlay = new JButton(langText.getString("play"));
+		clientPlay.setPreferredSize(new Dimension(75, 30));
+		clientPlay.setBackground(Color.WHITE);
+		
+		clientLoad = new JButton(langText.getString("load"));
+		clientLoad.setPreferredSize(new Dimension(75, 30));
+		clientLoad.setBackground(Color.WHITE);
+		
+		clientSendGame = new JButton(langText.getString("send_game"));
+		clientSendGame.setPreferredSize(new Dimension(100, 30));
+		clientSendGame.setBackground(Color.WHITE);
+		
+		clientSendData = new JButton(langText.getString("send_data"));
+		clientSendData.setPreferredSize(new Dimension(100, 30));
+		clientSendData.setBackground(Color.WHITE);		
+		
+		clientNewGame = new JButton(langText.getString("new_game"));
+		clientNewGame.setPreferredSize(new Dimension(100, 30));
+		clientNewGame.setBackground(Color.WHITE);		
+		
+		clientButtonPanel.add(clientUserLabel);
+		clientButtonPanel.add(clientUserText);
+		clientButtonPanel.add(clientServerLabel);
+		clientButtonPanel.add(clientServerText);
+		clientButtonPanel.add(clientPortLabel);
+		clientButtonPanel.add(clientPortText);
+		clientButtonPanel.add(clientConnect);
+		clientButtonPanel.add(clientEnd);
+		clientButtonPanel.add(clientPlay);
+		clientButtonPanel.add(clientLoad);
+		clientButtonPanel.add(clientSendGame);
+		clientButtonPanel.add(clientSendData);
+		clientButtonPanel.add(clientNewGame);
+		return clientButtonPanel;
+	}
+	
+	protected JPanel makeServerPanel(Locale currentLocale, ResourceBundle langText) {
+		JPanel serverPanel = new JPanel();
+
+		serverPanel.add(makeServerButtons(currentLocale, langText));
+		serverPanel.add(makeServerLog());
+
+		return serverPanel;
+	}
+
+	
+	protected JPanel makeServerButtons(Locale currentLocale, ResourceBundle langText) {
+		JPanel serverButtonPanel = new JPanel();
+		serverButtonPanel.setPreferredSize(new Dimension(600, 50));
+		
+		serverPortLabel = new JLabel(langText.getString("port") + ": ");
+		serverPortText = new JTextField();
+		serverPortText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		serverPortText.setPreferredSize(new Dimension(75, 25));
+		
+		leaderboardButton = new JButton(langText.getString("leaderboard"));
+		leaderboardButton.setPreferredSize(new Dimension(125, 30));
+		leaderboardButton.setBackground(Color.WHITE);
+		
+		disconnectServer = new JButton(langText.getString("disconnect"));
+		disconnectServer.setPreferredSize(new Dimension(100, 30));
+		disconnectServer.setBackground(Color.WHITE);		
+		
+		endConnections = new JButton(langText.getString("end"));
+		endConnections.setPreferredSize(new Dimension(60, 30));
+		endConnections.setBackground(Color.WHITE);		
+		
+		serverButtonPanel.add(serverPortLabel);
+		serverButtonPanel.add(serverPortText);
+		serverButtonPanel.add(leaderboardButton);
+		serverButtonPanel.add(disconnectServer);
+		serverButtonPanel.add(endConnections);
+		return serverButtonPanel;
 	}
 	
 	/**
