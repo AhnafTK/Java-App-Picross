@@ -375,11 +375,11 @@ public class GameView {
 		logTextArea.setBorder(new LineBorder(new Color(17, 15, 15)));
 
 		// Makes the scroll bar for our text area
-		JScrollPane scroll = new JScrollPane(logTextArea);
-		scroll.setPreferredSize(new Dimension(575, 125));
-		scroll.getVerticalScrollBar().setUnitIncrement(10);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		serverLogPanel.add(scroll);
+		JScrollPane logScroll = new JScrollPane(logTextArea);
+		logScroll.setPreferredSize(new Dimension(575, 125));
+		logScroll.getVerticalScrollBar().setUnitIncrement(10);
+		logScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		serverLogPanel.add(logScroll);
 
 		return serverLogPanel;
 	}
