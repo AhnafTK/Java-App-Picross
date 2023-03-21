@@ -28,7 +28,7 @@ public class GameView {
 	// Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
-	private JButton clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
+	protected JButton clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
 	private JButton leaderboardButton, disconnectServer, endConnections;
 	
 	// JTextField Declarations
@@ -36,8 +36,8 @@ public class GameView {
 	private JTextField scoreCounter, timerCounter;
 	// Text field for the name, best time, and best score when the game is completed
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
-	private JTextField clientUserText, clientServerText, clientPortText;
-	private JTextField serverPortText;
+	protected JTextField clientUserNameText, clientServerText, clientPortText;
+	protected JTextField serverPortText;
 	
 	// JPanel Declarations
 	private JPanel languagePanel;
@@ -399,9 +399,9 @@ public class GameView {
 		clientButtonPanel.setPreferredSize(new Dimension(600, 75));
 		
 		clientUserLabel = new JLabel(langText.getString("user") + ": ");
-		clientUserText = new JTextField();
-		clientUserText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
-		clientUserText.setPreferredSize(new Dimension(100, 25));
+		clientUserNameText = new JTextField();
+		clientUserNameText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
+		clientUserNameText.setPreferredSize(new Dimension(100, 25));
 		
 		clientServerLabel = new JLabel(langText.getString("server") + ": ");
 		clientServerText = new JTextField();
@@ -448,7 +448,7 @@ public class GameView {
 		clientNewGame.setBackground(Color.WHITE);		
 		
 		clientButtonPanel.add(clientUserLabel);
-		clientButtonPanel.add(clientUserText);
+		clientButtonPanel.add(clientUserNameText);
 		clientButtonPanel.add(clientServerLabel);
 		clientButtonPanel.add(clientServerText);
 		clientButtonPanel.add(clientPortLabel);

@@ -47,6 +47,29 @@ public class GameController {
 		splashActions();
 	}
 	
+	
+	//view.clientConnect.addActionListener((actionEvent)->{
+			//System.out.println("validating.....");
+			//check username
+			// check server
+			// check port
+	//});
+	
+	
+	private void clientActions() {
+		view.clientConnect.addActionListener((actionEvent) ->{
+			System.out.println("Validating inputs......");
+			String userName = view.clientUserNameText.getText();
+			String serverIP = view.clientServerText.getText();
+			String portID = view.clientPortText.getText();
+			System.out.println(userName);
+			System.out.println(serverIP);
+			System.out.println(portID);
+
+
+		});
+	}
+	
 	/*
 	 * Responsible for actions related to the splash screen.
 	 */
@@ -77,6 +100,7 @@ public class GameController {
 		
 		view.getClientButton().addActionListener((actionEvent) -> {
 			view.Client(model.getCurrentLocale(), model.getLangText());
+			clientActions();
 		});
 		
 		view.getServerButton().addActionListener((actionEvent) -> {
@@ -743,4 +767,6 @@ public class GameController {
 			newDesignBoard(options, false);
 		}
 	}
+	
+
 }
