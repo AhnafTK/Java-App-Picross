@@ -339,7 +339,7 @@ public class GameView {
 		clientWindow.pack();
 		clientWindow.setResizable(false);
 		clientWindow.setVisible(true);
-		clientWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//clientWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		clientWindow.setTitle("Client - Skylar Phanenhour, Ahnaf Kamal");
 		clientWindow.setSize(600, 400);
 		clientWindow.setLocationRelativeTo(null);
@@ -360,7 +360,7 @@ public class GameView {
 		serverWindow.pack();
 		serverWindow.setResizable(false);
 		serverWindow.setVisible(true);
-		serverWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//serverWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		serverWindow.setTitle("Server - Skylar Phanenhour, Ahnaf Kamal");
 		serverWindow.setSize(600, 400);
 		serverWindow.setLocationRelativeTo(null);
