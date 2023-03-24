@@ -2,6 +2,7 @@ package game;
 
 import java.net.Socket;
 
+// handles client
 public class ServerThread extends Thread{
 	private Socket socket = null;
 	
@@ -12,8 +13,8 @@ public class ServerThread extends Thread{
 	}
 	
 	public void run() {
-		while(socket.isConnected()) {
-			System.out.println("running client");
-		}
+		System.out.println("running client");
+
+
 	}
 }

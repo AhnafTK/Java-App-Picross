@@ -4,16 +4,25 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class GameServer {
-	public static void main(String[] args) {
-		try(ServerSocket serverSocket = new ServerSocket(3000)){
+	static ServerSocket servsock;
+	public GameServer() {
+		
+	}
+	
+	public GameServer(String port) {
+		try(ServerSocket serverSocket = new ServerSocket(Integer.valueOf(port))){
 			System.out.println("waiting for connection..");
 			while(true) {
-				new ServerThread(serverSocket.accept()).start();
-
+				Thread servDaemon = new Thread(new ServerThread(serverSocket.accept()));
+				servDaemon.start();
 			}
-		}
-		catch(IOException e){
-			System.out.println("cant connect to port 1254");
+			
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
+	
+	
 }

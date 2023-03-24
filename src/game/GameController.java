@@ -66,10 +66,20 @@ public class GameController {
 			System.out.println(serverIP);
 			System.out.println(portID);
 
-
 		});
 	}
 	
+	private void serverMakerActions() {
+		view.startServer.addActionListener((actionEvent)->{
+			System.out.println("validating port..");
+			String portNumber = view.serverPortText.getText();
+			System.out.println(portNumber);
+			GameServer server = new GameServer(portNumber);
+			// check here
+			// once validated
+			
+		});
+	}
 	/*
 	 * Responsible for actions related to the splash screen.
 	 */
@@ -105,6 +115,7 @@ public class GameController {
 		
 		view.getServerButton().addActionListener((actionEvent) -> {
 			view.Server(model.getCurrentLocale(), model.getLangText());
+			serverMakerActions();
 		});
 
 		view.getEngRadio().addActionListener((actionEvent) -> {

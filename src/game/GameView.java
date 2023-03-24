@@ -28,7 +28,7 @@ public class GameView {
 	// Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
-	protected JButton clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
+	protected JButton startServer, clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
 	private JButton leaderboardButton, disconnectServer, endConnections;
 	
 	// JTextField Declarations
@@ -486,6 +486,10 @@ public class GameView {
 		leaderboardButton.setPreferredSize(new Dimension(125, 30));
 		leaderboardButton.setBackground(Color.WHITE);
 		
+		startServer = new JButton(langText.getString("start_server"));
+		startServer.setPreferredSize(new Dimension(125,30));
+		startServer.setBackground(Color.WHITE);
+		
 		disconnectServer = new JButton(langText.getString("disconnect"));
 		disconnectServer.setPreferredSize(new Dimension(125, 30));
 		disconnectServer.setBackground(Color.WHITE);		
@@ -496,8 +500,9 @@ public class GameView {
 		
 		serverButtonPanel.add(serverPortLabel);
 		serverButtonPanel.add(serverPortText);
-		serverButtonPanel.add(leaderboardButton);
+		serverButtonPanel.add(startServer);
 		serverButtonPanel.add(disconnectServer);
+		serverButtonPanel.add(leaderboardButton);
 		serverButtonPanel.add(endConnections);
 		return serverButtonPanel;
 	}
