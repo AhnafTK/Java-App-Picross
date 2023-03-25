@@ -65,7 +65,8 @@ public class GameController {
 			System.out.println(userName);
 			System.out.println(serverIP);
 			System.out.println(portID);
-
+			
+			GameClient client = new GameClient(serverIP, portID);
 		});
 	}
 	
