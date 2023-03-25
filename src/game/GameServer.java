@@ -58,12 +58,12 @@ public class GameServer implements Runnable {
 		/**
 		 * Integers for client and positions.
 		 */
-		int clientid, poscerq;
+		int clientid, protocolSeperator;
 
 		/**
 		 * String for data.
 		 */
-		String strcliid, dadosCliente;
+		String clientStrID, dataConfig;
 
 		/**
 		 * Default constructor.
@@ -88,17 +88,19 @@ public class GameServer implements Runnable {
 				in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				out.println(clientid);
 				data = in.readLine();
-				poscerq = data.indexOf("#");
-				strcliid = data.substring(0, poscerq);
-				dadosCliente = data.substring(poscerq + 1, data.length());
-				while (!dadosCliente.equals("end")) {
-					System.out.println("Cli[" + strcliid + "]: " + data);
+				
+				protocolSeperator = data.indexOf("#");
+				clientStrID = data.substring(0, protocolSeperator);
+				dataConfig = data.substring(protocolSeperator + 1, data.length());
+				
+				while (!dataConfig.equals("end")) {
+					System.out.println("Client[" + clientStrID + "]: " + data);
 					out.println("String \"" + data + "\" received.");
 					out.flush();
 					data = in.readLine();
-					poscerq = data.indexOf("#");
-					strcliid = data.substring(0, poscerq);
-					dadosCliente = data.substring(poscerq + 1, data.length());
+					protocolSeperator = data.indexOf("#");
+					clientStrID = data.substring(0, protocolSeperator);
+					dataConfig = data.substring(protocolSeperator + 1, data.length());
 				}
 				System.out.println("Disconecting " + sock.getInetAddress() + "!");
 				nclients -= 1;

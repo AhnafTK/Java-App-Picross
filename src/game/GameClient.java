@@ -21,13 +21,16 @@ public class GameClient {
             out = new PrintStream(sock.getOutputStream());
 			clientID = in.readLine();
 
-			System.out.println("Client no." + clientID + "...");
+			System.out.print("Client[" + clientID + "]: ");
 
 			stdIn = new BufferedReader(new InputStreamReader(System.in)); // Reader for the client/server communication through the console
 			consoleData = stdIn.readLine();
 
-			System.out.println("test");
-			while (!consoleData.equals("end")) {
+			while (!consoleData.equals("end")) { 
+				/* 
+				 * GUI still freezes because it is endlessly stuck in the server/client console connection to read input
+				 * but is never broken out
+				 */
         		System.out.println("in while loop");
 
 				consoleData = clientID + "#" + consoleData;
