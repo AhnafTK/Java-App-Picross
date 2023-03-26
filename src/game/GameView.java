@@ -1362,6 +1362,22 @@ public class GameView {
 	}
 
 	/**	 
+	 * Get the clientWindow
+	 * @return the clientWindow
+	 */
+	protected JFrame getClientWindow() {
+		return clientWindow;
+	}
+
+	/**	 
+	 * Set the clientWindow
+	 * @param clientWindow the clientWindow to set
+	 */
+	protected void setClientWindow(JFrame clientWindow) {
+		this.clientWindow = clientWindow;
+	}
+	
+	/**	 
 	 * Get the gridSizeCmbo
 	 * @return the gridSizeCmbo
 	 */

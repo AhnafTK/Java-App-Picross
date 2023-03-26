@@ -81,41 +81,50 @@ public class GameServer implements Runnable {
 		 */
 		public void run() {
 			String data;
-			PrintStream out = null;
-			BufferedReader in;
+			PrintStream fromServer = null;
+			BufferedReader fromClient;
 			try {
-				out = new PrintStream(sock.getOutputStream());
-				in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				out.println(clientid);
-				data = in.readLine();
+				fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+				fromServer = new PrintStream(sock.getOutputStream());
+				fromServer.println(clientid);
+				data = fromClient.readLine();
 				
-				protocolSeperator = data.indexOf("#");
-				clientStrID = data.substring(0, protocolSeperator);
-				dataConfig = data.substring(protocolSeperator + 1, data.length());
+				/*
+				 * This block is only for the chat communication
+				 */
 				
-				while (!dataConfig.equals("end")) {
-					System.out.println("Client[" + clientStrID + "]: " + data);
-					out.println("String \"" + data + "\" received.");
-					out.flush();
-					data = in.readLine();
-					protocolSeperator = data.indexOf("#");
-					clientStrID = data.substring(0, protocolSeperator);
-					dataConfig = data.substring(protocolSeperator + 1, data.length());
-				}
-				System.out.println("Disconecting " + sock.getInetAddress() + "!");
-				nclients -= 1;
-				System.out.println("Current client number: " + nclients);
-				if (nclients == 0) {
-					System.out.println("Ending server...");
-					sock.close();
-					System.exit(0);
-				}
+//				protocolSeperator = data.indexOf("#");
+//				clientStrID = data.substring(0, protocolSeperator);
+//				dataConfig = data.substring(protocolSeperator + 1, data.length());
+//				
+//				while (!dataConfig.equals("end")) {
+//					System.out.println("Client[" + clientStrID + "]: " + data);
+//					fromServer.println("String \"" + data + "\" received.");
+//					fromServer.flush();
+//					data = fromClient.readLine();
+//					protocolSeperator = data.indexOf("#");
+//					clientStrID = data.substring(0, protocolSeperator);
+//					dataConfig = data.substring(protocolSeperator + 1, data.length());
+//				}
+//				System.out.println("Disconecting " + sock.getInetAddress() + "!");
+//				nclients -= 1;
+//				System.out.println("Current client number: " + nclients);
+//				if (nclients == 0) {
+//					System.out.println("Ending server...");
+//					sock.close();
+//					System.exit(0);
+//				}
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
 		}
 	}
 
+	public void disconnectClient() {
+		nclients -= 1;
+		System.out.println("Current client number: " + nclients);
+		System.out.println("Disconecting " + sock.getInetAddress() + " at port " + sock.getPort());
+	}
 }
 
 	

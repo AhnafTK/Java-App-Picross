@@ -25,7 +25,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class GameController {
 	private GameModel model;
 	private GameView view;
-
+	private GameClient client = null;
+	private GameServer server;
+	
 	/**
 	 * Default constructor
 	 */
@@ -66,7 +68,18 @@ public class GameController {
 			System.out.println(serverIP);
 			System.out.println(portID);
 			
-			GameClient client = new GameClient(serverIP, portID);
+			client = new GameClient(serverIP, portID);
+		});
+		
+		view.clientEnd.addActionListener((actionEvent) ->{
+			if (client == null) {
+				System.out.println("You need to create a connection first...");
+			}
+			else {
+//				server.disconnectClient();
+				client.clientEnd();
+				view.getClientWindow().dispose();
+			}
 		});
 	}
 	
@@ -75,7 +88,7 @@ public class GameController {
 			System.out.println("validating port..");
 			String portNumber = view.serverPortText.getText();
 			System.out.println(portNumber);
-			GameServer server = new GameServer(portNumber);
+			server = new GameServer(portNumber);
 			// check here
 			// once validated
 			
