@@ -46,13 +46,13 @@ public class GameServer implements Runnable {
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
-			Worked w = new Worked(sock, nclient);
+			ClientThread w = new ClientThread(sock, nclient);
 			w.start();
 		}
 		
 	}
 	
-	class Worked extends Thread {
+	class ClientThread extends Thread {
 
 		/**
 		 * Socket variable.
@@ -75,7 +75,7 @@ public class GameServer implements Runnable {
 		 * @param s       Socket
 		 * @param nclient Number of client.
 		 */
-		public Worked(Socket s, int nclient) {
+		public ClientThread(Socket s, int nclient) {
 			sock = s;
 			clientid = nclient;
 		}
