@@ -125,6 +125,7 @@ public class GameView {
 	/** Text area to display the input history */
 	protected JTextArea history;
 	protected JTextArea logTextArea;
+	protected JTextArea textChat;
 	private JComboBox<String> gridSizeCmbo;
 	private JCheckBox markCheckBox;
 	private int gridSize = 5;
@@ -799,9 +800,18 @@ public class GameView {
 	 */
 	private JPanel makeControlPanel() {
 		controlPanel = new JPanel();
-		controlPanel.setPreferredSize(new Dimension(250, 200));
+		controlPanel.setPreferredSize(new Dimension(250, 400));
 		controlPanel.add(makeHistoryPanel());
+		
+		
+		textChat = new JTextArea("Type to enter a chat: ");
+		textChat.setForeground(Color.GRAY);
+		textChat.setLineWrap(true);
+		textChat.setWrapStyleWord(true);
+		textChat.setPreferredSize(new Dimension(200, 75));
+		textChat.setBorder(new LineBorder(new Color(17, 15, 15)));
 
+		controlPanel.add(textChat);
 		return controlPanel;
 	}
 

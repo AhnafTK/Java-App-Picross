@@ -3,7 +3,10 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,8 +22,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Beginning of the controller class. Interacts with the view and model. Responsible for action listeners.
- * @param <WindowEvent>
- * @param <WindowEvent>
  */
 public class GameController {
 	private GameModel model;
@@ -76,7 +77,6 @@ public class GameController {
 				System.out.println("You need to create a connection first...");
 			}
 			else {
-//				server.disconnectClient();
 				client.clientEnd();
 				view.getClientWindow().dispose();
 			}
@@ -92,6 +92,16 @@ public class GameController {
 			// check here
 			// once validated
 			
+		});
+	}
+	
+	private void textChatActions() {
+		view.textChat.addMouseListener(new MouseAdapter(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				view.textChat.setText("");
+			}
 		});
 	}
 	/*
@@ -111,6 +121,7 @@ public class GameController {
 			view.getStartWindow().dispose();
 			view.Play(model.getCurrentLocale(), model.getLangText());
 			playActions();
+			textChatActions();
 		});
 
 		view.getDesignButton().addActionListener((actionEvent) -> {
@@ -120,6 +131,7 @@ public class GameController {
 			view.getStartWindow().dispose();
 			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
+			textChatActions();
 		});
 		
 		view.getClientButton().addActionListener((actionEvent) -> {
@@ -194,29 +206,11 @@ public class GameController {
 	 */
 	private void instructionsActions() {
 		//WindowListener windowListener = new WindowListener();
-		view.getInstructionsWindow().addWindowListener(new WindowListener(){
+		view.getInstructionsWindow().addWindowListener(new WindowAdapter(){
 			@Override
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				// TODO Auto-generated method stub
+			public void windowClosing(WindowEvent e) {
 				view.getInstructionsButton().setEnabled(true);;
 			}
-			@Override
-			public void windowOpened(java.awt.event.WindowEvent e) {}
-
-			@Override
-			public void windowClosed(java.awt.event.WindowEvent e) {}
-
-			@Override
-			public void windowIconified(java.awt.event.WindowEvent e) {}
-
-			@Override
-			public void windowDeiconified(java.awt.event.WindowEvent e) {}
-
-			@Override
-			public void windowActivated(java.awt.event.WindowEvent e) {}
-
-			@Override
-			public void windowDeactivated(java.awt.event.WindowEvent e) {}
 	    });
 		
 		view.getInstructionsBack().addActionListener((actionEvent) -> {
