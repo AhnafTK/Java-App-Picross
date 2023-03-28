@@ -20,7 +20,7 @@ public class GameClient {
 			sock = new Socket(hostName, Integer.valueOf(port));
 
 			fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket communication
-            toServer = new PrintStream(sock.getOutputStream());
+            toServer = new PrintStream(sock.getOutputStream(), true);
 			clientID = fromClient.readLine();
 
 			System.out.print("Client[" + clientID + "]: ");
@@ -68,7 +68,9 @@ public class GameClient {
 	
 	public void clientEnd() {
     	try {
-    		System.out.println("Disconecting " + sock.getInetAddress() + " at port " + sock.getPort());
+    		toServer.println(clientID + "#Disconnecting");
+    		toServer.println(sock.getInetAddress() + " at port " + sock.getPort());
+    		toServer.close();
 			sock.close();
 		} catch (IOException e) {
 			System.out.println("The connection to the server has not been started...");

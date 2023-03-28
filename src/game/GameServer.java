@@ -11,7 +11,10 @@ public class GameServer implements Runnable {
 	static ServerSocket servsock;
 	private Socket sock;
 	static int nclient = 0, nclients = 0;
-
+	String data;
+	PrintStream fromServer = null;
+	BufferedReader fromClient;
+	
 	public GameServer() {
 
 	}
@@ -38,7 +41,8 @@ public class GameServer implements Runnable {
 				sock = servsock.accept();
 				nclient += 1;
 				nclients += 1;
-				System.out.println("Connecting " + sock.getInetAddress() + " at port " + sock.getPort() + ".");
+				System.out.println("Connecting " + sock.getInetAddress() + " at port " + servsock.getLocalPort() + ".");
+				//System.out.println("Connecting " + sock.getInetAddress() + " at port " + sock.getPort() + ".");
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
@@ -80,23 +84,26 @@ public class GameServer implements Runnable {
 		 * Run method.
 		 */
 		public void run() {
-			String data;
-			PrintStream fromServer = null;
-			BufferedReader fromClient;
 			try {
 				fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				fromServer = new PrintStream(sock.getOutputStream());
 				fromServer.println(clientid);
 				data = fromClient.readLine();
 				
+				protocolSeperator = data.indexOf("#");
+				clientStrID = data.substring(0, protocolSeperator);
+				dataConfig = data.substring(protocolSeperator + 1, data.length());
+
+				if (dataConfig.equals("Disconnecting")) {
+					data = fromClient.readLine();
+					disconnectClient();
+				}
+				System.out.println("server data : " + data);
+				
 				/*
 				 * This block is only for the chat communication
 				 */
 				
-//				protocolSeperator = data.indexOf("#");
-//				clientStrID = data.substring(0, protocolSeperator);
-//				dataConfig = data.substring(protocolSeperator + 1, data.length());
-//				
 //				while (!dataConfig.equals("end")) {
 //					System.out.println("Client[" + clientStrID + "]: " + data);
 //					fromServer.println("String \"" + data + "\" received.");
@@ -122,8 +129,8 @@ public class GameServer implements Runnable {
 
 	public void disconnectClient() {
 		nclients -= 1;
-		System.out.println("Current client number: " + nclients);
-		System.out.println("Disconecting " + sock.getInetAddress() + " at port " + sock.getPort());
+		System.out.println("Current number of clients: " + nclients);
+		System.out.println("Disconnecting " + data);
 	}
 }
 
