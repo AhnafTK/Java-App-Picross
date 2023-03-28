@@ -17,6 +17,7 @@ import java.util.Scanner;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -27,7 +28,7 @@ public class GameController {
 	private GameModel model;
 	private GameView view;
 	private GameClient client = null;
-	private GameServer server;
+	private GameServer server = null;
 	
 	/**
 	 * Default constructor
@@ -49,49 +50,78 @@ public class GameController {
 	protected void startController() {
 		splashActions();
 	}
-	
-	
-	//view.clientConnect.addActionListener((actionEvent)->{
-			//System.out.println("validating.....");
-			//check username
-			// check server
-			// check port
-	//});
-	
-	
+
 	private void clientActions() {
 		view.clientConnect.addActionListener((actionEvent) ->{
-			System.out.println("Validating inputs......");
-			String userName = view.clientUserNameText.getText();
-			String serverIP = view.clientServerText.getText();
-			String portID = view.clientPortText.getText();
-			System.out.println(userName);
-			System.out.println(serverIP);
-			System.out.println(portID);
-			
-			client = new GameClient(serverIP, portID);
+			if (view.clientServerText.getText().isBlank()) {
+				view.logTextArea.append("You must enter a server IP to connect to...\n");
+			}
+			else if (view.clientPortText.getText().isBlank()) {
+				view.logTextArea.append("You must enter a port number to connect to...\n");
+			}
+			else {
+				try {
+				    int portNum = Integer.parseInt(view.clientPortText.getText());
+				    if(!(1024 <= portNum && portNum <= 65355)) {
+						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
+				    }
+				    else {
+						String serverIP = view.clientServerText.getText();
+				    	client = new GameClient(serverIP, portNum, view.logTextArea);
+				    }
+				} catch (NumberFormatException e) {
+					view.logTextArea.append("You must enter an integer in the port field...\n");
+				} 
+			}
 		});
 		
 		view.clientEnd.addActionListener((actionEvent) ->{
 			if (client == null) {
-				System.out.println("You need to create a connection first...");
+				view.logTextArea.append("You need to create a connection first...\n");
 			}
 			else {
-				client.clientEnd();
+				client.disconnectClient();
 				view.getClientWindow().dispose();
 			}
 		});
 	}
 	
 	private void serverMakerActions() {
-		view.startServer.addActionListener((actionEvent)->{
-			System.out.println("validating port..");
-			String portNumber = view.serverPortText.getText();
-			System.out.println(portNumber);
-			server = new GameServer(portNumber);
-			// check here
-			// once validated
-			
+		view.startServer.addActionListener((actionEvent) -> {
+			if (view.serverPortText.getText().isBlank()) {
+				view.logTextArea.append("You must enter a port number to connect to...\n");
+			}
+			else {
+				try {
+					int portNum = Integer.parseInt(view.serverPortText.getText());
+
+					if (!(1024 <= portNum && portNum <= 65355)) {
+						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
+					} else {
+						server = new GameServer(portNum, view.logTextArea);
+					}
+				} catch (NumberFormatException e) {
+					view.logTextArea.append("You must enter an integer in the port field...\n");
+				}
+			}
+		});
+		
+		view.disconnectServer.addActionListener((actionEvent) ->{
+			if (server == null) {
+				view.logTextArea.append("You need to create a connection first...\n");
+			}
+			else {
+				server.disconnectServer();
+			}
+		});
+		
+		view.endConnections.addActionListener((actionEvent) ->{
+			if (server == null) {
+				view.logTextArea.append("You need to create a connection first...\n");
+			}
+			else {
+				server.endConnections();
+			}
 		});
 	}
 	

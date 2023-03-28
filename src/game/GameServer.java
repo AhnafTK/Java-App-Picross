@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+
+import javax.swing.JTextArea;
 
 public class GameServer implements Runnable {
 	static ServerSocket servsock;
@@ -14,15 +17,27 @@ public class GameServer implements Runnable {
 	String data;
 	PrintStream fromServer = null;
 	BufferedReader fromClient;
+	JTextArea log;
+	/**
+	 * Integers for client and positions.
+	 */
+	int clientid, protocolSeperator;
+
+	/**
+	 * String for data.
+	 */
+	String clientStrID, dataConfig;
 	
 	public GameServer() {
 
 	}
 
-	public GameServer(String port) {
+	public GameServer(int port, JTextArea log) {
 		System.out.println("Starting server");
+		this.log = log;
+		
 		try {
-			servsock = new ServerSocket(Integer.valueOf(port));
+			servsock = new ServerSocket(port);
 			Thread servDaemon = new Thread(new GameServer());
 			servDaemon.start();
 			System.out.println("Server running on " + " at port " + port + "!");
@@ -60,16 +75,6 @@ public class GameServer implements Runnable {
 		Socket sock;
 
 		/**
-		 * Integers for client and positions.
-		 */
-		int clientid, protocolSeperator;
-
-		/**
-		 * String for data.
-		 */
-		String clientStrID, dataConfig;
-
-		/**
 		 * Default constructor.
 		 * 
 		 * @param s       Socket
@@ -86,7 +91,7 @@ public class GameServer implements Runnable {
 		public void run() {
 			try {
 				fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				fromServer = new PrintStream(sock.getOutputStream());
+				fromServer = new PrintStream(sock.getOutputStream(), true);
 				fromServer.println(clientid);
 				data = fromClient.readLine();
 				
@@ -129,8 +134,47 @@ public class GameServer implements Runnable {
 
 	public void disconnectClient() {
 		nclients -= 1;
-		System.out.println("Current number of clients: " + nclients);
-		System.out.println("Disconnecting " + data);
+		System.out.println("Current number of clients: " + nclients + "\n");
+		System.out.println("Disconnecting " + data + "\n");
+	}
+	
+	public void disconnectServer() {
+		try {
+			System.out.println("Ending server...");
+			//Problem somewhere with this stuff
+			//sock.close();	
+			//servsock.close();		
+			System.exit(0);
+			
+//		} catch (SocketException e) {
+//			log.append("Socket Exception...\n");
+//		} catch (IOException e) {
+//			log.append("I/O Exception...\n");
+		} catch (NullPointerException e) {
+			log.append("Null Pointer Exception...\n");
+		}
+	}
+	
+	public void endConnections() {
+//		try {
+//			fromServer = new PrintStream(sock.getOutputStream(), true);
+//			System.out.println("here");
+//    		fromServer.println("#EndConnections");
+//    		System.out.println("past");
+//			log.append("Ending all client connections...\n");
+//			sock.close();		
+//			fromClient.close();
+//			fromServer.close();
+			
+//		} catch (SocketException e) {
+//			log.append("Socket Exception...\n");
+//		} catch (IOException e) {
+//			log.append("I/O Exception...\n");
+//		} catch (NullPointerException e) {
+//			log.append("Null Pointer Exception...\n");
+//		} catch (IOException e) {
+//			log.append("I/O Exception...\n");
+//		}
 	}
 }
 

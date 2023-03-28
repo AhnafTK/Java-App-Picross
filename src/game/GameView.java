@@ -29,7 +29,7 @@ public class GameView {
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
 	protected JButton startServer, clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientNewGame; 
-	private JButton leaderboardButton, disconnectServer, endConnections;
+	protected JButton leaderboardButton, disconnectServer, endConnections;
 	
 	// JTextField Declarations
 	// Text field for the score and timer in play
@@ -2218,5 +2218,4 @@ public class GameView {
 	protected void setSevSev(JMenuItem sevSev) {
 		this.sevSev = sevSev;
 	}
-
 }

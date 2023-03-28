@@ -10,20 +10,28 @@ public class GameClient {
 	PrintStream toServer = null;
     BufferedReader fromClient = null, consoleIn = null;
 	String consoleData, serverData, clientID;
-	
+
 	public GameClient() {
 
 	}
 
-	public GameClient(String hostName, String port) {
+	public GameClient(String hostName, int port, JTextArea log) {
         try {
-			sock = new Socket(hostName, Integer.valueOf(port));
+			sock = new Socket(hostName, port);
 
 			fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket communication
             toServer = new PrintStream(sock.getOutputStream(), true);
-			clientID = fromClient.readLine();
+            clientID = fromClient.readLine();
 
 			System.out.print("Client[" + clientID + "]: ");
+
+//			if (fromClient.readLine().equals("#EndConnections")) {
+//				System.out.println("we are here");
+//				sock.close();
+//				fromClient.close();
+//				toServer.close();
+//				System.exit(0);
+//			}
 
 			/*
 			 * This block is only for the chat communication 
@@ -59,21 +67,21 @@ public class GameClient {
 //			consoleIn.close();
         } 
         catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + hostName);
+            log.append("Don't know about host: " + hostName + " on port: " + port + "\n");
         } 
         catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to: " + hostName);
+            log.append("Couldn't get I/O for the connection to: " + hostName + " on port: " + port + "\n");
         }
 	}
 	
-	public void clientEnd() {
+	public void disconnectClient() {
     	try {
     		toServer.println(clientID + "#Disconnecting");
     		toServer.println(sock.getInetAddress() + " at port " + sock.getPort());
     		toServer.close();
 			sock.close();
 		} catch (IOException e) {
-			System.out.println("The connection to the server has not been started...");
+			e.printStackTrace();
 		}
 	}
 }
