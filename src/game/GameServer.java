@@ -98,6 +98,8 @@ public class GameServer implements Runnable {
 				fromServer.println(clientid);
 				data = fromClient.readLine();
 				
+				log.append("NEW USER JOINED: ID: " + clientid + "...\n");
+				
 				protocolSeperator = data.indexOf("#");
 				clientStrID = data.substring(0, protocolSeperator);
 				dataConfig = data.substring(protocolSeperator + 1, data.length());

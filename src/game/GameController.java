@@ -61,15 +61,19 @@ public class GameController {
 			else if (view.clientPortText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a port number to connect to...\n");
 			}
+			else if (view.clientUserNameText.getText().isBlank()) {
+				view.logTextArea.append("Please enter a username...\n");
+			}
 			else {
 				try {
 				    int portNum = Integer.parseInt(view.clientPortText.getText());
+				    String userName = view.clientUserNameText.getText();
 				    if(!(1024 <= portNum && portNum <= 65355)) {
 						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
 				    }
 				    else {
 						String serverIP = view.clientServerText.getText();
-				    	client = new GameClient(serverIP, portNum, view.logTextArea, view.textChat);
+				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat);
 				    }
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
@@ -110,8 +114,6 @@ public class GameController {
 							server = new GameServer(portNum, view.logTextArea);
 							view.logTextArea.append("Starting server at "+ portNum +"...\n");
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							//e.printStackTrace();
 							System.out.println("AAAAAAAAA");
 							view.logTextArea.append("Port number "+ portNum +" is already in use, please try another one...\n");
 						}

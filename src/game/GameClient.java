@@ -12,21 +12,22 @@ public class GameClient {
 	BufferedReader fromClient = null, consoleIn = null;
 	String consoleData = "", serverData, clientID;
 	private JTextArea log;
-
+	String userName;
 	public GameClient(JTextArea log) {
 		this.log = log;
 	}
 
-	public GameClient(String hostName, int port, JTextArea log, JTextField chat) {
+	public GameClient(String hostName, int port, String userName, JTextArea log, JTextField chat) {
 		this(log);
 
 		try {
+			this.userName = userName;
 			this.sock = new Socket(hostName, port);
 			this.toServer = new PrintStream(sock.getOutputStream(), true);
 			this.fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket
 			// communication
 			clientID = fromClient.readLine();
-			System.out.print("Client[" + clientID + "]: ");
+			System.out.print("Client[" + clientID + "] "+userName+": ");
 
 			Thread thread = new Thread(new ReceiveMessage(log, chat));
 			thread.start();
@@ -48,7 +49,7 @@ public class GameClient {
 
 		public void sendMessage() {
 				chat.addActionListener(e -> {
-					log.append("Me: " + chat.getText() + '\n');
+					log.append(userName+": " + chat.getText() + '\n');
 					consoleData = chat.getText();
 					chat.setText("");
 					consoleData = clientID + "#" + consoleData;
@@ -63,7 +64,7 @@ public class GameClient {
 					sendMessage();
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
-					System.out.print("Client[" + clientID + "]: ");
+					System.out.print("Client[" + clientID + "]"+ userName + ": ");
 				}
 				fromClient.close();
 				toServer.close();
