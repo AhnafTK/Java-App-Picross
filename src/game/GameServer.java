@@ -109,6 +109,7 @@ public class GameServer implements Runnable {
 							//data = fromClient.readLine();
 							System.out.println("disconnect method");
 							disconnectClient();
+							break;
 						}
 
 						/*
@@ -142,6 +143,7 @@ public class GameServer implements Runnable {
 
 	public void disconnectClient() {
 		nclients -= 1;
+		nclient -= 1;
 		System.out.println("Current number of clients: " + nclients + "\n");
 		System.out.println("Disconnecting " + data + "\n");
 	}

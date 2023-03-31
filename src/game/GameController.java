@@ -84,6 +84,10 @@ public class GameController {
 				view.getClientWindow().dispose();
 			}
 		});
+		
+		view.clientSendGame.addActionListener((actionEvent)->{
+            view.logTextArea.append("Sending game...");
+        });
 	}
 	
 	private void serverMakerActions() {
