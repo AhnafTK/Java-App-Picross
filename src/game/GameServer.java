@@ -148,6 +148,7 @@ public class GameServer implements Runnable {
 		System.out.println("Disconnecting " + data + "\n");
 	}
 
+	// disconnect clients
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");

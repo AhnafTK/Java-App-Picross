@@ -11,6 +11,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -102,12 +104,23 @@ public class GameController {
 					if (!(1024 <= portNum && portNum <= 65355)) {
 						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
 					} else {
-						server = new GameServer(portNum, view.logTextArea);
+						try {
+							ServerSocket testSocket = new ServerSocket(portNum);
+							testSocket.close();
+							server = new GameServer(portNum, view.logTextArea);
+							view.logTextArea.append("Starting server at "+ portNum +"...\n");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							//e.printStackTrace();
+							System.out.println("AAAAAAAAA");
+							view.logTextArea.append("Port number "+ portNum +" is already in use, please try another one...\n");
+						}
 					}
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
 				}
 			}
+
 		});
 		
 		view.disconnectServer.addActionListener((actionEvent) ->{
@@ -116,6 +129,7 @@ public class GameController {
 			}
 			else {
 				server.disconnectServer();
+				// disconnect clients?
 			}
 		});
 		
@@ -125,6 +139,8 @@ public class GameController {
 			}
 			else {
 				server.endConnections();
+				view.logTextArea.append("Closing all connections...\n");
+
 			}
 		});
 	}
