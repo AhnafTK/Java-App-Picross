@@ -28,8 +28,8 @@ public class GameServer implements Runnable {
 	 */
 	String clientStrID, dataConfig;
 
-	public GameServer() {
-
+	public GameServer(JTextArea log) {
+		this.log = log;
 	}
 
 	public GameServer(int port, JTextArea log) {
@@ -38,7 +38,7 @@ public class GameServer implements Runnable {
 
 		try {
 			servsock = new ServerSocket(port);
-			Thread servDaemon = new Thread(new GameServer());
+			Thread servDaemon = new Thread(new GameServer(log));
 			servDaemon.start();
 			System.out.println("Server running on " + " at port " + port + "!");
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class GameServer implements Runnable {
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
-			ClientThread w = new ClientThread(sock, nclient);
+			ClientThread w = new ClientThread(sock, nclient, log);
 			w.start();
 		}
 
@@ -74,16 +74,18 @@ public class GameServer implements Runnable {
 		 * Socket variable.
 		 */
 		Socket sock;
-
+		JTextArea log;
+		
 		/**
 		 * Default constructor.
 		 * 
 		 * @param s       Socket
 		 * @param nclient Number of client.
 		 */
-		public ClientThread(Socket s, int nclient) {
+		public ClientThread(Socket s, int nclient, JTextArea log) {
 			sock = s;
 			clientid = nclient;
+			this.log = log;
 		}
 
 		/**
@@ -95,27 +97,26 @@ public class GameServer implements Runnable {
 				fromServer = new PrintStream(sock.getOutputStream(), true);
 				fromServer.println(clientid);
 				data = fromClient.readLine();
-
+				
 				protocolSeperator = data.indexOf("#");
 				clientStrID = data.substring(0, protocolSeperator);
 				dataConfig = data.substring(protocolSeperator + 1, data.length());
 
-				if (!dataConfig.equals("null")) {
-					while (!dataConfig.equals("end")) {
+				while (!dataConfig.equals("end")) {
 
+					if (!dataConfig.equals("null")) {
 						if (dataConfig.equals("Disconnecting")) {
-							data = fromClient.readLine();
+							//data = fromClient.readLine();
+							System.out.println("disconnect method");
 							disconnectClient();
 						}
-						System.out.println("server data : " + data);
 
 						/*
 						 * This block is only for the chat communication
 						 */
 
-						System.out.println("Client[" + clientStrID + "]: " + data);
-						fromServer.println("String \"" + data + "\" received.");
-						fromServer.flush();
+						log.append("Client[" + clientStrID + "]: " + data + "\n");
+						//fromServer.println("String \"" + data + "\" received.");
 						data = fromClient.readLine();
 						protocolSeperator = data.indexOf("#");
 						clientStrID = data.substring(0, protocolSeperator);
