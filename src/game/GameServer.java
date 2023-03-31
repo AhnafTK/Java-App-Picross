@@ -27,7 +27,7 @@ public class GameServer implements Runnable {
 	 * String for data.
 	 */
 	String clientStrID, dataConfig;
-	
+
 	public GameServer() {
 
 	}
@@ -35,7 +35,7 @@ public class GameServer implements Runnable {
 	public GameServer(int port, JTextArea log) {
 		System.out.println("Starting server");
 		this.log = log;
-		
+
 		try {
 			servsock = new ServerSocket(port);
 			Thread servDaemon = new Thread(new GameServer());
@@ -57,16 +57,17 @@ public class GameServer implements Runnable {
 				nclient += 1;
 				nclients += 1;
 				System.out.println("Connecting " + sock.getInetAddress() + " at port " + servsock.getLocalPort() + ".");
-				//System.out.println("Connecting " + sock.getInetAddress() + " at port " + sock.getPort() + ".");
+				// System.out.println("Connecting " + sock.getInetAddress() + " at port " +
+				// sock.getPort() + ".");
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
 			ClientThread w = new ClientThread(sock, nclient);
 			w.start();
 		}
-		
+
 	}
-	
+
 	class ClientThread extends Thread {
 
 		/**
@@ -94,30 +95,33 @@ public class GameServer implements Runnable {
 				fromServer = new PrintStream(sock.getOutputStream(), true);
 				fromServer.println(clientid);
 				data = fromClient.readLine();
-				
+
 				protocolSeperator = data.indexOf("#");
 				clientStrID = data.substring(0, protocolSeperator);
 				dataConfig = data.substring(protocolSeperator + 1, data.length());
 
-				if (dataConfig.equals("Disconnecting")) {
-					data = fromClient.readLine();
-					disconnectClient();
+				if (!dataConfig.equals("null")) {
+					while (!dataConfig.equals("end")) {
+
+						if (dataConfig.equals("Disconnecting")) {
+							data = fromClient.readLine();
+							disconnectClient();
+						}
+						System.out.println("server data : " + data);
+
+						/*
+						 * This block is only for the chat communication
+						 */
+
+						System.out.println("Client[" + clientStrID + "]: " + data);
+						fromServer.println("String \"" + data + "\" received.");
+						fromServer.flush();
+						data = fromClient.readLine();
+						protocolSeperator = data.indexOf("#");
+						clientStrID = data.substring(0, protocolSeperator);
+						dataConfig = data.substring(protocolSeperator + 1, data.length());
+					}
 				}
-				System.out.println("server data : " + data);
-				
-				/*
-				 * This block is only for the chat communication
-				 */
-				
-//				while (!dataConfig.equals("end")) {
-//					System.out.println("Client[" + clientStrID + "]: " + data);
-//					fromServer.println("String \"" + data + "\" received.");
-//					fromServer.flush();
-//					data = fromClient.readLine();
-//					protocolSeperator = data.indexOf("#");
-//					clientStrID = data.substring(0, protocolSeperator);
-//					dataConfig = data.substring(protocolSeperator + 1, data.length());
-//				}
 //				System.out.println("Disconecting " + sock.getInetAddress() + "!");
 //				nclients -= 1;
 //				System.out.println("Current client number: " + nclients);
@@ -126,10 +130,13 @@ public class GameServer implements Runnable {
 //					sock.close();
 //					System.exit(0);
 //				}
-			} catch (IOException ioe) {
+			} catch (
+
+			IOException ioe) {
 				System.out.println(ioe);
 			}
 		}
+
 	}
 
 	public void disconnectClient() {
@@ -137,15 +144,15 @@ public class GameServer implements Runnable {
 		System.out.println("Current number of clients: " + nclients + "\n");
 		System.out.println("Disconnecting " + data + "\n");
 	}
-	
+
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
-			//Problem somewhere with this stuff
-			//sock.close();	
-			//servsock.close();		
+			// Problem somewhere with this stuff
+			// sock.close();
+			// servsock.close();
 			System.exit(0);
-			
+
 //		} catch (SocketException e) {
 //			log.append("Socket Exception...\n");
 //		} catch (IOException e) {
@@ -154,7 +161,7 @@ public class GameServer implements Runnable {
 			log.append("Null Pointer Exception...\n");
 		}
 	}
-	
+
 	public void endConnections() {
 //		try {
 //			fromServer = new PrintStream(sock.getOutputStream(), true);
@@ -165,7 +172,7 @@ public class GameServer implements Runnable {
 //			sock.close();		
 //			fromClient.close();
 //			fromServer.close();
-			
+
 //		} catch (SocketException e) {
 //			log.append("Socket Exception...\n");
 //		} catch (IOException e) {
@@ -177,6 +184,3 @@ public class GameServer implements Runnable {
 //		}
 	}
 }
-
-	
-

@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 /**
@@ -38,7 +39,8 @@ public class GameView {
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
 	protected JTextField clientUserNameText, clientServerText, clientPortText;
 	protected JTextField serverPortText;
-	
+	protected JTextField textChat;
+
 	// JPanel Declarations
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
@@ -125,7 +127,6 @@ public class GameView {
 	/** Text area to display the input history */
 	protected JTextArea history;
 	protected JTextArea logTextArea;
-	protected JTextArea textChat;
 	private JComboBox<String> gridSizeCmbo;
 	private JCheckBox markCheckBox;
 	private int gridSize = 5;
@@ -369,18 +370,27 @@ public class GameView {
 	
 	protected JPanel makeServerLog() {
 		JPanel serverLogPanel = new JPanel();
+		serverLogPanel.setLayout(new BorderLayout());
+		
 		logTextArea = new JTextArea();
 		logTextArea.setLineWrap(true);
 		logTextArea.setWrapStyleWord(true);
 		logTextArea.setPreferredSize(new Dimension(200, 10000));
 		logTextArea.setBorder(new LineBorder(new Color(17, 15, 15)));
-
+		logTextArea.setEditable(false);
+		
 		// Makes the scroll bar for our text area
 		JScrollPane logScroll = new JScrollPane(logTextArea);
 		logScroll.setPreferredSize(new Dimension(575, 125));
 		logScroll.getVerticalScrollBar().setUnitIncrement(10);
 		logScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		serverLogPanel.add(logScroll);
+		
+		textChat = new JTextField("Type to enter a chat: ");
+		textChat.setForeground(Color.GRAY);
+		textChat.setBorder(new LineBorder(new Color(17, 15, 15)));
+		
+		serverLogPanel.add(logScroll, BorderLayout.CENTER);
+		serverLogPanel.add(textChat, BorderLayout.SOUTH);
 
 		return serverLogPanel;
 	}
@@ -803,12 +813,10 @@ public class GameView {
 		controlPanel.setPreferredSize(new Dimension(250, 400));
 		controlPanel.add(makeHistoryPanel());
 		
-		
-		textChat = new JTextArea("Type to enter a chat: ");
-		textChat.setForeground(Color.GRAY);
-		textChat.setLineWrap(true);
-		textChat.setWrapStyleWord(true);
+
+		textChat = new JTextField("Type to enter a chat: ");	
 		textChat.setPreferredSize(new Dimension(200, 75));
+		textChat.setForeground(Color.GRAY);
 		textChat.setBorder(new LineBorder(new Color(17, 15, 15)));
 
 		controlPanel.add(textChat);

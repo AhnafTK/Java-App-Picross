@@ -67,7 +67,7 @@ public class GameController {
 				    }
 				    else {
 						String serverIP = view.clientServerText.getText();
-				    	client = new GameClient(serverIP, portNum, view.logTextArea);
+				    	client = new GameClient(serverIP, portNum, view.logTextArea, view.textChat);
 				    }
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
@@ -131,6 +131,8 @@ public class GameController {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				view.textChat.setText("");
+				view.textChat.setForeground(Color.BLACK);
+
 			}
 		});
 	}
@@ -167,11 +169,13 @@ public class GameController {
 		view.getClientButton().addActionListener((actionEvent) -> {
 			view.Client(model.getCurrentLocale(), model.getLangText());
 			clientActions();
+			textChatActions();
 		});
 		
 		view.getServerButton().addActionListener((actionEvent) -> {
 			view.Server(model.getCurrentLocale(), model.getLangText());
 			serverMakerActions();
+			textChatActions();
 		});
 
 		view.getEngRadio().addActionListener((actionEvent) -> {
