@@ -94,6 +94,20 @@ public class GameController {
 		view.clientSendGame.addActionListener((actionEvent)->{
             view.logTextArea.append("Sending game...");
         });
+		
+		view.clientSendData.addActionListener((actionEvent)->{
+			view.logTextArea.append("Sending data...");
+		});
+		
+		view.clientNewGame.addActionListener((actionEvent)->{
+			view.logTextArea.append("Starting new game...");
+		});
+		view.clientLoad.addActionListener((actionEvent)->{
+			view.logTextArea.append("Loading game...");
+		});
+		view.clientPlay.addActionListener((actionEvent)->{
+			view.logTextArea.append("Playing game...");
+		});
 	}
 	
 	private void serverMakerActions() {
@@ -144,6 +158,11 @@ public class GameController {
 				view.logTextArea.append("Closing all connections...\n");
 
 			}
+		});
+		
+		view.leaderboardButton.addActionListener((actionEvent)->{
+			view.logTextArea.append("Showing leaderboard...\n");
+
 		});
 	}
 	
