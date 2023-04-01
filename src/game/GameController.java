@@ -103,32 +103,38 @@ public class GameController {
         });
 		
 		view.clientSendData.addActionListener((actionEvent)->{
-			
-			
-			
 			if (client != null) {
-	            view.logTextArea.append("Sending game...\n");
+	            view.logTextArea.append("Sending data...\n");
+	            client.sendData();
 			}
 			else {
-				view.logTextArea.append("Sending data...\n");
+	            view.logTextArea.append("Not connected to server...\n");
 			}
 		});
 		
-		view.clientNewGame.addActionListener((actionEvent)->{
+		view.clientDesign.addActionListener((actionEvent)->{
+			view.logTextArea.append("Designing new game...\n");
+			model.setGameStarted(true);
+			model.resetBoard();
+			view.resetRowsAndCol();
+			view.getStartWindow().dispose();
+			view.Design(model.getCurrentLocale(), model.getLangText());
+			designActions();
+			textChatActions();
+		});
+		
+		view.clientLoad.addActionListener((actionEvent)->{
+			view.logTextArea.append("Loading game...\n");
+		});
+		
+		view.clientPlay.addActionListener((actionEvent)->{
 			view.logTextArea.append("Starting new game...\n");
 			model.resetBoard();
 			view.resetRowsAndCol();
 			view.getStartWindow().dispose();
 			view.Play(model.getCurrentLocale(), model.getLangText());
 			playActions();
-			textChatActions();
-			
-		});
-		view.clientLoad.addActionListener((actionEvent)->{
-			view.logTextArea.append("Loading game...\n");
-		});
-		view.clientPlay.addActionListener((actionEvent)->{
-			view.logTextArea.append("Playing game...\n");
+			textChatActions();		
 		});
 	}
 	
@@ -294,6 +300,12 @@ public class GameController {
 		});
 
 		view.getGameCompleteClose().addActionListener((actionEvent) -> {
+			if (view.getNameTextField().getText().isBlank()) {
+				model.setUsername(" ");
+			}
+			else { 
+				model.setUsername(view.getNameTextField().getText());
+			}
 			view.getGameCompleteWindow().dispose();
 		});
 	}

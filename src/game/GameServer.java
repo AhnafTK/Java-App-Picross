@@ -111,17 +111,24 @@ public class GameServer implements Runnable {
 
 					if (!dataConfig.equals("null")) {
 						if (dataConfig.equals("Disconnecting")) {
-							//data = fromClient.readLine();
-							System.out.println("disconnect method");
+							data = fromClient.readLine();
 							disconnectClient();
 							break;
+						}
+						else if (dataConfig.equals("SendGame")) {
+							data = fromClient.readLine();
+							sendGame();
+						}					
+						else if (dataConfig.equals("SendData")) {
+							data = fromClient.readLine();
+							sendData();
 						}
 
 						/*
 						 * This block is only for the chat communication
 						 */
 
-						log.append("Client[" + clientStrID + "]: " + data + "\n");
+						log.append("Client [" + clientStrID + "]: " + data + "\n");
 						//fromServer.println("String \"" + data + "\" received.");
 						data = fromClient.readLine();
 						
@@ -149,14 +156,21 @@ public class GameServer implements Runnable {
 	
 
 	public void disconnectClient() {
-		
 		nclients -= 1;
 		nclient -= 1;
 		listOfClients.remove(clientid-1);
-		System.out.println("Current number of clients: " + (listOfClients.size()) + "\n");
-		System.out.println("Disconnecting " + data + "\n");
+		log.append("Current number of clients: " + (listOfClients.size()) + "\n");
+		log.append("Disconnecting " + data + "\n");
 	}
 
+	public void sendGame() {
+		data = (" Sent this board configuration " + data + "\n");
+	}
+	
+	public void sendData() {
+		data = (" Sent player data " + data + "\n");
+	}
+	
 	// disconnect clients
 	public void disconnectServer() {
 		try {

@@ -194,11 +194,27 @@ public class GameModel {
 	protected String sendGameToServer() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
-			pattern = pattern + row[i] + ",";
+			if (row == null) {
+				return null;
+			}
+			else {
+				pattern = pattern + row[i];
+				if(i < gridSize-1) {
+					pattern = pattern + ",";
+				}	
+			}
 		}
 		return pattern;
 	}
 
+	protected String sendDataToServer() {
+		String data = "";
+
+		data = "Username: " + getUsername() + ", Best Time: " + getBestTime() + ", Best Score: " + getBestScore();
+		
+		return data;
+	}
+	
 	/**
 	 * Reads a given file, and gathers necessary info to update the board.
 	 * @param fileReader Scanner used to read the file.

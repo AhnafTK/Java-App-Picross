@@ -87,7 +87,7 @@ public class GameClient {
 	public void disconnectClient() {
 		try {
 			toServer.println(clientID + "#Disconnecting");
-			toServer.println(sock.getInetAddress() + " at port " + sock.getPort());
+			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
 			toServer.close();
 			sock.close();
 		} catch (IOException e) {
@@ -98,13 +98,24 @@ public class GameClient {
 	public void sendGame() {
 		
 		String gameBoard = clientModel.sendGameToServer();
-		System.out.println(gameBoard);
-		consoleData = clientID + "#" + gameBoard;
-		
-		toServer.println(consoleData);
-		// TODO Auto-generated method stub
-		
+		System.out.println(gameBoard);		
+
+		if (gameBoard == null) {
+			log.append("You need to play a new game first...\n");
+		}
+		else {
+			toServer.println(clientID + "#SendGame");
+			toServer.println(gameBoard);	
+		}		
 	}
 
+	public void sendData() {
+		
+		String gameData = clientModel.sendDataToServer();
+		System.out.println(gameData);		
 
+		toServer.println(clientID + "#SendData");
+		toServer.println(gameData);
+		
+	}
 }
