@@ -73,7 +73,7 @@ public class GameController {
 				    }
 				    else {
 						String serverIP = view.clientServerText.getText();
-				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat);
+				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
 				    }
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
@@ -92,21 +92,43 @@ public class GameController {
 		});
 		
 		view.clientSendGame.addActionListener((actionEvent)->{
-            view.logTextArea.append("Sending game...");
+			if (client != null) {
+	            view.logTextArea.append("Sending game...\n");
+	            client.sendGame();
+			}
+			else {
+	            view.logTextArea.append("Not connected to server...\n");
+			}
+
         });
 		
 		view.clientSendData.addActionListener((actionEvent)->{
-			view.logTextArea.append("Sending data...");
+			
+			
+			
+			if (client != null) {
+	            view.logTextArea.append("Sending game...\n");
+			}
+			else {
+				view.logTextArea.append("Sending data...\n");
+			}
 		});
 		
 		view.clientNewGame.addActionListener((actionEvent)->{
-			view.logTextArea.append("Starting new game...");
+			view.logTextArea.append("Starting new game...\n");
+			model.resetBoard();
+			view.resetRowsAndCol();
+			view.getStartWindow().dispose();
+			view.Play(model.getCurrentLocale(), model.getLangText());
+			playActions();
+			textChatActions();
+			
 		});
 		view.clientLoad.addActionListener((actionEvent)->{
-			view.logTextArea.append("Loading game...");
+			view.logTextArea.append("Loading game...\n");
 		});
 		view.clientPlay.addActionListener((actionEvent)->{
-			view.logTextArea.append("Playing game...");
+			view.logTextArea.append("Playing game...\n");
 		});
 	}
 	

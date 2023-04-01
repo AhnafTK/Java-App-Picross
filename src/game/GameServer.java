@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 import javax.swing.JTextArea;
 
@@ -18,6 +19,7 @@ public class GameServer implements Runnable {
 	PrintStream fromServer = null;
 	BufferedReader fromClient;
 	JTextArea log;
+	ArrayList<ClientThread>listOfClients = new ArrayList<ClientThread>();
 	/**
 	 * Integers for client and positions.
 	 */
@@ -63,6 +65,7 @@ public class GameServer implements Runnable {
 				System.out.println(ioe);
 			}
 			ClientThread w = new ClientThread(sock, nclient, log);
+			listOfClients.add(w);
 			w.start();
 		}
 
@@ -84,7 +87,7 @@ public class GameServer implements Runnable {
 		 */
 		public ClientThread(Socket s, int nclient, JTextArea log) {
 			sock = s;
-			clientid = nclient;
+			clientid = listOfClients.size()+1;
 			this.log = log;
 		}
 
@@ -121,6 +124,7 @@ public class GameServer implements Runnable {
 						log.append("Client[" + clientStrID + "]: " + data + "\n");
 						//fromServer.println("String \"" + data + "\" received.");
 						data = fromClient.readLine();
+						
 						protocolSeperator = data.indexOf("#");
 						clientStrID = data.substring(0, protocolSeperator);
 						dataConfig = data.substring(protocolSeperator + 1, data.length());
@@ -142,11 +146,14 @@ public class GameServer implements Runnable {
 		}
 
 	}
+	
 
 	public void disconnectClient() {
+		
 		nclients -= 1;
 		nclient -= 1;
-		System.out.println("Current number of clients: " + nclients + "\n");
+		listOfClients.remove(clientid-1);
+		System.out.println("Current number of clients: " + (listOfClients.size()) + "\n");
 		System.out.println("Disconnecting " + data + "\n");
 	}
 

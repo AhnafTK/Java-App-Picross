@@ -191,6 +191,13 @@ public class GameModel {
 		return pattern;
 	}
 
+	protected String sendGameToServer() {
+		String pattern = "";
+		for (int i = 0; i < gridSize; i++) {
+			pattern = pattern + row[i] + ",";
+		}
+		return pattern;
+	}
 
 	/**
 	 * Reads a given file, and gathers necessary info to update the board.

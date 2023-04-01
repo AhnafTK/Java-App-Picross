@@ -13,13 +13,16 @@ public class GameClient {
 	String consoleData = "", serverData, clientID;
 	private JTextArea log;
 	String userName;
+	GameModel clientModel;
+	
 	public GameClient(JTextArea log) {
 		this.log = log;
+
 	}
 
-	public GameClient(String hostName, int port, String userName, JTextArea log, JTextField chat) {
+	public GameClient(String hostName, int port, String userName, JTextArea log, JTextField chat, GameModel model) {
 		this(log);
-
+		this.clientModel = model;
 		try {
 			this.userName = userName;
 			this.sock = new Socket(hostName, port);
@@ -47,6 +50,10 @@ public class GameClient {
 			this.chat = chat;
 		}
 
+		/*
+		 * Commands: /nick
+		 * 
+		 * */
 		public void sendMessage() {
 				chat.addActionListener(e -> {
 					log.append(userName+": " + chat.getText() + '\n');
@@ -57,6 +64,7 @@ public class GameClient {
 				});
 
 		}
+		
 
 		public void run() {
 			try {
@@ -86,4 +94,17 @@ public class GameClient {
 			e.printStackTrace();
 		}
 	}
+	
+	public void sendGame() {
+		
+		String gameBoard = clientModel.sendGameToServer();
+		System.out.println(gameBoard);
+		consoleData = clientID + "#" + gameBoard;
+		
+		toServer.println(consoleData);
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
