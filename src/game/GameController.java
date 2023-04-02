@@ -117,7 +117,7 @@ public class GameController {
 			model.setGameStarted(true);
 			model.resetBoard();
 			view.resetRowsAndCol();
-			view.getStartWindow().dispose();
+			//view.getStartWindow().dispose();
 			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
 			textChatActions();

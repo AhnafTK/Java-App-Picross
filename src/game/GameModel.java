@@ -192,20 +192,37 @@ public class GameModel {
 	}
 
 	protected String sendGameToServer() {
+		if (gameMode == 0) {
+			return sendDesignPatternToServer();
+		}
+		else {
+			String pattern = "";
+			for (int i = 0; i < gridSize; i++) {
+				if (row == null) {
+					return null;
+				}
+				else {
+					pattern = pattern + row[i];
+					if(i < gridSize-1) {
+						pattern = pattern + ",";
+					}	
+				}
+			}
+			return pattern;
+		}
+	}
+	
+	protected String sendDesignPatternToServer() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
-			if (row == null) {
-				return null;
+			for (int j = 0; j < gridSize; j++) {
+				pattern = pattern + getDesignBoard()[i][j];
 			}
-			else {
-				pattern = pattern + row[i];
-				if(i < gridSize-1) {
-					pattern = pattern + ",";
-				}	
-			}
+			pattern = pattern + ",";
 		}
 		return pattern;
 	}
+	
 
 	protected String sendDataToServer() {
 		String data = "";
