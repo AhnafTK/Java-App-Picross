@@ -131,7 +131,7 @@ public class GameController {
 			view.logTextArea.append("Starting new game...\n");
 			model.resetBoard();
 			view.resetRowsAndCol();
-			view.getStartWindow().dispose();
+			//view.getStartWindow().dispose();
 			view.Play(model.getCurrentLocale(), model.getLangText());
 			playActions();
 			textChatActions();		
