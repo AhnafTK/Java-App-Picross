@@ -7,8 +7,10 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+
 /**
- * Beginning of the GameModel class. Responsible for logic/state of the game and its components.
+ * Beginning of the GameModel class. Responsible for logic/state of the game and
+ * its components.
  */
 public class GameModel {
 	private Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
@@ -18,53 +20,54 @@ public class GameModel {
 	protected int gridSize = 5;
 	/** Boolean for the mark mode, false by default */
 	protected boolean markMode = false;
-	/*** Instance of timer.*/
+	/*** Instance of timer. */
 	private Timer timer;
 	/*** Holds the game mode. 0 = design/launcher, 1 = play */
 	private int gameMode = 0;
-	/*** Holds the total number of valid tiles selected.*/
+	/*** Holds the total number of valid tiles selected. */
 	private int totalValid = 0;
-	/*** Holds current number of valid tiles selected.*/
+	/*** Holds current number of valid tiles selected. */
 	private int currentValid = 0;
-	/*** Holds the best time.*/
+	/*** Holds the best time. */
 	private int bestTime = 0;
-	/*** Holds the best score.*/
+	/*** Holds the best score. */
 	private int bestScore = 0;
-	/*** Holds the score.*/
+	/*** Holds the score. */
 	private int score = 0;
-	/*** holds seconds and minutes data.*/
+	/*** holds seconds and minutes data. */
 	private int seconds, minutes;
-	/*** Holds second format and minute format.*/
+	/*** Holds second format and minute format. */
 	private String secFormat, minFormat;
-	/*** used to store the user name of the player.*/
+	/*** used to store the user name of the player. */
 	private String username;
-	/*** Whether game is started or not.*/
+	/*** Whether game is started or not. */
 	private boolean gameStarted = false;
-	/*** Whether game is finished or not.*/
+	/*** Whether game is finished or not. */
 	private boolean gameFinished = false;
-	/*** Default int values for the 5x5 grid*/
+	/*** Default int values for the 5x5 grid */
 	private int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
-	/** Default int values for the 6x6 grid*/
+	/** Default int values for the 6x6 grid */
 	private int[] defaultSixBVals = { 51, 18, 0, 33, 18, 12 };
-	/*** Default int values for the 7x7 grid*/
-	private	int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
-	/*** Design board. 0's when empty. 1's for when selected.*/
+	/*** Default int values for the 7x7 grid */
+	private int[] defaultSevBVals = { 42, 28, 34, 107, 34, 28, 42 };
+	/*** Design board. 0's when empty. 1's for when selected. */
 	private String[][] designBoard;
-	/*** Stores values(Binary string) of rows*/
-	private String[] row; 
-	/*** Stores values (binary string) of col*/
+	/*** Stores values(Binary string) of rows */
+	private String[] row;
+	/*** Stores values (binary string) of col */
 	private String[] col;
-	/** Holds the number of tiles for the row labels*/
+	/** Holds the number of tiles for the row labels */
 	private String[] rowLabels;
-	/** Holds  the number of tiles for the column labels*/
+	/** Holds the number of tiles for the column labels */
 	private String[] colLabels;
-	/*** Holds the row label numbers for design mode*/
+	/*** Holds the row label numbers for design mode */
 	private String[] rowLabelsDesign;
-	/*** Holds the col label numbers for design mode*/
+	/*** Holds the col label numbers for design mode */
 	private String[] colLabelsDesign;
-	
+
 	/**
 	 * Converts the timer to seconds format.
+	 * 
 	 * @return Converted time.
 	 */
 	protected int timerToSeconds() {
@@ -75,17 +78,19 @@ public class GameModel {
 
 	/**
 	 * Changes the language of the game.
-	 * @param lang The name of the language.
+	 * 
+	 * @param lang   The name of the language.
 	 * @param region The region related to the language
 	 */
 	protected void changeLanguage(String lang, String region) {
 		this.currentLocale = new Locale.Builder().setLanguage(lang).setRegion(region).build();
 		this.langText = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-		
+
 	}
 
 	/**
 	 * Makes the labels for the rows
+	 * 
 	 * @return Array of string containing the generated labels
 	 */
 	protected String[] rowLabel() {
@@ -115,13 +120,14 @@ public class GameModel {
 
 		return rowLabels;
 	}
-	
+
 	/**
 	 * Makes columns based on rows.
+	 * 
 	 * @return Array of string containing generated columns
 	 */
 	protected String[] colLabel() {
-		
+
 		colLabels = new String[gridSize];
 		String currentLabel = "";
 		int increment = 0;
@@ -150,10 +156,11 @@ public class GameModel {
 	}
 
 	/**
-	 * Finds the number of valid tiles by iterating through the rows and counting the 1's
+	 * Finds the number of valid tiles by iterating through the rows and counting
+	 * the 1's
 	 */
 	protected void totalValidTiles() {
-		
+
 		totalValid = 0;
 		for (int a = 0; a < gridSize; a++) {
 			for (int b = 0; b < gridSize; b++) {
@@ -165,7 +172,9 @@ public class GameModel {
 	}
 
 	/**
-	 * Copies the designBoard row by row and returns the final concatenated string. (designMode)
+	 * Copies the designBoard row by row and returns the final concatenated string.
+	 * (designMode)
+	 * 
 	 * @return String containing the row data of 0's and 1's
 	 */
 	protected String writeDesignPattern() {
@@ -180,7 +189,9 @@ public class GameModel {
 	}
 
 	/**
-	 * Copies the play board row by row and returns the final concatenated string. (play mode)
+	 * Copies the play board row by row and returns the final concatenated string.
+	 * (play mode)
+	 * 
 	 * @return String containing the row data of 0's and 1's
 	 */
 	protected String writePattern() {
@@ -192,66 +203,67 @@ public class GameModel {
 	}
 
 	protected String sendGameToServer() {
-		if (gameMode == 0) {
-			return sendDesignPatternToServer();
-		}
-		else {
-			String pattern = "";
-			for (int i = 0; i < gridSize; i++) {
-				if (row == null) {
-					return null;
-				}
-				else {
+		if (row == null) {
+			return null;
+		} else {
+			if (gameMode == 0) {
+				return sendDesignPatternToServer();
+			} else {
+				String pattern = "";
+				for (int i = 0; i < gridSize; i++) {
 					pattern = pattern + row[i];
-					if(i < gridSize-1) {
+					if (i < gridSize - 1) {
 						pattern = pattern + ",";
-					}	
+					}
+
 				}
+				return pattern;
 			}
-			return pattern;
 		}
 	}
-	
+
 	protected String sendDesignPatternToServer() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				pattern = pattern + getDesignBoard()[i][j];
 			}
-			pattern = pattern + ",";
+			if (i < gridSize - 1) {
+				pattern = pattern + ",";
+			}
 		}
 		return pattern;
 	}
-	
 
 	protected String sendDataToServer() {
 		String data = "";
 
 		data = "Username: " + getUsername() + ", Best Time: " + getBestTime() + ", Best Score: " + getBestScore();
-		
+
 		return data;
 	}
-	
+
 	/**
 	 * Reads a given file, and gathers necessary info to update the board.
+	 * 
 	 * @param fileReader Scanner used to read the file.
 	 */
 	protected void readFile(Scanner fileReader) {
 		row = new String[gridSize];
-		
+
 		fileReader.nextLine();
-		
+
 		for (int i = 0; i < gridSize; i++) {
 			row[i] = fileReader.nextLine();
 		}
-		
+
 		if (fileReader.hasNextLine()) {
 			bestScore = fileReader.nextInt();
 			bestTime = fileReader.nextInt();
 
 			fileReader.nextLine();
 			String name = fileReader.nextLine();
-			
+
 			if (!name.equals(null)) {
 				username = name;
 				JOptionPane.showMessageDialog(null, "Read a file with username: " + username + "\nBest Score: "
@@ -262,6 +274,7 @@ public class GameModel {
 
 	/**
 	 * Reading a file in design mode.
+	 * 
 	 * @param fileReader Used to read the file.
 	 */
 	protected void readFileDesign(Scanner fileReader) {
@@ -279,6 +292,7 @@ public class GameModel {
 
 	/**
 	 * Converts an int into binary as String datatype.
+	 * 
 	 * @param value The value to be converted.
 	 * @return Binary string
 	 */
@@ -292,6 +306,7 @@ public class GameModel {
 
 	/**
 	 * Initializes the RowLabelDesign array which contains the row labels, with 0's
+	 * 
 	 * @return String array containing the row labels
 	 */
 	protected String[] makeRowLabelDesign() {
@@ -304,6 +319,7 @@ public class GameModel {
 
 	/**
 	 * Initializes the colLabelDesign array which contains the col labels, with 0's
+	 * 
 	 * @return String array containing the col labels
 	 */
 	protected String[] makeColLabelDesign() {
@@ -315,15 +331,18 @@ public class GameModel {
 	}
 
 	/**
-	 * Generates the rows given maxPossible and boolean useDefault. 
-	 * @param maxPossible maximum possible int that can be generated based on gridSize. 
-	 * @param useDefault True when using default values, false when random numbers are to be generated.
+	 * Generates the rows given maxPossible and boolean useDefault.
+	 * 
+	 * @param maxPossible maximum possible int that can be generated based on
+	 *                    gridSize.
+	 * @param useDefault  True when using default values, false when random numbers
+	 *                    are to be generated.
 	 * @return row with the generated values.
 	 */
 	protected String[] generateRows(int maxPossible, boolean useDefault) {
 
 		row = new String[gridSize];
-		
+
 		if (useDefault == true) {
 			switch (gridSize) {
 			case 5:
@@ -355,15 +374,16 @@ public class GameModel {
 
 	/**
 	 * Generate columns based on the rows
+	 * 
 	 * @return Return generated column.
 	 */
 	protected String[] generateCols() {
-		
+
 		col = new String[gridSize];
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
-				
+
 				colVal = colVal + row[l].charAt(k);
 			}
 			col[k] = colVal;
@@ -372,9 +392,9 @@ public class GameModel {
 		return col;
 	}
 
-
 	/**
 	 * Makes the board for design.
+	 * 
 	 * @param gridSize Size of the board.
 	 */
 	void makeDesignBoard(int gridSize) {
@@ -388,12 +408,13 @@ public class GameModel {
 
 	/**
 	 * Updates the row labels when change is detected on the board in design mode.
+	 * 
 	 * @param i index i, accesses rows.
 	 * @param j index j, accesses items in rows.
 	 * @return returned the string containing updated tile numbers.
 	 */
 	String updateRow(int i, int j) {
-		
+
 		StringBuilder builder = new StringBuilder();
 		for (String row : getDesignBoard()[i]) {
 			if (row != null) {
@@ -402,9 +423,9 @@ public class GameModel {
 		}
 		String newRow = builder.toString();
 		String updatedRowLabel = "";
-		
+
 		int inc = 0;
-		
+
 		for (int c = 0; c < gridSize; c++) {
 			if (newRow.charAt(c) == '1') {
 				inc++;
@@ -422,17 +443,18 @@ public class GameModel {
 
 		rowLabelsDesign[i] = updatedRowLabel;
 		return updatedRowLabel;
-		
+
 	}
 
 	/**
 	 * Updates the col labels when change is detected on the board in design mode.
+	 * 
 	 * @param i index i, accesses rows.
 	 * @param j index j, accesses items in rows.
 	 * @return returned the string containing updated tile numbers.
 	 */
 	String updateCol(int i, int j) {
-		
+
 		StringBuilder builder = new StringBuilder();
 		for (int k = 0; k < gridSize; k++) {
 			if (getDesignBoard()[k][j] != null) {
@@ -463,6 +485,7 @@ public class GameModel {
 
 	/**
 	 * Updates the design board by setting selected tiles as 1
+	 * 
 	 * @param i Index i of the array (row)
 	 * @param j Index j of the row.
 	 */
@@ -518,6 +541,7 @@ public class GameModel {
 
 	/**
 	 * Sets the seconds
+	 * 
 	 * @param seconds the seconds to set
 	 */
 	protected void setSeconds(int seconds) {
@@ -526,6 +550,7 @@ public class GameModel {
 
 	/**
 	 * gets the minutes
+	 * 
 	 * @return the minutes
 	 */
 	protected int getMinutes() {
@@ -534,6 +559,7 @@ public class GameModel {
 
 	/**
 	 * Sets the minutes
+	 * 
 	 * @param minutes the minutes to set
 	 */
 	protected void setMinutes(int minutes) {
@@ -542,6 +568,7 @@ public class GameModel {
 
 	/**
 	 * Returns secFormat
+	 * 
 	 * @return the secFormat
 	 */
 	protected String getSecFormat() {
@@ -550,6 +577,7 @@ public class GameModel {
 
 	/**
 	 * Sets secFormat
+	 * 
 	 * @param secFormat the secFormat to set
 	 */
 	protected void setSecFormat(String secFormat) {
@@ -558,6 +586,7 @@ public class GameModel {
 
 	/**
 	 * gets minFormat
+	 * 
 	 * @return the minFormat
 	 */
 	protected String getMinFormat() {
@@ -566,6 +595,7 @@ public class GameModel {
 
 	/**
 	 * sets MinFormat
+	 * 
 	 * @param minFormat the minFormat to set
 	 */
 	protected void setMinFormat(String minFormat) {
@@ -574,6 +604,7 @@ public class GameModel {
 
 	/**
 	 * gets gameStarted
+	 * 
 	 * @return the gameStarted
 	 */
 	protected boolean isGameStarted() {
@@ -582,6 +613,7 @@ public class GameModel {
 
 	/**
 	 * sets gameStarted
+	 * 
 	 * @param gameStarted the gameStarted to set
 	 */
 	protected void setGameStarted(boolean gameStarted) {
@@ -590,6 +622,7 @@ public class GameModel {
 
 	/**
 	 * gets the row array at an index
+	 * 
 	 * @param i Index
 	 * @return the row
 	 */
@@ -599,6 +632,7 @@ public class GameModel {
 
 	/**
 	 * sets the row array
+	 * 
 	 * @param row the row to set
 	 */
 	protected void setRow(String[] row) {
@@ -607,6 +641,7 @@ public class GameModel {
 
 	/**
 	 * Gets the col array.
+	 * 
 	 * @return the col
 	 */
 	protected String[] getCol() {
@@ -615,6 +650,7 @@ public class GameModel {
 
 	/**
 	 * Sets the col
+	 * 
 	 * @param col the col to set
 	 */
 	protected void setCol(String[] col) {
@@ -623,6 +659,7 @@ public class GameModel {
 
 	/**
 	 * Gets the currentValid variable.
+	 * 
 	 * @return the currentValid
 	 */
 	protected int getCurrentValid() {
@@ -631,6 +668,7 @@ public class GameModel {
 
 	/**
 	 * Sets the currentValid variable
+	 * 
 	 * @param currentValid the value to set it to.
 	 */
 	protected void setCurrentValid(int currentValid) {
@@ -639,6 +677,7 @@ public class GameModel {
 
 	/**
 	 * gets the bestTime variable.
+	 * 
 	 * @return the bestTime
 	 */
 	protected int getBestTime() {
@@ -647,6 +686,7 @@ public class GameModel {
 
 	/**
 	 * Sets the bestTime variable.
+	 * 
 	 * @param bestTime the time to set
 	 */
 	protected void setBestTime(int bestTime) {
@@ -655,6 +695,7 @@ public class GameModel {
 
 	/**
 	 * Gets the best score variable
+	 * 
 	 * @return the bestScore
 	 */
 	protected int getBestScore() {
@@ -663,6 +704,7 @@ public class GameModel {
 
 	/**
 	 * Sets the bestScore varaible.
+	 * 
 	 * @param bestScore the score to set
 	 */
 	protected void setBestScore(int bestScore) {
@@ -671,6 +713,7 @@ public class GameModel {
 
 	/**
 	 * Returns the score variable
+	 * 
 	 * @return the Score
 	 */
 	protected int getScore() {
@@ -679,6 +722,7 @@ public class GameModel {
 
 	/**
 	 * Sets the score variable.
+	 * 
 	 * @param score the score to set
 	 */
 	protected void setScore(int score) {
@@ -687,14 +731,16 @@ public class GameModel {
 
 	/**
 	 * Gets the row array
+	 * 
 	 * @return the row array.
 	 */
 	protected String[] getRow() {
 		return row;
 	}
-	
+
 	/**
 	 * Gets the username
+	 * 
 	 * @return the username
 	 */
 	protected String getUsername() {
@@ -703,6 +749,7 @@ public class GameModel {
 
 	/**
 	 * Sets the userName
+	 * 
 	 * @param username the username to set
 	 */
 	protected void setUsername(String username) {
@@ -711,6 +758,7 @@ public class GameModel {
 
 	/**
 	 * Gets gameFinished status.
+	 * 
 	 * @return the gameFinished
 	 */
 	protected boolean getGameFinished() {
@@ -719,6 +767,7 @@ public class GameModel {
 
 	/**
 	 * Sets gameFinished status.
+	 * 
 	 * @param gameFinished the gameFinished to set
 	 */
 	protected void setGameFinished(boolean gameFinished) {
@@ -727,14 +776,16 @@ public class GameModel {
 
 	/**
 	 * Returns game mode.
+	 * 
 	 * @return the gameMode
 	 */
 	protected int getGameMode() {
 		return gameMode;
 	}
-	
+
 	/**
 	 * Sets the gameMode.
+	 * 
 	 * @param gameMode the gameMode to set
 	 */
 	protected void setGameMode(int gameMode) {
@@ -743,6 +794,7 @@ public class GameModel {
 
 	/**
 	 * returns markMode.
+	 * 
 	 * @return the markMode
 	 */
 	protected boolean isMarkMode() {
@@ -751,6 +803,7 @@ public class GameModel {
 
 	/**
 	 * Sets mark mode.
+	 * 
 	 * @param markMode the markMode to set
 	 */
 	protected void setMarkMode(boolean markMode) {
@@ -759,6 +812,7 @@ public class GameModel {
 
 	/**
 	 * Returns the locale.
+	 * 
 	 * @return the currentLocale
 	 */
 	protected Locale getCurrentLocale() {
@@ -767,6 +821,7 @@ public class GameModel {
 
 	/**
 	 * Sets the Locale
+	 * 
 	 * @param currentLocale the currentLocale to set
 	 */
 	protected void setCurrentLocale(Locale currentLocale) {
@@ -775,6 +830,7 @@ public class GameModel {
 
 	/**
 	 * Returns the current langText.
+	 * 
 	 * @return the langText
 	 */
 	protected ResourceBundle getLangText() {
@@ -783,6 +839,7 @@ public class GameModel {
 
 	/**
 	 * Sets the resourceBundle.
+	 * 
 	 * @param langText the langText to set
 	 */
 	protected void setLangText(ResourceBundle langText) {
@@ -791,6 +848,7 @@ public class GameModel {
 
 	/**
 	 * Returns the total valid number.
+	 * 
 	 * @return totalValid: containing the total number of valids.
 	 */
 	protected int getTotalValid() {
@@ -799,6 +857,7 @@ public class GameModel {
 
 	/**
 	 * Gets the designBoard.
+	 * 
 	 * @return designBoard array.
 	 */
 	protected String[][] getDesignBoard() {

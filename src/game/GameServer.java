@@ -52,15 +52,11 @@ public class GameServer implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("RUNNING");
-		// TODO Auto-generated method stub
 		for (;;) {
 			try {
 				sock = servsock.accept();
 				nclient += 1;
 				nclients += 1;
-				System.out.println("Connecting " + sock.getInetAddress() + " at port " + servsock.getLocalPort() + ".");
-				// System.out.println("Connecting " + sock.getInetAddress() + " at port " +
-				// sock.getPort() + ".");
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
@@ -98,10 +94,12 @@ public class GameServer implements Runnable {
 			try {
 				fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				fromServer = new PrintStream(sock.getOutputStream(), true);
+				data = fromClient.readLine();
+				log.append("NEW USER JOINED: ID: " + clientid + "...\n");
+				log.append(data + " is connecting " + sock.getInetAddress() + " at port " + servsock.getLocalPort() + ".\n");
+				
 				fromServer.println(clientid);
 				data = fromClient.readLine();
-				
-				log.append("NEW USER JOINED: ID: " + clientid + "...\n");
 				
 				protocolSeperator = data.indexOf("#");
 				clientStrID = data.substring(0, protocolSeperator);
@@ -164,11 +162,11 @@ public class GameServer implements Runnable {
 	}
 
 	public void sendGame() {
-		data = (" Sent this board configuration " + data + "\n");
+		data = (" Sent this board configuration " + data);
 	}
 	
 	public void sendData() {
-		data = (" Sent player data " + data + "\n");
+		data = (" Sent player data " + data);
 	}
 	
 	// disconnect clients

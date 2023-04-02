@@ -28,6 +28,9 @@ public class GameClient {
 			this.sock = new Socket(hostName, port);
 			this.toServer = new PrintStream(sock.getOutputStream(), true);
 			this.fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket
+			
+			toServer.println(userName);
+			
 			// communication
 			clientID = fromClient.readLine();
 			System.out.print("Client[" + clientID + "] "+userName+": ");
