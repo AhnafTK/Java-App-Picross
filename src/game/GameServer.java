@@ -13,13 +13,16 @@ import javax.swing.JTextArea;
 
 public class GameServer implements Runnable {
 	static ServerSocket servsock;
+	ClientThread w;
 	private Socket sock;
 	static int nclient = 0, nclients = 0;
 	String data;
-	PrintStream fromServer = null;
+	PrintStream fromServer;
 	BufferedReader fromClient;
 	JTextArea log;
 	ArrayList<ClientThread>listOfClients = new ArrayList<ClientThread>();
+	ArrayList<Leaderboard>leaderboard = new ArrayList<Leaderboard>();
+
 	/**
 	 * Integers for client and positions.
 	 */
@@ -60,7 +63,7 @@ public class GameServer implements Runnable {
 			} catch (IOException ioe) {
 				System.out.println(ioe);
 			}
-			ClientThread w = new ClientThread(sock, nclient, log);
+			w = new ClientThread(sock, nclient, log);
 			listOfClients.add(w);
 			w.start();
 		}
@@ -72,7 +75,7 @@ public class GameServer implements Runnable {
 		/**
 		 * Socket variable.
 		 */
-		Socket sock;
+		private Socket sock;
 		JTextArea log;
 		
 		/**
@@ -105,7 +108,7 @@ public class GameServer implements Runnable {
 				clientStrID = data.substring(0, protocolSeperator);
 				dataConfig = data.substring(protocolSeperator + 1, data.length());
 
-				while (!dataConfig.equals("end")) {
+				while (!dataConfig.equals("EndServer")) {
 
 					if (!dataConfig.equals("null")) {
 						if (dataConfig.equals("Disconnecting")) {
@@ -120,6 +123,13 @@ public class GameServer implements Runnable {
 						else if (dataConfig.equals("SendData")) {
 							data = fromClient.readLine();
 							sendData();
+							String username = fromClient.readLine();
+							int time = Integer.parseInt(fromClient.readLine());
+							int score = Integer.parseInt(fromClient.readLine());
+							leaderboard.add(new Leaderboard(clientid, username, time, score));
+						}
+						else if (dataConfig.equals("EndConnections")) {
+							endConnections();
 						}
 
 						/*
@@ -135,6 +145,7 @@ public class GameServer implements Runnable {
 						dataConfig = data.substring(protocolSeperator + 1, data.length());
 					}
 				}
+				disconnectServer();
 //				System.out.println("Disconecting " + sock.getInetAddress() + "!");
 //				nclients -= 1;
 //				System.out.println("Current client number: " + nclients);
@@ -143,16 +154,15 @@ public class GameServer implements Runnable {
 //					sock.close();
 //					System.exit(0);
 //				}
-			} catch (
-
-			IOException ioe) {
-				System.out.println(ioe);
+			} catch (IOException e) {
+				System.out.println(e);
+			} catch (NumberFormatException e) {
+				System.out.println(e);
 			}
 		}
 
 	}
 	
-
 	public void disconnectClient() {
 		nclients -= 1;
 		nclient -= 1;
@@ -167,45 +177,75 @@ public class GameServer implements Runnable {
 	
 	public void sendData() {
 		data = (" Sent player data " + data);
+		
 	}
 	
 	// disconnect clients
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
-			// Problem somewhere with this stuff
-			// sock.close();
-			// servsock.close();
+			sock.close();
+			servsock.close();
 			System.exit(0);
 
-//		} catch (SocketException e) {
-//			log.append("Socket Exception...\n");
-//		} catch (IOException e) {
-//			log.append("I/O Exception...\n");
+		} catch (SocketException e) {
+			log.append("Socket Exception...\n");
+		} catch (IOException e) {
+			log.append("I/O Exception...\n");
 		} catch (NullPointerException e) {
 			log.append("Null Pointer Exception...\n");
 		}
 	}
-
+	
 	public void endConnections() {
-//		try {
-//			fromServer = new PrintStream(sock.getOutputStream(), true);
-//			System.out.println("here");
-//    		fromServer.println("#EndConnections");
-//    		System.out.println("past");
-//			log.append("Ending all client connections...\n");
-//			sock.close();		
-//			fromClient.close();
-//			fromServer.close();
+		try {
+			if (nclients == 0) {
+				log.append("There are no clients connected to the server...\n");
+			}
+			else {
+				fromServer = new PrintStream(sock.getOutputStream(), true);
+				fromServer.println("#EndConnections");
+				log.append("Ending all client connections...\n");
+				fromClient.close();	
+			}
 
-//		} catch (SocketException e) {
-//			log.append("Socket Exception...\n");
-//		} catch (IOException e) {
-//			log.append("I/O Exception...\n");
-//		} catch (NullPointerException e) {
-//			log.append("Null Pointer Exception...\n");
-//		} catch (IOException e) {
-//			log.append("I/O Exception...\n");
-//		}
+		} catch (SocketException e) {
+			log.append("Socket Exception...\n");
+		} catch (IOException e) {
+			log.append("I/O Exception...\n");
+		} catch (NullPointerException e) {
+			log.append("Null Pointer Exception...\n");
+		}
+	}
+	
+	class Leaderboard {
+		int clientid;
+		String userName;
+		int time;
+		int score;
+		
+		public Leaderboard(int clientid, String username, int time, int score) {
+			this.clientid = clientid;
+			this.userName = userName;
+			this.time = time;
+			this.score = score;
+		}
+
+		public int getClientid() {
+			return clientid;
+		}
+
+		public String getUserName() {
+			return userName;
+		}
+
+		public int getTime() {
+			return time;
+		}
+
+		public int getScore() {
+			return score;
+		}
+		
 	}
 }

@@ -75,6 +75,10 @@ public class GameClient {
 					sendMessage();
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
+					if (serverData.equals("#EndConnections")) {
+						disconnectClient();
+						break;
+					}
 					System.out.print("Client[" + clientID + "]"+ userName + ": ");
 				}
 				fromClient.close();
@@ -119,6 +123,12 @@ public class GameClient {
 
 		toServer.println(clientID + "#SendData");
 		toServer.println(gameData);
+		toServer.println(clientModel.getUsername());
+		toServer.println(clientModel.getBestTime());
+		toServer.println(clientModel.getBestScore());
+	}
+	public void endConnections() {
+		toServer.println(clientID + "#EndConnections");
 		
 	}
 }
