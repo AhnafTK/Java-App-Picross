@@ -292,7 +292,7 @@ public class GameView {
 		designWindow.pack();
 		designWindow.setResizable(false);
 		designWindow.setVisible(true);
-		designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		designWindow.setSize(1000, 600);
 		designWindow.setLocationRelativeTo(null);
