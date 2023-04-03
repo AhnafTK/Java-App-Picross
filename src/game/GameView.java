@@ -449,6 +449,7 @@ public class GameView {
 		clientSendGame = new JButton(langText.getString("send_game"));
 		clientSendGame.setPreferredSize(new Dimension(100, 30));
 		clientSendGame.setBackground(Color.WHITE);
+		clientSendGame.setEnabled(false);
 		
 		clientSendData = new JButton(langText.getString("send_data"));
 		clientSendData.setPreferredSize(new Dimension(100, 30));

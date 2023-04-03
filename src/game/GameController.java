@@ -117,6 +117,7 @@ public class GameController {
 		
 		view.clientDesign.addActionListener((actionEvent)->{
 			view.logTextArea.append("Designing new game...\n");
+			view.clientSendGame.setEnabled(true);
 			model.setGameStarted(true);
 			model.resetBoard();
 			view.resetRowsAndCol();
@@ -137,6 +138,8 @@ public class GameController {
 		
 		view.clientPlay.addActionListener((actionEvent)->{
 			view.logTextArea.append("Starting new game...\n");
+			view.clientSendGame.setEnabled(true);
+			model.setGameStarted(false);
 			model.resetBoard();
 			view.resetRowsAndCol();
 			//view.getStartWindow().dispose();
