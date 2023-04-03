@@ -900,6 +900,8 @@ public class GameController {
 				model.getTimer().stop();
 				model.setGameStarted(false);
 				view.getTimerCounter().setText("00:00");
+				view.getScoreCounter().setText("0");
+				model.setScore(0);
 			}
 		} else {
 			newDesignBoard(options, false);
