@@ -118,6 +118,7 @@ public class GameController {
 		view.clientDesign.addActionListener((actionEvent)->{
 			view.logTextArea.append("Designing new game...\n");
 			view.clientSendGame.setEnabled(true);
+			model.setLoadClient(false);
 			model.setGameStarted(true);
 			model.resetBoard();
 			view.resetRowsAndCol();
@@ -130,6 +131,9 @@ public class GameController {
 		view.clientLoad.addActionListener((actionEvent)->{
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
+				model.setLoadClient(true);
+				view.clientSendGame.setEnabled(true);
+				loadGameActions();
 			}
 			else {
 	            view.logTextArea.append("Not connected to server...\n");
@@ -617,31 +621,27 @@ public class GameController {
 		}
 	}
 
-	/*
-	 * Responsible for actions related to the menu bar
-	 */
-	private void menuBarActions() {
-		view.getSaveMenuOption().addActionListener((actionEvent) -> {
-			saveGameActions();
-		});
+	private void loadGameActions() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("."));
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Text files", "txt"));
+		
+		if (model.getGameMode() == 0) {
+			model.setRow(new String[model.gridSize]);
+		}
 
-		view.getLoadMenuOption().addActionListener((actionEvent) -> {
-			JFileChooser fileChooser = new JFileChooser();
-			fileChooser.setCurrentDirectory(new File("."));
-			fileChooser.setFileFilter(new FileNameExtensionFilter("Text files", "txt"));
-			
-			if (model.getGameMode() == 0) {
-				model.setRow(new String[model.gridSize]);
-			}
+		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
 
-			if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+			try {
+				Scanner fileReader = new Scanner(file);
 
-				try {
-					Scanner fileReader = new Scanner(file);
-
-					if (file.isFile()) {
-						model.gridSize = fileReader.nextInt();
+				if (file.isFile()) {
+					model.gridSize = fileReader.nextInt();
+					if (model.isLoadClient() == true) {
+						model.readFile(fileReader);
+					}
+					else {
 						view.getGridSizeCmbo().setSelectedIndex(model.gridSize - 5);
 						
 						if (model.getGameMode() == 1) {
@@ -658,15 +658,28 @@ public class GameController {
 									}
 								}
 							}
-						}
+						}	
 					}
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		}
+	}
+	/*
+	 * Responsible for actions related to the menu bar
+	 */
+	private void menuBarActions() {
+		view.getSaveMenuOption().addActionListener((actionEvent) -> {
+			saveGameActions();
+		});
+
+		view.getLoadMenuOption().addActionListener((actionEvent) -> {
+			model.setLoadClient(false);
+			loadGameActions();
 		});
 		view.getNewMenuOption().addActionListener((actionEvent) -> {
 			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(), false, false);

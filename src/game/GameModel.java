@@ -44,6 +44,7 @@ public class GameModel {
 	private boolean gameStarted = false;
 	/*** Whether game is finished or not. */
 	private boolean gameFinished = false;
+	private boolean loadClient = false;
 	/*** Default int values for the 5x5 grid */
 	private int[] defaultFiveBVals = { 21, 20, 29, 21, 21 };
 	/** Default int values for the 6x6 grid */
@@ -204,7 +205,7 @@ public class GameModel {
 
 	protected String sendGameToServer() {
 
-		if (gameMode == 0) {
+		if (gameMode == 0 && isLoadClient() == false) {
 			return sendDesignPatternToServer();
 		} else {
 			String pattern = "";
@@ -860,5 +861,13 @@ public class GameModel {
 	 */
 	protected String[][] getDesignBoard() {
 		return designBoard;
+	}
+
+	public boolean isLoadClient() {
+		return loadClient;
+	}
+
+	public void setLoadClient(boolean loadClient) {
+		this.loadClient = loadClient;
 	}
 }
