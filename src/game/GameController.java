@@ -133,7 +133,7 @@ public class GameController {
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
 				model.setLoadClient(true);
-				view.clientSendGame.setEnabled(true);
+				///view.clientSendGame.setEnabled(true);
 				loadGameActions();
 			}
 			else {
@@ -143,7 +143,7 @@ public class GameController {
 		
 		view.clientPlay.addActionListener((actionEvent)->{
 			view.logTextArea.append("Starting new game...\n");
-			view.clientSendGame.setEnabled(true);
+			//view.clientSendGame.setEnabled(true);
 			model.setGameStarted(false);
 			model.resetBoard();
 			view.resetRowsAndCol();
@@ -788,6 +788,18 @@ public class GameController {
 					}
 				}
 			}
+		});
+		
+		view.getClientMenuOption().addActionListener((actionEvent)->{
+			view.Client(model.getCurrentLocale(), model.getLangText());
+			clientActions();
+			textChatActions();
+		});
+		
+		view.getServerMenuOption().addActionListener((actionEvent)->{
+			view.Server(model.getCurrentLocale(), model.getLangText());
+			serverMakerActions();
+			textChatActions();
 		});
 
 	}

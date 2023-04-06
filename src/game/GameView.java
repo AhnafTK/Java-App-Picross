@@ -452,7 +452,7 @@ public class GameView {
 		clientSendGame = new JButton(langText.getString("send_game"));
 		clientSendGame.setPreferredSize(new Dimension(100, 30));
 		clientSendGame.setBackground(Color.WHITE);
-		clientSendGame.setEnabled(false);
+		///clientSendGame.setEnabled(false);
 		
 		clientSendData = new JButton(langText.getString("send_data"));
 		clientSendData.setPreferredSize(new Dimension(100, 30));
@@ -2239,5 +2239,32 @@ public class GameView {
 	 */
 	protected void setSevSev(JMenuItem sevSev) {
 		this.sevSev = sevSev;
+	}
+	/**
+	 * @return the clientMenuOption
+	 */
+	protected JMenuItem getClientMenuOption() {
+		return clientMenuOption;
+	}
+
+	/**
+	 * @param clientMenuOption the clientMenuOption to set
+	 */
+	protected void setClientMenuOption(JMenuItem clientMenuOption) {
+		this.clientMenuOption = clientMenuOption;
+	}
+
+	/**
+	 * @return the serverMenuOption
+	 */
+	protected JMenuItem getServerMenuOption() {
+		return serverMenuOption;
+	}
+
+	/**
+	 * @param serverMenuOption the serverMenuOption to set
+	 */
+	protected void setServerMenuOption(JMenuItem serverMenuOption) {
+		this.serverMenuOption = serverMenuOption;
 	}
 }
