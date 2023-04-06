@@ -25,7 +25,7 @@ public class GameClient {
 		this(log);
 		this.clientModel = model;
 		try {
-			this.userName = userName;
+			clientModel.setUsername(userName);
 			GameClient.sock = new Socket(hostName, port);
 			this.toServer = new PrintStream(sock.getOutputStream(), true);
 			this.fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket
