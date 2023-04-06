@@ -75,8 +75,9 @@ public class GameController {
 				    }
 				    else {
 						String serverIP = view.clientServerText.getText();
+						view.logTextArea.append("Attempting connection...\n");
 				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
-				    	view.clientConnect.setEnabled(false);
+				    	//view.clientConnect.setEnabled(false);
 				    }
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");

@@ -3,6 +3,7 @@ package game;
 import java.io.*;
 import java.net.*;
 
+import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -25,22 +26,27 @@ public class GameClient {
 		this.clientModel = model;
 		try {
 			this.userName = userName;
-			this.sock = new Socket(hostName, port);
+			GameClient.sock = new Socket(hostName, port);
 			this.toServer = new PrintStream(sock.getOutputStream(), true);
 			this.fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket
-			
+			this.log = log;
+
 			toServer.println(userName);
 			
 			// communication
 			clientID = fromClient.readLine();
 			System.out.print("Client[" + clientID + "] "+userName+": ");
 
+			log.append("Connected successfully..\n");
 			Thread thread = new Thread(new ReceiveMessage(log, chat));
 			thread.start();
 		} catch (UnknownHostException e) {
+			log.append("Unknown host: " + hostName + " on port: " + port + "\n");
 			System.out.println("Don't know about host: " + hostName + " on port: " + port + "\n");
 		} catch (IOException e) {
+			log.append("Couldn't get I/O for the connection to: " + hostName + " on port: " + port + "\n");
 			System.out.println("Couldn't get I/O for the connection to: " + hostName + " on port: " + port + "\n");
+
 		}
 	}
 
@@ -95,8 +101,12 @@ public class GameClient {
 		try {
 			toServer.println(clientID + "#Disconnecting");
 			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
+			
+			
+			fromClient.close();
 			toServer.close();
 			sock.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
