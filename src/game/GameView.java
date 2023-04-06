@@ -60,6 +60,7 @@ public class GameView {
 
 	private JMenu gameMenuItemsContainer;
 	private JMenu helpMenuItemsContainer;
+	private JMenu networkingMenuItemsContainer;
 	private JMenu colourMenu;
 	private JMenu gridSizeItemsContainer;
 
@@ -78,6 +79,8 @@ public class GameView {
 	private JMenuItem saveMenuOption;
 	private JMenuItem loadMenuOption;
 	private JMenuItem aboutMenuOption;
+	private JMenuItem clientMenuOption;
+	private JMenuItem serverMenuOption;
 	private JMenuItem fiveFive = new JMenuItem("5x5");
 	private JMenuItem sixSix = new JMenuItem("6x6");
 	private JMenuItem sevSev = new JMenuItem("7x7");
@@ -597,9 +600,17 @@ public class GameView {
 		helpMenuItemsContainer.add(aboutMenuOption);
 		helpMenuItemsContainer.add(colourMenu);
 
+		networkingMenuItemsContainer = new JMenu("Online");
+		clientMenuOption = new JMenuItem("Client");
+		serverMenuOption = new JMenuItem("Server");
+		networkingMenuItemsContainer.add(clientMenuOption);
+		networkingMenuItemsContainer.add(serverMenuOption);
+
+		
 		// Adds the game and help menus into the menubar
 		menuBar.add(gameMenuItemsContainer);
 		menuBar.add(helpMenuItemsContainer);
+		menuBar.add(networkingMenuItemsContainer);
 
 	}
 
