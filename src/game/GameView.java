@@ -564,6 +564,8 @@ public class GameView {
 
 		// Adds the menu items for the play mode
 		else {
+			// add networking stuff
+			
 			gameMenuItemsContainer.add(newMenuOption);
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
