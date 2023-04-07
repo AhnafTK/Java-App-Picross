@@ -1,4 +1,0 @@
-src\game\GameClient.java:28: warning: [static] static variable should be qualified by type name, GameClient, instead of by an expression
-			this.sock = new Socket(hostName, port);
-			    ^
-1 warning

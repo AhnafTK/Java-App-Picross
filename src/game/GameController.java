@@ -90,8 +90,9 @@ public class GameController {
 				view.logTextArea.append("You need to create a connection first...\n");
 			}
 			else {
+				view.logTextArea.append("Disconnecting from server...\n");
 				client.disconnectClient();
-				view.getClientWindow().dispose();
+				//view.getClientWindow().dispose();
 			}
 		});
 		
@@ -188,7 +189,9 @@ public class GameController {
 				view.logTextArea.append("You need to create a connection first...\n");
 			}
 			else {
+				
 				server.disconnectServer();
+				
 				// disconnect clients?
 			}
 		});

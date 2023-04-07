@@ -83,13 +83,11 @@ public class GameClient {
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
 					if (serverData.equals("#EndConnections")) {
-						disconnectClient();
+						//closeReaders();
 						break;
 					}
 					System.out.print("Client[" + clientID + "]"+ userName + ": ");
 				}
-				fromClient.close();
-				toServer.close();
 			} catch (UnknownHostException e) {
 				System.out.println("Don't know about host\n");
 			} catch (IOException e) {
@@ -102,14 +100,12 @@ public class GameClient {
 		try {
 			toServer.println(clientID + "#Disconnecting");
 			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
-			
-			
 			fromClient.close();
-			toServer.close();
-			sock.close();
+			//toServer.close();
+			//sock.close();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -139,7 +135,20 @@ public class GameClient {
 		toServer.println(clientModel.getBestScore());
 	}
 	public void endConnections() {
-		toServer.println(clientID + "#EndConnections");
+		//toServer.println(clientID + "#EndConnections");
 		
+	}
+	
+	public void closeReaders() {
+		if(fromClient != null) {
+			try {
+				fromClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (toServer != null) {
+			toServer.close();
+		}
 	}
 }
