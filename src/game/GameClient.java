@@ -83,7 +83,7 @@ public class GameClient {
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
 					if (serverData.equals("#EndConnections")) {
-						//closeReaders();
+						disconnectClient();
 						break;
 					}
 					System.out.print("Client[" + clientID + "]"+ userName + ": ");

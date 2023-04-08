@@ -34,10 +34,11 @@ public class GameServer implements Runnable {
 	 */
 	String clientStrID, dataConfig;
 
-	public GameServer(JTextArea log, ServerSocket socket, boolean running) {
+	public GameServer(JTextArea log, ServerSocket socket, boolean running, ArrayList listOfClients) {
 		this.log = log;
 		this.servsock = socket;
 		this.running = running;
+		this.listOfClients = listOfClients;
 	}
 
 	public GameServer(int port, JTextArea log) {
@@ -47,7 +48,7 @@ public class GameServer implements Runnable {
 		try {
 			this.servsock = new ServerSocket(port);
 			if (servsock != null) {
-				Thread servDaemon = new Thread(new GameServer(log, servsock, running));
+				Thread servDaemon = new Thread(new GameServer(log, servsock, running, listOfClients));
 				servDaemon.start();
 				System.out.println("Server running on " + " at port " + port + "!");
 			} else {
@@ -211,10 +212,11 @@ public class GameServer implements Runnable {
 			if (nclients == 0) {
 				log.append("There are no clients connected to the server...\n");
 			} else {
-				fromServer = new PrintStream(sock.getOutputStream(), true);
-				fromServer.println("#EndConnections");
+				for(int i = 0; i < listOfClients.size(); i++) {
+					fromServer = new PrintStream(listOfClients.get(i).sock.getOutputStream(), true);
+					fromServer.println("#EndConnections");
+				}
 				log.append("Ending all client connections...\n");
-				// fromClient.close();
 			}
 
 		} catch (SocketException e) {
