@@ -205,20 +205,24 @@ public class GameModel {
 
 	protected String sendGameToServer() {
 
-		if (gameMode == 0 && isLoadClient() == false) {
+		if (gameMode == 0 && isLoadClient() == false && getDesignBoard()!=null) {
 			return sendDesignPatternToServer();
 		} else {
-			String pattern = "";
-			for (int i = 0; i < gridSize; i++) {
-				pattern = pattern + row[i];
-				if (i < gridSize - 1) {
-					pattern = pattern + ",";
+			if (row!=null) {
+				String pattern = "";
+				for (int i = 0; i < gridSize; i++) {
+					pattern = pattern + row[i];
+					if (i < gridSize - 1) {
+						pattern = pattern + ",";
+					}
+
 				}
+				return pattern;
 
 			}
-			return pattern;
-
+			
 		}
+		return null;
 	}
 
 	protected String sendDesignPatternToServer() {
