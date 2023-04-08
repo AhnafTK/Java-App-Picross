@@ -123,6 +123,7 @@ public class GameServer implements Runnable {
 				outToServer.println(clientid);
 				
 				while (clientSock.isConnected()) {
+					
 					System.out.println("Socket connected, in loop");
 					data = inFromClient.readLine();
 					protocolSeperator = data.indexOf("#");
@@ -150,17 +151,13 @@ public class GameServer implements Runnable {
 					case "Disconnecting":
 						inFromClient.readLine();
 						System.out.println("Disconnecting you");
-						//clientSock.close();
-						//inFromClient.close();
-						//outToServer.close();
 						System.out.println("DISCONNETING: " + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
+
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.close();
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).inFromClient.close();
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock.close();
-
-						//clientSock.close();
 						listOfClients.remove(Integer.valueOf(clientStrID) - 1);
-
+						clientSock.close();
 						//sock.close();
 						break;
 					default:
@@ -208,8 +205,8 @@ public class GameServer implements Runnable {
 				
 				/// disconnectServer();
 			} catch (IOException e) {
-				 System.out.println(e);
-				System.out.println("here");
+				// System.out.println(e);
+				//System.out.println("here");
 			} catch (NumberFormatException e) {
 				System.out.println(e);
 			} catch (NullPointerException e) {

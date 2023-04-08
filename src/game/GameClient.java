@@ -89,7 +89,7 @@ public class GameClient {
 			} catch (UnknownHostException e) {
 				System.out.println("Don't know about host\n");
 			} catch (IOException e) {
-				System.out.println("I/O Exception\n");
+				//System.out.println("I/O Exception\n");
 			}
 		}
 	}
@@ -98,7 +98,12 @@ public class GameClient {
 
 		toServer.println(clientID + "#Disconnecting");
 		toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort());
-
+		try {
+			clientSock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		/*
 		try {
 			toServer.println(clientID + "#Disconnecting");
