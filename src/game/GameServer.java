@@ -13,7 +13,13 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.JTextArea;
-
+/**
+ * This is the GameServer class that creates a thread 
+ * for each new client.
+ * 
+ * @author Skylar Phanenhour, Ahnaf Kamal
+ *
+ */
 public class GameServer implements Runnable {
 	private ServerSocket servsock;
 	ClientThread w;
@@ -36,7 +42,14 @@ public class GameServer implements Runnable {
 	 * String for data.
 	 */
 	String clientStrID, dataConfig;
-
+	/**
+	 * Overloaded constructor to create the server
+	 * 
+	 * @param log - Text area to display messages
+	 * @param socket - Server socket
+	 * @param listOfClients - Array list for each connected client
+	 * @param leaderboard - Array list for the user's on the leaderboard
+	 */
 	public GameServer(JTextArea log, ServerSocket socket,  ArrayList listOfClients, ArrayList leaderboard) {
 		this.log = log;
 		this.servsock = socket;
@@ -44,6 +57,12 @@ public class GameServer implements Runnable {
 		this.leaderboard = leaderboard;
 	}
 
+	/**
+	 * Constructor that accepts the client's connections on the socket
+	 * 
+	 * @param port - Port that the server socket gets created on
+	 * @param log - Text area to display messages
+	 */
 	public GameServer(int port, JTextArea log) {
 		System.out.println("Starting server");
 		this.log = log;

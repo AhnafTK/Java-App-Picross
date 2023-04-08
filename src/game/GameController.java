@@ -54,18 +54,25 @@ public class GameController {
 	protected void startController() {
 		splashActions();
 	}
-
+	/**
+	 * Responsible for the actions related to the client components
+	 */
 	private void clientActions() {
+		//When the client connects to the server
 		view.clientConnect.addActionListener((actionEvent) ->{
+			//Checks if the server IP is blank
 			if (view.clientServerText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a server IP to connect to...\n");
 			}
+			//Checks if the port is blank
 			else if (view.clientPortText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a port number to connect to...\n");
 			}
+			//Checks if the username is blank
 			else if (view.clientUserNameText.getText().isBlank()) {
 				view.logTextArea.append("Please enter a username...\n");
 			}
+			//If they all have values
 			else {
 				try {
 				    int portNum = Integer.parseInt(view.clientPortText.getText());
@@ -155,6 +162,9 @@ public class GameController {
 		});
 	}
 	
+	/**
+	 * Responsible for the actions related to the server components
+	 */
 	private void serverMakerActions() {
 		view.startServer.addActionListener((actionEvent) -> {
 			if (view.serverPortText.getText().isBlank()) {
@@ -214,7 +224,9 @@ public class GameController {
 			}
 		});
 	}
-	
+	/**
+	 * When the text chat is clicked, gets rid of the default text
+	 */
 	private void textChatActions() {
 		view.textChat.addMouseListener(new MouseAdapter(){
 

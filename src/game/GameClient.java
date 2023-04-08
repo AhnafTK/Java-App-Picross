@@ -7,8 +7,15 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * This is the GameClient class that creates a client thread,
+ * can connect and communicate with the GameServer.
+ * 
+ * @author Skylar Phanenhour, Ahnaf Kamal
+ *
+ */
 public class GameClient {
-	
+	//Declarations
 	private Socket clientSock;
 	PrintStream toServer = null;
 	BufferedReader fromClient = null, consoleIn = null;
@@ -17,16 +24,22 @@ public class GameClient {
 	String userName;
 	GameModel clientModel;
 
-	public GameClient(JTextArea log) {
-		this.log = log;
 
-	}
-
+	/**
+	 * Overloaded constructor to create the client
+	 * 
+	 * @param hostName - Server IP that the client connects to
+	 * @param port - Port number that the client connects to
+	 * @param userName - Client's username that is entered, stored in the model
+	 * @param log - Text area to display messages
+	 * @param chat - Text field to send chats to the server
+	 * @param model - GameModel to store/access variables within
+	 */
 	public GameClient(String hostName, int port, String userName, JTextArea log, JTextField chat, GameModel model) {
-		this(log);
-		this.clientModel = model;
 		try {
+			//Initializes the client's variables
 			clientSock = new Socket(hostName, port);
+			this.clientModel = model;
 			clientModel.setUsername(userName);
 			this.userName = userName;
 			this.toServer = new PrintStream(clientSock.getOutputStream(), true);
@@ -34,9 +47,7 @@ public class GameClient {
 			this.log = log;
 
 			toServer.println(userName);
-
 			System.out.println("client socket is " + clientSock);
-			// communication
 			clientID = fromClient.readLine();
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
 
@@ -54,6 +65,13 @@ public class GameClient {
 		}
 	}
 
+	/**
+	 * ReceiveMessage class that is created on a new thread.
+	 * Used to send/receive messages from the server.
+	 * 
+	 * @author Skylar Phanenhour, Ahnaf Kamal
+	 *
+	 */
 	class ReceiveMessage implements Runnable {
 		private JTextArea log;
 		private JTextField chat;
@@ -93,7 +111,9 @@ public class GameClient {
 			}
 		}
 	}
-
+	/**
+	 * disconnecClient method that disconnects the client
+	 */
 	public void disconnectClient() {
 
 		toServer.println(clientID + "#Disconnecting");
@@ -114,7 +134,10 @@ public class GameClient {
 		}
 		*/
 	}
-
+	/**
+	 * sendGame method that sends the board configuration
+	 * that the client is using in play or design.
+	 */
 	public void sendGame() {
 
 		String gameBoard = clientModel.sendGameToServer();
@@ -127,7 +150,10 @@ public class GameClient {
 			toServer.println(gameBoard);
 		}
 	}
-
+	/**
+	 * sendData method that sends the username, best time, best score
+	 * to the server, where it gets stored in a leaderboard.
+	 */
 	public void sendData() {
 
 		String gameData = clientModel.sendDataToServer();
@@ -140,11 +166,10 @@ public class GameClient {
 		toServer.println(clientModel.getBestScore());
 	}
 
-	public void endConnections() {
-		// toServer.println(clientID + "#EndConnections");
-
-	}
-
+	/**
+	 * closeReaders method that is used to close the 
+	 * reader and print stream that the client is using.
+	 */
 	public void closeReaders() {
 		try {
 			if (fromClient != null) {
