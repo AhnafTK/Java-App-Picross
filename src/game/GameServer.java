@@ -129,6 +129,7 @@ public class GameServer implements Runnable {
 		/**
 		 * Run method.
 		 */
+		@Override
 		public void run() {
 			try {
 				
@@ -141,91 +142,50 @@ public class GameServer implements Runnable {
 
 				outToServer.println(clientid);
 				
-				while (clientSock.isConnected()) {
+				while (!clientSock.isClosed()) {
 					
 					System.out.println("Socket connected, in loop");
 					data = inFromClient.readLine();
 					protocolSeperator = data.indexOf("#");
 					clientStrID = data.substring(0, protocolSeperator);
 					dataConfig = data.substring(protocolSeperator + 1, data.length());
-					System.out.println("data config: " +dataConfig);
+					System.out.println("data config: " + dataConfig);
 					
-					//data = fromClient.readLine();
-
 					switch (dataConfig) {
 					case "SendGame":
 						System.out.println("Received game");
 						data = inFromClient.readLine();
 						System.out.println(data);
+						log.append("Recieved game from Client [" + clientStrID + "]: " + data + "\n");
 						break;
 					case "SendData":
 						System.out.println("Received data");
-
 						String username = inFromClient.readLine();
 						int time = Integer.parseInt(inFromClient.readLine());
 						int score = Integer.parseInt(inFromClient.readLine());
 						leaderboard.add(new Leaderboard(clientid, username, time, score));
-						System.out.println("got data");
 						break;
 					case "Disconnecting":
 						inFromClient.readLine();
-						System.out.println("Disconnecting you");
-						System.out.println("DISCONNETING: " + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
-
+						//System.out.println("Disconnecting you");
+						System.out.println("DISCONNECTING: " + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
+						log.append("DISCONNECTING : Client [" + clientStrID + "]:" + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.close();
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).inFromClient.close();
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock.close();
 						listOfClients.remove(Integer.valueOf(clientStrID) - 1);
 						clientSock.close();
-						//sock.close();
 						break;
 					default:
 						System.out.println("the rest");
 						log.append("Client [" + clientStrID + "]: " + data + "\n");
-						//data = fromClient.readLine();
 					}
 				}
 				
-				
-				// rest of the messages are received here by the server
-				
-				/*
-				while (!dataConfig.equals("EndServer")) {
-					System.out.println("dataConfig in loop: " + dataConfig);
-					if (!dataConfig.equals("null")) {
-						if (dataConfig.equals("Disconnecting")) {
-							// data = fromClient.readLine();
-							// disconnectClient();
-							break;
-						} else if (dataConfig.equals("SendGame")) {
-							data = fromClient.readLine();
-							sendGame();
-						} else if (dataConfig.equals("SendData")) {
-							data = fromClient.readLine();
-							sendData();
-							String username = fromClient.readLine();
-							int time = Integer.parseInt(fromClient.readLine());
-							int score = Integer.parseInt(fromClient.readLine());
-							leaderboard.add(new Leaderboard(clientid, username, time, score));
-						} else if (dataConfig.equals("EndConnections")) {
-							endConnections();
-						}
-
-						log.append("Client [" + clientStrID + "]: " + data + "\n");
-						// fromServer.println("String \"" + data + "\" received.");
-						data = fromClient.readLine();
-
-						protocolSeperator = data.indexOf("#");
-						clientStrID = data.substring(0, protocolSeperator);
-						dataConfig = data.substring(protocolSeperator + 1, data.length());
-					}
-				}
-				 */
-				
-				/// disconnectServer();
 			} catch (IOException e) {
-				// System.out.println(e);
-				//System.out.println("here");
+				// close all?
+				System.out.println(e);
+
 			} catch (NumberFormatException e) {
 				System.out.println(e);
 			} catch (NullPointerException e) {

@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 public class GameClient {
 	//Declarations
 	private Socket clientSock;
+	boolean isConnected = false;
 	PrintStream toServer = null;
 	BufferedReader fromClient = null, consoleIn = null;
 	String consoleData = "", serverData, clientID;
@@ -97,7 +98,7 @@ public class GameClient {
 		public void run() {
 			try {
 				// wrong client socket?
-				while (clientSock.isConnected() && fromClient!=null) {
+				while (!clientSock.isClosed() && fromClient!=null) {
 					System.out.println("clicnet connected: " + clientSock );
 					sendMessage();
 					serverData = fromClient.readLine();
@@ -107,6 +108,7 @@ public class GameClient {
 			} catch (UnknownHostException e) {
 				System.out.println("Don't know about host\n");
 			} catch (IOException e) {
+				//System.out.println(e);
 				//System.out.println("I/O Exception\n");
 			}
 		}
@@ -124,15 +126,6 @@ public class GameClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		try {
-			toServer.println(clientID + "#Disconnecting");
-			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
-			sock.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
 	}
 	/**
 	 * sendGame method that sends the board configuration

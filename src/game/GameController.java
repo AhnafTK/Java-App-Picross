@@ -84,6 +84,7 @@ public class GameController {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
 				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
+				    	client.isConnected = true;
 				    	//view.clientConnect.setEnabled(false);
 				    }
 				} catch (NumberFormatException e) {
@@ -99,12 +100,13 @@ public class GameController {
 			else {
 				view.logTextArea.append("Disconnecting from server...\n");
 				client.disconnectClient();
+				client.isConnected = false;
 				//view.getClientWindow().dispose();
 			}
 		});
 		
 		view.clientSendGame.addActionListener((actionEvent)->{
-			if (client != null) {
+			if (client != null && client.isConnected) {
 	            view.logTextArea.append("Sending game...\n");
 	            client.sendGame();
 			}
@@ -115,7 +117,7 @@ public class GameController {
         });
 		
 		view.clientSendData.addActionListener((actionEvent)->{
-			if (client != null) {
+			if (client != null && client.isConnected) {
 	            view.logTextArea.append("Sending data...\n");
 	            client.sendData();
 			}
