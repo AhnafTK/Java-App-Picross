@@ -8,7 +8,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class GameClient {
-	static Socket sock;
+	
+	private Socket clientSock;
 	PrintStream toServer = null;
 	BufferedReader fromClient = null, consoleIn = null;
 	String consoleData = "", serverData, clientID;
@@ -25,15 +26,16 @@ public class GameClient {
 		this(log);
 		this.clientModel = model;
 		try {
+			clientSock = new Socket(hostName, port);
 			clientModel.setUsername(userName);
 			this.userName = userName;
-			GameClient.sock = new Socket(hostName, port);
-			this.toServer = new PrintStream(sock.getOutputStream(), true);
-			this.fromClient = new BufferedReader(new InputStreamReader(sock.getInputStream())); // Reader for the socket
+			this.toServer = new PrintStream(clientSock.getOutputStream(), true);
+			this.fromClient = new BufferedReader(new InputStreamReader(clientSock.getInputStream())); // Reader for the socket
 			this.log = log;
 
 			toServer.println(userName);
 
+			System.out.println("client socket is " + clientSock);
 			// communication
 			clientID = fromClient.readLine();
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
@@ -41,6 +43,7 @@ public class GameClient {
 			log.append("Connected successfully..\n");
 			Thread thread = new Thread(new ReceiveMessage(log, chat));
 			thread.start();
+			
 		} catch (UnknownHostException e) {
 			log.append("Unknown host: " + hostName + " on port: " + port + "\n");
 			System.out.println("Don't know about host: " + hostName + " on port: " + port + "\n");
@@ -60,10 +63,7 @@ public class GameClient {
 			this.chat = chat;
 		}
 
-		/*
-		 * Commands: /nick
-		 * 
-		 */
+		
 		public void sendMessage() {
 			chat.addActionListener(e -> {
 				log.append(userName + ": " + chat.getText() + '\n');
@@ -75,16 +75,15 @@ public class GameClient {
 
 		}
 
+		@Override
 		public void run() {
 			try {
-				while (consoleData != null) {
+				// wrong client socket?
+				while (clientSock.isConnected() && fromClient!=null) {
+					System.out.println("clicnet connected: " + clientSock );
 					sendMessage();
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
-					if (serverData.equals("#EndConnections")) {
-						disconnectClient();
-						break;
-					}
 					System.out.print("Client[" + clientID + "]" + userName + ": ");
 				}
 			} catch (UnknownHostException e) {
@@ -96,6 +95,11 @@ public class GameClient {
 	}
 
 	public void disconnectClient() {
+
+		toServer.println(clientID + "#Disconnecting");
+		toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort());
+
+		/*
 		try {
 			toServer.println(clientID + "#Disconnecting");
 			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
@@ -103,6 +107,7 @@ public class GameClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public void sendGame() {

@@ -1,0 +1,23 @@
+src\game\GameServer.java:40: warning: [rawtypes] found raw type: ArrayList
+	public GameServer(JTextArea log, ServerSocket socket,  ArrayList listOfClients, ArrayList leaderboard) {
+	                                                       ^
+  missing type arguments for generic class ArrayList<E>
+  where E is a type-variable:
+    E extends Object declared in class ArrayList
+src\game\GameServer.java:40: warning: [rawtypes] found raw type: ArrayList
+	public GameServer(JTextArea log, ServerSocket socket,  ArrayList listOfClients, ArrayList leaderboard) {
+	                                                                                ^
+  missing type arguments for generic class ArrayList<E>
+  where E is a type-variable:
+    E extends Object declared in class ArrayList
+src\game\GameServer.java:43: warning: [unchecked] unchecked conversion
+		this.listOfClients = listOfClients;
+		                     ^
+  required: ArrayList<GameServer.ClientThread>
+  found:    ArrayList
+src\game\GameServer.java:44: warning: [unchecked] unchecked conversion
+		this.leaderboard = leaderboard;
+		                   ^
+  required: ArrayList<GameServer.Leaderboard>
+  found:    ArrayList
+4 warnings

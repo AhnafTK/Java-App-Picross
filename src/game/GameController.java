@@ -92,7 +92,7 @@ public class GameController {
 			else {
 				view.logTextArea.append("Disconnecting from server...\n");
 				client.disconnectClient();
-				view.getClientWindow().dispose();
+				//view.getClientWindow().dispose();
 			}
 		});
 		
