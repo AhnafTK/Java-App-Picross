@@ -162,6 +162,12 @@ public class GameController {
 			playActions();
 			textChatActions();		
 		});
+		
+		view.textChat.addActionListener((actionEvent) ->{
+			String text = view.textChat.getText();
+			client.sendMessage(text);
+			view.textChat.setText("");
+		});
 	}
 	
 	/**

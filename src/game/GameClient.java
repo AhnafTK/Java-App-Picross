@@ -22,6 +22,7 @@ public class GameClient {
 	BufferedReader fromClient = null, consoleIn = null;
 	String consoleData = "", serverData, clientID;
 	private JTextArea log;
+	private JTextField chat;
 	String userName;
 	GameModel clientModel;
 
@@ -40,6 +41,8 @@ public class GameClient {
 		try {
 			//Initializes the client's variables
 			clientSock = new Socket(hostName, port);
+			clientSock.setSoTimeout(5000);
+
 			this.clientModel = model;
 			clientModel.setUsername(userName);
 			this.userName = userName;
@@ -53,8 +56,8 @@ public class GameClient {
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
 
 			log.append("Connected successfully..\n");
-			Thread thread = new Thread(new ReceiveMessage(log, chat));
-			thread.start();
+			//Thread thread = new Thread(new ReceiveMessage(log, chat));
+			///thread.start();
 			
 		} catch (UnknownHostException e) {
 			log.append("Unknown host: " + hostName + " on port: " + port + "\n");
@@ -66,25 +69,8 @@ public class GameClient {
 		}
 	}
 
-	/**
-	 * ReceiveMessage class that is created on a new thread.
-	 * Used to send/receive messages from the server.
-	 * 
-	 * @author Skylar Phanenhour, Ahnaf Kamal
-	 *
-	 */
-	class ReceiveMessage implements Runnable {
-		private JTextArea log;
-		private JTextField chat;
-
-		public ReceiveMessage(JTextArea log, JTextField chat) {
-			this.log = log;
-			this.chat = chat;
-		}
-
-		
-		public void sendMessage() {
-			chat.addActionListener(e -> {
+	/*
+	 * chat.addActionListener(e -> {
 				log.append(userName + ": " + chat.getText() + '\n');
 				consoleData = chat.getText();
 				chat.setText("");
@@ -92,27 +78,14 @@ public class GameClient {
 				toServer.println(consoleData);
 			});
 
-		}
-
-		@Override
-		public void run() {
-			try {
-				// wrong client socket?
-				while (!clientSock.isClosed() && fromClient!=null) {
-					System.out.println("clicnet connected: " + clientSock );
-					sendMessage();
-					serverData = fromClient.readLine();
-					log.append("Server: " + serverData);
-					System.out.print("Client[" + clientID + "]" + userName + ": ");
-				}
-			} catch (UnknownHostException e) {
-				System.out.println("Don't know about host\n");
-			} catch (IOException e) {
-				//System.out.println(e);
-				//System.out.println("I/O Exception\n");
-			}
-		}
+	 */
+	
+	public void sendMessage(String message) {
+		consoleData = clientID + "#" + message;
+		toServer.println(consoleData);
+		log.append(userName + ": " +message+"\n");
 	}
+	
 	/**
 	 * disconnecClient method that disconnects the client
 	 */
@@ -124,6 +97,7 @@ public class GameClient {
 			clientSock.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("server close no!!!!!!!!!!!");
 			e.printStackTrace();
 		}
 	}

@@ -220,6 +220,12 @@ public class GameServer implements Runnable {
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
+			for(int i = 0; i < listOfClients.size(); i++) {
+				listOfClients.get(i).outToServer.close();
+				listOfClients.get(i).inFromClient.close();
+				listOfClients.get(i).clientSock.close();
+			}
+			listOfClients.clear();
 			servsock.close();
 			closeAllConnections();
 
