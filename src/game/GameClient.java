@@ -99,10 +99,7 @@ public class GameClient {
 		try {
 			toServer.println(clientID + "#Disconnecting");
 			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
-			consoleData = null;
-			closeReaders();
 			sock.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -141,9 +138,11 @@ public class GameClient {
 	public void closeReaders() {
 		try {
 			if (fromClient != null) {
+				System.out.println("from client closed");
 				fromClient.close();
 			}
 			if (toServer != null) {
+				System.out.println("to server closed");
 				toServer.close();
 			}
 		} catch (IOException e) {

@@ -158,14 +158,6 @@ public class GameServer implements Runnable {
 					}
 				}
 				/// disconnectServer();
-//				System.out.println("Disconecting " + sock.getInetAddress() + "!");
-//				nclients -= 1;
-//				System.out.println("Current client number: " + nclients);
-//				if (nclients == 0) {
-//					System.out.println("Ending server...");
-//					sock.close();
-//					System.exit(0);
-//				}
 			} catch (IOException e) {
 				// System.out.println(e);
 				System.out.println("here");
@@ -182,10 +174,12 @@ public class GameServer implements Runnable {
 		try {
 			nclients -= 1;
 			nclient -= 1;
-			sock.close();
 			listOfClients.remove(clientid - 1);
 			log.append("Current number of clients: " + (listOfClients.size()) + "\n");
 			log.append("Disconnecting " + data + "\n");	
+			sock.close();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
