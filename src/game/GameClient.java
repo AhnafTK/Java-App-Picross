@@ -15,7 +15,7 @@ public class GameClient {
 	private JTextArea log;
 	String userName;
 	GameModel clientModel;
-	
+
 	public GameClient(JTextArea log) {
 		this.log = log;
 
@@ -33,10 +33,10 @@ public class GameClient {
 			this.log = log;
 
 			toServer.println(userName);
-			
+
 			// communication
 			clientID = fromClient.readLine();
-			System.out.print("Client[" + clientID + "] "+userName+": ");
+			System.out.print("Client[" + clientID + "] " + userName + ": ");
 
 			log.append("Connected successfully..\n");
 			Thread thread = new Thread(new ReceiveMessage(log, chat));
@@ -63,22 +63,21 @@ public class GameClient {
 		/*
 		 * Commands: /nick
 		 * 
-		 * */
+		 */
 		public void sendMessage() {
-				chat.addActionListener(e -> {
-					log.append(userName+": " + chat.getText() + '\n');
-					consoleData = chat.getText();
-					chat.setText("");
-					consoleData = clientID + "#" + consoleData;
-					toServer.println(consoleData);
-				});
+			chat.addActionListener(e -> {
+				log.append(userName + ": " + chat.getText() + '\n');
+				consoleData = chat.getText();
+				chat.setText("");
+				consoleData = clientID + "#" + consoleData;
+				toServer.println(consoleData);
+			});
 
 		}
-		
 
 		public void run() {
 			try {
-				while (consoleData != null || consoleData.equals("null")) {
+				while (consoleData != null) {
 					sendMessage();
 					serverData = fromClient.readLine();
 					log.append("Server: " + serverData);
@@ -86,7 +85,7 @@ public class GameClient {
 						disconnectClient();
 						break;
 					}
-					System.out.print("Client[" + clientID + "]"+ userName + ": ");
+					System.out.print("Client[" + clientID + "]" + userName + ": ");
 				}
 			} catch (UnknownHostException e) {
 				System.out.println("Don't know about host\n");
@@ -100,33 +99,32 @@ public class GameClient {
 		try {
 			toServer.println(clientID + "#Disconnecting");
 			toServer.println(userName + " on " + sock.getInetAddress() + " at port " + sock.getPort());
-			fromClient.close();
-			//toServer.close();
-			//sock.close();
-			
+			consoleData = null;
+			closeReaders();
+			sock.close();
+
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
-	
+
 	public void sendGame() {
-		
+
 		String gameBoard = clientModel.sendGameToServer();
-		System.out.println(gameBoard);		
+		System.out.println(gameBoard);
 
 		if (gameBoard == null) {
 			log.append("You need to play a new game first...\n");
-		}
-		else {
+		} else {
 			toServer.println(clientID + "#SendGame");
-			toServer.println(gameBoard);	
-		}		
+			toServer.println(gameBoard);
+		}
 	}
 
 	public void sendData() {
-		
+
 		String gameData = clientModel.sendDataToServer();
-		System.out.println(gameData);		
+		System.out.println(gameData);
 
 		toServer.println(clientID + "#SendData");
 		toServer.println(gameData);
@@ -134,21 +132,22 @@ public class GameClient {
 		toServer.println(clientModel.getBestTime());
 		toServer.println(clientModel.getBestScore());
 	}
+
 	public void endConnections() {
-		//toServer.println(clientID + "#EndConnections");
-		
+		// toServer.println(clientID + "#EndConnections");
+
 	}
-	
+
 	public void closeReaders() {
-		if(fromClient != null) {
-			try {
+		try {
+			if (fromClient != null) {
 				fromClient.close();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
-		}
-		if (toServer != null) {
-			toServer.close();
+			if (toServer != null) {
+				toServer.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

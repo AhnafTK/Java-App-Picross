@@ -8,6 +8,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.JTextArea;
 
@@ -34,11 +37,13 @@ public class GameServer implements Runnable {
 	 */
 	String clientStrID, dataConfig;
 
-	public GameServer(JTextArea log, ServerSocket socket, boolean running, ArrayList listOfClients) {
+	public GameServer(JTextArea log, ServerSocket socket, boolean running, ArrayList listOfClients,
+			ArrayList leaderboard) {
 		this.log = log;
 		this.servsock = socket;
 		this.running = running;
 		this.listOfClients = listOfClients;
+		this.leaderboard = leaderboard;
 	}
 
 	public GameServer(int port, JTextArea log) {
@@ -48,7 +53,7 @@ public class GameServer implements Runnable {
 		try {
 			this.servsock = new ServerSocket(port);
 			if (servsock != null) {
-				Thread servDaemon = new Thread(new GameServer(log, servsock, running, listOfClients));
+				Thread servDaemon = new Thread(new GameServer(log, servsock, running, listOfClients, leaderboard));
 				servDaemon.start();
 				System.out.println("Server running on " + " at port " + port + "!");
 			} else {
@@ -56,7 +61,7 @@ public class GameServer implements Runnable {
 			}
 
 		} catch (Exception e) {
-			//System.out.println("Error: " + e.toString());
+			// System.out.println("Error: " + e.toString());
 		}
 
 	}
@@ -73,11 +78,9 @@ public class GameServer implements Runnable {
 				listOfClients.add(w);
 				w.start();
 			}
+		} catch (IOException IhateNetworkingNow) {
+
 		}
-		catch(IOException IhateNetworkingNow) {
-			
-		}
-		
 
 	}
 
@@ -154,7 +157,7 @@ public class GameServer implements Runnable {
 						dataConfig = data.substring(protocolSeperator + 1, data.length());
 					}
 				}
-				///disconnectServer();
+				/// disconnectServer();
 //				System.out.println("Disconecting " + sock.getInetAddress() + "!");
 //				nclients -= 1;
 //				System.out.println("Current client number: " + nclients);
@@ -164,23 +167,28 @@ public class GameServer implements Runnable {
 //					System.exit(0);
 //				}
 			} catch (IOException e) {
-				//System.out.println(e);
+				// System.out.println(e);
 				System.out.println("here");
 			} catch (NumberFormatException e) {
 				System.out.println(e);
-			} catch(NullPointerException e) {
-				
+			} catch (NullPointerException e) {
+
 			}
 		}
 
 	}
 
 	public void disconnectClient() {
-		nclients -= 1;
-		nclient -= 1;
-		listOfClients.remove(clientid - 1);
-		log.append("Current number of clients: " + (listOfClients.size()) + "\n");
-		log.append("Disconnecting " + data + "\n");
+		try {
+			nclients -= 1;
+			nclient -= 1;
+			sock.close();
+			listOfClients.remove(clientid - 1);
+			log.append("Current number of clients: " + (listOfClients.size()) + "\n");
+			log.append("Disconnecting " + data + "\n");	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void sendGame() {
@@ -189,7 +197,6 @@ public class GameServer implements Runnable {
 
 	public void sendData() {
 		data = (" Sent player data " + data);
-
 	}
 
 	// disconnect clients
@@ -212,7 +219,7 @@ public class GameServer implements Runnable {
 			if (nclients == 0) {
 				log.append("There are no clients connected to the server...\n");
 			} else {
-				for(int i = 0; i < listOfClients.size(); i++) {
+				for (int i = 0; i < listOfClients.size(); i++) {
 					fromServer = new PrintStream(listOfClients.get(i).sock.getOutputStream(), true);
 					fromServer.println("#EndConnections");
 				}
@@ -228,6 +235,28 @@ public class GameServer implements Runnable {
 		}
 	}
 
+	public void printLeaderboard() {
+		try {
+			if (nclients == 0) {
+				log.append("There are no clients connected to the server...\n");
+			} else {
+
+				Collections.sort(leaderboard, new Comparator<Leaderboard>() {
+					public int compare(Leaderboard L1, Leaderboard L2) {
+						return L2.getScore() - L1.getScore();
+					}
+				});
+				
+				for (int i = 0; i < leaderboard.size(); i++) {
+					log.append(String.format("%s%s %10s%d %10s%d %n", "Username: ", leaderboard.get(i).userName, "Score:", leaderboard.get(i).score, "Time: ", leaderboard.get(i).time));
+				}
+			}
+
+		} catch (NullPointerException e) {
+			log.append("Null Pointer Exception...\n");
+		}
+	}
+
 	public void closeAllConnections() {
 		try {
 			if (fromClient != null) {
@@ -236,7 +265,7 @@ public class GameServer implements Runnable {
 			if (fromServer != null) {
 				fromServer.close();
 			}
-			if(sock!=null) {
+			if (sock != null) {
 				sock.close();
 			}
 			if (servsock != null) {
@@ -244,7 +273,7 @@ public class GameServer implements Runnable {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

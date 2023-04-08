@@ -92,7 +92,7 @@ public class GameController {
 			else {
 				view.logTextArea.append("Disconnecting from server...\n");
 				client.disconnectClient();
-				//view.getClientWindow().dispose();
+				view.getClientWindow().dispose();
 			}
 		});
 		
@@ -202,13 +202,16 @@ public class GameController {
 			}
 			else {
 				server.endConnections();
-				
 			}
 		});
 		
 		view.leaderboardButton.addActionListener((actionEvent)->{
-			view.logTextArea.append("Showing leaderboard...\n");
-
+			if (server == null) {
+				view.logTextArea.append("You need to create a connection first...\n");
+			}
+			else {
+				server.printLeaderboard();
+			}
 		});
 	}
 	
