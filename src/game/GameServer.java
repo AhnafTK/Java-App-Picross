@@ -250,15 +250,15 @@ public class GameServer implements Runnable {
 				//clientSock.close();
 			}
 			//listOfClients.clear();
-			servsock.close();
-			closeAllConnections();
+			//servsock.close();
+			//closeAllConnections();
 
 		} catch (NullPointerException e) {
 			log.append("Null Pointer Exception...\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("in disconnectServer");
-			e.printStackTrace();
+			//System.out.println("in disconnectServer");
+			//e.printStackTrace();
 		}
 	}
 

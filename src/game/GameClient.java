@@ -39,7 +39,6 @@ public class GameClient {
 	 */
 	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model) {
 		try {
-			// Initializes the client's variables
 			clientSock = new Socket(hostName, port);
 			this.clientModel = model;
 			clientModel.setUsername(userName);

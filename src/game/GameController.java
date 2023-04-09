@@ -84,10 +84,15 @@ public class GameController {
 					} else {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
-						client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
-						// client.isConnected = true;
-						Thread receiveMessages = new Thread(new serverMessageThread());
-						receiveMessages.start();
+						try {
+							client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
+							Thread receiveMessages = new Thread(new serverMessageThread());
+							receiveMessages.start();
+						}
+						catch(Exception e) {
+							System.out.println(e);
+						}
+						
 						// view.clientConnect.setEnabled(false);
 					}
 				} catch (NumberFormatException e) {
@@ -279,12 +284,14 @@ public class GameController {
 			view.Client(model.getCurrentLocale(), model.getLangText());
 			clientActions();
 			textChatActions();
+			view.getStartWindow().dispose();
 		});
 
 		view.getServerButton().addActionListener((actionEvent) -> {
 			view.Server(model.getCurrentLocale(), model.getLangText());
 			serverMakerActions();
 			textChatActions();
+			view.getStartWindow().dispose();
 		});
 
 		view.getEngRadio().addActionListener((actionEvent) -> {
