@@ -21,20 +21,19 @@ import javax.swing.JTextArea;
  *
  */
 public class GameServer implements Runnable {
-	private ServerSocket servsock;
-	private ClientThread client;
-	private static Socket sock;
-	private static int nclient = 0, nclients = 0;
-	private String serverBoard;
-	private String data;
-	private PrintStream fromServer;
-	private BufferedReader fromClient;
-	private JTextArea log;
-	//private static boolean running = true;
-	private ArrayList<ClientThread> listOfClients = new ArrayList<ClientThread>();
-	private ArrayList<Leaderboard> leaderboard = new ArrayList<Leaderboard>();
-	private int clientid, protocolSeperator;
-	private String clientStrID, dataConfig;
+	private ServerSocket servsock; // socket for the server
+	private ClientThread client; // instance of client
+	private static Socket sock; // for clients
+	private static int nclient = 0, nclients = 0; // client # and total number of clients
+	private String serverBoard; // current server board
+	private String data; // holds the current data
+	private PrintStream fromServer; // from server
+	private BufferedReader fromClient; /// from client
+	private JTextArea log; // for network traffic
+	private ArrayList<ClientThread> listOfClients = new ArrayList<ClientThread>(); // holds all clients
+	private ArrayList<Leaderboard> leaderboard = new ArrayList<Leaderboard>(); // the leaderboard
+	private int clientid, protocolSeperator; // holds id and protocol seperator
+	private String clientStrID, dataConfig; // holds client id in string and dataconfig, which is the raw data sent without protocol
 	
 	/**
 	 * Overloaded constructor to create the server
@@ -62,7 +61,7 @@ public class GameServer implements Runnable {
 		this.log = log; // dont need here?
 
 		try {
-			this.servsock = new ServerSocket(port);
+			this.servsock = new ServerSocket(port); // sets the server sock
 			
 			//Creates a new thread if the server socket isn't null
 			if (servsock != null) {
@@ -70,41 +69,31 @@ public class GameServer implements Runnable {
 				servDaemon.start();
 				System.out.println("Server running on " + " at port " + port + "!");
 			}
-			//dont need
-			else {
-				System.out.println("RUN");
-			}
-
 		} catch (Exception e) {
-			// System.out.println("Error: " + e.toString());
 		}
-
 	}
 
-	@Override
 	/**
 	 * Runnable method that infinitely loops while the server socket is open.
 	 * Waits to accept client sockets and adds them to the server.
 	 */
+	@Override
 	public void run() {
-		System.out.println("RUNNING");
 		try {
 			//Infinitely loops while the server socket is open
 			while (!servsock.isClosed()) {
 				sock = servsock.accept();
 				nclient += 1;
 				nclients += 1;
-				
 				//Creates a new client and adds it to the ArrayList
 				client = new ClientThread(sock, nclient, log);
 				listOfClients.add(client);
 				client.start();
-				
 				//Dont need
-				System.out.println("printing all client network info: ");
-				for (int i = 0; i < listOfClients.size(); i++) {
-					System.out.println(listOfClients.get(i).clientSock );
-				}
+				//System.out.println("printing all client network info: ");
+				//for (int i = 0; i < listOfClients.size(); i++) {
+					//System.out.println(listOfClients.get(i).clientSock );
+				//}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -121,12 +110,11 @@ public class GameServer implements Runnable {
 	 */
 	class ClientThread extends Thread {
 		//Declarations
-		private  Socket clientSock;
-		//private String userName;
-		private JTextArea log;
-		private PrintStream outToServer;
-		private BufferedReader inFromClient;
-		
+		private  Socket clientSock; // client sock
+		//private String userName; 
+		private JTextArea log; // for networking traffic
+		private PrintStream outToServer; // output
+		private BufferedReader inFromClient; // input
 
 		/**
 		 * Overloaded constructor
@@ -189,11 +177,10 @@ public class GameServer implements Runnable {
 						log.append("Recieved data from Client [" + clientStrID + "]: " + data + "\n");
 						//System.out.println("Im server received: " + data);
 						processUserData(data);
-						
 						break;
 						
 					//Disconnecting protocol
-					case "Disconnecting":
+					case "Disconnect":
 						inFromClient.readLine();
 						log.append("DISCONNECTING : Client [" + clientStrID + "]:" + listOfClients.get(clientid - 1).clientSock);
 						listOfClients.get(clientid - 1).outToServer.close();
@@ -273,8 +260,6 @@ public class GameServer implements Runnable {
 				listOfClients.get(i).outToServer.close();
 				listOfClients.get(i).clientSock.close();
 				listOfClients.remove(i);
-				
-				//clientSock.close();
 			}
 			//listOfClients.clear();
 			servsock.close();

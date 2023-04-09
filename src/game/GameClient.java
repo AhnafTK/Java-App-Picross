@@ -20,16 +20,15 @@ import javax.swing.JTextArea;
  */
 public class GameClient {
 	// Declarations
-	private Socket clientSock;
-	protected boolean isConnected = false;
-	// private boolean receivedFromServer = false;
-	private PrintStream toServer = null;
-	private BufferedReader fromClient = null;
-	private String consoleData = "", clientID;
-	private JTextArea log;
-	private String userName;
-	private GameModel clientModel;
-	private GameController clientController;
+	private Socket clientSock; // holds client sock
+	private boolean isConnected = false; // whether or not the client is connected
+	private PrintStream toServer = null; // for server
+	private BufferedReader fromClient = null; // for client
+	private String consoleData = "", clientID; // for client and console data
+	private JTextArea log; // for network traffic dislay
+	private String userName; // client username
+	private GameModel clientModel; // GameModel instance
+	private GameController clientController; // GameController instance
 
 	/**
 	 * Overloaded constructor to create the client
@@ -57,7 +56,7 @@ public class GameClient {
 			toServer.println(userName);
 			clientID = fromClient.readLine();
 			log.append("Connected successfully..\n");
-			isConnected = true;
+			setConnected(true);
 
 
 		} catch (UnknownHostException e) {
@@ -72,7 +71,7 @@ public class GameClient {
 	 */
 	protected synchronized void messageFromServer() {
 		// Infinitely loop while the client is connected
-		while (isConnected) {
+		while (isConnected()) {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
@@ -83,7 +82,7 @@ public class GameClient {
 					if (serverMessage.equals("#Disconnect")) {
 						log.append("Server closed..\n");
 						System.out.println("oh shit server closed!!!!");
-						isConnected = false;
+						setConnected(false);
 						clientSock.close();
 					}
 					// If there is no game board to receive from the server
@@ -99,7 +98,7 @@ public class GameClient {
 				} else {
 					System.out.println("lost connection maybe");
 					log.append("Lost connection to server..\n");
-					isConnected = false;
+					setConnected(false);
 					closeReaders();
 				}
 
@@ -122,7 +121,6 @@ public class GameClient {
 		if (message.equals("SendGame")) {
 			log.append("Sending game...\n");
 			sendGame();
-
 		}
 		else if (message.equals("SendData")) {
 			log.append("Sending data...\n");
@@ -132,12 +130,11 @@ public class GameClient {
 			log.append("Disconnecting...\n");
 			disconnectClient();
 		}
-		else {
+		else { // normal message
 			consoleData = clientID + "#" + message;
 			toServer.println(consoleData);
 			log.append(userName + ": " + message + "\n");
 		}
-		
 	}
 
 	/**
@@ -145,9 +142,9 @@ public class GameClient {
 	 */
 	protected void disconnectClient() {
 		try {
-			toServer.println(clientID + "#Disconnecting");
-			toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort());
-			clientSock.close();
+			toServer.println(clientID + "#Disconnect"); // lets the server know that client is leaving
+			toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort()); // gives client info
+			clientSock.close(); // closes client sock
 		} catch (IOException e) {
 			System.out.println("server close no!!!!!!!!!!!");
 		}
@@ -161,16 +158,14 @@ public class GameClient {
 	 */
 	private void processGame(String gameBoard) {
 		String subParts = gameBoard.substring(0);
-		String parts[] = subParts.split(",");
-		String gridSize = parts[0];
-		for (int i = 0; i < parts.length; i++) { // dont need?
-			System.out.println(parts[i]);
-		}
+		String parts[] = subParts.split(","); // splits into parts, seperated by commas
+		String gridSize = parts[0]; // the value before the first comma is the dimension of the board
+		
 		// Sets the grid size
-		clientModel.gridSize = Integer.valueOf(gridSize);
-		System.out.println("received gridsize: " + clientModel.gridSize);
+		clientModel.gridSize = Integer.valueOf(gridSize); 
+		////System.out.println("received gridsize: " + clientModel.gridSize);
 
-		String[] newBoardRows = new String[clientModel.gridSize];
+		String[] newBoardRows = new String[clientModel.gridSize]; // the new board
 
 		// Loops through the String and stores each row, separated from commas
 		for (int i = 0; i < clientModel.gridSize; i++) {
@@ -178,10 +173,6 @@ public class GameClient {
 		}
 		// Sets the row in the model
 		clientModel.setRow(newBoardRows);
-
-		for (int i = 0; i < clientModel.gridSize; i++) { // dont need?
-			System.out.println("clientmodel:" + clientModel.getRow(i));
-		}
 		// Creates a new play board received from the server
 		clientController.newPlayBoard(gridSize, false, true);
 	}
@@ -235,5 +226,21 @@ public class GameClient {
 		} catch (IOException e) {
 			// e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Getter for isConnected variable
+	 * @return state of isConnected
+	 */
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	/**
+	 * Sets isConnected to true/false
+	 * @param isConnected Sets the variable
+	 */
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 }

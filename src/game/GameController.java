@@ -112,10 +112,10 @@ public class GameController {
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
-				if (client.isConnected) {
+				if (client.isConnected()) {
 					view.logTextArea.append("Disconnecting from server...\n");
 					client.disconnectClient();
-					client.isConnected = false;
+					client.setConnected(false);
 				}
 				else {
 					view.logTextArea.append("Not connected...\n");
@@ -127,7 +127,7 @@ public class GameController {
 		// When the client sends a game to the server
 		view.clientSendGame.addActionListener((actionEvent) -> {
 			// Checks if the client is created
-			if (client != null && client.isConnected) {
+			if (client != null && client.isConnected()) {
 				view.logTextArea.append("Sending game...\n");
 				client.sendGame();
 			} else {
@@ -138,7 +138,7 @@ public class GameController {
 		// When the client sends data to the server
 		view.clientSendData.addActionListener((actionEvent) -> {
 			// Checks if the client is created
-			if (client != null && client.isConnected) {
+			if (client != null && client.isConnected()) {
 				view.logTextArea.append("Sending data...\n");
 				client.sendData();
 			} else {
@@ -1030,7 +1030,7 @@ public class GameController {
 		@Override
 		public void run() {
 
-			while (client != null && client.isConnected) {
+			while (client != null && client.isConnected()) {
 
 				client.messageFromServer();
 
