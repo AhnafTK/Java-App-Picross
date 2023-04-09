@@ -26,150 +26,150 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- * Beginning of the controller class. Interacts with the view and model. Responsible for action listeners.
+ * Beginning of the controller class. Interacts with the view and model.
+ * Responsible for action listeners.
  */
 public class GameController {
 	private GameModel model;
 	private GameView view;
 	private GameClient client = null;
 	private GameServer server = null;
-	
+
 	/**
 	 * Default constructor
 	 */
-	public GameController() {}
+	public GameController() {
+	}
+
 	/**
 	 * Overloaded constructor
+	 * 
 	 * @param model Instance of model
-	 * @param view Instance of view
+	 * @param view  Instance of view
 	 */
 	public GameController(GameModel model, GameView view) {
 		this.model = model;
 		this.view = view;
 	}
-	
+
 	/**
-	 * Starts the controller/game by calling the splash 
+	 * Starts the controller/game by calling the splash
 	 */
 	protected void startController() {
 		splashActions();
 	}
+
 	/**
 	 * Responsible for the actions related to the client components
 	 */
 	private void clientActions() {
-		//When the client connects to the server
-		view.clientConnect.addActionListener((actionEvent) ->{
-			//Checks if the server IP is blank
+		// When the client connects to the server
+		view.clientConnect.addActionListener((actionEvent) -> {
+			// Checks if the server IP is blank
 			if (view.clientServerText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a server IP to connect to...\n");
 			}
-			//Checks if the port is blank
+			// Checks if the port is blank
 			else if (view.clientPortText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a port number to connect to...\n");
 			}
-			//Checks if the username is blank
+			// Checks if the username is blank
 			else if (view.clientUserNameText.getText().isBlank()) {
 				view.logTextArea.append("Please enter a username...\n");
 			}
-			//If they all have values
+			// If they all have values
 			else {
 				try {
-				    int portNum = Integer.parseInt(view.clientPortText.getText());
-				    String userName = view.clientUserNameText.getText();
-				    if(!(1024 <= portNum && portNum <= 65355)) {
+					int portNum = Integer.parseInt(view.clientPortText.getText());
+					String userName = view.clientUserNameText.getText();
+					if (!(1024 <= portNum && portNum <= 65355)) {
 						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
-				    }
-				    else {
+					} else {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
-				    	client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
-				    	client.isConnected = true;
-				    	//view.clientConnect.setEnabled(false);
-				    }
+						client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
+						client.isConnected = true;
+						// view.clientConnect.setEnabled(false);
+					}
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
-				} 
+				}
 			}
 		});
-		
-		view.clientEnd.addActionListener((actionEvent) ->{
+
+		view.clientEnd.addActionListener((actionEvent) -> {
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
-			}
-			else {
+			} else {
 				view.logTextArea.append("Disconnecting from server...\n");
 				client.disconnectClient();
 				client.isConnected = false;
-				//view.getClientWindow().dispose();
+				// view.getClientWindow().dispose();
 			}
 		});
-		
-		view.clientSendGame.addActionListener((actionEvent)->{
+
+		view.clientSendGame.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
-	            view.logTextArea.append("Sending game...\n");
-	            client.sendGame();
-			}
-			else {
-	            view.logTextArea.append("Not connected to server...\n");
+				view.logTextArea.append("Sending game...\n");
+				client.sendGame();
+			} else {
+				view.logTextArea.append("Not connected to server...\n");
 			}
 
-        });
-		
-		view.clientSendData.addActionListener((actionEvent)->{
+		});
+
+		view.clientSendData.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
-	            view.logTextArea.append("Sending data...\n");
-	            client.sendData();
-			}
-			else {
-	            view.logTextArea.append("Not connected to server...\n");
+				view.logTextArea.append("Sending data...\n");
+				client.sendData();
+			} else {
+				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-		
-		view.clientDesign.addActionListener((actionEvent)->{
+
+		view.clientDesign.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Designing new game...\n");
 			view.clientSendGame.setEnabled(true);
 			model.setLoadClient(false);
 			model.setGameStarted(true);
 			model.resetBoard();
 			view.resetRowsAndCol();
-			//view.getStartWindow().dispose();
+			// view.getStartWindow().dispose();
 			view.Design(model.getCurrentLocale(), model.getLangText());
 			designActions();
 			textChatActions();
 		});
-		
-		view.clientLoad.addActionListener((actionEvent)->{
+
+		view.clientLoad.addActionListener((actionEvent) -> {
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
 				model.setLoadClient(true);
-				///view.clientSendGame.setEnabled(true);
+				/// view.clientSendGame.setEnabled(true);
 				loadGameActions();
-			}
-			else {
-	            view.logTextArea.append("Not connected to server...\n");
+			} else {
+				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-		
-		view.clientPlay.addActionListener((actionEvent)->{
+
+		view.clientPlay.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Starting new game...\n");
-			//view.clientSendGame.setEnabled(true);
+			// view.clientSendGame.setEnabled(true);
 			model.setGameStarted(false);
 			model.resetBoard();
 			view.resetRowsAndCol();
-			//view.getStartWindow().dispose();
+			// view.getStartWindow().dispose();
 			view.Play(model.getCurrentLocale(), model.getLangText());
 			playActions();
-			textChatActions();		
+			textChatActions();
 		});
-		
-		view.textChat.addActionListener((actionEvent) ->{
+
+		view.textChat.addActionListener((actionEvent) -> {
 			String text = view.textChat.getText();
 			client.sendMessage(text);
 			view.textChat.setText("");
 		});
 	}
-	
+
 	/**
 	 * Responsible for the actions related to the server components
 	 */
@@ -177,8 +177,7 @@ public class GameController {
 		view.startServer.addActionListener((actionEvent) -> {
 			if (view.serverPortText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a port number to connect to...\n");
-			}
-			else {
+			} else {
 				try {
 					int portNum = Integer.parseInt(view.serverPortText.getText());
 
@@ -189,10 +188,11 @@ public class GameController {
 							ServerSocket testSocket = new ServerSocket(portNum);
 							testSocket.close();
 							server = new GameServer(portNum, view.logTextArea);
-							view.logTextArea.append("Starting server at "+ portNum +"...\n");
+							view.logTextArea.append("Starting server at " + portNum + "...\n");
 						} catch (IOException e) {
 							System.out.println("AAAAAAAAA");
-							view.logTextArea.append("Port number "+ portNum +" is already in use, please try another one...\n");
+							view.logTextArea.append(
+									"Port number " + portNum + " is already in use, please try another one...\n");
 						}
 					}
 				} catch (NumberFormatException e) {
@@ -201,51 +201,52 @@ public class GameController {
 			}
 
 		});
-		
-		view.disconnectServer.addActionListener((actionEvent) ->{
+
+		view.disconnectServer.addActionListener((actionEvent) -> {
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
-			}
-			else {
-				
+			} else {
+
 				server.disconnectServer();
-				
+
 				// disconnect clients?
 			}
 		});
-		
-		view.endConnections.addActionListener((actionEvent) ->{
+
+		view.endConnections.addActionListener((actionEvent) -> {
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
-			}
-			else {
+			} else {
 				server.endConnections();
 			}
 		});
-		
-		view.leaderboardButton.addActionListener((actionEvent)->{
+
+		view.leaderboardButton.addActionListener((actionEvent) -> {
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
-			}
-			else {
+			} else {
 				server.printLeaderboard();
 			}
 		});
 	}
+
 	/**
 	 * When the text chat is clicked, gets rid of the default text
 	 */
 	private void textChatActions() {
-		view.textChat.addMouseListener(new MouseAdapter(){
+		if (client != null || server != null) {
+			view.textChat.addMouseListener(new MouseAdapter() {
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				view.textChat.setText("");
-				view.textChat.setForeground(Color.BLACK);
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					view.textChat.setText("");
+					view.textChat.setForeground(Color.BLACK);
 
-			}
-		});
+				}
+			});
+		}
 	}
+
 	/*
 	 * Responsible for actions related to the splash screen.
 	 */
@@ -253,6 +254,7 @@ public class GameController {
 		view.startLauncher(model.getCurrentLocale(), model.getLangText());
 		launcherActions();
 	}
+
 	/*
 	 * Responsible for actions related to the launcher.
 	 */
@@ -275,13 +277,13 @@ public class GameController {
 			designActions();
 			textChatActions();
 		});
-		
+
 		view.getClientButton().addActionListener((actionEvent) -> {
 			view.Client(model.getCurrentLocale(), model.getLangText());
 			clientActions();
 			textChatActions();
 		});
-		
+
 		view.getServerButton().addActionListener((actionEvent) -> {
 			view.Server(model.getCurrentLocale(), model.getLangText());
 			serverMakerActions();
@@ -300,7 +302,8 @@ public class GameController {
 	}
 
 	/*
-	 * Responsible for actions related to the changing of languages while in the launcher.
+	 * Responsible for actions related to the changing of languages while in the
+	 * launcher.
 	 */
 	private void updateLauncherLanguage() {
 		view.getDesignButton().setText(model.getLangText().getString("design"));
@@ -308,6 +311,7 @@ public class GameController {
 		view.getEngRadio().setText(model.getLangText().getString("english"));
 		view.getFrRadio().setText(model.getLangText().getString("french"));
 	}
+
 	/*
 	 * Responsible for actions related to the design mode/window.
 	 */
@@ -320,31 +324,29 @@ public class GameController {
 		gridSizeActions();
 		menuBarActions();
 	}
+
 	/*
 	 * Responsible for actions related to the play mode/window.
 	 */
 	private void playActions() {
-		view.gameChat.addActionListener((actionEvent) ->{
-			if (client != null) {
+		if (client != null) {
+
+			view.gameChat.addActionListener((actionEvent) -> {
 				String text = view.gameChat.getText();
 				client.sendMessage(text);
 				view.gameChat.setText("");
-			}
-			else {
-	            view.logTextArea.append("Not connected to server...\n");
-			}
-		});
-		
-		view.gameChat.addMouseListener(new MouseAdapter(){
+			});
 
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				view.gameChat.setText("");
-				view.gameChat.setForeground(Color.BLACK);
+			view.gameChat.addMouseListener(new MouseAdapter() {
 
-			}
-		});
-		
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					view.gameChat.setText("");
+					view.gameChat.setForeground(Color.BLACK);
+
+				}
+			});
+		}
 		model.setGameMode(1);
 		gridSizeActions();
 		leftPanelActions();
@@ -364,8 +366,7 @@ public class GameController {
 		view.getGameCompleteClose().addActionListener((actionEvent) -> {
 			if (view.getNameTextField().getText().isBlank()) {
 				model.setUsername(" ");
-			}
-			else { 
+			} else {
 				model.setUsername(view.getNameTextField().getText());
 			}
 			view.getGameCompleteWindow().dispose();
@@ -376,14 +377,15 @@ public class GameController {
 	 * Responsible for actions related to showing the instructions
 	 */
 	private void instructionsActions() {
-		//WindowListener windowListener = new WindowListener();
-		view.getInstructionsWindow().addWindowListener(new WindowAdapter(){
+		// WindowListener windowListener = new WindowListener();
+		view.getInstructionsWindow().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				view.getInstructionsButton().setEnabled(true);;
+				view.getInstructionsButton().setEnabled(true);
+				;
 			}
-	    });
-		
+		});
+
 		view.getInstructionsBack().addActionListener((actionEvent) -> {
 			view.getInstructionsWindow().dispose();
 			view.getInstructionsButton().setEnabled(true);
@@ -448,7 +450,8 @@ public class GameController {
 													view.getButtons()[a][b].setEnabled(false);
 												}
 											}
-											view.gameCompleted(model.getCurrentLocale(), model.getLangText(),model.getBestScore(), model.getBestTime());
+											view.gameCompleted(model.getCurrentLocale(), model.getLangText(),
+													model.getBestScore(), model.getBestTime());
 											gameOverActions();
 
 										}
@@ -521,8 +524,8 @@ public class GameController {
 	}
 
 	/*
-	 * Actions related to the timer.
-	 * Referenced: https://www.youtube.com/watch?v=zWw72j-EbqI&list=PL_ql-
+	 * Actions related to the timer. Referenced:
+	 * https://www.youtube.com/watch?v=zWw72j-EbqI&list=PL_ql-
 	 * Q0xEccQzbifFP2SI5y3a_LkNaxA3&index=4 (Skylar)
 	 */
 	private void timerCounter() {
@@ -570,11 +573,12 @@ public class GameController {
 	}
 
 	/*
-	 * Responsible for actions related to the components in the left panel of the play board, some parts of design
+	 * Responsible for actions related to the components in the left panel of the
+	 * play board, some parts of design
 	 */
 	private void leftPanelActions() {
 		languageActions();
-		
+
 		view.getPlayToLauncher().addActionListener((actionEvent) -> {
 			model.setMarkMode(false);
 			if (model.getGameMode() == 1) {
@@ -601,7 +605,8 @@ public class GameController {
 			resetBoard();
 		});
 		view.getSolveButton().addActionListener((actionEvent) -> {
-			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("solve") + "\n");
+			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+					+ model.getLangText().getString("solve") + "\n");
 			view.setViewRows(model.getRow());
 			if (model.getGameMode() == 1 && model.isGameStarted() == true) {
 				model.setCurrentValid(0);
@@ -619,7 +624,8 @@ public class GameController {
 			showInstructions();
 		});
 		view.getNewBoardButton().addActionListener((actionEvent) -> {
-			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("newBoard") + "\n");
+			view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+					+ model.getLangText().getString("newBoard") + "\n");
 			newPlayBoard((String) view.getGridSizeCmbo().getSelectedItem(), false, false);
 		});
 
@@ -650,8 +656,7 @@ public class GameController {
 						fileWriter.write(Integer.toString(model.getBestTime()) + "\n");
 						if (view.getNameTextField().getText().isBlank()) {
 							model.setUsername(" ");
-						}
-						else { 
+						} else {
 							model.setUsername(view.getNameTextField().getText());
 						}
 						fileWriter.write(model.getUsername());
@@ -673,7 +678,7 @@ public class GameController {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("."));
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Text files", "txt"));
-		
+
 		if (model.getGameMode() == 0) {
 			model.setRow(new String[model.gridSize]);
 		}
@@ -688,10 +693,9 @@ public class GameController {
 					model.gridSize = fileReader.nextInt();
 					if (model.isLoadClient() == true) {
 						model.readFile(fileReader);
-					}
-					else {
+					} else {
 						view.getGridSizeCmbo().setSelectedIndex(model.gridSize - 5);
-						
+
 						if (model.getGameMode() == 1) {
 							model.readFile(fileReader);
 							newPlayBoard(Integer.toString(model.getGridSize()), false, true);
@@ -706,7 +710,7 @@ public class GameController {
 									}
 								}
 							}
-						}	
+						}
 					}
 				}
 			} catch (FileNotFoundException e) {
@@ -717,6 +721,7 @@ public class GameController {
 			}
 		}
 	}
+
 	/*
 	 * Responsible for actions related to the menu bar
 	 */
@@ -836,14 +841,14 @@ public class GameController {
 				}
 			}
 		});
-		
-		view.getClientMenuOption().addActionListener((actionEvent)->{
+
+		view.getClientMenuOption().addActionListener((actionEvent) -> {
 			view.Client(model.getCurrentLocale(), model.getLangText());
 			clientActions();
 			textChatActions();
 		});
-		
-		view.getServerMenuOption().addActionListener((actionEvent)->{
+
+		view.getServerMenuOption().addActionListener((actionEvent) -> {
 			view.Server(model.getCurrentLocale(), model.getLangText());
 			serverMakerActions();
 			textChatActions();
@@ -855,7 +860,8 @@ public class GameController {
 	 * Responsible for actions related to resetting the board.
 	 */
 	private void resetBoard() {
-		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("reset") + "\n");
+		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+				+ model.getLangText().getString("reset") + "\n");
 		if (model.getGameMode() == 1 && model.isGameStarted() == true) {
 			model.setCurrentValid(0);
 			model.setScore(0);
@@ -875,7 +881,8 @@ public class GameController {
 	 * Responsible for actions related to showing the instructions
 	 */
 	private void showInstructions() {
-		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button") + model.getLangText().getString("instructions") + "\n");
+		view.history.append(model.getLangText().getString("upon_click") + model.getLangText().getString("button")
+				+ model.getLangText().getString("instructions") + "\n");
 		view.Instructions(model.getCurrentLocale(), model.getLangText());
 		view.getInstructionsButton().setEnabled(false);
 		instructionsActions();
@@ -897,10 +904,16 @@ public class GameController {
 			view.getTimerCounter().setText("00:00");
 		}
 
-		if (options.equals("5x5") || options.equals("5")) { model.setGridSize(5); }
-		if (options.equals("6x6") || options.equals("6")) { model.setGridSize(6); }
-		if (options.equals("7x7") || options.equals("7")) { model.setGridSize(7); }
-		
+		if (options.equals("5x5") || options.equals("5")) {
+			model.setGridSize(5);
+		}
+		if (options.equals("6x6") || options.equals("6")) {
+			model.setGridSize(6);
+		}
+		if (options.equals("7x7") || options.equals("7")) {
+			model.setGridSize(7);
+		}
+
 		if (readingFile) {
 			view.setViewRows(model.getRow());
 			view.setViewRowLabels(new String[model.gridSize]);
@@ -909,7 +922,8 @@ public class GameController {
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
 			view.getPicrossWindow().remove(view.getBoardPanel());
-			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
+			view.getPicrossWindow()
+					.add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
 			view.getBoardPanel().revalidate();
 			boardActions();
 			markCheckBoxAction();
@@ -920,7 +934,8 @@ public class GameController {
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
 			view.getPicrossWindow().remove(view.getBoardPanel());
-			view.getPicrossWindow().add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
+			view.getPicrossWindow()
+					.add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
 			view.getBoardPanel().revalidate();
 			boardActions();
 			markCheckBoxAction();
@@ -932,9 +947,15 @@ public class GameController {
 	 * Responsible for actions related to making a new board for design mode.
 	 */
 	private void newDesignBoard(String options, boolean readingFile) {
-		if (options.equals("5x5") || options.equals("5")) { model.setGridSize(5); }
-		if (options.equals("6x6") || options.equals("6")) { model.setGridSize(6); }
-		if (options.equals("7x7") || options.equals("7")) { model.setGridSize(7); }
+		if (options.equals("5x5") || options.equals("5")) {
+			model.setGridSize(5);
+		}
+		if (options.equals("6x6") || options.equals("6")) {
+			model.setGridSize(6);
+		}
+		if (options.equals("7x7") || options.equals("7")) {
+			model.setGridSize(7);
+		}
 
 		if (readingFile) {
 			view.setViewRows(model.getRow());
@@ -944,7 +965,8 @@ public class GameController {
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
 			view.getDesignWindow().remove(view.getBoardPanel());
-			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
+			view.getDesignWindow()
+					.add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
 			view.getDesignWindow().revalidate();
 			boardActions();
 			markCheckBoxAction();
@@ -952,7 +974,8 @@ public class GameController {
 			view.setViewRowLabels(model.makeRowLabelDesign());
 			view.setViewColLabels(model.makeColLabelDesign());
 			view.getDesignWindow().remove(view.getBoardPanel());
-			view.getDesignWindow().add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
+			view.getDesignWindow()
+					.add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
 			view.getBoardPanel().revalidate();
 			model.makeDesignBoard(model.getGridSize());
 			boardActions();
@@ -980,6 +1003,5 @@ public class GameController {
 			newDesignBoard(options, false);
 		}
 	}
-	
 
 }
