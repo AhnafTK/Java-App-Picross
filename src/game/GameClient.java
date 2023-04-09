@@ -27,6 +27,7 @@ public class GameClient {
 	private JTextArea log;
 	private String userName;
 	private GameModel clientModel;
+	private GameController clientController;
 
 	/**
 	 * Overloaded constructor to create the client
@@ -37,10 +38,11 @@ public class GameClient {
 	 * @param log      - Text area to display messages
 	 * @param model    - GameModel to store/access variables within
 	 */
-	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model) {
+	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model, GameController controller) {
 		try {
 			clientSock = new Socket(hostName, port);
 			this.clientModel = model;
+			this.clientController = controller;
 			clientModel.setUsername(userName);
 			this.userName = userName;
 			this.toServer = new PrintStream(clientSock.getOutputStream(), true);
@@ -90,6 +92,8 @@ public class GameClient {
 					// received game here
 					else {
 						log.append("Successfully received board from server\n");
+						log.append("board is.." + serverMessage);
+						processGame(serverMessage);
 					}
 				}
 				else {
@@ -138,6 +142,27 @@ public class GameClient {
 		}
 	}
 
+	private void processGame(String gameBoard) {
+		String subParts = gameBoard.substring(0);
+		String parts[] = subParts.split(",");
+		String gridSize = parts[0];
+		for (int i = 0; i < parts.length; i++) {
+			System.out.println(parts[i]);
+		}
+		clientModel.gridSize = Integer.valueOf(gridSize);
+		System.out.println("received gridsize: " + clientModel.gridSize);
+		String[] newBoardRows = new String[clientModel.gridSize];
+
+		
+		for (int i = 0; i < clientModel.gridSize; i++) {
+			newBoardRows[i] = parts[i+1];
+		}
+		clientModel.setRow(newBoardRows);
+		for (int i = 0; i < clientModel.gridSize; i++) {
+			System.out.println("clientmodel:" + clientModel.getRow(i));
+		}
+		clientController.newPlayBoard(gridSize, false, true);
+	}
 	/**
 	 * sendGame method that sends the board configuration that the client is using
 	 * in play or design.

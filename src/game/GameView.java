@@ -510,16 +510,16 @@ public class GameView {
 		disconnectServer.setPreferredSize(new Dimension(125, 30));
 		disconnectServer.setBackground(Color.WHITE);		
 		
-		endConnections = new JButton(langText.getString("end"));
-		endConnections.setPreferredSize(new Dimension(60, 30));
-		endConnections.setBackground(Color.WHITE);		
+		//endConnections = new JButton(langText.getString("end"));
+		//endConnections.setPreferredSize(new Dimension(60, 30));
+		///endConnections.setBackground(Color.WHITE);		
 		
 		serverButtonPanel.add(serverPortLabel);
 		serverButtonPanel.add(serverPortText);
 		serverButtonPanel.add(startServer);
 		serverButtonPanel.add(disconnectServer);
 		serverButtonPanel.add(leaderboardButton);
-		serverButtonPanel.add(endConnections);
+		//serverButtonPanel.add(endConnections);
 		return serverButtonPanel;
 	}
 	

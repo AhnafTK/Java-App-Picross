@@ -85,7 +85,7 @@ public class GameController {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
 						try {
-							client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
+							client = new GameClient(serverIP, portNum, userName, view.logTextArea, model, this);
 							Thread receiveMessages = new Thread(new serverMessageThread());
 							receiveMessages.start();
 						}
@@ -159,8 +159,8 @@ public class GameController {
 			view.logTextArea.append("Starting new game...\n");
 			// view.clientSendGame.setEnabled(true);
 			model.setGameStarted(false);
-			model.resetBoard();
-			view.resetRowsAndCol();
+			////model.resetBoard();
+			///view.resetRowsAndCol();
 			// view.getStartWindow().dispose();
 			view.Play(model.getCurrentLocale(), model.getLangText());
 			playActions();
@@ -215,13 +215,6 @@ public class GameController {
 			}
 		});
 
-		view.endConnections.addActionListener((actionEvent) -> {
-			if (server == null) {
-				view.logTextArea.append("You need to create a connection first...\n");
-			} else {
-				server.endConnections();
-			}
-		});
 
 		view.leaderboardButton.addActionListener((actionEvent) -> {
 			if (server == null) {
@@ -895,7 +888,7 @@ public class GameController {
 	/*
 	 * Responsible for actions related to making a new board for play mode
 	 */
-	private void newPlayBoard(String options, boolean isDefault, boolean readingFile) {
+	protected void newPlayBoard(String options, boolean isDefault, boolean readingFile) {
 		int maxPossible;
 		model.setCurrentValid(0);
 		model.setGameFinished(false);
@@ -925,7 +918,10 @@ public class GameController {
 			view.setViewCols(model.generateCols());
 			view.setViewRowLabels(model.rowLabel());
 			view.setViewColLabels(model.colLabel());
-			view.getPicrossWindow().remove(view.getBoardPanel());
+			if (view.getPicrossWindow()!= null) {
+				view.getPicrossWindow().remove(view.getBoardPanel());
+
+			}
 			view.getPicrossWindow()
 					.add(view.makeBoardPanel(model.getLangText(), model.getGridSize(), model.isMarkMode()));
 			view.getBoardPanel().revalidate();

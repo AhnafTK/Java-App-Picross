@@ -381,8 +381,14 @@ public class GameModel {
 	 * @return Return generated column.
 	 */
 	protected String[] generateCols() {
+		System.out.println("generateCols gridSize: " + gridSize);
+		System.out.println("rows gridSize: " + row.length);
 
 		col = new String[gridSize];
+		
+		System.out.println("generateCols gridSize: " + gridSize);
+		System.out.println("rows gridSize: " + row.length);
+		
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
