@@ -186,13 +186,16 @@ public class GameClient {
 	protected void sendData() {
 
 		String gameData = clientModel.sendDataToServer();
-		System.out.println(gameData);
-
+		System.out.println("This is game data: " + gameData);
+		// 1#testUser,61,10
 		toServer.println(clientID + "#SendData");
 		toServer.println(gameData);
-		toServer.println(clientModel.getUsername());
-		toServer.println(clientModel.getBestTime());
-		toServer.println(clientModel.getBestScore());
+		
+		//toServer.println(clientID + "#SendData");
+		//toServer.println(gameData);
+		//toServer.println(clientModel.getUsername());
+		//toServer.println(clientModel.getBestTime());
+		//toServer.println(clientModel.getBestScore());
 	}
 
 	/**

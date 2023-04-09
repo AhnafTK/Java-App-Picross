@@ -241,8 +241,9 @@ public class GameModel {
 
 	protected String sendDataToServer() {
 		String data = "";
+		// 1#testUser,61,10
 
-		data = "Username: " + getUsername() + ", Best Time: " + getBestTime() + ", Best Score: " + getBestScore();
+		data = getUsername() + ","+ getBestTime() + "," + getBestScore();
 
 		return data;
 	}

@@ -162,10 +162,9 @@ public class GameServer implements Runnable {
 						break;
 					case "SendData":
 						System.out.println("Received data");
-						String username = inFromClient.readLine();
-						int time = Integer.parseInt(inFromClient.readLine());
-						int score = Integer.parseInt(inFromClient.readLine());
-						leaderboard.add(new Leaderboard(clientid, username, time, score));
+						data = inFromClient.readLine();
+						System.out.println("Im server received: " + data);
+						processUserData(data);
 						break;
 					case "Disconnecting":
 						inFromClient.readLine();
@@ -234,6 +233,24 @@ public class GameServer implements Runnable {
 		data = (" Sent player data " + data);
 	}
 
+	private void processUserData(String data) {
+		///String username = inFromClient.readLine();
+		//int time = Integer.parseInt(inFromClient.readLine());
+		//int score = Integer.parseInt(inFromClient.readLine());
+		//System.out.println(username + time + score);
+		//leaderboard.add(new Leaderboard(clientid, username, time, score));
+		String subParts = data.substring(0);
+		String parts[] = subParts.split(",");
+		for (int i = 0; i < parts.length; i++) {
+			System.out.println(parts[i]);
+		}
+		String userName = parts[0];
+		int bestTime = Integer.valueOf(parts[1]);
+		int score = Integer.valueOf(parts[2]);
+		System.out.println(userName + bestTime + score);
+		leaderboard.add(new Leaderboard(clientid, userName, bestTime, score));
+		
+	}
 	// disconnect clients
 	public void disconnectServer() {
 		try {
@@ -295,11 +312,13 @@ public class GameServer implements Runnable {
 						return L2.getScore() - L1.getScore();
 					}
 				});
-
+				log.append("===============LEADERBOARD==============\n");
 				for (int i = 0; i < leaderboard.size(); i++) {
 					log.append(String.format("%s%s %10s%d %10s%d %n", "Username: ", leaderboard.get(i).userName,
 							"Score:", leaderboard.get(i).score, "Time: ", leaderboard.get(i).time));
 				}
+				log.append("===============END OF LEADERBOARD==============\n");
+
 			}
 
 		} catch (NullPointerException e) {
@@ -336,7 +355,7 @@ public class GameServer implements Runnable {
 
 		public Leaderboard(int clientid, String username, int time, int score) {
 			this.clientid = clientid;
-			this.userName = userName;
+			this.userName = username;
 			this.time = time;
 			this.score = score;
 		}
