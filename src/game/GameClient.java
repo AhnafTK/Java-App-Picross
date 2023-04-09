@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import javax.swing.JTextArea;
@@ -51,7 +52,7 @@ public class GameClient {
 			toServer.println(userName);
 			clientID = fromClient.readLine();
 			log.append("Connected successfully..\n");
-
+			isConnected= true;
 			System.out.println("client socket is " + clientSock);
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
 
@@ -70,19 +71,42 @@ public class GameClient {
 	 */
 
 	public synchronized void messageFromServer() {
-		while(true) {
+		while(isConnected) {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
-				if (serverMessage.equals("NA")){
-					log.append("Server does not have a game, maybe I can send mine?\n");
+				
+				if (serverMessage != null) {
+					
+					if (serverMessage.equals("#Disconnect")) {
+					
+						log.append("Server closed..\n");
+						System.out.println("oh shit server closed!!!!");
+						isConnected = false;
+						clientSock.close();
+					}
+					else if (serverMessage.equals("NA")){
+						log.append("Server does not have a game, maybe I can send mine?\n");
+					}
+					// received game here
+					else {
+						log.append("Successfully received board from server\n");
+					}
 				}
 				else {
-					log.append("Successfully received board from server\n");
+					System.out.println("lost connection maybe");
+					log.append("Lost connection to server..\n");
+					isConnected = false;
+					closeReaders();
 				}
-			} catch (IOException e) {
+				
+			} catch(SocketException e) {
+				closeReaders();
+			} 
+			catch (IOException e) {
+				closeReaders();
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			
 		}
@@ -154,15 +178,15 @@ public class GameClient {
 	protected void closeReaders() {
 		try {
 			if (fromClient != null) {
-				System.out.println("from client closed");
+				System.out.println("Client: from client closed");
 				fromClient.close();
 			}
 			if (toServer != null) {
-				System.out.println("to server closed");
+				System.out.println("Server: to server closed");
 				toServer.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 }

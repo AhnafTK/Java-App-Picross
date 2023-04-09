@@ -2268,4 +2268,5 @@ public class GameView {
 	protected void setServerMenuOption(JMenuItem serverMenuOption) {
 		this.serverMenuOption = serverMenuOption;
 	}
+	
 }

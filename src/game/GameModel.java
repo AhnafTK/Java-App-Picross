@@ -217,7 +217,7 @@ public class GameModel {
 					}
 
 				}
-				return pattern;
+				return gridSize+","+pattern;
 
 			}
 			

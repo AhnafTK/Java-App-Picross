@@ -111,6 +111,7 @@ public class GameServer implements Runnable {
 		 * Socket variable.
 		 */
 		protected Socket clientSock;
+		String userName;
 		JTextArea log;
 		PrintStream outToServer;
 		BufferedReader inFromClient;
@@ -178,18 +179,23 @@ public class GameServer implements Runnable {
 						clientSock.close();
 						break;
 					case "ReceiveGame":
-						log.append("User is requesting game..\n");
+						log.append(clientStrID + " is requesting game..\n");
 						if (serverBoard != null) {
 							System.out.println("sending client game");
+							log.append("Sending game to " + clientStrID + "\n");
 							listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.println(serverBoard);
 						}
 						else {
+							log.append("Game board is empty, nothing to send..\n");
 							listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.println("NA");
 						}
 						
 						break;
 					default:
 						System.out.println("the rest");
+						//for(int i = 0; i < listOfClients.size(); i++) {
+							//listOfClients.get(i).outToServer.println("Client [" + clientStrID + "]: " + data + "\n");
+						//}
 						log.append("Client [" + clientStrID + "]: " + data + "\n");
 					}
 				}
@@ -232,12 +238,18 @@ public class GameServer implements Runnable {
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
+			System.out.println("Current size: " + listOfClients.size());
 			for(int i = 0; i < listOfClients.size(); i++) {
-				listOfClients.get(i).outToServer.close();
+				System.out.println("DISCONNECTING: " + listOfClients.get(i).clientSock);
+				listOfClients.get(i).outToServer.println("#Disconnect");
 				listOfClients.get(i).inFromClient.close();
+				listOfClients.get(i).outToServer.close();
 				listOfClients.get(i).clientSock.close();
+				listOfClients.remove(i);
+				
+				//clientSock.close();
 			}
-			listOfClients.clear();
+			//listOfClients.clear();
 			servsock.close();
 			closeAllConnections();
 
@@ -245,6 +257,7 @@ public class GameServer implements Runnable {
 			log.append("Null Pointer Exception...\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("in disconnectServer");
 			e.printStackTrace();
 		}
 	}
@@ -294,6 +307,7 @@ public class GameServer implements Runnable {
 	}
 
 	public void closeAllConnections() {
+		System.out.println("closing server I/O");
 		try {
 			if (fromClient != null) {
 				fromClient.close();
@@ -309,7 +323,7 @@ public class GameServer implements Runnable {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 	}
 

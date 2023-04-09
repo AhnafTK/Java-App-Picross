@@ -85,7 +85,7 @@ public class GameController {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
 						client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
-						client.isConnected = true;
+						// client.isConnected = true;
 						Thread receiveMessages = new Thread(new serverMessageThread());
 						receiveMessages.start();
 						// view.clientConnect.setEnabled(false);
@@ -95,7 +95,7 @@ public class GameController {
 				}
 			}
 		});
-		//When the client disconnects from the server
+		// When the client disconnects from the server
 		view.clientEnd.addActionListener((actionEvent) -> {
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
@@ -106,7 +106,7 @@ public class GameController {
 				// view.getClientWindow().dispose();
 			}
 		});
-		//When the client sends a game to the server
+		// When the client sends a game to the server
 		view.clientSendGame.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending game...\n");
@@ -116,7 +116,7 @@ public class GameController {
 			}
 
 		});
-		//When the client sends data to the server
+		// When the client sends data to the server
 		view.clientSendData.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending data...\n");
@@ -125,7 +125,7 @@ public class GameController {
 				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-		//When the client design is clicked
+		// When the client design is clicked
 		view.clientDesign.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Designing new game...\n");
 			view.clientSendGame.setEnabled(true);
@@ -138,7 +138,7 @@ public class GameController {
 			designActions();
 			textChatActions();
 		});
-		//When the client loads a game from a file
+		// When the client loads a game from a file
 		view.clientLoad.addActionListener((actionEvent) -> {
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
@@ -149,7 +149,7 @@ public class GameController {
 				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-		//When the client plays a game
+		// When the client plays a game
 		view.clientPlay.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Starting new game...\n");
 			// view.clientSendGame.setEnabled(true);
@@ -167,6 +167,7 @@ public class GameController {
 			client.sendMessage(text);
 			view.textChat.setText("");
 		});
+
 	}
 
 	/**
@@ -999,22 +1000,21 @@ public class GameController {
 			newDesignBoard(options, false);
 		}
 	}
-	
-	private class serverMessageThread implements Runnable{
+
+	private class serverMessageThread implements Runnable {
 
 		@Override
 		public void run() {
-			
-			while(client!=null && client.isConnected) {
-		
-			client.messageFromServer();
-				
-		
+
+			while (client != null && client.isConnected) {
+
+				client.messageFromServer();
+
 			}
 			// TODO Auto-generated method stub
-			}
+			System.out.println("in server message thread: closed");
+		}
 
-		
 	}
 
 }
