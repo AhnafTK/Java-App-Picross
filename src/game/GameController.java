@@ -324,6 +324,27 @@ public class GameController {
 	 * Responsible for actions related to the play mode/window.
 	 */
 	private void playActions() {
+		view.gameChat.addActionListener((actionEvent) ->{
+			if (client != null) {
+				String text = view.gameChat.getText();
+				client.sendMessage(text);
+				view.gameChat.setText("");
+			}
+			else {
+	            view.logTextArea.append("Not connected to server...\n");
+			}
+		});
+		
+		view.gameChat.addMouseListener(new MouseAdapter(){
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				view.gameChat.setText("");
+				view.gameChat.setForeground(Color.BLACK);
+
+			}
+		});
+		
 		model.setGameMode(1);
 		gridSizeActions();
 		leftPanelActions();

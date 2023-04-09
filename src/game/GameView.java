@@ -40,7 +40,8 @@ public class GameView {
 	protected JTextField clientUserNameText, clientServerText, clientPortText;
 	protected JTextField serverPortText;
 	protected JTextField textChat;
-
+	protected JTextField gameChat;
+	
 	// JPanel Declarations
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
@@ -828,12 +829,12 @@ public class GameView {
 		controlPanel.add(makeHistoryPanel());
 		
 
-		textChat = new JTextField("Type to enter a chat: ");	
-		textChat.setPreferredSize(new Dimension(200, 75));
-		textChat.setForeground(Color.GRAY);
-		textChat.setBorder(new LineBorder(new Color(17, 15, 15)));
+		gameChat = new JTextField("Type to enter a chat: ");	
+		gameChat.setPreferredSize(new Dimension(200, 75));
+		gameChat.setForeground(Color.GRAY);
+		gameChat.setBorder(new LineBorder(new Color(17, 15, 15)));
 
-		controlPanel.add(textChat);
+		controlPanel.add(gameChat);
 		return controlPanel;
 	}
 
