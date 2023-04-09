@@ -195,7 +195,7 @@ public class GameController {
 							server = new GameServer(portNum, view.logTextArea);
 							view.logTextArea.append("Starting server at " + portNum + "...\n");
 						} catch (IOException e) {
-							System.out.println("AAAAAAAAA");
+							server = null;
 							view.logTextArea.append(
 									"Port number " + portNum + " is already in use, please try another one...\n");
 						}
