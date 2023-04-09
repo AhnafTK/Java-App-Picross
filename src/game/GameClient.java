@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  * This is the GameClient class that creates a client thread, can connect and

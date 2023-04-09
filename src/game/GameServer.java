@@ -1,5 +1,6 @@
 package game;
 
+//Imports
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import javax.swing.JTextArea;
+
 /**
  * This is the GameServer class that creates a thread 
  * for each new client.
@@ -21,8 +23,9 @@ import javax.swing.JTextArea;
  */
 public class GameServer implements Runnable {
 	private ServerSocket servsock;
-	ClientThread w;
+	private ClientThread client;
 	private static Socket sock;
+<<<<<<< HEAD
 	static int nclient = 0, nclients = 0;
 	String serverBoard;
 	String data;
@@ -32,6 +35,16 @@ public class GameServer implements Runnable {
 	private static boolean running = true;
 	ArrayList<ClientThread> listOfClients = new ArrayList<ClientThread>();
 	ArrayList<Leaderboard> leaderboard = new ArrayList<Leaderboard>();
+=======
+	private static int nclient = 0, nclients = 0;
+	private String data;
+	private PrintStream fromServer;
+	private BufferedReader fromClient;
+	private JTextArea log;
+	//private static boolean running = true;	dont need?
+	private ArrayList<ClientThread> listOfClients = new ArrayList<ClientThread>();
+	private ArrayList<Leaderboard> leaderboard = new ArrayList<Leaderboard>();
+>>>>>>> b3ed519398bdc5a7091a2200e299b7e1d9692b7c
 
 	/**
 	 * Integers for client and positions.
@@ -50,7 +63,7 @@ public class GameServer implements Runnable {
 	 * @param listOfClients - Array list for each connected client
 	 * @param leaderboard - Array list for the user's on the leaderboard
 	 */
-	public GameServer(JTextArea log, ServerSocket socket,  ArrayList listOfClients, ArrayList leaderboard) {
+	public GameServer(JTextArea log, ServerSocket socket,  ArrayList<ClientThread> listOfClients, ArrayList<Leaderboard> leaderboard) {
 		this.log = log;
 		this.servsock = socket;
 		this.listOfClients = listOfClients;
@@ -84,41 +97,52 @@ public class GameServer implements Runnable {
 	}
 
 	@Override
+	/**
+	 * Runnable method for the servDaemon thread.
+	 * Waits to accept a connection from the client.
+	 */
 	public void run() {
 		System.out.println("RUNNING");
 		try {
+			//Infinitely loops while the server socket is open
 			while (!servsock.isClosed()) {
 				sock = servsock.accept();
 				nclient += 1;
 				nclients += 1;
-				w = new ClientThread(sock, nclient, log);
-				listOfClients.add(w);
-				w.start();
+				client = new ClientThread(sock, nclient, log);
+				listOfClients.add(client);
+				client.start();
 				System.out.println("printing all client network info: ");
 				for (int i = 0; i < listOfClients.size(); i++) {
 					System.out.println(listOfClients.get(i).clientSock );
 				}
 			}
-		} catch (IOException IhateNetworkingNow) {
-
+		} catch (IOException e) {
+			System.out.println("I/O Exception");
 		}
 
 	}
 
+	/**
+	 * ClientThread class for creating a new thread for each client.
+	 * This is where the main communication is done with the clients.
+	 * 
+	 * @author Skylar Phanenhour, Ahnaf Kamal
+	 *
+	 */
 	class ClientThread extends Thread {
-
+		//Declaration
+		private Socket clientSock;
+		private JTextArea log;
+		private PrintStream outToServer;
+		private BufferedReader inFromClient;
+		
 		/**
-		 * Socket variable.
-		 */
-		protected Socket clientSock;
-		JTextArea log;
-		PrintStream outToServer;
-		BufferedReader inFromClient;
-		/**
-		 * Default constructor.
+		 * Overloaded constructor.
 		 * 
-		 * @param s       Socket
-		 * @param nclient Number of client.
+		 * @param s - Socket that the client is on
+		 * @param nclient - The client number that is assigned to the client
+		 * @param log - Server log that displays messages
 		 */
 		public ClientThread(Socket s, int nclient, JTextArea log) {
 			this.clientSock = s;
@@ -126,13 +150,14 @@ public class GameServer implements Runnable {
 			this.log = log;
 		}
 
-		/**
-		 * Run method.
-		 */
+
 		@Override
+		/**
+		 * Runnable method that is called from the client.thread().
+		 * Main communication between the client and server.
+		 */
 		public void run() {
 			try {
-				
 				inFromClient = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				outToServer = new PrintStream(sock.getOutputStream(), true);
 				data = inFromClient.readLine();
@@ -142,8 +167,8 @@ public class GameServer implements Runnable {
 
 				outToServer.println(clientid);
 				
+				//Infinitely loops while the client socket is open
 				while (!clientSock.isClosed()) {
-					
 					System.out.println("Socket connected, in loop");
 					data = inFromClient.readLine();
 					protocolSeperator = data.indexOf("#");
@@ -151,32 +176,46 @@ public class GameServer implements Runnable {
 					dataConfig = data.substring(protocolSeperator + 1, data.length());
 					System.out.println("data config: " + dataConfig);
 					
+					//Switch case statement for the server protocols
 					switch (dataConfig) {
+					
+					//Send game protocol
 					case "SendGame":
-						System.out.println("Received game");
 						data = inFromClient.readLine();
+<<<<<<< HEAD
 						System.out.println(data);
 						log.append("Recieved game from Client [" + clientStrID + "]: " + data + "\n");
 						serverBoard = data;
+=======
+						log.append("Recieved game from Client [" + clientid + "]: " + data + "\n");
+>>>>>>> b3ed519398bdc5a7091a2200e299b7e1d9692b7c
 						break;
+						
+					//Send data protocol
 					case "SendData":
-						System.out.println("Received data");
+						data = inFromClient.readLine();
+						log.append("Recieved data from Client [" + clientid + "]: " + data + "\n");
+						
+						//Sets the variables for the client and stores them in the leaderboard
 						String username = inFromClient.readLine();
 						int time = Integer.parseInt(inFromClient.readLine());
 						int score = Integer.parseInt(inFromClient.readLine());
 						leaderboard.add(new Leaderboard(clientid, username, time, score));
 						break;
+						
+					//Disconncting protocol
 					case "Disconnecting":
 						inFromClient.readLine();
 						//System.out.println("Disconnecting you");
-						System.out.println("DISCONNECTING: " + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
-						log.append("DISCONNECTING : Client [" + clientStrID + "]:" + listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock);
-						listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.close();
-						listOfClients.get(Integer.valueOf(clientStrID) - 1).inFromClient.close();
-						listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock.close();
-						listOfClients.remove(Integer.valueOf(clientStrID) - 1);
+						System.out.println("DISCONNECTING: " + listOfClients.get(clientid - 1).clientSock);
+						log.append("DISCONNECTING : Client [" + clientStrID + "]:" + listOfClients.get(clientid - 1).clientSock);
+						listOfClients.get(clientid - 1).outToServer.close();
+						listOfClients.get(clientid - 1).inFromClient.close();
+						listOfClients.get(clientid - 1).clientSock.close();
+						listOfClients.remove(clientid - 1);
 						clientSock.close();
 						break;
+<<<<<<< HEAD
 					case "ReceiveGame":
 						log.append("User is requesting game..\n");
 						if (serverBoard != null) {
@@ -188,6 +227,10 @@ public class GameServer implements Runnable {
 						}
 						
 						break;
+=======
+						
+					//Default, for anything that isn't a protocol
+>>>>>>> b3ed519398bdc5a7091a2200e299b7e1d9692b7c
 					default:
 						System.out.println("the rest");
 						log.append("Client [" + clientStrID + "]: " + data + "\n");
@@ -195,41 +238,21 @@ public class GameServer implements Runnable {
 				}
 				
 			} catch (IOException e) {
-				// close all?
 				System.out.println(e);
-
 			} catch (NumberFormatException e) {
 				System.out.println(e);
 			} catch (NullPointerException e) {
-
+				System.out.println(e);
 			}
 		}
 
 	}
 
-	public void disconnectClient() {
-		try {
-			nclients -= 1;
-			nclient -= 1;
-			listOfClients.remove(clientid - 1);
-			log.append("Current number of clients: " + (listOfClients.size()) + "\n");
-			log.append("Disconnecting " + data + "\n");
-			//sock.close();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		} 
-	}
-
-	public void sendGame() {
-		data = (" Sent this board configuration " + data);
-	}
-
-	public void sendData() {
-		data = (" Sent player data " + data);
-	}
-
-	// disconnect clients
-	public void disconnectServer() {
+	/**
+	 * Method to disconnect the server connection 
+	 * and all its clients connected.
+	 */
+	protected void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
 			for(int i = 0; i < listOfClients.size(); i++) {
@@ -244,13 +267,17 @@ public class GameServer implements Runnable {
 		} catch (NullPointerException e) {
 			log.append("Null Pointer Exception...\n");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public void endConnections() {
+	/**
+	 * Method to end all of the clients connected
+	 * on the server.
+	 */
+	protected void endConnections() {
 		try {
+			//Checks if ther are no clients connected
 			if (nclients == 0) {
 				log.append("There are no clients connected to the server...\n");
 			} else {
@@ -270,20 +297,28 @@ public class GameServer implements Runnable {
 		}
 	}
 
-	public void printLeaderboard() {
+	/**
+	 * Method to print the leaderboards
+	 */
+	protected void printLeaderboard() {
 		try {
+			//Checks if there are no clients connected
 			if (nclients == 0) {
 				log.append("There are no clients connected to the server...\n");
-			} else {
-
+			} 
+			else {
+				//Sorts the leaderboards by highest score
 				Collections.sort(leaderboard, new Comparator<Leaderboard>() {
+					@Override
 					public int compare(Leaderboard L1, Leaderboard L2) {
 						return L2.getScore() - L1.getScore();
 					}
 				});
 
+				//Loops through the leaderboards and prints the clients
 				for (int i = 0; i < leaderboard.size(); i++) {
-					log.append(String.format("%s%s %10s%d %10s%d %n", "Username: ", leaderboard.get(i).userName,
+					log.append("Printing leaderboards...\n");
+					log.append(String.format("%s%s %10s%d %10s%d %n", "Username: ", leaderboard.get(i).username,
 							"Score:", leaderboard.get(i).score, "Time: ", leaderboard.get(i).time));
 				}
 			}
@@ -293,7 +328,10 @@ public class GameServer implements Runnable {
 		}
 	}
 
-	public void closeAllConnections() {
+	/**
+	 * Method to close everything
+	 */
+	protected void closeAllConnections() {
 		try {
 			if (fromClient != null) {
 				fromClient.close();
@@ -308,36 +346,71 @@ public class GameServer implements Runnable {
 				servsock.close();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			// e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Leaderboard class that is stored in an object ArrayList.
+	 * Stores the data that is sent from client's.
+	 * 
+	 * @author Skylar Phanenhour, Ahnaf Kamal
+	 *
+	 */
 	class Leaderboard {
-		int clientid;
-		String userName;
-		int time;
-		int score;
+		//Declarations
+		private int clientid;
+		private String username;
+		private int time;
+		private int score;
 
+		/**
+		 * Overloaded constructor 
+		 * 
+		 * @param clientid - id of the client 
+		 * @param username - username of the client
+		 * @param time - best time of the client
+		 * @param score - best score of the client
+		 */
 		public Leaderboard(int clientid, String username, int time, int score) {
 			this.clientid = clientid;
-			this.userName = userName;
+			this.username = username;
 			this.time = time;
 			this.score = score;
 		}
 
+		/**
+		 * Getter for clientid
+		 * 
+		 * @return - clientid
+		 */
 		public int getClientid() {
 			return clientid;
 		}
 
-		public String getUserName() {
-			return userName;
+		/**
+		 * Getter for username
+		 * 
+		 * @return - username
+		 */
+		public String getUsername() {
+			return username;
 		}
 
+		/**
+		 * Getter for time
+		 * 
+		 * @return - time
+		 */
 		public int getTime() {
 			return time;
 		}
 
+		/**
+		 * Getter for score
+		 * 
+		 * @return - score
+		 */
 		public int getScore() {
 			return score;
 		}
