@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * This is the GameClient class that creates a client thread, can connect and
@@ -75,7 +77,7 @@ public class GameClient {
 	 */
 
 	public synchronized void messageFromServer() {
-		while(true) {
+		while(isConnected) {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
@@ -85,9 +87,12 @@ public class GameClient {
 				else {
 					log.append("Successfully received board from server\n");
 				}
+				
+			} catch(SocketException e) {
+				closeReaders();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				closeReaders();
 			}
 			
 		}

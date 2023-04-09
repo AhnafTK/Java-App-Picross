@@ -11,6 +11,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -75,15 +78,11 @@ public class GameController {
 			// If they all have values
 			else {
 				try {
-					//Checks if the port is an int
 					int portNum = Integer.parseInt(view.clientPortText.getText());
 					String userName = view.clientUserNameText.getText();
-					
-					//Checks if the port is between the valid range
 					if (!(1024 <= portNum && portNum <= 65355)) {
 						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
-					} 
-					else {
+					} else {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
 						client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
@@ -98,9 +97,7 @@ public class GameController {
 			}
 		});
 
-		//When the client disconnects from the server
 		view.clientEnd.addActionListener((actionEvent) -> {
-			//Checks if the user is created
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
@@ -111,9 +108,7 @@ public class GameController {
 			}
 		});
 
-		//When the client sends a game to the server
 		view.clientSendGame.addActionListener((actionEvent) -> {
-			//Checks if the client is connected
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending game...\n");
 				client.sendGame();
@@ -123,9 +118,7 @@ public class GameController {
 
 		});
 
-		//When the client sends data to the server
 		view.clientSendData.addActionListener((actionEvent) -> {
-			//Checks if the client is connected
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending data...\n");
 				client.sendData();
@@ -134,7 +127,6 @@ public class GameController {
 			}
 		});
 
-		//When the client design is clicked
 		view.clientDesign.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Designing new game...\n");
 			view.clientSendGame.setEnabled(true);
@@ -148,9 +140,7 @@ public class GameController {
 			textChatActions();
 		});
 
-		//When the client loads a game from a file
 		view.clientLoad.addActionListener((actionEvent) -> {
-			//Checks if the user is created
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
 				model.setLoadClient(true);
@@ -161,7 +151,6 @@ public class GameController {
 			}
 		});
 
-		//When the client plays a game
 		view.clientPlay.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Starting new game...\n");
 			// view.clientSendGame.setEnabled(true);
@@ -174,14 +163,10 @@ public class GameController {
 			textChatActions();
 		});
 
-		//When the client sends a text chat
 		view.textChat.addActionListener((actionEvent) -> {
-			//Checks if the client is created
-			if (client != null) {
-				String text = view.textChat.getText();
-				client.sendMessage(text);
-				view.textChat.setText("");	
-			}
+			String text = view.textChat.getText();
+			client.sendMessage(text);
+			view.textChat.setText("");
 		});
 	}
 
@@ -189,26 +174,26 @@ public class GameController {
 	 * Responsible for the actions related to the server components
 	 */
 	private void serverMakerActions() {
-		//When the user starts a server
 		view.startServer.addActionListener((actionEvent) -> {
-			//Checks if the port is blank
 			if (view.serverPortText.getText().isBlank()) {
 				view.logTextArea.append("You must enter a port number to connect to...\n");
-			} 
-			else {
+			} else {
 				try {
-					//Checks if the port is an int
 					int portNum = Integer.parseInt(view.serverPortText.getText());
 
-					//Checks if the port is between the valid range
 					if (!(1024 <= portNum && portNum <= 65355)) {
 						view.logTextArea.append("Valid ports can only be between 1024 and 65355...\n");
-					} 
-					else {
-						//ServerSocket testSocket = new ServerSocket(portNum);
-						//testSocket.close();
-						server = new GameServer(portNum, view.logTextArea);
-						view.logTextArea.append("Starting server at " + portNum + "...\n");
+					} else {
+						try {
+							ServerSocket testSocket = new ServerSocket(portNum);
+							testSocket.close();
+							server = new GameServer(portNum, view.logTextArea);
+							view.logTextArea.append("Starting server at " + portNum + "...\n");
+						} catch (IOException e) {
+							System.out.println("AAAAAAAAA");
+							view.logTextArea.append(
+									"Port number " + portNum + " is already in use, please try another one...\n");
+						}
 					}
 				} catch (NumberFormatException e) {
 					view.logTextArea.append("You must enter an integer in the port field...\n");
@@ -217,19 +202,18 @@ public class GameController {
 
 		});
 
-		//When the user disconnects the server
 		view.disconnectServer.addActionListener((actionEvent) -> {
-			//Checks if the server is created
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
+
 				server.disconnectServer();
+
+				// disconnect clients?
 			}
 		});
 
-		//When the user ends the connections on the server
 		view.endConnections.addActionListener((actionEvent) -> {
-			//Checks if the server is created
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
@@ -237,9 +221,7 @@ public class GameController {
 			}
 		});
 
-		//When the user wants to see the server leaderboards
 		view.leaderboardButton.addActionListener((actionEvent) -> {
-			//Checks if the server is created
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
@@ -347,7 +329,6 @@ public class GameController {
 	 * Responsible for actions related to the play mode/window.
 	 */
 	private void playActions() {
-		//Checks if the client is created
 		if (client != null) {
 
 			view.gameChat.addActionListener((actionEvent) -> {
@@ -1027,12 +1008,16 @@ public class GameController {
 
 		@Override
 		public void run() {
-			while(client!=null) {
-				client.messageFromServer();
+			
+			while(client!=null && client.isConnected) {
+		
+			client.messageFromServer();
+				
+		
 			}
 			// TODO Auto-generated method stub
-			
-		}
+			}
+
 		
 	}
 
