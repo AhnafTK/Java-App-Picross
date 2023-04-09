@@ -41,7 +41,7 @@ public class GameClient {
 		try {
 			// Initializes the client's variables
 			clientSock = new Socket(hostName, port);
-			clientSock.setSoTimeout(5000);
+			//clientSock.setSoTimeout(5000);
 
 			this.clientModel = model;
 			clientModel.setUsername(userName);
@@ -75,14 +75,36 @@ public class GameClient {
 	 * 
 	 */
 
+	public synchronized void messageFromServer() {
+		while(true) {
+			try {
+				String serverMessage = fromClient.readLine();
+				System.out.println("Server message: " + serverMessage);
+				if (serverMessage.equals("NA")){
+					log.append("Server does not have a game, maybe I can send mine?\n");
+				}
+				else {
+					log.append("Successfully received board from server\n");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
 	/**
 	 * This message is used to get the text chat and send it to the server
 	 * 
 	 * @param message - Message from the text chat
 	 */
 	protected void sendMessage(String message) {
+		if (message.equals("ReceiveBoard")) {
+			
+		}
 		consoleData = clientID + "#" + message;
 		toServer.println(consoleData);
+		
 		log.append(userName + ": " + message + "\n");
 	}
 

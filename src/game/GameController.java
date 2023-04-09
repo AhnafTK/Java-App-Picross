@@ -84,8 +84,10 @@ public class GameController {
 					} else {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
-						client = new GameClient(serverIP, portNum, userName, view.logTextArea, view.textChat, model);
+						client = new GameClient(serverIP, portNum, userName, view.logTextArea, model);
 						client.isConnected = true;
+						Thread receiveMessages = new Thread(new serverMessageThread());
+						receiveMessages.start();
 						// view.clientConnect.setEnabled(false);
 					}
 				} catch (NumberFormatException e) {
@@ -999,6 +1001,19 @@ public class GameController {
 		} else {
 			newDesignBoard(options, false);
 		}
+	}
+	
+	private class serverMessageThread implements Runnable{
+
+		@Override
+		public void run() {
+			while(client!=null) {
+				client.messageFromServer();
+			}
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }

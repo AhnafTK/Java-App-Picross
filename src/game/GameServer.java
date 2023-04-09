@@ -24,6 +24,7 @@ public class GameServer implements Runnable {
 	ClientThread w;
 	private static Socket sock;
 	static int nclient = 0, nclients = 0;
+	String serverBoard;
 	String data;
 	PrintStream fromServer;
 	BufferedReader fromClient;
@@ -156,6 +157,7 @@ public class GameServer implements Runnable {
 						data = inFromClient.readLine();
 						System.out.println(data);
 						log.append("Recieved game from Client [" + clientStrID + "]: " + data + "\n");
+						serverBoard = data;
 						break;
 					case "SendData":
 						System.out.println("Received data");
@@ -174,6 +176,17 @@ public class GameServer implements Runnable {
 						listOfClients.get(Integer.valueOf(clientStrID) - 1).clientSock.close();
 						listOfClients.remove(Integer.valueOf(clientStrID) - 1);
 						clientSock.close();
+						break;
+					case "ReceiveGame":
+						log.append("User is requesting game..\n");
+						if (serverBoard != null) {
+							System.out.println("sending client game");
+							listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.println(serverBoard);
+						}
+						else {
+							listOfClients.get(Integer.valueOf(clientStrID) - 1).outToServer.println("NA");
+						}
+						
 						break;
 					default:
 						System.out.println("the rest");
