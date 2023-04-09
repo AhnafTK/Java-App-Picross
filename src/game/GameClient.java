@@ -39,6 +39,7 @@ public class GameClient {
 	 * @param userName - Client's username that is entered, stored in the model
 	 * @param log      - Text area to display messages
 	 * @param model    - GameModel to store/access variables within
+	 * @param controller - Gives access to controller
 	 */
 	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model,
 			GameController controller) {
@@ -57,8 +58,7 @@ public class GameClient {
 			clientID = fromClient.readLine();
 			log.append("Connected successfully..\n");
 			isConnected = true;
-			System.out.println("client socket is " + clientSock);
-			System.out.print("Client[" + clientID + "] " + userName + ": ");
+
 
 		} catch (UnknownHostException e) {
 			log.append("Unknown Server IP on: " + hostName + " on port: " + port + "\n");
@@ -66,13 +66,6 @@ public class GameClient {
 			log.append("Failed to connect to: " + hostName + " on port: " + port + "\n");
 		}
 	}
-
-	/*
-	 * chat.addActionListener(e -> { log.append(userName + ": " + chat.getText() +
-	 * '\n'); consoleData = chat.getText(); chat.setText(""); consoleData = clientID
-	 * + "#" + consoleData; toServer.println(consoleData); });
-	 * 
-	 */
 
 	/**
 	 * Method that is used to receive messages that have been sent from the server.
@@ -83,7 +76,7 @@ public class GameClient {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
-
+				
 				if (serverMessage != null) {
 
 					// Disconnect protocol
@@ -94,7 +87,7 @@ public class GameClient {
 						clientSock.close();
 					}
 					// If there is no game board to receive from the server
-					else if (serverMessage.equals("NA")) {
+					else if (serverMessage.equals("#Empty")) {
 						log.append("Server does not have a game, maybe I can send mine?\n");
 					}
 					// Receive a game board from the server
@@ -120,18 +113,31 @@ public class GameClient {
 	}
 
 	/**
-	 * This message is used to get the text chat and send it to the server
+	 * This message is used to get the text chat and send it to the server.
+	 * Acts like commands basically. 
 	 * 
 	 * @param message - Message from the text chat
 	 */
 	protected void sendMessage(String message) {
-		if (message.equals("ReceiveBoard")) {
+		if (message.equals("SendGame")) {
+			log.append("Sending game...\n");
+			sendGame();
 
 		}
-		consoleData = clientID + "#" + message;
-		toServer.println(consoleData);
-
-		log.append(userName + ": " + message + "\n");
+		else if (message.equals("SendData")) {
+			log.append("Sending data...\n");
+			sendData();
+		}
+		else if (message.equals("Disconnect")) {
+			log.append("Disconnecting...\n");
+			disconnectClient();
+		}
+		else {
+			consoleData = clientID + "#" + message;
+			toServer.println(consoleData);
+			log.append(userName + ": " + message + "\n");
+		}
+		
 	}
 
 	/**
@@ -210,11 +216,6 @@ public class GameClient {
 		toServer.println(clientID + "#SendData"); // Sends the protocol
 		toServer.println(gameData);
 
-		// toServer.println(clientID + "#SendData");
-		// toServer.println(gameData);
-		// toServer.println(clientModel.getUsername());
-		// toServer.println(clientModel.getBestTime());
-		// toServer.println(clientModel.getBestScore());
 	}
 
 	/**

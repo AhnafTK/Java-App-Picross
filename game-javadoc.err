@@ -1,3 +1,3 @@
-src\game\GameClient.java:42: warning: no @param for controller
-	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model, GameController controller) {
+src\game\GameClient.java:43: warning: no @param for controller
+	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model,
 	       ^

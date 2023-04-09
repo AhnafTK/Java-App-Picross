@@ -161,40 +161,40 @@ public class GameServer implements Runnable {
 				
 				//Infinitely loops while the client socket is open
 				while (!clientSock.isClosed()) {	
-					System.out.println("Socket connected, in loop");
+					//System.out.println("Socket connected, in loop");
 					//Reads the data sent from the client
 					data = inFromClient.readLine();
 					//Separates the data by the #
 					protocolSeperator = data.indexOf("#");
 					clientStrID = data.substring(0, protocolSeperator); //Client id
 					dataConfig = data.substring(protocolSeperator + 1, data.length()); //Protocol
-					System.out.println("data config: " + dataConfig);
+					//System.out.println("data config: " + dataConfig);
 					
 					//Switch case statement to recognize the protocol that is sent
 					switch (dataConfig) {
 					
 					//Send Game protocol
 					case "SendGame":
-						System.out.println("Received game");
+						//System.out.println("Received game");
 						data = inFromClient.readLine();
-						System.out.println(data);
-						log.append("Recieved game from Client [" + clientStrID + "]: " + data + "\n");
+						//System.out.println(data);
+						log.append("Received game from Client [" + clientStrID + "]: " + data + "\n");
 						serverBoard = data;
 						break;
 						
 					//Send Data protocol
 					case "SendData":
-						System.out.println("Received data");
+						//System.out.println("Received data");
 						data = inFromClient.readLine();
-						System.out.println("Im server received: " + data);
+						log.append("Recieved data from Client [" + clientStrID + "]: " + data + "\n");
+						//System.out.println("Im server received: " + data);
 						processUserData(data);
+						
 						break;
 						
 					//Disconnecting protocol
 					case "Disconnecting":
 						inFromClient.readLine();
-						//System.out.println("Disconnecting you");
-						System.out.println("DISCONNECTING: " + listOfClients.get(clientid - 1).clientSock);
 						log.append("DISCONNECTING : Client [" + clientStrID + "]:" + listOfClients.get(clientid - 1).clientSock);
 						listOfClients.get(clientid - 1).outToServer.close();
 						listOfClients.get(clientid - 1).inFromClient.close();
@@ -214,16 +214,13 @@ public class GameServer implements Runnable {
 						}
 						else {
 							log.append("Game board is empty, nothing to send..\n");
-							listOfClients.get(clientid - 1).outToServer.println("NA");
+							listOfClients.get(clientid - 1).outToServer.println("#Empty");
 						}
 						break;
 						
 					//Anything that is not a protocol
 					default:
 						System.out.println("the rest");
-						//for(int i = 0; i < listOfClients.size(); i++) {
-							//listOfClients.get(i).outToServer.println("Client [" + clientStrID + "]: " + data + "\n");
-						//}
 						log.append("Client [" + clientStrID + "]: " + data + "\n");
 					}
 				}
@@ -246,11 +243,6 @@ public class GameServer implements Runnable {
 	 * @param data - the game data sent from the client
 	 */
 	private void processUserData(String data) {
-		///String username = inFromClient.readLine();
-		//int time = Integer.parseInt(inFromClient.readLine());
-		//int score = Integer.parseInt(inFromClient.readLine());
-		//System.out.println(username + time + score);
-		//leaderboard.add(new Leaderboard(clientid, username, time, score));
 		String subParts = data.substring(0);
 		String parts[] = subParts.split(",");
 		for (int i = 0; i < parts.length; i++) {
@@ -297,26 +289,6 @@ public class GameServer implements Runnable {
 		}
 	}
 
-//	public void endConnections() {
-//		try {
-//			if (nclients == 0) {
-//				log.append("There are no clients connected to the server...\n");
-//			} else {
-//				for (int i = 0; i < listOfClients.size(); i++) {
-//					fromServer = new PrintStream(listOfClients.get(i).clientSock.getOutputStream(), true);
-//					fromServer.println("#EndConnections");
-//				}
-//				log.append("Ending all client connections...\n");
-//			}
-//
-//		} catch (SocketException e) {
-//			log.append("Socket Exception...\n");
-//		} catch (IOException e) {
-//			log.append("I/O Exception...\n");
-//		} catch (NullPointerException e) {
-//			log.append("Null Pointer Exception...\n");
-//		}
-//	}
 
 	/**
 	 * Prints the client's that are stored on the leaderboards

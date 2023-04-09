@@ -11,6 +11,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -85,6 +88,8 @@ public class GameController {
 					} else {
 						String serverIP = view.clientServerText.getText();
 						view.logTextArea.append("Attempting connection...\n");
+					
+						
 						try {
 							// Creates a new client with the information
 							client = new GameClient(serverIP, portNum, userName, view.logTextArea, model, this);
@@ -107,9 +112,15 @@ public class GameController {
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
-				view.logTextArea.append("Disconnecting from server...\n");
-				client.disconnectClient();
-				client.isConnected = false;
+				if (client.isConnected) {
+					view.logTextArea.append("Disconnecting from server...\n");
+					client.disconnectClient();
+					client.isConnected = false;
+				}
+				else {
+					view.logTextArea.append("Not connected...\n");
+				}
+				
 				// view.getClientWindow().dispose();
 			}
 		});
