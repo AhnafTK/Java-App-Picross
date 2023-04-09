@@ -65,6 +65,7 @@ public class GameModel {
 	private String[] rowLabelsDesign;
 	/*** Holds the col label numbers for design mode */
 	private String[] colLabelsDesign;
+	protected boolean receivedFromServer = false;
 
 	/**
 	 * Converts the timer to seconds format.
@@ -235,7 +236,7 @@ public class GameModel {
 				pattern = pattern + ",";
 			}
 		}
-		return pattern;
+		return gridSize+","+pattern;
 	}
 
 	protected String sendDataToServer() {

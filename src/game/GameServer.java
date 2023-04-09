@@ -238,6 +238,7 @@ public class GameServer implements Runnable {
 	public void disconnectServer() {
 		try {
 			System.out.println("Ending server...");
+			log.append("Ending server...\n");
 			System.out.println("Current size: " + listOfClients.size());
 			for(int i = 0; i < listOfClients.size(); i++) {
 				System.out.println("DISCONNECTING: " + listOfClients.get(i).clientSock);
@@ -250,7 +251,7 @@ public class GameServer implements Runnable {
 				//clientSock.close();
 			}
 			//listOfClients.clear();
-			//servsock.close();
+			servsock.close();
 			//closeAllConnections();
 
 		} catch (NullPointerException e) {

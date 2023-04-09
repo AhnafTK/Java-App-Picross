@@ -21,6 +21,7 @@ public class GameClient {
 	// Declarations
 	private Socket clientSock;
 	protected boolean isConnected = false;
+	private boolean receivedFromServer = false;
 	private PrintStream toServer = null;
 	private BufferedReader fromClient = null;
 	private String consoleData = "", clientID;
@@ -91,8 +92,7 @@ public class GameClient {
 					}
 					// received game here
 					else {
-						log.append("Successfully received board from server\n");
-						log.append("board is.." + serverMessage);
+						log.append("Successfully received board from server. Make sure that \"Play\" window is open when receiving\n");
 						processGame(serverMessage);
 					}
 				}
