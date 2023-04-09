@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  * This is the GameClient class that creates a client thread, can connect and
@@ -42,8 +40,6 @@ public class GameClient {
 		try {
 			// Initializes the client's variables
 			clientSock = new Socket(hostName, port);
-			//clientSock.setSoTimeout(5000);
-
 			this.clientModel = model;
 			clientModel.setUsername(userName);
 			this.userName = userName;
@@ -58,9 +54,6 @@ public class GameClient {
 
 			System.out.println("client socket is " + clientSock);
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
-
-			// Thread thread = new Thread(new ReceiveMessage(log, chat));
-			/// thread.start();
 
 		} catch (UnknownHostException e) {
 			log.append("Unknown Server IP on: " + hostName + " on port: " + port + "\n");
@@ -77,7 +70,7 @@ public class GameClient {
 	 */
 
 	public synchronized void messageFromServer() {
-		while(isConnected) {
+		while(true) {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
@@ -87,12 +80,9 @@ public class GameClient {
 				else {
 					log.append("Successfully received board from server\n");
 				}
-				
-			} catch(SocketException e) {
-				closeReaders();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				closeReaders();
+				e.printStackTrace();
 			}
 			
 		}

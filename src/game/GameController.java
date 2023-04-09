@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -96,7 +95,7 @@ public class GameController {
 				}
 			}
 		});
-
+		//When the client disconnects from the server
 		view.clientEnd.addActionListener((actionEvent) -> {
 			if (client == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
@@ -107,7 +106,7 @@ public class GameController {
 				// view.getClientWindow().dispose();
 			}
 		});
-
+		//When the client sends a game to the server
 		view.clientSendGame.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending game...\n");
@@ -117,7 +116,7 @@ public class GameController {
 			}
 
 		});
-
+		//When the client sends data to the server
 		view.clientSendData.addActionListener((actionEvent) -> {
 			if (client != null && client.isConnected) {
 				view.logTextArea.append("Sending data...\n");
@@ -126,7 +125,7 @@ public class GameController {
 				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-
+		//When the client design is clicked
 		view.clientDesign.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Designing new game...\n");
 			view.clientSendGame.setEnabled(true);
@@ -139,7 +138,7 @@ public class GameController {
 			designActions();
 			textChatActions();
 		});
-
+		//When the client loads a game from a file
 		view.clientLoad.addActionListener((actionEvent) -> {
 			if (client != null) {
 				view.logTextArea.append("Loading game...\n");
@@ -150,7 +149,7 @@ public class GameController {
 				view.logTextArea.append("Not connected to server...\n");
 			}
 		});
-
+		//When the client plays a game
 		view.clientPlay.addActionListener((actionEvent) -> {
 			view.logTextArea.append("Starting new game...\n");
 			// view.clientSendGame.setEnabled(true);
@@ -162,7 +161,7 @@ public class GameController {
 			playActions();
 			textChatActions();
 		});
-
+		// when client sends a chat message
 		view.textChat.addActionListener((actionEvent) -> {
 			String text = view.textChat.getText();
 			client.sendMessage(text);
@@ -206,10 +205,7 @@ public class GameController {
 			if (server == null) {
 				view.logTextArea.append("You need to create a connection first...\n");
 			} else {
-
 				server.disconnectServer();
-
-				// disconnect clients?
 			}
 		});
 
