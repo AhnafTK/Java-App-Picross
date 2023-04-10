@@ -1,11 +1,33 @@
 package game;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 /**
@@ -16,7 +38,8 @@ import javax.swing.border.LineBorder;
  */
 public class GameView {
 
-	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow, clientWindow, serverWindow;
+	private JFrame designWindow, startWindow, splashWindow, instructionsWindow, gameCompleteWindow, picrossWindow,
+			clientWindow, serverWindow;
 	// Buttons for the splash screen
 	private JButton playButton, designButton, clientButton, serverButton, playToLauncher;
 	// Buttons to return back to previous JFrames
@@ -29,19 +52,22 @@ public class GameView {
 	// Buttons for the game completed window
 	private JButton gameCompleteSave = new JButton();
 	private JButton gameCompleteClose = new JButton();
-	protected JButton startServer, clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData, clientDesign; 
-	protected JButton leaderboardButton, disconnectServer, endConnections;
-	
+	// Buttons for the client and server
+	private JButton startServer, clientConnect, clientEnd, clientPlay, clientLoad, clientSendGame, clientSendData,
+			clientDesign;
+	private JButton leaderboardButton, disconnectServer;
+
 	// JTextField Declarations
 	// Text field for the score and timer in play
 	private JTextField scoreCounter, timerCounter;
 	// Text field for the name, best time, and best score when the game is completed
 	private JTextField nameTextField, bestTimeTextField, bestScoreTextField;
-	protected JTextField clientUserNameText, clientServerText, clientPortText;
-	protected JTextField serverPortText;
-	protected JTextField textChat;
-	protected JTextField gameChat;
-	
+	// Text fields for the client and server
+	private JTextField clientUserNameText, clientServerText, clientPortText;
+	private JTextField serverPortText;
+	private JTextField textChat;
+	private JTextField gameChat;
+
 	// JPanel Declarations
 	private JPanel languagePanel;
 	private JPanel languageButtonPanel;
@@ -98,11 +124,11 @@ public class GameView {
 	private JLabel bestScoreLabel = new JLabel();
 	private JLabel gridSizeLabel;
 	private JLabel langLabel;
-	private JLabel clientUserLabel; 
-	private JLabel clientServerLabel; 
+	private JLabel clientUserLabel;
+	private JLabel clientServerLabel;
 	private JLabel clientPortLabel;
 	private JLabel serverPortLabel;
-	
+
 	// Colour Declarations
 
 	/** Colour for when the tile is clicked correctly */
@@ -130,7 +156,7 @@ public class GameView {
 
 	/** Text area to display the input history */
 	protected JTextArea history;
-	protected JTextArea logTextArea;
+	private JTextArea logTextArea;
 	private JComboBox<String> gridSizeCmbo;
 	private JCheckBox markCheckBox;
 	private int gridSize = 5;
@@ -226,22 +252,21 @@ public class GameView {
 		playButton.setPreferredSize(new Dimension(100, 30));
 		playButton.setBackground(Color.WHITE);
 
-		
 		// Panel to hold the client and server buttons
 		JPanel serverPanel = new JPanel();
 		serverPanel.setBackground(new Color(17, 15, 15));
 		serverPanel.setPreferredSize(new Dimension(250, 40));
-		
+
 		// Creates the client button
 		clientButton = new JButton(langText.getString("client"));
 		clientButton.setPreferredSize(new Dimension(100, 30));
 		clientButton.setBackground(Color.WHITE);
-		
+
 		// Creates the server button
 		serverButton = new JButton(langText.getString("server"));
 		serverButton.setPreferredSize(new Dimension(100, 30));
 		serverButton.setBackground(Color.WHITE);
-		
+
 		// Adds the buttons to the panels
 		startPanel.add(designButton);
 		startPanel.add(playButton);
@@ -252,10 +277,10 @@ public class GameView {
 		JPanel launcherButtonsPanel = new JPanel();
 		launcherButtonsPanel.setBackground(new Color(17, 15, 15));
 		launcherButtonsPanel.setPreferredSize(new Dimension(100, 200));
-		
+
 		launcherButtonsPanel.add(startPanel);
 		launcherButtonsPanel.add(serverPanel);
-		
+
 		////////////////////////////////////////////////////////////////
 
 		// JFrame for the launcher/start window
@@ -296,7 +321,7 @@ public class GameView {
 		designWindow.pack();
 		designWindow.setResizable(false);
 		designWindow.setVisible(true);
-		//designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// designWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		designWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		designWindow.setSize(1000, 600);
 		designWindow.setLocationRelativeTo(null);
@@ -323,7 +348,7 @@ public class GameView {
 		// JFrame for the picross/game window
 		picrossWindow.setResizable(false);
 		picrossWindow.setVisible(true);
-		//picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// picrossWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		picrossWindow.setTitle("Picross - Skylar Phanenhour, Ahnaf Kamal");
 		picrossWindow.setSize(1000, 600);
 		picrossWindow.setLocationRelativeTo(null);
@@ -341,7 +366,7 @@ public class GameView {
 		clientWindow.setLayout(new BorderLayout());
 		clientWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		clientWindow.add(makeClientPanel(currentLocale, langText), BorderLayout.CENTER);
-		//clientWindow.add(makeServerLog());
+		// clientWindow.add(makeServerLog());
 		clientWindow.pack();
 		clientWindow.setResizable(false);
 		clientWindow.setVisible(true);
@@ -371,34 +396,46 @@ public class GameView {
 		serverWindow.setSize(600, 400);
 		serverWindow.setLocationRelativeTo(null);
 	}
-	
+
+	/**
+	 * Makes the server text area where the messages get displayed
+	 * 
+	 * @return - JPanel containing the text area and scroll bar.
+	 */
 	protected JPanel makeServerLog() {
 		JPanel serverLogPanel = new JPanel();
 		serverLogPanel.setLayout(new BorderLayout());
-		
+
 		logTextArea = new JTextArea();
 		logTextArea.setLineWrap(true);
 		logTextArea.setWrapStyleWord(true);
 		logTextArea.setPreferredSize(new Dimension(200, 10000));
 		logTextArea.setBorder(new LineBorder(new Color(17, 15, 15)));
 		logTextArea.setEditable(false);
-		
+
 		// Makes the scroll bar for our text area
-		JScrollPane logScroll = new JScrollPane(logTextArea);
+		JScrollPane logScroll = new JScrollPane(getLogTextArea());
 		logScroll.setPreferredSize(new Dimension(575, 125));
 		logScroll.getVerticalScrollBar().setUnitIncrement(10);
 		logScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		
+
 		textChat = new JTextField("Type to enter a chat: ");
 		textChat.setForeground(Color.GRAY);
 		textChat.setBorder(new LineBorder(new Color(17, 15, 15)));
-		
+
 		serverLogPanel.add(logScroll, BorderLayout.CENTER);
 		serverLogPanel.add(textChat, BorderLayout.SOUTH);
 
 		return serverLogPanel;
 	}
-	
+
+	/**
+	 * Makes the client panel, top level panel that stores sub components.
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 * @return - JPanel containing the sub-components
+	 */
 	protected JPanel makeClientPanel(Locale currentLocale, ResourceBundle langText) {
 		JPanel clientPanel = new JPanel();
 
@@ -408,61 +445,67 @@ public class GameView {
 		return clientPanel;
 	}
 
-	
+	/**
+	 * Makes a JPanel that stores all of the buttons/text fields/labels.
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 * @return - JPanel containing the components
+	 */
 	protected JPanel makeClientButtons(Locale currentLocale, ResourceBundle langText) {
 		JPanel clientButtonPanel = new JPanel();
 		clientButtonPanel.setPreferredSize(new Dimension(600, 75));
-		
+
+		/*
+		 * All of the client labels/text fields
+		 */
 		clientUserLabel = new JLabel(langText.getString("user") + ": ");
 		clientUserNameText = new JTextField();
 		clientUserNameText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		clientUserNameText.setPreferredSize(new Dimension(100, 25));
-		
+
 		clientServerLabel = new JLabel(langText.getString("server") + ": ");
 		clientServerText = new JTextField();
 		clientServerText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		clientServerText.setPreferredSize(new Dimension(100, 25));
-		
+
 		clientPortLabel = new JLabel(langText.getString("port") + ": ");
 		clientPortText = new JTextField();
 		clientPortText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		clientPortText.setPreferredSize(new Dimension(75, 25));
-		
-		
-		/****************************
-		 * TODO: the text for the buttons when french is selected, 
-		 * get cut off due to the size
-		 ****************************/
-		
+
+		/*
+		 * All of the client buttons
+		 */
 		clientConnect = new JButton(langText.getString("connect"));
 		clientConnect.setPreferredSize(new Dimension(90, 30));
 		clientConnect.setBackground(Color.WHITE);
-		
+
 		clientEnd = new JButton(langText.getString("end"));
 		clientEnd.setPreferredSize(new Dimension(60, 30));
 		clientEnd.setBackground(Color.WHITE);
-		
+
 		clientPlay = new JButton(langText.getString("play"));
 		clientPlay.setPreferredSize(new Dimension(75, 30));
 		clientPlay.setBackground(Color.WHITE);
-		
+
 		clientLoad = new JButton(langText.getString("load"));
 		clientLoad.setPreferredSize(new Dimension(75, 30));
 		clientLoad.setBackground(Color.WHITE);
-		
+
 		clientSendGame = new JButton(langText.getString("send_game"));
 		clientSendGame.setPreferredSize(new Dimension(100, 30));
 		clientSendGame.setBackground(Color.WHITE);
-		///clientSendGame.setEnabled(false);
-		
+
 		clientSendData = new JButton(langText.getString("send_data"));
 		clientSendData.setPreferredSize(new Dimension(100, 30));
-		clientSendData.setBackground(Color.WHITE);		
-		
+		clientSendData.setBackground(Color.WHITE);
+
 		clientDesign = new JButton(langText.getString("design"));
 		clientDesign.setPreferredSize(new Dimension(100, 30));
-		clientDesign.setBackground(Color.WHITE);		
-		
+		clientDesign.setBackground(Color.WHITE);
+
+		// Adds everything to a panel
 		clientButtonPanel.add(clientUserLabel);
 		clientButtonPanel.add(clientUserNameText);
 		clientButtonPanel.add(clientServerLabel);
@@ -476,9 +519,17 @@ public class GameView {
 		clientButtonPanel.add(clientSendGame);
 		clientButtonPanel.add(clientSendData);
 		clientButtonPanel.add(clientDesign);
+
 		return clientButtonPanel;
 	}
-	
+
+	/**
+	 * Makes the server panel, top level panel that stores sub components.
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 * @return - JPanel containing the components
+	 */
 	protected JPanel makeServerPanel(Locale currentLocale, ResourceBundle langText) {
 		JPanel serverPanel = new JPanel();
 
@@ -488,41 +539,50 @@ public class GameView {
 		return serverPanel;
 	}
 
-	
+	/**
+	 * Makes a JPanel that stores all of the buttons/text fields/labels.
+	 * 
+	 * @param currentLocale - Used to get the selected language.
+	 * @param langText      - Used to get the text from the language file.
+	 * @return - JPanel containing the components
+	 */
 	protected JPanel makeServerButtons(Locale currentLocale, ResourceBundle langText) {
 		JPanel serverButtonPanel = new JPanel();
 		serverButtonPanel.setPreferredSize(new Dimension(600, 50));
-		
+
+		/*
+		 * Port text field/label
+		 */
 		serverPortLabel = new JLabel(langText.getString("port") + ": ");
 		serverPortText = new JTextField();
 		serverPortText.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
 		serverPortText.setPreferredSize(new Dimension(75, 25));
-		
+
+		/*
+		 * All the server buttons
+		 */
 		leaderboardButton = new JButton(langText.getString("leaderboard"));
 		leaderboardButton.setPreferredSize(new Dimension(125, 30));
 		leaderboardButton.setBackground(Color.WHITE);
-		
+
 		startServer = new JButton(langText.getString("start_server"));
-		startServer.setPreferredSize(new Dimension(125,30));
+		startServer.setPreferredSize(new Dimension(125, 30));
 		startServer.setBackground(Color.WHITE);
-		
+
 		disconnectServer = new JButton(langText.getString("disconnect"));
 		disconnectServer.setPreferredSize(new Dimension(125, 30));
-		disconnectServer.setBackground(Color.WHITE);		
-		
-		//endConnections = new JButton(langText.getString("end"));
-		//endConnections.setPreferredSize(new Dimension(60, 30));
-		///endConnections.setBackground(Color.WHITE);		
-		
+		disconnectServer.setBackground(Color.WHITE);
+
+		// Adds everything to the panel
 		serverButtonPanel.add(serverPortLabel);
 		serverButtonPanel.add(serverPortText);
-		serverButtonPanel.add(startServer);
+		serverButtonPanel.add(getStartServer());
 		serverButtonPanel.add(disconnectServer);
-		serverButtonPanel.add(leaderboardButton);
-		//serverButtonPanel.add(endConnections);
+		serverButtonPanel.add(getLeaderboardButton());
+
 		return serverButtonPanel;
 	}
-	
+
 	/**
 	 * This method is used to make the menu bar and all its sub-menus
 	 * 
@@ -539,13 +599,20 @@ public class GameView {
 		// Creates all of the menu items for the game menu with text based on the
 		// selected languages and the associated image icons
 		gameMenuItemsContainer = new JMenu(langText.getString("game"));
-		newMenuOption = new JMenuItem(langText.getString("newBoard"),new ImageIcon(getClass().getResource("/images/newboard.jpg")));
-		exitMenuOption = new JMenuItem(langText.getString("exit"),new ImageIcon(getClass().getResource("/images/exit.jpg")));
-		resetMenuOption = new JMenuItem(langText.getString("reset"),new ImageIcon(getClass().getResource("/images/reset.jpg")));
-		solveMenuOption = new JMenuItem(langText.getString("solve"),new ImageIcon(getClass().getResource("/images/solve.jpg")));
-		toLauncherMenuOption = new JMenuItem(langText.getString("toLauncher"),new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
-		saveMenuOption = new JMenuItem(langText.getString("save"),new ImageIcon(getClass().getResource("/images/save.jpg")));
-		loadMenuOption = new JMenuItem(langText.getString("load"),new ImageIcon(getClass().getResource("/images/load.jpg")));
+		newMenuOption = new JMenuItem(langText.getString("newBoard"),
+				new ImageIcon(getClass().getResource("/images/newboard.jpg")));
+		exitMenuOption = new JMenuItem(langText.getString("exit"),
+				new ImageIcon(getClass().getResource("/images/exit.jpg")));
+		resetMenuOption = new JMenuItem(langText.getString("reset"),
+				new ImageIcon(getClass().getResource("/images/reset.jpg")));
+		solveMenuOption = new JMenuItem(langText.getString("solve"),
+				new ImageIcon(getClass().getResource("/images/solve.jpg")));
+		toLauncherMenuOption = new JMenuItem(langText.getString("toLauncher"),
+				new ImageIcon(getClass().getResource("/images/toLauncher.jpg")));
+		saveMenuOption = new JMenuItem(langText.getString("save"),
+				new ImageIcon(getClass().getResource("/images/save.jpg")));
+		loadMenuOption = new JMenuItem(langText.getString("load"),
+				new ImageIcon(getClass().getResource("/images/load.jpg")));
 		// Builds a sub-menu for the grid sizes
 		gridSizeItemsContainer = new JMenu(langText.getString("gridSize"));
 		gridSizeItemsContainer.setIcon(new ImageIcon(getClass().getResource("/images/gridSize.jpg")));
@@ -569,7 +636,7 @@ public class GameView {
 		// Adds the menu items for the play mode
 		else {
 			// add networking stuff
-			
+
 			gameMenuItemsContainer.add(newMenuOption);
 			gameMenuItemsContainer.add(resetMenuOption);
 			gameMenuItemsContainer.add(gridSizeItemsContainer);
@@ -586,7 +653,8 @@ public class GameView {
 		// Creates all of the menu items for the help menu with the selected language
 		// text and the associated image icons
 		helpMenuItemsContainer = new JMenu(langText.getString("help"));
-		aboutMenuOption = new JMenuItem(langText.getString("about"),new ImageIcon(getClass().getResource("/images/instructions.jpg")));
+		aboutMenuOption = new JMenuItem(langText.getString("about"),
+				new ImageIcon(getClass().getResource("/images/instructions.jpg")));
 		// Builds a sub-menu for the color choosers
 		colourMenu = new JMenu(langText.getString("colours"));
 		colourMenu.setIcon(new ImageIcon(getClass().getResource("/images/colors.jpg")));
@@ -607,7 +675,6 @@ public class GameView {
 		networkingMenuItemsContainer.add(clientMenuOption);
 		networkingMenuItemsContainer.add(serverMenuOption);
 
-		
 		// Adds the game and help menus into the menubar
 		menuBar.add(gameMenuItemsContainer);
 		menuBar.add(helpMenuItemsContainer);
@@ -827,14 +894,13 @@ public class GameView {
 		controlPanel = new JPanel();
 		controlPanel.setPreferredSize(new Dimension(250, 400));
 		controlPanel.add(makeHistoryPanel());
-		
 
-		gameChat = new JTextField("Type to enter a chat: ");	
-		gameChat.setPreferredSize(new Dimension(200, 75));
-		gameChat.setForeground(Color.GRAY);
-		gameChat.setBorder(new LineBorder(new Color(17, 15, 15)));
+		setGameChat(new JTextField("Type to enter a chat: "));
+		getGameChat().setPreferredSize(new Dimension(200, 75));
+		getGameChat().setForeground(Color.GRAY);
+		getGameChat().setBorder(new LineBorder(new Color(17, 15, 15)));
 
-		controlPanel.add(gameChat);
+		controlPanel.add(getGameChat());
 		return controlPanel;
 	}
 
@@ -861,14 +927,12 @@ public class GameView {
 			rowPanel.add(rowLabel);
 		}
 
-
 		// Checks if the mark check box is selected
 		markCheckBox = new JCheckBox(langText.getString("mark"));
 		if (markMode == true) {
 			markCheckBox.setSelected(true);
 		}
 		markCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
-
 
 		// Col panel to store the labels vertically
 		colPanel = new JPanel();
@@ -951,7 +1015,7 @@ public class GameView {
 		// Gets the text from the ResourceBundle and sets it everywhere needed
 		clientButton.setText(langText.getString("client"));
 		serverButton.setText(langText.getString("server"));
-		timerLabel.setText(langText.getString("timer"));	
+		timerLabel.setText(langText.getString("timer"));
 		scoreLabel.setText(langText.getString("score"));
 		userNameLabel.setText(langText.getString("user_name"));
 		bestTimeLabel.setText(langText.getString("best_time"));
@@ -991,9 +1055,9 @@ public class GameView {
 	 * @param bestTime      - Gets the final time when the game is complete
 	 */
 	protected void gameCompleted(Locale currentLocale, ResourceBundle langText, int bestScore, int bestTime) {
-		
+
 		// Panel for the username label and text field
-		userNameLabel = new JLabel("<html>"+langText.getString("user_name")+"</html>", SwingConstants.CENTER);
+		userNameLabel = new JLabel("<html>" + langText.getString("user_name") + "</html>", SwingConstants.CENTER);
 		userNameLabel.setPreferredSize(new Dimension(110, 25));
 		nameTextField = new JTextField();
 		nameTextField.setBorder(new LineBorder((new Color(17, 15, 15)), 1));
@@ -1073,7 +1137,8 @@ public class GameView {
 		gameCompleteWindow.add(makeTitlePanel(), BorderLayout.NORTH);
 		gameCompleteWindow.add(statsPanel, BorderLayout.WEST);
 		gameCompleteWindow.add(gameOverRightPanel, BorderLayout.EAST);
-		//gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf Kamal");
+		// gameCompleteWindow.setTitle("Game Complete - Skylar Phanenhour, Ahnaf
+		// Kamal");
 		gameCompleteWindow.setTitle(langText.getString("game_complete"));
 		gameCompleteWindow.setResizable(false);
 		gameCompleteWindow.setSize(525, 300);
@@ -1170,1077 +1235,1212 @@ public class GameView {
 		viewCols = new String[gridSize];
 	}
 
-	/**	 
+	/**
 	 * Get the viewRows
+	 * 
 	 * @return the viewRows
 	 */
 	protected String[] getViewRows() {
 		return viewRows;
 	}
 
-	/**	 
+	/**
 	 * Set the viewRows
+	 * 
 	 * @param viewRows the viewRows to set
 	 */
 	protected void setViewRows(String[] viewRows) {
 		this.viewRows = viewRows;
 	}
 
-	/**	 
+	/**
 	 * Get the viewCols
+	 * 
 	 * @return the viewCols
 	 */
 	protected String[] getViewCols() {
 		return viewCols;
 	}
 
-	/**	 
+	/**
 	 * Set the viewCols
+	 * 
 	 * @param viewCols the viewCols to set
 	 */
 	protected void setViewCols(String[] viewCols) {
 		this.viewCols = viewCols;
 	}
 
-	/**	 
+	/**
 	 * Get the nameTextField
+	 * 
 	 * @return the nameTextField
 	 */
 	protected JTextField getNameTextField() {
 		return nameTextField;
 	}
 
-	/**	 
+	/**
 	 * Set the nameTextField
+	 * 
 	 * @param nameTextField the nameTextField to set
 	 */
 	protected void setNameTextField(JTextField nameTextField) {
 		this.nameTextField = nameTextField;
 	}
 
-	/**	 
+	/**
 	 * Get the viewRowLabels
+	 * 
 	 * @return the viewRowLabels
 	 */
 	protected String[] getViewRowLabels() {
 		return viewRowLabels;
 	}
 
-	/**	 
+	/**
 	 * Set the viewRowLabels
+	 * 
 	 * @param viewRowLabels the viewRowLabels to set
 	 */
 	protected void setViewRowLabels(String[] viewRowLabels) {
 		this.viewRowLabels = viewRowLabels;
 	}
 
-	/**	 
+	/**
 	 * Get the viewColLabels
+	 * 
 	 * @return the viewColLabels
 	 */
 	protected String[] getViewColLabels() {
 		return viewColLabels;
 	}
 
-	/**	 
+	/**
 	 * Set the viewColLabels
+	 * 
 	 * @param viewColLabels the viewColLabels to set
 	 */
 	protected void setViewColLabels(String[] viewColLabels) {
 		this.viewColLabels = viewColLabels;
 	}
 
-	/**	 
+	/**
 	 * Get the gameCompleteSave
+	 * 
 	 * @return the gameCompleteSave
 	 */
 	protected JButton getGameCompleteSave() {
 		return gameCompleteSave;
 	}
 
-	/**	 
+	/**
 	 * Set the gameCompleteSave
+	 * 
 	 * @param gameCompleteSave the gameCompleteSave to set
 	 */
 	protected void setGameCompleteSave(JButton gameCompleteSave) {
 		this.gameCompleteSave = gameCompleteSave;
 	}
 
-	/**	 
+	/**
 	 * Get the gameCompleteClose
+	 * 
 	 * @return the gameCompleteClose
 	 */
 	protected JButton getGameCompleteClose() {
 		return gameCompleteClose;
 	}
 
-	/**	 
+	/**
 	 * Set the gameCompleteClose
+	 * 
 	 * @param gameCompleteClose the gameCompleteClose to set
 	 */
 	protected void setGameCompleteClose(JButton gameCompleteClose) {
 		this.gameCompleteClose = gameCompleteClose;
 	}
 
-	/**	 
+	/**
 	 * Get the instructionsButton
+	 * 
 	 * @return the instructionsButton
 	 */
 	protected JButton getInstructionsButton() {
 		return instructionsButton;
 	}
 
-	/**	 
+	/**
 	 * Set the instructionsButton
+	 * 
 	 * @param instructionsButton the instructionsButton to set
 	 */
 	protected void setInstructionsButton(JButton instructionsButton) {
 		this.instructionsButton = instructionsButton;
 	}
 
-	/**	 
+	/**
 	 * Get the instructionsBack
+	 * 
 	 * @return the instructionsBack
 	 */
 	protected JButton getInstructionsBack() {
 		return instructionsBack;
 	}
 
-	/**	 
+	/**
 	 * Set the instructionsBack
+	 * 
 	 * @param instructionsBack the instructionsBack to set
 	 */
 	protected void setInstructionsBack(JButton instructionsBack) {
 		this.instructionsBack = instructionsBack;
 	}
 
-	/**	 
+	/**
 	 * Get the designWindow
+	 * 
 	 * @return the designWindow
 	 */
 	protected JFrame getDesignWindow() {
 		return designWindow;
 	}
 
-	/**	 
+	/**
 	 * Get the gameCompleteWindow
+	 * 
 	 * @return the gameCompleteWindow
 	 */
 	protected JFrame getGameCompleteWindow() {
 		return gameCompleteWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the gameCompleteWindow
+	 * 
 	 * @param gameCompleteWindow the gameCompleteWindow to set
 	 */
 	protected void setGameCompleteWindow(JFrame gameCompleteWindow) {
 		this.gameCompleteWindow = gameCompleteWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the designWindow
+	 * 
 	 * @param designWindow the designWindow to set
 	 */
 	protected void setDesignWindow(JFrame designWindow) {
 		this.designWindow = designWindow;
 	}
 
-	/**	 
+	/**
 	 * Get the startWindow
+	 * 
 	 * @return the startWindow
 	 */
 	protected JFrame getStartWindow() {
 		return startWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the startWindow
+	 * 
 	 * @param startWindow the startWindow to set
 	 */
 	protected void setStartWindow(JFrame startWindow) {
 		this.startWindow = startWindow;
 	}
 
-	/**	 
+	/**
 	 * Get the instructionsWindow
+	 * 
 	 * @return the instructionsWindow
 	 */
 	protected JFrame getInstructionsWindow() {
 		return instructionsWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the instructionsWindow
+	 * 
 	 * @param instructionsWindow the instructionsWindow to set
 	 */
 	protected void setInstructionsWindow(JFrame instructionsWindow) {
 		this.instructionsWindow = instructionsWindow;
 	}
 
-	/**	 
+	/**
 	 * Get the picrossWindow
+	 * 
 	 * @return the picrossWindow
 	 */
 	protected JFrame getPicrossWindow() {
 		return picrossWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the picrossWindow
+	 * 
 	 * @param picrossWindow the picrossWindow to set
 	 */
 	protected void setPicrossWindow(JFrame picrossWindow) {
 		this.picrossWindow = picrossWindow;
 	}
 
-	/**	 
+	/**
 	 * Get the clientWindow
+	 * 
 	 * @return the clientWindow
 	 */
 	protected JFrame getClientWindow() {
 		return clientWindow;
 	}
 
-	/**	 
+	/**
 	 * Set the clientWindow
+	 * 
 	 * @param clientWindow the clientWindow to set
 	 */
 	protected void setClientWindow(JFrame clientWindow) {
 		this.clientWindow = clientWindow;
 	}
-	
-	/**	 
+
+	/**
 	 * Get the gridSizeCmbo
+	 * 
 	 * @return the gridSizeCmbo
 	 */
 	protected JComboBox<String> getGridSizeCmbo() {
 		return gridSizeCmbo;
 	}
 
-	/**	 
+	/**
 	 * Set the gridSizeCmbo
+	 * 
 	 * @param gridSizeCmbo the gridSizeCmbo to set
 	 */
 	protected void setGridSizeCmbo(JComboBox<String> gridSizeCmbo) {
 		this.gridSizeCmbo = gridSizeCmbo;
 	}
 
-	/**	 
+	/**
 	 * Get the playButton
+	 * 
 	 * @return the playButton
 	 */
 	protected JButton getPlayButton() {
 		return playButton;
 	}
 
-	/**	 
+	/**
 	 * Set the playButton
+	 * 
 	 * @param playButton the playButton to set
 	 */
 	protected void setPlayButton(JButton playButton) {
 		this.playButton = playButton;
 	}
 
-	/**	 
+	/**
 	 * Get the designButton
+	 * 
 	 * @return the designButton
 	 */
 	protected JButton getDesignButton() {
 		return designButton;
 	}
 
-	/**	 
+	/**
 	 * Set the designButton
+	 * 
 	 * @param designButton the designButton to set
 	 */
 	protected void setDesignButton(JButton designButton) {
 		this.designButton = designButton;
 	}
 
-	/**	 
+	/**
 	 * Get the clientButton
+	 * 
 	 * @return the clientButton
 	 */
 	protected JButton getClientButton() {
 		return clientButton;
 	}
 
-	/**	 
+	/**
 	 * Set the clientButton
+	 * 
 	 * @param clientButton the clientButton to set
 	 */
 	protected void setClientButton(JButton clientButton) {
 		this.clientButton = clientButton;
 	}
-	
-	/**	 
+
+	/**
 	 * Get the serverButton
+	 * 
 	 * @return the serverButton
 	 */
 	protected JButton getServerButton() {
 		return serverButton;
 	}
 
-	/**	 
+	/**
 	 * Set the serverButton
+	 * 
 	 * @param serverButton the serverButton to set
 	 */
 	protected void setServerButton(JButton serverButton) {
 		this.serverButton = serverButton;
 	}
-	
-	/**	 
+
+	/**
 	 * Get the designBack
+	 * 
 	 * @return the designBack
 	 */
 	protected JButton getDesignBack() {
 		return designBack;
 	}
 
-	/**	 
+	/**
 	 * Set the designBack
+	 * 
 	 * @param designBack the designBack to set
 	 */
 	protected void setDesignBack(JButton designBack) {
 		this.designBack = designBack;
 	}
 
-	/**	 
+	/**
 	 * Get the resetButton
+	 * 
 	 * @return the resetButton
 	 */
 	protected JButton getResetButton() {
 		return resetButton;
 	}
 
-	/**	 
+	/**
 	 * Set the resetButton
+	 * 
 	 * @param resetButton the resetButton to set
 	 */
 	protected void setResetButton(JButton resetButton) {
 		this.resetButton = resetButton;
 	}
 
-	/**	 
+	/**
 	 * Get the solveButton
+	 * 
 	 * @return the solveButton
 	 */
 	protected JButton getSolveButton() {
 		return solveButton;
 	}
 
-	/**	 
+	/**
 	 * Set the solveButton
+	 * 
 	 * @param solveButton the solveButton to set
 	 */
 	protected void setSolveButton(JButton solveButton) {
 		this.solveButton = solveButton;
 	}
 
-	/**	 
+	/**
 	 * Get the newBoardButton
+	 * 
 	 * @return the newBoardButton
 	 */
 	protected JButton getNewBoardButton() {
 		return newBoardButton;
 	}
 
-	/**	 
+	/**
 	 * Set the newBoardButton
+	 * 
 	 * @param newBoardButton the newBoardButton to set
 	 */
 	protected void setNewBoardButton(JButton newBoardButton) {
 		this.newBoardButton = newBoardButton;
 	}
 
-	/**	 
+	/**
 	 * Get the buttonsPlay
+	 * 
 	 * @return the buttonsPlay
 	 */
 	protected JButton[][] getButtons() {
 		return buttonsPlay;
 	}
 
-	/**	 
+	/**
 	 * Set the buttonsPlay
+	 * 
 	 * @param buttonsPlay the buttonsPlay to set
 	 */
 	protected void setButtons(JButton[][] buttonsPlay) {
 		this.buttonsPlay = buttonsPlay;
 	}
 
-	/**	 
+	/**
 	 * Get the playToLauncher
+	 * 
 	 * @return the playToLauncher
 	 */
 	protected JButton getPlayToLauncher() {
 		return playToLauncher;
 	}
 
-	/**	 
+	/**
 	 * Set the playToLauncher
+	 * 
 	 * @param playToLauncher the playToLauncher to set
 	 */
 	protected void setPlayToLauncher(JButton playToLauncher) {
 		this.playToLauncher = playToLauncher;
 	}
 
-	/**	 
+	/**
 	 * Get the engRadio
+	 * 
 	 * @return the engRadio
 	 */
 	protected JRadioButton getEngRadio() {
 		return engRadio;
 	}
 
-	/**	 
+	/**
 	 * Set the engRadio
+	 * 
 	 * @param engRadio the engRadio to set
 	 */
 	protected void setEngRadio(JRadioButton engRadio) {
 		this.engRadio = engRadio;
 	}
 
-	/**	 
+	/**
 	 * Get the frRadio
+	 * 
 	 * @return the frRadio
 	 */
 	protected JRadioButton getFrRadio() {
 		return frRadio;
 	}
 
-	/**	 
+	/**
 	 * Set the frRadio
+	 * 
 	 * @param frRadio the frRadio to set
 	 */
 	protected void setFrRadio(JRadioButton frRadio) {
 		this.frRadio = frRadio;
 	}
 
-	/**	 
+	/**
 	 * Get the leftPanel
+	 * 
 	 * @return the leftPanel
 	 */
 	protected JPanel getLeftPanel() {
 		return leftPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the leftPanel
+	 * 
 	 * @param leftPanel the leftPanel to set
 	 */
 	protected void setLeftPanel(JPanel leftPanel) {
 		this.leftPanel = leftPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the boardPanel
+	 * 
 	 * @return the boardPanel
 	 */
 	protected JPanel getBoardPanel() {
 		return boardPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the boardPanel
+	 * 
 	 * @param boardPanel the boardPanel to set
 	 */
 	protected void setBoardPanel(JPanel boardPanel) {
 		this.boardPanel = boardPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the markCheckBox
+	 * 
 	 * @return the markCheckBox
 	 */
 	protected JCheckBox getMarkCheckBox() {
 		return markCheckBox;
 	}
 
-	/**	 
+	/**
 	 * Set the markCheckBox
+	 * 
 	 * @param markCheckBox the markCheckBox to set
 	 */
 	protected void setMarkCheckBox(JCheckBox markCheckBox) {
 		this.markCheckBox = markCheckBox;
 	}
 
-	/**	 
+	/**
 	 * Get the scoreCounter
+	 * 
 	 * @return the scoreCounter
 	 */
 	protected JTextField getScoreCounter() {
 		return scoreCounter;
 	}
 
-	/**	 
+	/**
 	 * Set the scoreCounter
+	 * 
 	 * @param scoreCounter the scoreCounter to set
 	 */
 	protected void setScoreCounter(JTextField scoreCounter) {
 		this.scoreCounter = scoreCounter;
 	}
 
-	/**	 
+	/**
 	 * Get the timerCounter
+	 * 
 	 * @return the timerCounter
 	 */
 	protected JTextField getTimerCounter() {
 		return timerCounter;
 	}
 
-	/**	 
+	/**
 	 * Set the timerCounter
+	 * 
 	 * @param timerCounter the timerCounter to set
 	 */
 	protected void setTimerCounter(JTextField timerCounter) {
 		this.timerCounter = timerCounter;
 	}
 
-	/**	 
+	/**
 	 * Get the timerLabel
+	 * 
 	 * @return the timerLabel
 	 */
 	protected JLabel getTimerLabel() {
 		return timerLabel;
 	}
 
-	/**	 
+	/**
 	 * Set the timerLabel
+	 * 
 	 * @param timerLabel the timerLabel to set
 	 */
 	protected void setTimerLabel(JLabel timerLabel) {
 		this.timerLabel = timerLabel;
 	}
 
-	/**	 
+	/**
 	 * Get the scoreLabel
+	 * 
 	 * @return the scoreLabel
 	 */
 	protected JLabel getScoreLabel() {
 		return scoreLabel;
 	}
 
-	/**	 
+	/**
 	 * Set the scoreLabel
+	 * 
 	 * @param scoreLabel the scoreLabel to set
 	 */
 	protected void setScoreLabel(JLabel scoreLabel) {
 		this.scoreLabel = scoreLabel;
 	}
 
-	/**	 
+	/**
 	 * Get the gridSizeLabel
+	 * 
 	 * @return the gridSizeLabel
 	 */
 	protected JLabel getGridSizeLabel() {
 		return gridSizeLabel;
 	}
 
-	/**	 
+	/**
 	 * Set the gridSizeLabel
+	 * 
 	 * @param gridSizeLabel the gridSizeLabel to set
 	 */
 	protected void setGridSizeLabel(JLabel gridSizeLabel) {
 		this.gridSizeLabel = gridSizeLabel;
 	}
 
-	/**	 
+	/**
 	 * Get the langLabel
+	 * 
 	 * @return the langLabel
 	 */
 	protected JLabel getLangLabel() {
 		return langLabel;
 	}
 
-	/**	 
+	/**
 	 * Set the langLabel
+	 * 
 	 * @param langLabel the langLabel to set
 	 */
 	protected void setLangLabel(JLabel langLabel) {
 		this.langLabel = langLabel;
 	}
 
-	/**	 
+	/**
 	 * Get the languagePanel
+	 * 
 	 * @return the languagePanel
 	 */
 	protected JPanel getLanguagePanel() {
 		return languagePanel;
 	}
 
-	/**	 
+	/**
 	 * Set the languagePanel
+	 * 
 	 * @param languagePanel the languagePanel to set
 	 */
 	protected void setLanguagePanel(JPanel languagePanel) {
 		this.languagePanel = languagePanel;
 	}
 
-	/**	 
+	/**
 	 * Get the languageButtonPanel
+	 * 
 	 * @return the languageButtonPanel
 	 */
 	protected JPanel getLanguageButtonPanel() {
 		return languageButtonPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the languageButtonPanel
+	 * 
 	 * @param languageButtonPanel the languageButtonPanel to set
 	 */
 	protected void setLanguageButtonPanel(JPanel languageButtonPanel) {
 		this.languageButtonPanel = languageButtonPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the gridSizeComboPanel
+	 * 
 	 * @return the gridSizeComboPanel
 	 */
 	protected JPanel getGridSizeComboPanel() {
 		return gridSizeComboPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the gridSizeComboPanel
+	 * 
 	 * @param gridSizeComboPanel the gridSizeComboPanel to set
 	 */
 	protected void setGridSizeComboPanel(JPanel gridSizeComboPanel) {
 		this.gridSizeComboPanel = gridSizeComboPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the scorePanel
+	 * 
 	 * @return the scorePanel
 	 */
 	protected JPanel getScorePanel() {
 		return scorePanel;
 	}
 
-	/**	 
+	/**
 	 * Set the scorePanel
+	 * 
 	 * @param scorePanel the scorePanel to set
 	 */
 	protected void setScorePanel(JPanel scorePanel) {
 		this.scorePanel = scorePanel;
 	}
 
-	/**	 
+	/**
 	 * Get the timerPanel
+	 * 
 	 * @return the timerPanel
 	 */
 	protected JPanel getTimerPanel() {
 		return timerPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the timerPanel
+	 * 
 	 * @param timerPanel the timerPanel to set
 	 */
 	protected void setTimerPanel(JPanel timerPanel) {
 		this.timerPanel = timerPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the buttonPanel
+	 * 
 	 * @return the buttonPanel
 	 */
 	protected JPanel getButtonPanel() {
 		return buttonPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the buttonPanel
+	 * 
 	 * @param buttonPanel the buttonPanel to set
 	 */
 	protected void setButtonPanel(JPanel buttonPanel) {
 		this.buttonPanel = buttonPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the configurationPanel
+	 * 
 	 * @return the configurationPanel
 	 */
 	protected JPanel getConfigurationPanel() {
 		return configurationPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the configurationPanel
+	 * 
 	 * @param configurationPanel the configurationPanel to set
 	 */
 	protected void setConfigurationPanel(JPanel configurationPanel) {
 		this.configurationPanel = configurationPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the historyPanel
+	 * 
 	 * @return the historyPanel
 	 */
 	protected JPanel getHistoryPanel() {
 		return historyPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the historyPanel
+	 * 
 	 * @param historyPanel the historyPanel to set
 	 */
 	protected void setHistoryPanel(JPanel historyPanel) {
 		this.historyPanel = historyPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the controlPanel
+	 * 
 	 * @return the controlPanel
 	 */
 	protected JPanel getControlPanel() {
 		return controlPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the controlPanel
+	 * 
 	 * @param controlPanel the controlPanel to set
 	 */
 	protected void setControlPanel(JPanel controlPanel) {
 		this.controlPanel = controlPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the colPanel
+	 * 
 	 * @return the colPanel
 	 */
 	protected JPanel getColPanel() {
 		return colPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the colPanel
+	 * 
 	 * @param colPanel the colPanel to set
 	 */
 	protected void setColPanel(JPanel colPanel) {
 		this.colPanel = colPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the rowPanel
+	 * 
 	 * @return the rowPanel
 	 */
 	protected JPanel getRowPanel() {
 		return rowPanel;
 	}
 
-	/**	 
+	/**
 	 * Set the rowPanel
+	 * 
 	 * @param rowPanel the rowPanel to set
 	 */
 	protected void setRowPanel(JPanel rowPanel) {
 		this.rowPanel = rowPanel;
 	}
 
-	/**	 
+	/**
 	 * Get the newMenuItem
+	 * 
 	 * @return the newMenuItem
 	 */
 	protected JMenuItem getNewMenuItem() {
 		return newMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Set the newMenuItem
+	 * 
 	 * @param newMenuItem the newMenuItem to set
 	 */
 	protected void setNewMenuItem(JMenuItem newMenuItem) {
 		this.newMenuItem = newMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Get the solutionMenuItem
+	 * 
 	 * @return the solutionMenuItem
 	 */
 	protected JMenuItem getSolutionMenuItem() {
 		return solutionMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Set the solutionMenuItem
+	 * 
 	 * @param solutionMenuItem the solutionMenuItem to set
 	 */
 	protected void setSolutionMenuItem(JMenuItem solutionMenuItem) {
 		this.solutionMenuItem = solutionMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Get the exitMenuItem
+	 * 
 	 * @return the exitMenuItem
 	 */
 	protected JMenuItem getExitMenuItem() {
 		return exitMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Set the exitMenuItem
+	 * 
 	 * @param exitMenuItem the exitMenuItem to set
 	 */
 	protected void setExitMenuItem(JMenuItem exitMenuItem) {
 		this.exitMenuItem = exitMenuItem;
 	}
 
-	/**	 
+	/**
 	 * Get the backgroundColour
+	 * 
 	 * @return the backgroundColour
 	 */
 	protected JMenuItem getBackgroundColour() {
 		return backgroundColour;
 	}
 
-	/**	 
+	/**
 	 * Set the backgroundColour
+	 * 
 	 * @param backgroundColour the backgroundColour to set
 	 */
 	protected void setBackgroundColour(JMenuItem backgroundColour) {
 		this.backgroundColour = backgroundColour;
 	}
 
-	/**	 
+	/**
 	 * Get the textColour
+	 * 
 	 * @return the textColour
 	 */
 	protected JMenuItem getTextColour() {
 		return textColour;
 	}
 
-	/**	 
+	/**
 	 * Set the textColour
+	 * 
 	 * @param textColour the textColour to set
 	 */
 	protected void setTextColour(JMenuItem textColour) {
 		this.textColour = textColour;
 	}
 
-	/**	 
+	/**
 	 * Get the componentColour
+	 * 
 	 * @return the componentColour
 	 */
 	protected JMenuItem getComponentColour() {
 		return componentColour;
 	}
 
-	/**	 
+	/**
 	 * Set the componentColour
+	 * 
 	 * @param componentColour the componentColour to set
 	 */
 	protected void setComponentColour(JMenuItem componentColour) {
 		this.componentColour = componentColour;
 	}
 
-	/**	 
+	/**
 	 * Get the aboutMenu
+	 * 
 	 * @return the aboutMenu
 	 */
 	protected JMenuItem getAboutMenu() {
 		return aboutMenu;
 	}
 
-	/**	 
+	/**
 	 * Set the aboutMenu
+	 * 
 	 * @param aboutMenu the aboutMenu to set
 	 */
 	protected void setAboutMenu(JMenuItem aboutMenu) {
 		this.aboutMenu = aboutMenu;
 	}
 
-	/**	 
+	/**
 	 * Get the gameMenu
+	 * 
 	 * @return the gameMenu
 	 */
 	protected JMenuItem getGameMenu() {
 		return gameMenu;
 	}
 
-	/**	 
+	/**
 	 * Set the gameMenu
+	 * 
 	 * @param gameMenu the gameMenu to set
 	 */
 	protected void setGameMenu(JMenuItem gameMenu) {
 		this.gameMenu = gameMenu;
 	}
 
-	/**	 
+	/**
 	 * Get the newMenuOption
+	 * 
 	 * @return the newMenuOption
 	 */
 	protected JMenuItem getNewMenuOption() {
 		return newMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the newMenuOption
+	 * 
 	 * @param newMenuOption the newMenuOption to set
 	 */
 	protected void setNewMenuOption(JMenuItem newMenuOption) {
 		this.newMenuOption = newMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the exitMenuOption
+	 * 
 	 * @return the exitMenuOption
 	 */
 	protected JMenuItem getExitMenuOption() {
 		return exitMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the exitMenuOption
+	 * 
 	 * @param exitMenuOption the exitMenuOption to set
 	 */
 	protected void setExitMenuOption(JMenuItem exitMenuOption) {
 		this.exitMenuOption = exitMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the resetMenuOption
+	 * 
 	 * @return the resetMenuOption
 	 */
 	protected JMenuItem getResetMenuOption() {
 		return resetMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the resetMenuOption
+	 * 
 	 * @param resetMenuOption the resetMenuOption to set
 	 */
 	protected void setResetMenuOption(JMenuItem resetMenuOption) {
 		this.resetMenuOption = resetMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the solveMenuOption
+	 * 
 	 * @return the solveMenuOption
 	 */
 	protected JMenuItem getSolveMenuOption() {
 		return solveMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the solveMenuOption
+	 * 
 	 * @param solveMenuOption the solveMenuOption to set
 	 */
 	protected void setSolveMenuOption(JMenuItem solveMenuOption) {
 		this.solveMenuOption = solveMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the toLauncherMenuOption
+	 * 
 	 * @return the toLauncherMenuOption
 	 */
 	protected JMenuItem getToLauncherMenuOption() {
 		return toLauncherMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the toLauncherMenuOption
+	 * 
 	 * @param toLauncherMenuOption the toLauncherMenuOption to set
 	 */
 	protected void setToLauncherMenuOption(JMenuItem toLauncherMenuOption) {
 		this.toLauncherMenuOption = toLauncherMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the saveMenuOption
+	 * 
 	 * @return the saveMenuOption
 	 */
 	protected JMenuItem getSaveMenuOption() {
 		return saveMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the saveMenuOption
+	 * 
 	 * @param saveMenuOption the saveMenuOption to set
 	 */
 	protected void setSaveMenuOption(JMenuItem saveMenuOption) {
 		this.saveMenuOption = saveMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the loadMenuOption
+	 * 
 	 * @return the loadMenuOption
 	 */
 	protected JMenuItem getLoadMenuOption() {
 		return loadMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the loadMenuOption
+	 * 
 	 * @param loadMenuOption the loadMenuOption to set
 	 */
 	protected void setLoadMenuOption(JMenuItem loadMenuOption) {
 		this.loadMenuOption = loadMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the aboutMenuOption
+	 * 
 	 * @return the aboutMenuOption
 	 */
 	protected JMenuItem getAboutMenuOption() {
 		return aboutMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Set the aboutMenuOption
+	 * 
 	 * @param aboutMenuOption the aboutMenuOption to set
 	 */
 	protected void setAboutMenuOption(JMenuItem aboutMenuOption) {
 		this.aboutMenuOption = aboutMenuOption;
 	}
 
-	/**	 
+	/**
 	 * Get the fiveFive
+	 * 
 	 * @return the fiveFive
 	 */
 	protected JMenuItem getFiveFive() {
 		return fiveFive;
 	}
 
-	/**	 
+	/**
 	 * Set the fiveFive
+	 * 
 	 * @param fiveFive the fiveFive to set
 	 */
 	protected void setFiveFive(JMenuItem fiveFive) {
 		this.fiveFive = fiveFive;
 	}
 
-	/**	 
+	/**
 	 * Get the sixSix
+	 * 
 	 * @return the sixSix
 	 */
 	protected JMenuItem getSixSix() {
 		return sixSix;
 	}
 
-	/**	 
+	/**
 	 * Set the sixSix
+	 * 
 	 * @param sixSix the sixSix to set
 	 */
 	protected void setSixSix(JMenuItem sixSix) {
 		this.sixSix = sixSix;
 	}
 
-	/**	 
+	/**
 	 * Get the sevSev
+	 * 
 	 * @return the sevSev
 	 */
 	protected JMenuItem getSevSev() {
 		return sevSev;
 	}
 
-	/**	 
+	/**
 	 * Set the sevSev
+	 * 
 	 * @param sevSev the sevSev to set
 	 */
 	protected void setSevSev(JMenuItem sevSev) {
 		this.sevSev = sevSev;
 	}
+
 	/**
 	 * @return the clientMenuOption
 	 */
@@ -2263,10 +2463,299 @@ public class GameView {
 	}
 
 	/**
+	 * Set the serverMenuOption
+	 * 
 	 * @param serverMenuOption the serverMenuOption to set
 	 */
 	protected void setServerMenuOption(JMenuItem serverMenuOption) {
 		this.serverMenuOption = serverMenuOption;
 	}
-	
+
+	/**
+	 * @return the startServer
+	 */
+	public JButton getStartServer() {
+		return startServer;
+	}
+
+	/**
+	 * Set the startServer
+	 * 
+	 * @param startServer the startServer to set
+	 */
+	public void setStartServer(JButton startServer) {
+		this.startServer = startServer;
+	}
+
+	/**
+	 * @return the leaderboardButton
+	 */
+	public JButton getLeaderboardButton() {
+		return leaderboardButton;
+	}
+
+	/**
+	 * Set the leaderboardButton
+	 * 
+	 * @param leaderboardButton the leaderboardButton to set
+	 */
+	public void setLeaderboardButton(JButton leaderboardButton) {
+		this.leaderboardButton = leaderboardButton;
+	}
+
+	/**
+	 * @return the serverWindow
+	 */
+	public JFrame getServerWindow() {
+		return serverWindow;
+	}
+
+	/**
+	 * Set the serverWindow
+	 * 
+	 * @param serverWindow the serverWindow to set
+	 */
+	public void setServerWindow(JFrame serverWindow) {
+		this.serverWindow = serverWindow;
+	}
+
+	/**
+	 * @return the clientConnect
+	 */
+	public JButton getClientConnect() {
+		return clientConnect;
+	}
+
+	/**
+	 * Set the clientConnect
+	 * 
+	 * @param clientConnect the clientConnect to set
+	 */
+	public void setClientConnect(JButton clientConnect) {
+		this.clientConnect = clientConnect;
+	}
+
+	/**
+	 * @return the clientEnd
+	 */
+	public JButton getClientEnd() {
+		return clientEnd;
+	}
+
+	/**
+	 * Set the clientEnd
+	 * 
+	 * @param clientEnd the clientEnd to set
+	 */
+	public void setClientEnd(JButton clientEnd) {
+		this.clientEnd = clientEnd;
+	}
+
+	/**
+	 * @return the clientPlay
+	 */
+	public JButton getClientPlay() {
+		return clientPlay;
+	}
+
+	/**
+	 * Set the clientPlay
+	 * 
+	 * @param clientPlay the clientPlay to set
+	 */
+	public void setClientPlay(JButton clientPlay) {
+		this.clientPlay = clientPlay;
+	}
+
+	/**
+	 * @return the clientLoad
+	 */
+	public JButton getClientLoad() {
+		return clientLoad;
+	}
+
+	/**
+	 * Set the clientLoad
+	 * 
+	 * @param clientLoad the clientLoad to set
+	 */
+	public void setClientLoad(JButton clientLoad) {
+		this.clientLoad = clientLoad;
+	}
+
+	/**
+	 * @return the clientSendGame
+	 */
+	public JButton getClientSendGame() {
+		return clientSendGame;
+	}
+
+	/**
+	 * Set the clientSendGame
+	 * 
+	 * @param clientSendGame the clientSendGame to set
+	 */
+	public void setClientSendGame(JButton clientSendGame) {
+		this.clientSendGame = clientSendGame;
+	}
+
+	/**
+	 * @return the clientSendData
+	 */
+	public JButton getClientSendData() {
+		return clientSendData;
+	}
+
+	/**
+	 * Set the clientSendData
+	 * 
+	 * @param clientSendData the clientSendData to set
+	 */
+	public void setClientSendData(JButton clientSendData) {
+		this.clientSendData = clientSendData;
+	}
+
+	/**
+	 * @return the clientDesign
+	 */
+	public JButton getClientDesign() {
+		return clientDesign;
+	}
+
+	/**
+	 * Set the clientDesign
+	 * 
+	 * @param clientDesign the clientDesign to set
+	 */
+	public void setClientDesign(JButton clientDesign) {
+		this.clientDesign = clientDesign;
+	}
+
+	/**
+	 * @return the disconnectServer
+	 */
+	public JButton getDisconnectServer() {
+		return disconnectServer;
+	}
+
+	/**
+	 * Set the disconnectServer
+	 * 
+	 * @param disconnectServer the disconnectServer to set
+	 */
+	public void setDisconnectServer(JButton disconnectServer) {
+		this.disconnectServer = disconnectServer;
+	}
+
+	/**
+	 * @return the clientUserNameText
+	 */
+	public JTextField getClientUserNameText() {
+		return clientUserNameText;
+	}
+
+	/**
+	 * Set the clientUserNameText
+	 * 
+	 * @param clientUserNameText the clientUserNameText to set
+	 */
+	public void setClientUserNameText(JTextField clientUserNameText) {
+		this.clientUserNameText = clientUserNameText;
+	}
+
+	/**
+	 * @return the clientServerText
+	 */
+	public JTextField getClientServerText() {
+		return clientServerText;
+	}
+
+	/**
+	 * Set the clientServerText
+	 * 
+	 * @param clientServerText the clientServerText to set
+	 */
+	public void setClientServerText(JTextField clientServerText) {
+		this.clientServerText = clientServerText;
+	}
+
+	/**
+	 * @return the clientPortText
+	 */
+	public JTextField getClientPortText() {
+		return clientPortText;
+	}
+
+	/**
+	 * Set the clientPortText
+	 * 
+	 * @param clientPortText the clientPortText to set
+	 */
+	public void setClientPortText(JTextField clientPortText) {
+		this.clientPortText = clientPortText;
+	}
+
+	/**
+	 * @return the serverPortText
+	 */
+	public JTextField getServerPortText() {
+		return serverPortText;
+	}
+
+	/**
+	 * Set the serverPortText
+	 * 
+	 * @param serverPortText the serverPortText to set
+	 */
+	public void setServerPortText(JTextField serverPortText) {
+		this.serverPortText = serverPortText;
+	}
+
+	/**
+	 * @return the textChat
+	 */
+	public JTextField getTextChat() {
+		return textChat;
+	}
+
+	/**
+	 * Set the textChat
+	 * 
+	 * @param textChat the textChat to set
+	 */
+	public void setTextChat(JTextField textChat) {
+		this.textChat = textChat;
+	}
+
+	/**
+	 * @return the gameChat
+	 */
+	public JTextField getGameChat() {
+		return gameChat;
+	}
+
+	/**
+	 * Set the gameChat
+	 * 
+	 * @param gameChat the gameChat to set
+	 */
+	public void setGameChat(JTextField gameChat) {
+		this.gameChat = gameChat;
+	}
+
+	/**
+	 * @return the logTextArea
+	 */
+	public JTextArea getLogTextArea() {
+		return logTextArea;
+	}
+
+	/**
+	 * Set the logTextArea
+	 * 
+	 * @param logTextArea the logTextArea to set
+	 */
+	public void setLogTextArea(JTextArea logTextArea) {
+		this.logTextArea = logTextArea;
+	}
 }

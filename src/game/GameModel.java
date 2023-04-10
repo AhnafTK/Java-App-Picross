@@ -65,6 +65,7 @@ public class GameModel {
 	private String[] rowLabelsDesign;
 	/*** Holds the col label numbers for design mode */
 	private String[] colLabelsDesign;
+	/*** Boolean for if the client received from the server */
 	protected boolean receivedFromServer = false;
 
 	/**
@@ -99,8 +100,8 @@ public class GameModel {
 		rowLabels = new String[gridSize];
 		String currentLabel = "";
 		int increment = 0;
-		// iterate throught the column string and get the labels
 
+		// iterate through the column string and get the labels
 		for (int i = 0; i < gridSize; i++) {
 			for (int j = 0; j < gridSize; j++) {
 				if (row[i].charAt(j) == '1') {
@@ -133,7 +134,7 @@ public class GameModel {
 		colLabels = new String[gridSize];
 		String currentLabel = "";
 		int increment = 0;
-		// iterate throught the column string and get the labels
+		// iterate through the column string and get the labels
 		for (int i = 0; i < gridSize; i++) {
 
 			for (int j = 0; j < gridSize; j++) {
@@ -204,28 +205,42 @@ public class GameModel {
 		return pattern;
 	}
 
+	/**
+	 * Sends the board configuration to the server in one line separated each row
+	 * using commas.
+	 * 
+	 * @return - String containing the gridsize and the board configuration
+	 */
 	protected String sendGameToServer() {
 
-		if (gameMode == 0 && isLoadClient() == false && getDesignBoard()!=null) {
+		// If the user is wanting to send a design board
+		if (gameMode == 0 && isLoadClient() == false && getDesignBoard() != null) {
 			return sendDesignPatternToServer();
 		} else {
-			if (row!=null) {
+			// If a game has been initialized
+			if (row != null) {
 				String pattern = "";
 				for (int i = 0; i < gridSize; i++) {
 					pattern = pattern + row[i];
 					if (i < gridSize - 1) {
 						pattern = pattern + ",";
 					}
-
 				}
-				return gridSize+","+pattern;
+				return gridSize + "," + pattern;
 
 			}
-			
+
 		}
+		// If there isn't a game initialized
 		return null;
 	}
 
+	/**
+	 * Sends the board configuration of the design mode in one line, separated each
+	 * row by a comma.
+	 * 
+	 * @return - String containing the gridsize and the board configuration
+	 */
 	protected String sendDesignPatternToServer() {
 		String pattern = "";
 		for (int i = 0; i < gridSize; i++) {
@@ -236,14 +251,19 @@ public class GameModel {
 				pattern = pattern + ",";
 			}
 		}
-		return gridSize+","+pattern;
+		return gridSize + "," + pattern;
 	}
 
+	/**
+	 * Sends the game data to the server. Server data contains the username, user's
+	 * best time, and user's best score.
+	 * 
+	 * @return - String containing the username, best time and best score.
+	 */
 	protected String sendDataToServer() {
 		String data = "";
-		// 1#testUser,61,10
 
-		data = getUsername() + ","+ getBestTime() + "," + getBestScore();
+		data = getUsername() + "," + getBestTime() + "," + getBestScore();
 
 		return data;
 	}
@@ -383,14 +403,8 @@ public class GameModel {
 	 * @return Return generated column.
 	 */
 	protected String[] generateCols() {
-		System.out.println("generateCols gridSize: " + gridSize);
-		System.out.println("rows gridSize: " + row.length);
-
 		col = new String[gridSize];
-		
-		System.out.println("generateCols gridSize: " + gridSize);
-		System.out.println("rows gridSize: " + row.length);
-		
+
 		for (int k = 0; k < gridSize; k++) {
 			String colVal = "";
 			for (int l = 0; l < gridSize; l++) {
@@ -875,10 +889,20 @@ public class GameModel {
 		return designBoard;
 	}
 
+	/**
+	 * Gets the loadClient.
+	 * 
+	 * @return loadClient.
+	 */
 	public boolean isLoadClient() {
 		return loadClient;
 	}
 
+	/**
+	 * Sets the loadClient
+	 * 
+	 * @param loadClient the loadClient to set
+	 */
 	public void setLoadClient(boolean loadClient) {
 		this.loadClient = loadClient;
 	}

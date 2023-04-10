@@ -33,31 +33,30 @@ public class GameClient {
 	/**
 	 * Overloaded constructor to create the client
 	 * 
-	 * @param hostName - Server IP that the client connects to
-	 * @param port     - Port number that the client connects to
-	 * @param userName - Client's username that is entered, stored in the model
-	 * @param log      - Text area to display messages
-	 * @param model    - GameModel to store/access variables within
+	 * @param hostName   - Server IP that the client connects to
+	 * @param port       - Port number that the client connects to
+	 * @param userName   - Client's username that is entered, stored in the model
+	 * @param log        - Text area to display messages
+	 * @param model      - GameModel to store/access variables within
 	 * @param controller - Gives access to controller
 	 */
 	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model,
 			GameController controller) {
 		try {
+			// Client variables
 			clientSock = new Socket(hostName, port);
 			this.clientModel = model;
 			this.clientController = controller;
 			clientModel.setUsername(userName);
 			this.userName = userName;
 			this.toServer = new PrintStream(clientSock.getOutputStream(), true);
-			this.fromClient = new BufferedReader(new InputStreamReader(clientSock.getInputStream())); // Reader for the
-																										// socket
+			this.fromClient = new BufferedReader(new InputStreamReader(clientSock.getInputStream()));
 			this.log = log;
 
 			toServer.println(userName);
 			clientID = fromClient.readLine();
 			log.append("Connected successfully..\n");
 			setConnected(true);
-
 
 		} catch (UnknownHostException e) {
 			log.append("Unknown Server IP on: " + hostName + " on port: " + port + "\n");
@@ -74,14 +73,12 @@ public class GameClient {
 		while (isConnected()) {
 			try {
 				String serverMessage = fromClient.readLine();
-				System.out.println("Server message: " + serverMessage);
-				
+
 				if (serverMessage != null) {
 
 					// Disconnect protocol
 					if (serverMessage.equals("#Disconnect")) {
 						log.append("Server closed..\n");
-						System.out.println("oh shit server closed!!!!");
 						setConnected(false);
 						clientSock.close();
 					}
@@ -96,7 +93,6 @@ public class GameClient {
 						processGame(serverMessage);
 					}
 				} else {
-					System.out.println("lost connection maybe");
 					log.append("Lost connection to server..\n");
 					setConnected(false);
 					closeReaders();
@@ -112,8 +108,8 @@ public class GameClient {
 	}
 
 	/**
-	 * This message is used to get the text chat and send it to the server.
-	 * Acts like commands basically. 
+	 * This message is used to get the text chat and send it to the server. Acts
+	 * like commands basically.
 	 * 
 	 * @param message - Message from the text chat
 	 */
@@ -121,16 +117,13 @@ public class GameClient {
 		if (message.equals("SendGame")) {
 			log.append("Sending game...\n");
 			sendGame();
-		}
-		else if (message.equals("SendData")) {
+		} else if (message.equals("SendData")) {
 			log.append("Sending data...\n");
 			sendData();
-		}
-		else if (message.equals("Disconnect")) {
+		} else if (message.equals("Disconnect")) {
 			log.append("Disconnecting...\n");
 			disconnectClient();
-		}
-		else { // normal message
+		} else { // normal message
 			consoleData = clientID + "#" + message;
 			toServer.println(consoleData);
 			log.append(userName + ": " + message + "\n");
@@ -143,10 +136,10 @@ public class GameClient {
 	protected void disconnectClient() {
 		try {
 			toServer.println(clientID + "#Disconnect"); // lets the server know that client is leaving
-			toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort()); // gives client info
+			toServer.println(userName + " on " + clientSock.getInetAddress() + " at port " + clientSock.getPort());
 			clientSock.close(); // closes client sock
 		} catch (IOException e) {
-			System.out.println("server close no!!!!!!!!!!!");
+			e.printStackTrace();
 		}
 	}
 
@@ -158,13 +151,11 @@ public class GameClient {
 	 */
 	private void processGame(String gameBoard) {
 		String subParts = gameBoard.substring(0);
-		String parts[] = subParts.split(","); // splits into parts, seperated by commas
+		String parts[] = subParts.split(","); // splits into parts, separated by commas
 		String gridSize = parts[0]; // the value before the first comma is the dimension of the board
-		
-		// Sets the grid size
-		clientModel.gridSize = Integer.valueOf(gridSize); 
-		////System.out.println("received gridsize: " + clientModel.gridSize);
 
+		// Sets the grid size
+		clientModel.gridSize = Integer.valueOf(gridSize);
 		String[] newBoardRows = new String[clientModel.gridSize]; // the new board
 
 		// Loops through the String and stores each row, separated from commas
@@ -184,7 +175,6 @@ public class GameClient {
 	protected void sendGame() {
 		// Gets the board configuration from the model
 		String gameBoard = clientModel.sendGameToServer();
-		System.out.println(gameBoard);
 
 		// If a game hasn't been created
 		if (gameBoard == null) {
@@ -202,8 +192,6 @@ public class GameClient {
 	protected void sendData() {
 		// Gets the game data from the model
 		String gameData = clientModel.sendDataToServer();
-		System.out.println("This is game data: " + gameData);
-		// 1#testUser,61,10
 		toServer.println(clientID + "#SendData"); // Sends the protocol
 		toServer.println(gameData);
 
@@ -216,20 +204,19 @@ public class GameClient {
 	protected void closeReaders() {
 		try {
 			if (fromClient != null) {
-				System.out.println("Client: from client closed");
 				fromClient.close();
 			}
 			if (toServer != null) {
-				System.out.println("Server: to server closed");
 				toServer.close();
 			}
 		} catch (IOException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Getter for isConnected variable
+	 * 
 	 * @return state of isConnected
 	 */
 	public boolean isConnected() {
@@ -238,6 +225,7 @@ public class GameClient {
 
 	/**
 	 * Sets isConnected to true/false
+	 * 
 	 * @param isConnected Sets the variable
 	 */
 	public void setConnected(boolean isConnected) {
