@@ -1,5 +1,6 @@
 package game;
 
+//Imports
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,7 +22,7 @@ public class GameClient {
 	// Declarations
 	private Socket clientSock;
 	protected boolean isConnected = false;
-	private boolean receivedFromServer = false;
+	// private boolean receivedFromServer = false;
 	private PrintStream toServer = null;
 	private BufferedReader fromClient = null;
 	private String consoleData = "", clientID;
@@ -39,7 +40,8 @@ public class GameClient {
 	 * @param log      - Text area to display messages
 	 * @param model    - GameModel to store/access variables within
 	 */
-	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model, GameController controller) {
+	public GameClient(String hostName, int port, String userName, JTextArea log, GameModel model,
+			GameController controller) {
 		try {
 			clientSock = new Socket(hostName, port);
 			this.clientModel = model;
@@ -54,7 +56,7 @@ public class GameClient {
 			toServer.println(userName);
 			clientID = fromClient.readLine();
 			log.append("Connected successfully..\n");
-			isConnected= true;
+			isConnected = true;
 			System.out.println("client socket is " + clientSock);
 			System.out.print("Client[" + clientID + "] " + userName + ": ");
 
@@ -72,48 +74,51 @@ public class GameClient {
 	 * 
 	 */
 
-	public synchronized void messageFromServer() {
-		while(isConnected) {
+	/**
+	 * Method that is used to receive messages that have been sent from the server.
+	 */
+	protected synchronized void messageFromServer() {
+		// Infinitely loop while the client is connected
+		while (isConnected) {
 			try {
 				String serverMessage = fromClient.readLine();
 				System.out.println("Server message: " + serverMessage);
-				
+
 				if (serverMessage != null) {
-					
+
+					// Disconnect protocol
 					if (serverMessage.equals("#Disconnect")) {
-					
 						log.append("Server closed..\n");
 						System.out.println("oh shit server closed!!!!");
 						isConnected = false;
 						clientSock.close();
 					}
-					else if (serverMessage.equals("NA")){
+					// If there is no game board to receive from the server
+					else if (serverMessage.equals("NA")) {
 						log.append("Server does not have a game, maybe I can send mine?\n");
 					}
-					// received game here
+					// Receive a game board from the server
 					else {
-						log.append("Successfully received board from server. Make sure that \"Play\" window is open when receiving\n");
+						log.append(
+								"Successfully received board from server. Make sure that \"Play\" window is open when receiving\n");
 						processGame(serverMessage);
 					}
-				}
-				else {
+				} else {
 					System.out.println("lost connection maybe");
 					log.append("Lost connection to server..\n");
 					isConnected = false;
 					closeReaders();
 				}
-				
-			} catch(SocketException e) {
+
+			} catch (SocketException e) {
 				closeReaders();
-			} 
-			catch (IOException e) {
+			} catch (IOException e) {
 				closeReaders();
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
 			}
-			
+
 		}
 	}
+
 	/**
 	 * This message is used to get the text chat and send it to the server
 	 * 
@@ -121,11 +126,11 @@ public class GameClient {
 	 */
 	protected void sendMessage(String message) {
 		if (message.equals("ReceiveBoard")) {
-			
+
 		}
 		consoleData = clientID + "#" + message;
 		toServer.println(consoleData);
-		
+
 		log.append(userName + ": " + message + "\n");
 	}
 
@@ -142,39 +147,53 @@ public class GameClient {
 		}
 	}
 
+	/**
+	 * This method is used to store the game board that was received from the
+	 * server. It gets loaded in the client's game/model.
+	 * 
+	 * @param gameBoard - String configuration of the board received from the server
+	 */
 	private void processGame(String gameBoard) {
 		String subParts = gameBoard.substring(0);
 		String parts[] = subParts.split(",");
 		String gridSize = parts[0];
-		for (int i = 0; i < parts.length; i++) {
+		for (int i = 0; i < parts.length; i++) { // dont need?
 			System.out.println(parts[i]);
 		}
+		// Sets the grid size
 		clientModel.gridSize = Integer.valueOf(gridSize);
 		System.out.println("received gridsize: " + clientModel.gridSize);
+
 		String[] newBoardRows = new String[clientModel.gridSize];
 
-		
+		// Loops through the String and stores each row, separated from commas
 		for (int i = 0; i < clientModel.gridSize; i++) {
-			newBoardRows[i] = parts[i+1];
+			newBoardRows[i] = parts[i + 1];
 		}
+		// Sets the row in the model
 		clientModel.setRow(newBoardRows);
-		for (int i = 0; i < clientModel.gridSize; i++) {
+
+		for (int i = 0; i < clientModel.gridSize; i++) { // dont need?
 			System.out.println("clientmodel:" + clientModel.getRow(i));
 		}
+		// Creates a new play board received from the server
 		clientController.newPlayBoard(gridSize, false, true);
 	}
+
 	/**
 	 * sendGame method that sends the board configuration that the client is using
 	 * in play or design.
 	 */
 	protected void sendGame() {
+		// Gets the board configuration from the model
 		String gameBoard = clientModel.sendGameToServer();
 		System.out.println(gameBoard);
 
+		// If a game hasn't been created
 		if (gameBoard == null) {
 			log.append("You need to play a new game first...\n");
 		} else {
-			toServer.println(clientID + "#SendGame");
+			toServer.println(clientID + "#SendGame"); // Sends the protocol
 			toServer.println(gameBoard);
 		}
 	}
@@ -184,18 +203,18 @@ public class GameClient {
 	 * where it gets stored in a leaderboard.
 	 */
 	protected void sendData() {
-
+		// Gets the game data from the model
 		String gameData = clientModel.sendDataToServer();
 		System.out.println("This is game data: " + gameData);
 		// 1#testUser,61,10
-		toServer.println(clientID + "#SendData");
+		toServer.println(clientID + "#SendData"); // Sends the protocol
 		toServer.println(gameData);
-		
-		//toServer.println(clientID + "#SendData");
-		//toServer.println(gameData);
-		//toServer.println(clientModel.getUsername());
-		//toServer.println(clientModel.getBestTime());
-		//toServer.println(clientModel.getBestScore());
+
+		// toServer.println(clientID + "#SendData");
+		// toServer.println(gameData);
+		// toServer.println(clientModel.getUsername());
+		// toServer.println(clientModel.getBestTime());
+		// toServer.println(clientModel.getBestScore());
 	}
 
 	/**
@@ -213,7 +232,7 @@ public class GameClient {
 				toServer.close();
 			}
 		} catch (IOException e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 }
